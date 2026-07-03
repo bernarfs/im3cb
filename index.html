@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>IM3CB | Ingeniería Mecatrónica</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b0d12;
+      color: white;
+    }
+
+    /* MENÚ */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 75px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 0 8%;
+
+      background: rgba(10, 12, 18, 0.92);
+      backdrop-filter: blur(10px);
+
+      border-bottom: 1px solid rgba(0, 102, 255, 0.25);
+
+      z-index: 1000;
+    }
+
+    .marca {
+      font-size: 1.7rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .marca span {
+      color: #0066ff;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #1683ff;
+    }
+
+    /* PORTADA */
+    .hero {
+      min-height: 100vh;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+
+      padding: 120px 20px 60px;
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(0, 102, 255, 0.18),
+          transparent 45%
+        ),
+        linear-gradient(
+          135deg,
+          #05070b,
+          #10141d,
+          #05070b
+        );
+    }
+
+    .hero-contenido {
+      max-width: 950px;
+    }
+
+    .logo-placeholder {
+      width: 180px;
+      height: 180px;
+
+      margin: 0 auto 25px;
+
+      border-radius: 50%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      border: 3px solid #0066ff;
+
+      box-shadow:
+        0 0 20px rgba(0, 102, 255, 0.7),
+        0 0 50px rgba(0, 102, 255, 0.3);
+
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      letter-spacing: 5px;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 span {
+      color: #0066ff;
+    }
+
+    .lema {
+      color: #9fc7ff;
+      font-size: 1.05rem;
+      letter-spacing: 3px;
+      margin-bottom: 35px;
+    }
+
+    .hero h2 {
+      font-size: clamp(1.5rem, 4vw, 2.6rem);
+      margin-bottom: 20px;
+    }
+
+    .descripcion {
+      max-width: 700px;
+      margin: 0 auto 35px;
+
+      color: #c5c9d3;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .boton {
+      display: inline-block;
+
+      padding: 16px 34px;
+
+      background: linear-gradient(
+        135deg,
+        #0066ff,
+        #00a2ff
+      );
+
+      color: white;
+      text-decoration: none;
+
+      border-radius: 8px;
+
+      font-weight: bold;
+
+      box-shadow:
+        0 10px 30px rgba(0, 102, 255, 0.35);
+
+      transition: 0.3s;
+    }
+
+    .boton:hover {
+      transform: translateY(-4px);
+
+      box-shadow:
+        0 15px 40px rgba(0, 102, 255, 0.55);
+    }
+
+    /* CURSOS */
+    .cursos {
+      padding: 100px 8%;
+      background: #10131a;
+    }
+
+    .titulo-seccion {
+      text-align: center;
+      margin-bottom: 55px;
+    }
+
+    .titulo-seccion h2 {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+
+    .titulo-seccion p {
+      color: #9ba3b4;
+    }
+
+    .grid-cursos {
+      max-width: 1100px;
+      margin: auto;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(260px, 1fr));
+
+      gap: 25px;
+    }
+
+    .tarjeta {
+      background:
+        linear-gradient(
+          145deg,
+          #171b24,
+          #10131a
+        );
+
+      border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+      border-radius: 16px;
+
+      padding: 32px;
+
+      transition: 0.35s;
+    }
+
+    .tarjeta:hover {
+      transform: translateY(-8px);
+
+      border-color:
+        rgba(0, 102, 255, 0.65);
+
+      box-shadow:
+        0 18px 45px rgba(0, 102, 255, 0.18);
+    }
+
+    .icono {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .tarjeta h3 {
+      margin-bottom: 12px;
+      font-size: 1.35rem;
+    }
+
+    .tarjeta p {
+      color: #aab0bd;
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    .tarjeta a {
+      color: #3b91ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* ACERCA */
+    .acerca {
+      padding: 100px 8%;
+      text-align: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #080a0f,
+          #111722
+        );
+    }
+
+    .acerca h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .acerca p {
+      max-width: 750px;
+      margin: auto;
+
+      color: #b9bfcb;
+
+      line-height: 1.8;
+    }
+
+    /* PIE */
+    footer {
+      padding: 30px 20px;
+      text-align: center;
+
+      background: #050609;
+
+      color: #7f8795;
+
+      border-top:
+        1px solid rgba(0, 102, 255, 0.2);
+    }
+
+    footer strong {
+      color: #1683ff;
+    }
+
+    /* CELULAR */
+    @media (max-width: 750px) {
+
+      nav {
+        padding: 0 5%;
+      }
+
+      nav ul {
+        display: none;
+      }
+
+      .hero h1 {
+        letter-spacing: 2px;
+      }
+
+      .lema {
+        letter-spacing: 1px;
+        line-height: 1.8;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- MENÚ -->
+  <nav>
+
+    <div class="marca">
+      IM<span>3</span>CB
+    </div>
+
+    <ul>
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#cursos">Cursos</a></li>
+      <li><a href="#acerca">IM3CB</a></li>
+    </ul>
+
+  </nav>
+
+
+  <!-- PORTADA -->
+  <section class="hero" id="inicio">
+
+    <div class="hero-contenido">
+
+      <div class="logo-placeholder">
+        IM<span style="color:#0066ff;">3</span>CB
+      </div>
+
+      <h1>
+        IM<span>3</span>CB
+      </h1>
+
+      <p class="lema">
+        INGENIERÍA • CREACIÓN • DISEÑO • INNOVACIÓN
+      </p>
+
+      <h2>
+        Portal Educativo de Ingeniería Mecatrónica
+      </h2>
+
+      <p class="descripcion">
+        Un espacio para aprender, diseñar, experimentar
+        e innovar mediante cursos, recursos digitales,
+        simulaciones y proyectos aplicados a la ingeniería.
+      </p>
+
+      <a class="boton" href="#cursos">
+        Explorar cursos
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- CURSOS -->
+  <section class="cursos" id="cursos">
+
+    <div class="titulo-seccion">
+
+      <h2>Cursos</h2>
+
+      <p>
+        Explora contenidos y recursos para
+        Ingeniería Mecatrónica
+      </p>
+
+    </div>
+
+
+    <div class="grid-cursos">
+
+      <!-- ANÁLISIS DE FLUIDOS -->
+      <article class="tarjeta">
+
+        <div class="icono">🌊</div>
+
+        <h3>Análisis de Fluidos</h3>
+
+        <p>
+          Estudia las propiedades, comportamiento
+          y aplicaciones de los fluidos en sistemas
+          de ingeniería.
+        </p>
+
+        <a href="#">
+          Próximamente →
+        </a>
+
+      </article>
+
+
+      <!-- INSTRUMENTACIÓN -->
+      <article class="tarjeta">
+
+        <div class="icono">🎛️</div>
+
+        <h3>Instrumentación y Control</h3>
+
+        <p>
+          Sensores, medición, control de procesos
+          y aplicaciones industriales.
+        </p>
+
+        <a href="#">
+          Próximamente →
+        </a>
+
+      </article>
+
+
+      <!-- CAD -->
+      <article class="tarjeta">
+
+        <div class="icono">⚙️</div>
+
+        <h3>Diseño CAD</h3>
+
+        <p>
+          Modelado, diseño mecánico y desarrollo
+          de soluciones digitales para ingeniería.
+        </p>
+
+        <a href="#">
+          Próximamente →
+        </a>
+
+      </article>
+
+
+      <!-- IA -->
+      <article class="tarjeta">
+
+        <div class="icono">🤖</div>
+
+        <h3>Inteligencia Artificial</h3>
+
+        <p>
+          Herramientas de IA aplicadas al aprendizaje,
+          diseño y solución de problemas.
+        </p>
+
+        <a href="#">
+          Próximamente →
+        </a>
+
+      </article>
+
+    </div>
+
+  </section>
+
+
+  <!-- ACERCA -->
+  <section class="acerca" id="acerca">
+
+    <h2>Sobre IM3CB</h2>
+
+    <p>
+      IM3CB integra Ingeniería, Creación, Diseño
+      e Innovación como pilares para impulsar
+      el aprendizaje tecnológico y el desarrollo
+      de soluciones aplicadas a la Ingeniería Mecatrónica.
+    </p>
+
+  </section>
+
+
+  <!-- PIE -->
+  <footer>
+
+    <p>
+      © 2026 <strong>IM3CB</strong>
+      · Ingeniería • Creación • Diseño • Innovación
+    </p>
+
+  </footer>
+
+</body>
+</html>
