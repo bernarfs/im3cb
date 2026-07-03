@@ -335,6 +335,137 @@
         line-height: 1.8;
       }
     }
+    /* =================================
+   TARJETA CURSO ANÁLISIS DE FLUIDOS
+================================= */
+
+.tarjeta-fluidos {
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(
+    145deg,
+    #111722,
+    #090d14
+  );
+}
+
+.curso-visual {
+  height: 170px;
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background:
+    radial-gradient(
+      circle at 70% 40%,
+      rgba(0, 153, 255, 0.35),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #07101d,
+      #003b73,
+      #07101d
+    );
+
+  border-bottom:
+    1px solid rgba(0, 153, 255, 0.35);
+}
+
+.onda {
+  font-size: 4.8rem;
+
+  filter:
+    drop-shadow(
+      0 0 18px rgba(0, 153, 255, 0.7)
+    );
+
+  transition: transform 0.4s ease;
+}
+
+.tarjeta-fluidos:hover .onda {
+  transform:
+    scale(1.12)
+    rotate(-4deg);
+}
+
+.etiqueta-curso {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+
+  padding: 7px 12px;
+
+  background:
+    rgba(0, 102, 255, 0.9);
+
+  border-radius: 20px;
+
+  color: white;
+
+  font-size: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.curso-contenido {
+  padding: 28px;
+}
+
+.curso-contenido h3 {
+  font-size: 1.55rem;
+  margin-bottom: 14px;
+}
+
+.curso-contenido p {
+  color: #aeb6c5;
+  line-height: 1.65;
+  margin-bottom: 22px;
+}
+
+.curso-datos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-bottom: 24px;
+}
+
+.curso-datos span {
+  padding: 7px 10px;
+
+  background:
+    rgba(0, 102, 255, 0.1);
+
+  border:
+    1px solid rgba(0, 153, 255, 0.25);
+
+  border-radius: 6px;
+
+  color: #9fcaff;
+
+  font-size: 0.8rem;
+}
+
+.boton-curso {
+  display: inline-block;
+
+  color: #3b9cff !important;
+
+  text-decoration: none;
+
+  font-weight: bold;
+
+  transition: 0.3s;
+}
+
+.boton-curso:hover {
+  color: #75bbff !important;
+  transform: translateX(5px);
+}
   </style>
 </head>
 
@@ -414,19 +545,40 @@
 
         <div class="icono">🌊</div>
 
-        <h3>Análisis de Fluidos</h3>
+<article class="tarjeta tarjeta-fluidos">
 
-        <p>
-          Estudia las propiedades, comportamiento
-          y aplicaciones de los fluidos en sistemas
-          de ingeniería.
-        </p>
+  <div class="curso-visual">
+    <div class="onda">🌊</div>
 
-        <a href="#">
-          Próximamente →
-        </a>
+    <span class="etiqueta-curso">
+      CURSO DE INGENIERÍA
+    </span>
+  </div>
 
-      </article>
+  <div class="curso-contenido">
+
+    <h3>Análisis de Fluidos</h3>
+
+    <p>
+      Fundamentos de mecánica de fluidos,
+      hidrostática, leyes del flujo y análisis
+      de sistemas de tuberías compresibles
+      e incompresibles.
+    </p>
+
+    <div class="curso-datos">
+      <span>📘 5 unidades</span>
+      <span>⚙️ Ingeniería</span>
+    </div>
+
+    <a class="boton-curso"
+       href="analisis-fluidos.html">
+      Explorar curso →
+    </a>
+
+  </div>
+
+</article>
 
 
       <!-- INSTRUMENTACIÓN -->
