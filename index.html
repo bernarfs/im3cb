@@ -466,6 +466,85 @@
   color: #75bbff !important;
   transform: translateX(5px);
 }
+    /* =================================
+   PORTADA VISUAL ANÁLISIS DE FLUIDOS
+================================= */
+
+.curso-visual-fluidos {
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+  background: #07101d;
+}
+
+.imagen-fluidos {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  transition:
+    transform 0.6s ease,
+    filter 0.6s ease;
+}
+
+.capa-fluidos {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(3, 10, 22, 0.92) 0%,
+      rgba(3, 10, 22, 0.68) 38%,
+      rgba(3, 10, 22, 0.12) 72%,
+      rgba(3, 10, 22, 0.05) 100%
+    );
+}
+
+.tarjeta-fluidos:hover .imagen-fluidos {
+  transform: scale(1.06);
+  filter: saturate(1.12);
+}
+
+.titulo-sobre-imagen {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  text-align: left;
+}
+
+.titulo-sobre-imagen small {
+  color: #58adff;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.titulo-sobre-imagen strong {
+  max-width: 240px;
+
+  color: white;
+
+  font-size: 1.35rem;
+  line-height: 1.1;
+
+  text-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.85);
+}
   </style>
 </head>
 
@@ -547,14 +626,26 @@
 
 <article class="tarjeta tarjeta-fluidos">
 
-  <div class="curso-visual">
-    <div class="onda">🌊</div>
+ <div class="curso-visual curso-visual-fluidos">
 
-    <span class="etiqueta-curso">
-      CURSO DE INGENIERÍA
-    </span>
+  <img
+    src="portada-fluidos.png"
+    alt="Portada del curso Análisis de Fluidos"
+    class="imagen-fluidos"
+  >
+
+  <div class="capa-fluidos"></div>
+
+  <span class="etiqueta-curso">
+    CURSO DE INGENIERÍA
+  </span>
+
+  <div class="titulo-sobre-imagen">
+    <small>IM3CB</small>
+    <strong>ANÁLISIS DE FLUIDOS</strong>
   </div>
 
+</div>
   <div class="curso-contenido">
 
     <h3>Análisis de Fluidos</h3>
