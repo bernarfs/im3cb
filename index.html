@@ -100,29 +100,33 @@
       max-width: 950px;
     }
 
-    .logo-placeholder {
-      width: 180px;
-      height: 180px;
+    .logo-container {
+  width: 230px;
+  height: 230px;
+  margin: 0 auto 28px;
 
-      margin: 0 auto 25px;
+  border-radius: 50%;
+  overflow: hidden;
 
-      border-radius: 50%;
+  border: 2px solid rgba(0, 102, 255, 0.8);
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
+  box-shadow:
+    0 0 25px rgba(0, 102, 255, 0.55),
+    0 0 60px rgba(0, 102, 255, 0.25);
 
-      border: 3px solid #0066ff;
+  transition: transform 0.35s ease;
+}
 
-      box-shadow:
-        0 0 20px rgba(0, 102, 255, 0.7),
-        0 0 50px rgba(0, 102, 255, 0.3);
+.logo-container:hover {
+  transform: scale(1.04);
+}
 
-      font-size: 2rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
-
+.logo-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
     .hero h1 {
       font-size: clamp(3rem, 8vw, 6.5rem);
       letter-spacing: 5px;
@@ -357,8 +361,8 @@
 
     <div class="hero-contenido">
 
-      <div class="logo-placeholder">
-        IM<span style="color:#0066ff;">3</span>CB
+      <div class="logo-container">
+        <img src="logo-im3cb.jpeg" alt="Logo oficial IM3CB">
       </div>
 
       <h1>
