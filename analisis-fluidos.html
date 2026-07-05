@@ -6,7 +6,13 @@
   <title>Análisis de Fluidos | IM3CB</title>
 
   <script>
-    if (sessionStorage.getItem("accesoFluidos") !== "permitido") {
+    const parametrosIniciales = new URLSearchParams(window.location.search);
+    const modoAsistencia = parametrosIniciales.get("asistencia") === "1";
+
+    if (
+      !modoAsistencia &&
+      sessionStorage.getItem("accesoFluidos") !== "permitido"
+    ) {
       window.location.href = "index.html";
     }
   </script>
@@ -297,6 +303,141 @@
       margin: 10px 0;
     }
 
+    .asistencia-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 22px;
+      align-items: start;
+      margin-top: 24px;
+    }
+
+    .asistencia-card {
+      padding: 24px;
+      border: 1px solid rgba(0, 153, 255, 0.22);
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at top right, rgba(0, 102, 255, 0.12), transparent 42%),
+        #0b1019;
+    }
+
+    .campo {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .campo label {
+      color: #9fcaff;
+      font-weight: 800;
+      font-size: 0.92rem;
+    }
+
+    .campo input {
+      width: 100%;
+      padding: 13px 14px;
+      color: white;
+      background: #080c14;
+      border: 1px solid rgba(59, 156, 255, 0.35);
+      border-radius: 9px;
+      font: inherit;
+      outline: none;
+    }
+
+    .campo input:focus {
+      border-color: #3b9cff;
+      box-shadow: 0 0 0 3px rgba(59, 156, 255, 0.12);
+    }
+
+    .acciones-asistencia {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .boton-accion {
+      padding: 12px 15px;
+      color: white;
+      background: linear-gradient(135deg, #0066ff, #00a2ff);
+      border: none;
+      border-radius: 9px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .boton-accion:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0, 102, 255, 0.32);
+    }
+
+    .boton-secundario {
+      color: #9fcaff;
+      background: rgba(0, 102, 255, 0.1);
+      border: 1px solid rgba(0, 153, 255, 0.28);
+      box-shadow: none;
+    }
+
+    .estado-lista {
+      margin-top: 16px;
+      padding: 14px;
+      color: #b9bfcb;
+      border: 1px solid rgba(0, 153, 255, 0.18);
+      border-radius: 10px;
+      background: rgba(0, 102, 255, 0.06);
+    }
+
+    .reloj-lista {
+      margin-top: 16px;
+      color: #58adff;
+      font-size: clamp(2rem, 8vw, 4rem);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .qr-box {
+      display: grid;
+      gap: 14px;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .qr-box img {
+      display: none;
+      width: 230px;
+      height: 230px;
+      padding: 10px;
+      border-radius: 12px;
+      background: white;
+    }
+
+    .qr-box img.activo {
+      display: block;
+    }
+
+    .enlace-asistencia {
+      word-break: break-all;
+      color: #9fcaff;
+      font-size: 0.88rem;
+    }
+
+    .formulario-alumno {
+      display: none;
+      margin-top: 24px;
+    }
+
+    .formulario-alumno.activo {
+      display: block;
+    }
+
+    .mensaje-formulario {
+      min-height: 24px;
+      margin-top: 14px;
+      color: #9fcaff;
+      font-weight: 800;
+    }
+
     .aviso {
       margin-top: 20px;
       padding: 16px;
@@ -337,6 +478,10 @@
       .panel {
         padding: 24px;
       }
+
+      .asistencia-layout {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -344,6 +489,7 @@
   <nav>
     <a class="marca" href="index.html">IM<span>3</span>CB</a>
     <div class="nav-acciones">
+      <a class="regresar" href="#asistencia">Pasar lista</a>
       <a class="regresar" href="#evaluacion">Evaluación</a>
       <a class="regresar" href="index.html#cursos">Regresar al portal</a>
     </div>
@@ -514,6 +660,76 @@
         </div>
       </section>
 
+      <section class="panel" id="asistencia">
+        <h2>Pasar <span>lista</span></h2>
+        <p>
+          Inicia una sesión de asistencia para generar un QR temporal. Los
+          primeros 15 minutos cuentan como asistencia, los siguientes 5 minutos
+          como retardo y después queda fuera de tiempo.
+        </p>
+
+        <div class="asistencia-layout">
+          <article class="asistencia-card">
+            <h3>Panel docente</h3>
+            <div class="campo">
+              <label for="codigoDocente">Código docente</label>
+              <input id="codigoDocente" type="password" placeholder="Código para iniciar lista" autocomplete="off">
+            </div>
+
+            <div class="campo">
+              <label for="sesionLista">Sesión o tema</label>
+              <input id="sesionLista" type="text" placeholder="Ej. Unidad 1 - Diagnóstico">
+            </div>
+
+            <div class="acciones-asistencia">
+              <button class="boton-accion" type="button" onclick="iniciarPaseLista()">Iniciar pase de lista</button>
+              <button class="boton-accion boton-secundario" type="button" onclick="cerrarPaseLista()">Cerrar lista</button>
+            </div>
+
+            <div id="estadoLista" class="estado-lista">
+              Lista inactiva. Ingresa el código docente para generar el QR.
+            </div>
+            <div id="relojLista" class="reloj-lista">20:00</div>
+          </article>
+
+          <article class="asistencia-card qr-box">
+            <h3>QR de asistencia</h3>
+            <img id="qrAsistencia" alt="QR para pase de lista">
+            <p id="enlaceAsistencia" class="enlace-asistencia">
+              El enlace aparecerá al iniciar el pase de lista.
+            </p>
+          </article>
+        </div>
+
+        <article id="formularioAlumno" class="asistencia-card formulario-alumno">
+          <h3>Registro de asistencia</h3>
+          <p id="estadoAlumno">
+            Completa tus datos para registrar tu asistencia.
+          </p>
+
+          <div class="campo">
+            <label for="nombreAlumno">Nombre completo</label>
+            <input id="nombreAlumno" type="text" placeholder="Escribe tu nombre completo">
+          </div>
+
+          <div class="campo">
+            <label for="matriculaAlumno">Matrícula</label>
+            <input id="matriculaAlumno" type="text" placeholder="Escribe tu matrícula">
+          </div>
+
+          <div class="campo">
+            <label for="grupoAlumno">Grupo</label>
+            <input id="grupoAlumno" type="text" placeholder="Ej. IM-301">
+          </div>
+
+          <div class="acciones-asistencia">
+            <button class="boton-accion" type="button" onclick="registrarAsistenciaAlumno()">Registrar asistencia</button>
+          </div>
+
+          <p id="mensajeAsistencia" class="mensaje-formulario"></p>
+        </article>
+      </section>
+
       <p class="aviso">
         Nota: el acceso con código se valida en el navegador con sessionStorage.
         Esto solo controla la navegación en el cliente y no debe considerarse
@@ -525,5 +741,195 @@
   <footer>
     <p>© 2026 <strong>IM3CB</strong> · Ingeniería • Creación • Diseño • Innovación</p>
   </footer>
+
+  <script>
+    const asistenciaConfig = {
+      codigoDocente: "LISTA2026",
+      appsScriptUrl: "https://script.google.com/macros/s/AKfycbxOWrXDita6tMIcoecsZNmbaYMZ5X3COB3wBSWsscIkfa_pGjTiRaFlF43ahsm_6vYn/exec",
+      minutosAsistencia: 15,
+      minutosRetardo: 5
+    };
+
+    let temporizadorLista = null;
+
+    function obtenerParametro(nombre) {
+      return new URLSearchParams(window.location.search).get(nombre);
+    }
+
+    function formatoDosDigitos(valor) {
+      return String(valor).padStart(2, "0");
+    }
+
+    function calcularEstadoAsistencia(inicioMs) {
+      const ahora = Date.now();
+      const diferenciaMs = Math.max(0, ahora - inicioMs);
+      const minuto = Math.floor(diferenciaMs / 60000);
+      const limiteAsistencia = asistenciaConfig.minutosAsistencia;
+      const limiteRetardo = limiteAsistencia + asistenciaConfig.minutosRetardo;
+
+      if (minuto < limiteAsistencia) {
+        return { estado: "Asistencia", minuto };
+      }
+
+      if (minuto < limiteRetardo) {
+        return { estado: "Retardo", minuto };
+      }
+
+      return { estado: "Fuera de tiempo", minuto };
+    }
+
+    function actualizarReloj(inicioMs) {
+      const reloj = document.getElementById("relojLista");
+      const estadoLista = document.getElementById("estadoLista");
+      const duracionTotalMs =
+        (asistenciaConfig.minutosAsistencia + asistenciaConfig.minutosRetardo) * 60000;
+      const restanteMs = Math.max(0, inicioMs + duracionTotalMs - Date.now());
+      const minutos = Math.floor(restanteMs / 60000);
+      const segundos = Math.floor((restanteMs % 60000) / 1000);
+      const estado = calcularEstadoAsistencia(inicioMs);
+
+      reloj.textContent = `${formatoDosDigitos(minutos)}:${formatoDosDigitos(segundos)}`;
+      estadoLista.textContent =
+        restanteMs > 0
+          ? `Lista activa. Estado actual de registro: ${estado.estado}.`
+          : "Lista cerrada. Los registros posteriores quedan fuera de tiempo.";
+
+      if (restanteMs <= 0 && temporizadorLista) {
+        clearInterval(temporizadorLista);
+        temporizadorLista = null;
+      }
+    }
+
+    function iniciarPaseLista() {
+      const codigo = document.getElementById("codigoDocente").value.trim().toUpperCase();
+      const sesion = document.getElementById("sesionLista").value.trim() || "Análisis de Fluidos";
+      const estadoLista = document.getElementById("estadoLista");
+      const qr = document.getElementById("qrAsistencia");
+      const enlace = document.getElementById("enlaceAsistencia");
+
+      if (codigo !== asistenciaConfig.codigoDocente) {
+        estadoLista.textContent = "Código docente incorrecto.";
+        return;
+      }
+
+      const inicio = Date.now();
+      const idSesion = `AF-${inicio}`;
+      const url = new URL(window.location.href);
+      url.search = "";
+      url.hash = "asistencia";
+      url.searchParams.set("asistencia", "1");
+      url.searchParams.set("inicio", String(inicio));
+      url.searchParams.set("sesion", sesion);
+      url.searchParams.set("id", idSesion);
+
+      const urlAsistencia = url.toString();
+      const qrUrl =
+        "https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=" +
+        encodeURIComponent(urlAsistencia);
+
+      qr.src = qrUrl;
+      qr.classList.add("activo");
+      enlace.textContent = urlAsistencia;
+
+      if (temporizadorLista) {
+        clearInterval(temporizadorLista);
+      }
+
+      actualizarReloj(inicio);
+      temporizadorLista = setInterval(() => actualizarReloj(inicio), 1000);
+    }
+
+    function cerrarPaseLista() {
+      const estadoLista = document.getElementById("estadoLista");
+      const qr = document.getElementById("qrAsistencia");
+      const enlace = document.getElementById("enlaceAsistencia");
+
+      if (temporizadorLista) {
+        clearInterval(temporizadorLista);
+        temporizadorLista = null;
+      }
+
+      document.getElementById("relojLista").textContent = "20:00";
+      estadoLista.textContent = "Lista cerrada.";
+      qr.removeAttribute("src");
+      qr.classList.remove("activo");
+      enlace.textContent = "El enlace aparecerá al iniciar el pase de lista.";
+    }
+
+    function prepararFormularioAlumno() {
+      if (obtenerParametro("asistencia") !== "1") return;
+
+      const formulario = document.getElementById("formularioAlumno");
+      const estadoAlumno = document.getElementById("estadoAlumno");
+      const inicio = Number(obtenerParametro("inicio"));
+
+      document
+        .querySelectorAll("main > section:not(#asistencia)")
+        .forEach((seccion) => {
+          seccion.style.display = "none";
+        });
+
+      formulario.classList.add("activo");
+      document.getElementById("asistencia").scrollIntoView({ behavior: "smooth" });
+
+      if (!inicio || Number.isNaN(inicio)) {
+        estadoAlumno.textContent = "El enlace de asistencia no es válido.";
+        return;
+      }
+
+      const estado = calcularEstadoAsistencia(inicio);
+      estadoAlumno.textContent =
+        `Registro abierto para ${obtenerParametro("sesion") || "Análisis de Fluidos"}. ` +
+        `Estado actual: ${estado.estado}.`;
+    }
+
+    function registrarAsistenciaAlumno() {
+      const mensaje = document.getElementById("mensajeAsistencia");
+      const nombre = document.getElementById("nombreAlumno").value.trim();
+      const matricula = document.getElementById("matriculaAlumno").value.trim();
+      const grupo = document.getElementById("grupoAlumno").value.trim();
+      const inicio = Number(obtenerParametro("inicio"));
+      const sesion = obtenerParametro("sesion") || "Análisis de Fluidos";
+      const idSesion = obtenerParametro("id") || "";
+
+      if (!nombre || !matricula || !grupo) {
+        mensaje.style.color = "#ffb86b";
+        mensaje.textContent = "Completa nombre, matrícula y grupo.";
+        return;
+      }
+
+      if (!inicio || Number.isNaN(inicio)) {
+        mensaje.style.color = "#ff6b6b";
+        mensaje.textContent = "El enlace de asistencia no es válido.";
+        return;
+      }
+
+      const resultado = calcularEstadoAsistencia(inicio);
+      const datos = {
+        curso: "Análisis de Fluidos",
+        sesion: `${sesion} | ${idSesion}`,
+        nombre,
+        matricula,
+        grupo,
+        estado: resultado.estado,
+        minutoRegistro: resultado.minuto
+      };
+
+      fetch(asistenciaConfig.appsScriptUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(datos)
+      });
+
+      mensaje.style.color = "#58d68d";
+      mensaje.textContent =
+        `Registro enviado. Estado: ${resultado.estado}.`;
+    }
+
+    prepararFormularioAlumno();
+  </script>
 </body>
 </html>
