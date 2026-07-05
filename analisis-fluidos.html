@@ -487,6 +487,7 @@
       padding: 10px;
       border-radius: 12px;
       background: white;
+      cursor: pointer;
     }
 
     .qr-box img.activo {
@@ -494,9 +495,14 @@
     }
 
     .enlace-asistencia {
+      display: inline-block;
       word-break: break-all;
       color: #9fcaff;
       font-size: 0.88rem;
+    }
+
+    .enlace-asistencia:hover {
+      color: white;
     }
 
     .formulario-alumno {
@@ -727,10 +733,10 @@
 
           <article class="asistencia-card qr-box">
             <h3>QR de asistencia</h3>
-            <img id="qrAsistencia" alt="QR para pase de lista">
-            <p id="enlaceAsistencia" class="enlace-asistencia">
+            <img id="qrAsistencia" alt="QR para pase de lista" onclick="abrirEnlaceAsistencia()">
+            <a id="enlaceAsistencia" class="enlace-asistencia" href="#" target="_blank" rel="noopener">
               El enlace aparecerá al iniciar el pase de lista.
-            </p>
+            </a>
           </article>
         </div>
 
@@ -906,8 +912,10 @@
         encodeURIComponent(urlAsistencia);
 
       qr.src = qrUrl;
+      qr.dataset.url = urlAsistencia;
       qr.classList.add("activo");
       enlace.textContent = urlAsistencia;
+      enlace.href = urlAsistencia;
 
       if (temporizadorLista) {
         clearInterval(temporizadorLista);
@@ -930,8 +938,19 @@
       document.getElementById("relojLista").textContent = "20:00";
       estadoLista.textContent = "Lista cerrada.";
       qr.removeAttribute("src");
+      qr.removeAttribute("data-url");
       qr.classList.remove("activo");
       enlace.textContent = "El enlace aparecerá al iniciar el pase de lista.";
+      enlace.href = "#";
+    }
+
+    function abrirEnlaceAsistencia() {
+      const qr = document.getElementById("qrAsistencia");
+      const url = qr.dataset.url;
+
+      if (url) {
+        window.open(url, "_blank", "noopener");
+      }
     }
 
     function prepararFormularioAlumno() {
