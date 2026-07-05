@@ -75,6 +75,13 @@
       transform: translateY(-2px);
     }
 
+    .nav-acciones {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
     main {
       width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
@@ -170,6 +177,11 @@
         #0b1019;
     }
 
+    .unidad-activa {
+      border-color: rgba(88, 173, 255, 0.7);
+      box-shadow: 0 0 28px rgba(0, 102, 255, 0.14);
+    }
+
     .unidad small {
       display: block;
       margin-bottom: 10px;
@@ -191,6 +203,98 @@
 
     .unidad li {
       margin: 8px 0;
+    }
+
+    .estado-unidad {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 6px 10px;
+      color: #06111f;
+      background: #58adff;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .boton-unidad {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 11px 15px;
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #0066ff, #00a2ff);
+      border-radius: 8px;
+      font-weight: 800;
+      transition: 0.3s;
+    }
+
+    .boton-unidad:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0, 102, 255, 0.32);
+    }
+
+    .diagnostico {
+      margin-top: 26px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .tema-diagnostico {
+      padding: 24px;
+      border: 1px solid rgba(0, 153, 255, 0.22);
+      border-radius: 14px;
+      background: #0b1019;
+    }
+
+    .tema-diagnostico h3 {
+      margin-bottom: 12px;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .tema-diagnostico p {
+      margin-bottom: 14px;
+    }
+
+    .tema-diagnostico ol {
+      padding-left: 22px;
+      color: #b9bfcb;
+    }
+
+    .tema-diagnostico li {
+      margin: 10px 0;
+    }
+
+    .evaluacion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .parcial {
+      padding: 22px;
+      border: 1px solid rgba(0, 153, 255, 0.22);
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at top right, rgba(0, 102, 255, 0.12), transparent 42%),
+        #0b1019;
+    }
+
+    .parcial h3 {
+      margin-bottom: 14px;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .parcial ul {
+      padding-left: 20px;
+      color: #b9bfcb;
+    }
+
+    .parcial li {
+      margin: 10px 0;
     }
 
     .aviso {
@@ -239,7 +343,10 @@
 <body>
   <nav>
     <a class="marca" href="index.html">IM<span>3</span>CB</a>
-    <a class="regresar" href="index.html#cursos">Regresar al portal</a>
+    <div class="nav-acciones">
+      <a class="regresar" href="#evaluacion">Evaluación</a>
+      <a class="regresar" href="index.html#cursos">Regresar al portal</a>
+    </div>
   </nav>
 
   <main>
@@ -271,7 +378,8 @@
       </p>
 
       <div class="temario-grid">
-        <article class="unidad">
+        <article class="unidad unidad-activa">
+          <span class="estado-unidad">ACTIVA</span>
           <small>UNIDAD 1</small>
           <h3>Fundamentos de Mecánica de Fluidos</h3>
           <ol>
@@ -279,6 +387,7 @@
             <li>Clasificación de fluidos.</li>
             <li>Propiedades mecánicas de los fluidos.</li>
           </ol>
+          <a class="boton-unidad" href="#unidad-1">Ir a Unidad 1</a>
         </article>
 
         <article class="unidad">
@@ -326,6 +435,84 @@
           </ol>
         </article>
       </div>
+
+      <section class="panel" id="unidad-1">
+        <h2>Unidad 1 <span>activa</span></h2>
+        <p>
+          Fundamentos de Mecánica de Fluidos. Antes de iniciar, responde la
+          evaluación diagnóstica para reconocer tus conocimientos previos sobre
+          unidades, tipos de fluidos y propiedades mecánicas.
+        </p>
+
+        <div class="diagnostico">
+          <article class="tema-diagnostico">
+            <h3>1.1 Conceptos básicos y sistemas de unidades</h3>
+            <p>Evaluación diagnóstica:</p>
+            <ol type="a">
+              <li>¿Qué entiendes por fluido y cómo lo diferenciarías de un sólido?</li>
+              <li>¿Por qué es importante trabajar con unidades consistentes en ingeniería?</li>
+              <li>Convierte una presión expresada en kPa a Pa y explica el procedimiento.</li>
+              <li>¿Qué magnitudes físicas intervienen comúnmente en el análisis de fluidos?</li>
+            </ol>
+          </article>
+
+          <article class="tema-diagnostico">
+            <h3>1.2 Clasificación de fluidos</h3>
+            <p>Evaluación diagnóstica:</p>
+            <ol type="a">
+              <li>¿Cuál es la diferencia entre un fluido compresible y uno incompresible?</li>
+              <li>Da un ejemplo de fluido newtoniano y uno no newtoniano.</li>
+              <li>¿En qué situaciones de ingeniería puede considerarse el aire como fluido compresible?</li>
+              <li>¿Por qué el comportamiento del fluido puede cambiar según las condiciones de operación?</li>
+            </ol>
+          </article>
+
+          <article class="tema-diagnostico">
+            <h3>1.3 Propiedades mecánicas de los fluidos</h3>
+            <p>Evaluación diagnóstica:</p>
+            <ol type="a">
+              <li>Define densidad y explica cómo influye en el análisis de un sistema hidráulico.</li>
+              <li>¿Qué representa la viscosidad en el movimiento de un fluido?</li>
+              <li>¿Cómo se relacionan presión, fuerza y área?</li>
+              <li>¿Qué propiedad del fluido considerarías primero al seleccionar una bomba o una válvula?</li>
+            </ol>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" id="evaluacion">
+        <h2>Evaluación <span>del curso</span></h2>
+        <p>
+          La calificación de cada parcial se integra con examen y trabajos
+          realizados en clase.
+        </p>
+
+        <div class="evaluacion-grid">
+          <article class="parcial">
+            <h3>1er parcial</h3>
+            <ul>
+              <li>80% examen.</li>
+              <li>20% trabajos en clase.</li>
+            </ul>
+          </article>
+
+          <article class="parcial">
+            <h3>2do parcial</h3>
+            <ul>
+              <li>80% examen.</li>
+              <li>20% trabajos en clase.</li>
+            </ul>
+          </article>
+
+          <article class="parcial">
+            <h3>3er parcial</h3>
+            <ul>
+              <li>80% examen.</li>
+              <li>20% trabajos en clase.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
 
       <p class="aviso">
         Nota: el acceso con código se valida en el navegador con sessionStorage.
