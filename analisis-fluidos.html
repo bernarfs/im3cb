@@ -960,11 +960,20 @@
       const estadoAlumno = document.getElementById("estadoAlumno");
       const inicio = Number(obtenerParametro("inicio"));
 
-      document
-        .querySelectorAll("main > section:not(#asistencia)")
-        .forEach((seccion) => {
-          seccion.style.display = "none";
+      const portada = document.querySelector(".hero-curso");
+      const temario = document.getElementById("temario");
+
+      if (portada) {
+        portada.style.display = "none";
+      }
+
+      if (temario) {
+        [...temario.children].forEach((elemento) => {
+          if (elemento.id !== "asistencia") {
+            elemento.style.display = "none";
+          }
         });
+      }
 
       formulario.classList.add("activo");
       document.getElementById("asistencia").scrollIntoView({ behavior: "smooth" });
