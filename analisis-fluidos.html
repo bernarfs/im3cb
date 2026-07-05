@@ -272,6 +272,83 @@
       margin: 10px 0;
     }
 
+    .subtema-card {
+      margin-top: 24px;
+      padding: 24px;
+      border: 1px solid rgba(0, 153, 255, 0.22);
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at top right, rgba(0, 102, 255, 0.12), transparent 42%),
+        #0b1019;
+    }
+
+    .subtema-card h3 {
+      margin-bottom: 12px;
+      color: white;
+      font-size: 1.35rem;
+    }
+
+    .subtema-card p {
+      margin-bottom: 16px;
+    }
+
+    .modal-diagnostico {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 6000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(2, 6, 14, 0.86);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-diagnostico.activo {
+      display: flex;
+    }
+
+    .modal-diagnostico-contenido {
+      position: relative;
+      width: min(720px, 100%);
+      max-height: min(86vh, 760px);
+      overflow: auto;
+      padding: 32px;
+      border: 1px solid rgba(42, 145, 255, 0.45);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at top, rgba(0, 119, 255, 0.18), transparent 42%),
+        linear-gradient(145deg, #151b27, #090d15);
+      box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.65),
+        0 0 35px rgba(0, 102, 255, 0.18);
+    }
+
+    .cerrar-diagnostico {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      border: none;
+      background: transparent;
+      color: #aeb7c7;
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
+    .modal-diagnostico-contenido h2 {
+      margin-bottom: 10px;
+    }
+
+    .modal-diagnostico-contenido ol {
+      margin-top: 18px;
+      padding-left: 24px;
+      color: #b9bfcb;
+    }
+
+    .modal-diagnostico-contenido li {
+      margin: 12px 0;
+    }
+
     .evaluacion-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -489,8 +566,8 @@
   <nav>
     <a class="marca" href="index.html">IM<span>3</span>CB</a>
     <div class="nav-acciones">
-      <a class="regresar" href="#asistencia">Pasar lista</a>
       <a class="regresar" href="#evaluacion">Evaluación</a>
+      <a class="regresar" href="#asistencia">Pasar lista</a>
       <a class="regresar" href="index.html#cursos">Regresar al portal</a>
     </div>
   </nav>
@@ -533,7 +610,7 @@
             <li>Clasificación de fluidos.</li>
             <li>Propiedades mecánicas de los fluidos.</li>
           </ol>
-          <a class="boton-unidad" href="#unidad-1">Ir a Unidad 1</a>
+          <a class="boton-unidad" href="#evaluacion">Ir al curso</a>
         </article>
 
         <article class="unidad">
@@ -582,50 +659,6 @@
         </article>
       </div>
 
-      <section class="panel" id="unidad-1">
-        <h2>Unidad 1 <span>activa</span></h2>
-        <p>
-          Fundamentos de Mecánica de Fluidos. Antes de iniciar, responde la
-          evaluación diagnóstica para reconocer tus conocimientos previos sobre
-          unidades, tipos de fluidos y propiedades mecánicas.
-        </p>
-
-        <div class="diagnostico">
-          <article class="tema-diagnostico">
-            <h3>1.1 Conceptos básicos y sistemas de unidades</h3>
-            <p>Evaluación diagnóstica:</p>
-            <ol type="a">
-              <li>¿Qué entiendes por fluido y cómo lo diferenciarías de un sólido?</li>
-              <li>¿Por qué es importante trabajar con unidades consistentes en ingeniería?</li>
-              <li>Convierte una presión expresada en kPa a Pa y explica el procedimiento.</li>
-              <li>¿Qué magnitudes físicas intervienen comúnmente en el análisis de fluidos?</li>
-            </ol>
-          </article>
-
-          <article class="tema-diagnostico">
-            <h3>1.2 Clasificación de fluidos</h3>
-            <p>Evaluación diagnóstica:</p>
-            <ol type="a">
-              <li>¿Cuál es la diferencia entre un fluido compresible y uno incompresible?</li>
-              <li>Da un ejemplo de fluido newtoniano y uno no newtoniano.</li>
-              <li>¿En qué situaciones de ingeniería puede considerarse el aire como fluido compresible?</li>
-              <li>¿Por qué el comportamiento del fluido puede cambiar según las condiciones de operación?</li>
-            </ol>
-          </article>
-
-          <article class="tema-diagnostico">
-            <h3>1.3 Propiedades mecánicas de los fluidos</h3>
-            <p>Evaluación diagnóstica:</p>
-            <ol type="a">
-              <li>Define densidad y explica cómo influye en el análisis de un sistema hidráulico.</li>
-              <li>¿Qué representa la viscosidad en el movimiento de un fluido?</li>
-              <li>¿Cómo se relacionan presión, fuerza y área?</li>
-              <li>¿Qué propiedad del fluido considerarías primero al seleccionar una bomba o una válvula?</li>
-            </ol>
-          </article>
-        </div>
-      </section>
-
       <section class="panel" id="evaluacion">
         <h2>Evaluación <span>del curso</span></h2>
         <p>
@@ -645,15 +678,15 @@
           <article class="parcial">
             <h3>2do parcial</h3>
             <ul>
-              <li>80% examen.</li>
-              <li>20% trabajos en clase.</li>
+              <li>50% examen.</li>
+              <li>50% trabajos en clase.</li>
             </ul>
           </article>
 
           <article class="parcial">
             <h3>3er parcial</h3>
             <ul>
-              <li>80% examen.</li>
+              <li>80% proyecto.</li>
               <li>20% trabajos en clase.</li>
             </ul>
           </article>
@@ -729,6 +762,51 @@
           <p id="mensajeAsistencia" class="mensaje-formulario"></p>
         </article>
       </section>
+
+      <section class="panel" id="unidad-1">
+        <h2>Unidad 1 <span>activa</span></h2>
+        <p>
+          Después de revisar la evaluación del curso y realizar el pase de
+          lista, inicia con el primer subtema de la unidad.
+        </p>
+
+        <article class="subtema-card">
+          <small>SUBTEMA 1.1</small>
+          <h3>Conceptos básicos y sistemas de unidades</h3>
+          <p>
+            Reconoce los conceptos iniciales de la mecánica de fluidos y la
+            importancia de trabajar con sistemas de unidades consistentes en
+            problemas de ingeniería.
+          </p>
+          <button class="boton-accion" type="button" onclick="abrirDiagnosticoUnidad1()">
+            Evaluación diagnóstica
+          </button>
+        </article>
+      </section>
+
+      <div id="modalDiagnosticoUnidad1" class="modal-diagnostico">
+        <div class="modal-diagnostico-contenido">
+          <button
+            class="cerrar-diagnostico"
+            type="button"
+            onclick="cerrarDiagnosticoUnidad1()"
+            aria-label="Cerrar evaluación diagnóstica">
+            ×
+          </button>
+
+          <h2>Evaluación diagnóstica</h2>
+          <p>
+            Tema 1: Conceptos básicos y sistemas de unidades.
+          </p>
+
+          <ol type="a">
+            <li>¿Qué entiendes por fluido y cómo lo diferenciarías de un sólido?</li>
+            <li>¿Por qué es importante trabajar con unidades consistentes en ingeniería?</li>
+            <li>Convierte una presión expresada en kPa a Pa y explica el procedimiento.</li>
+            <li>¿Qué magnitudes físicas intervienen comúnmente en el análisis de fluidos?</li>
+          </ol>
+        </div>
+      </div>
 
       <p class="aviso">
         Nota: el acceso con código se valida en el navegador con sessionStorage.
@@ -928,6 +1006,26 @@
       mensaje.textContent =
         `Registro enviado. Estado: ${resultado.estado}.`;
     }
+
+    function abrirDiagnosticoUnidad1() {
+      document
+        .getElementById("modalDiagnosticoUnidad1")
+        .classList.add("activo");
+    }
+
+    function cerrarDiagnosticoUnidad1() {
+      document
+        .getElementById("modalDiagnosticoUnidad1")
+        .classList.remove("activo");
+    }
+
+    document
+      .getElementById("modalDiagnosticoUnidad1")
+      .addEventListener("click", function(event) {
+        if (event.target === this) {
+          cerrarDiagnosticoUnidad1();
+        }
+      });
 
     prepararFormularioAlumno();
   </script>
