@@ -972,7 +972,61 @@
       © 2026 <strong>IM3CB</strong>
       · Ingeniería • Creación • Diseño • Innovación
     </p>
+<!-- =================================
+     VENTANA DE ACCESO - FLUIDOS
+================================= -->
 
+Y justo antes pega todo esto:
+
+<!-- =================================
+     VENTANA DE ACCESO - TERMODINÁMICA
+================================= -->
+
+<div id="modalAccesoTermo" class="modal-acceso">
+
+  <div class="modal-contenido">
+
+    <button
+      class="cerrar-modal"
+      onclick="cerrarAccesoTermo()"
+      aria-label="Cerrar">
+      ×
+    </button>
+
+    <div class="candado-modal">🔐</div>
+
+    <p class="modal-marca">IM3CB</p>
+
+    <h2>Acceso al curso</h2>
+
+    <h3>Termodinámica</h3>
+
+    <p class="modal-texto">
+      Ingresa el código proporcionado por el docente.
+    </p>
+
+    <input
+      type="password"
+      id="codigoTermo"
+      class="input-codigo"
+      placeholder="Código de acceso"
+      autocomplete="off"
+    >
+
+    <button
+      class="boton-ingresar"
+      onclick="validarAccesoTermo()">
+      Ingresar al curso
+    </button>
+
+    <p
+      id="mensajeAccesoTermo"
+      class="mensaje-acceso">
+    </p>
+
+  </div>
+
+</div>
   </footer>
 <!-- =================================
      VENTANA DE ACCESO - FLUIDOS
@@ -1022,6 +1076,105 @@
 </div>
 
 <script>
+  function abrirAccesoTermo() {
+  const modal =
+    document.getElementById("modalAccesoTermo");
+
+  const input =
+    document.getElementById("codigoTermo");
+
+  const mensaje =
+    document.getElementById("mensajeAccesoTermo");
+
+  modal.classList.add("activo");
+  mensaje.textContent = "";
+  input.value = "";
+
+  setTimeout(() => input.focus(), 100);
+}
+
+
+function cerrarAccesoTermo() {
+  document
+    .getElementById("modalAccesoTermo")
+    .classList.remove("activo");
+}
+
+
+function validarAccesoTermo() {
+
+  const codigoCorrecto = "TERMO2026";
+
+  const input =
+    document.getElementById("codigoTermo");
+
+  const mensaje =
+    document.getElementById("mensajeAccesoTermo");
+
+  const codigoIngresado =
+    input.value.trim().toUpperCase();
+
+  if (codigoIngresado === codigoCorrecto) {
+
+    mensaje.style.color = "#58d68d";
+    mensaje.textContent = "✓ Acceso autorizado";
+
+    sessionStorage.setItem(
+      "accesoTermo",
+      "permitido"
+    );
+
+    setTimeout(() => {
+      window.location.href =
+        "termodinamica.html";
+    }, 700);
+
+  } else {
+
+    mensaje.style.color = "#ff6b6b";
+    mensaje.textContent =
+      "✕ Código incorrecto";
+
+    input.value = "";
+    input.focus();
+  }
+}
+
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    const inputTermo =
+      document.getElementById("codigoTermo");
+
+    const modalTermo =
+      document.getElementById("modalAccesoTermo");
+
+    inputTermo.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+          validarAccesoTermo();
+        }
+
+      }
+    );
+
+    modalTermo.addEventListener(
+      "click",
+      function(event) {
+
+        if (event.target === this) {
+          cerrarAccesoTermo();
+        }
+
+      }
+    );
+
+  }
+);
   function abrirAccesoFluidos() {
     const modal = document.getElementById("modalAccesoFluidos");
     const input = document.getElementById("codigoFluidos");
