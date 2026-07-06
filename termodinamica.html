@@ -522,7 +522,14 @@
 </head>
 
 <body>
-
+<script>
+  if (
+    sessionStorage.getItem("accesoTermo")
+    !== "permitido"
+  ) {
+    window.location.replace("index.html");
+  }
+</script>
   <!-- BARRA SUPERIOR -->
   <header class="topbar">
     <div class="marca">
