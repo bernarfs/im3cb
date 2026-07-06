@@ -230,8 +230,11 @@
       color: white;
       text-decoration: none;
       background: linear-gradient(135deg, #0066ff, #00a2ff);
+      border: none;
       border-radius: 8px;
+      font: inherit;
       font-weight: 800;
+      cursor: pointer;
       transition: 0.3s;
     }
 
@@ -292,6 +295,15 @@
       margin-bottom: 16px;
     }
 
+    .imagen-unidad {
+      display: block;
+      width: 100%;
+      margin: 18px 0 22px;
+      border: 1px solid rgba(0, 153, 255, 0.22);
+      border-radius: 14px;
+      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.28);
+    }
+
     .modal-diagnostico {
       display: none;
       position: fixed;
@@ -310,7 +322,7 @@
 
     .modal-diagnostico-contenido {
       position: relative;
-      width: min(720px, 100%);
+      width: min(820px, 100%);
       max-height: min(86vh, 760px);
       overflow: auto;
       padding: 32px;
@@ -347,6 +359,25 @@
 
     .modal-diagnostico-contenido li {
       margin: 12px 0;
+    }
+
+    .pregunta-diagnostico {
+      margin: 18px 0;
+      padding: 18px;
+      border: 1px solid rgba(0, 153, 255, 0.2);
+      border-radius: 12px;
+      background: rgba(0, 102, 255, 0.06);
+    }
+
+    .pregunta-diagnostico p {
+      margin-bottom: 10px;
+      color: white;
+      font-weight: 800;
+    }
+
+    .pregunta-diagnostico ol {
+      margin-top: 0;
+      padding-left: 24px;
     }
 
     .evaluacion-grid {
@@ -616,7 +647,7 @@
             <li>Clasificación de fluidos.</li>
             <li>Propiedades mecánicas de los fluidos.</li>
           </ol>
-          <a class="boton-unidad" href="#evaluacion">Ir al curso</a>
+          <button class="boton-unidad" type="button" onclick="abrirCursoUnidad1()">Ir al curso</button>
         </article>
 
         <article class="unidad">
@@ -790,6 +821,42 @@
         </article>
       </section>
 
+      <div id="modalCursoUnidad1" class="modal-diagnostico">
+        <div class="modal-diagnostico-contenido">
+          <button
+            class="cerrar-diagnostico"
+            type="button"
+            onclick="cerrarCursoUnidad1()"
+            aria-label="Cerrar Unidad 1">
+            ×
+          </button>
+
+          <h2>Unidad 1 <span>activa</span></h2>
+          <p>
+            Después de revisar la evaluación del curso y realizar el pase de
+            lista, inicia con el primer subtema de la unidad.
+          </p>
+
+          <img
+            class="imagen-unidad"
+            src="unidad1-activa.png"
+            alt="Vista de la Unidad 1 activa en el portal IM3CB">
+
+          <article class="subtema-card">
+            <small>SUBTEMA 1.1</small>
+            <h3>Conceptos básicos y sistemas de unidades</h3>
+            <p>
+              Reconoce los conceptos iniciales de la mecánica de fluidos y la
+              importancia de trabajar con sistemas de unidades consistentes en
+              problemas de ingeniería.
+            </p>
+            <button class="boton-accion" type="button" onclick="abrirDiagnosticoUnidad1()">
+              Evaluación diagnóstica
+            </button>
+          </article>
+        </div>
+      </div>
+
       <div id="modalDiagnosticoUnidad1" class="modal-diagnostico">
         <div class="modal-diagnostico-contenido">
           <button
@@ -805,12 +872,205 @@
             Tema 1: Conceptos básicos y sistemas de unidades.
           </p>
 
-          <ol type="a">
-            <li>¿Qué entiendes por fluido y cómo lo diferenciarías de un sólido?</li>
-            <li>¿Por qué es importante trabajar con unidades consistentes en ingeniería?</li>
-            <li>Convierte una presión expresada en kPa a Pa y explica el procedimiento.</li>
-            <li>¿Qué magnitudes físicas intervienen comúnmente en el análisis de fluidos?</li>
-          </ol>
+          <div class="pregunta-diagnostico">
+            <p>1. ¿Cuál de las siguientes características define mejor a un fluido?</p>
+            <ol type="a">
+              <li>Se deforma continuamente cuando se somete a un esfuerzo cortante.</li>
+              <li>Mantiene siempre una forma geométrica definida.</li>
+              <li>No puede ejercer presión sobre las paredes de un recipiente.</li>
+              <li>Conserva siempre su volumen y su forma.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>2. En el Sistema Internacional de Unidades, la presión se mide en:</p>
+            <ol type="a">
+              <li>Newton</li>
+              <li>Pascal</li>
+              <li>Joule</li>
+              <li>Watt</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>3. ¿Cuál de las siguientes expresiones representa correctamente la densidad de una sustancia?</p>
+            <ol type="a">
+              <li>ρ = m / V</li>
+              <li>ρ = mV</li>
+              <li>ρ = V / m</li>
+              <li>ρ = A / W</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>4. ¿Cuál de los siguientes es un ejemplo típico de fluido?</p>
+            <ol type="a">
+              <li>Una barra de acero</li>
+              <li>Un bloque de concreto</li>
+              <li>Una placa de aluminio</li>
+              <li>El agua y el aire</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>5. La viscosidad de un fluido representa:</p>
+            <ol type="a">
+              <li>Su resistencia interna al movimiento o deformación.</li>
+              <li>Su capacidad para aumentar de volumen.</li>
+              <li>La cantidad total de masa del fluido.</li>
+              <li>Su capacidad para producir presión atmosférica.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>6. La presión ejercida por una fuerza perpendicular sobre una superficie se determina mediante:</p>
+            <ol type="a">
+              <li>P = F · A</li>
+              <li>P = A / F</li>
+              <li>P = F / A</li>
+              <li>P = F + A</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>7. En un fluido en reposo, la presión hidrostática aumenta principalmente cuando:</p>
+            <ol type="a">
+              <li>Disminuye la profundidad.</li>
+              <li>Disminuye el área del recipiente.</li>
+              <li>Aumenta la profundidad.</li>
+              <li>Cambia la forma del recipiente.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>8. El principio de Pascal establece que:</p>
+            <ol type="a">
+              <li>Todo cuerpo sumergido experimenta una fuerza hacia arriba.</li>
+              <li>La energía de un fluido siempre permanece constante.</li>
+              <li>La velocidad de un fluido aumenta con su viscosidad.</li>
+              <li>La presión aplicada a un fluido confinado se transmite en todas direcciones.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>9. ¿Cuál de los siguientes dispositivos funciona principalmente con base en el principio de Pascal?</p>
+            <ol type="a">
+              <li>Prensa hidráulica</li>
+              <li>Termómetro</li>
+              <li>Anemómetro</li>
+              <li>Turbina eólica</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>10. Según el principio de Arquímedes, un cuerpo sumergido total o parcialmente en un fluido experimenta:</p>
+            <ol type="a">
+              <li>Una fuerza horizontal igual a su masa.</li>
+              <li>Un empuje vertical igual al peso del fluido desalojado.</li>
+              <li>Una reducción total de su volumen.</li>
+              <li>Una presión independiente de la profundidad.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>11. El caudal volumétrico se define como:</p>
+            <ol type="a">
+              <li>La masa de fluido por unidad de volumen.</li>
+              <li>La fuerza ejercida por el fluido sobre una superficie.</li>
+              <li>El volumen de fluido que atraviesa una sección por unidad de tiempo.</li>
+              <li>La energía total del fluido.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>12. Para un flujo incompresible y permanente, la ecuación de continuidad entre dos secciones puede expresarse como:</p>
+            <ol type="a">
+              <li>P1 A1 = P2 A2</li>
+              <li>F1 V1 = F2 V2</li>
+              <li>A1 P1 = A2 P2</li>
+              <li>A1 V1 = A2 V2</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>13. Si un fluido incompresible circula por una tubería y el área transversal disminuye, su velocidad:</p>
+            <ol type="a">
+              <li>Aumenta.</li>
+              <li>Disminuye.</li>
+              <li>Permanece constante.</li>
+              <li>Se vuelve igual a cero.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>14. La ecuación de Bernoulli relaciona principalmente:</p>
+            <ol type="a">
+              <li>Masa, temperatura y viscosidad.</li>
+              <li>Presión, velocidad y altura.</li>
+              <li>Fuerza, aceleración y tiempo.</li>
+              <li>Densidad, volumen y temperatura.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>15. En una tubería real, las pérdidas de energía se producen principalmente debido a:</p>
+            <ol type="a">
+              <li>La conservación de la masa.</li>
+              <li>El principio de Arquímedes.</li>
+              <li>La fricción del fluido y los accesorios.</li>
+              <li>La ausencia de viscosidad.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>16. El número de Reynolds se utiliza principalmente para:</p>
+            <ol type="a">
+              <li>Calcular directamente la presión atmosférica.</li>
+              <li>Medir la densidad del fluido.</li>
+              <li>Calcular el empuje hidrostático.</li>
+              <li>Determinar el régimen de flujo.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>17. Un flujo con número de Reynolds bajo en una tubería circular generalmente se considera:</p>
+            <ol type="a">
+              <li>Laminar</li>
+              <li>Turbulento</li>
+              <li>Supersónico</li>
+              <li>Compresible</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>18. El golpe de ariete en una tubería se produce principalmente por:</p>
+            <ol type="a">
+              <li>Una disminución gradual de la temperatura.</li>
+              <li>Un cambio brusco en la velocidad del fluido.</li>
+              <li>Un aumento constante del diámetro.</li>
+              <li>La ausencia de válvulas.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>19. ¿Cuál es la diferencia fundamental entre un flujo compresible y uno incompresible?</p>
+            <ol type="a">
+              <li>En el flujo incompresible no existe velocidad.</li>
+              <li>En el flujo compresible no existe presión.</li>
+              <li>En el flujo compresible la densidad puede variar significativamente.</li>
+              <li>En el flujo incompresible siempre existe turbulencia.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>20. Una onda de choque puede presentarse principalmente en:</p>
+            <ol type="a">
+              <li>Fluidos completamente estáticos.</li>
+              <li>Líquidos almacenados sin movimiento.</li>
+              <li>Flujos exclusivamente laminares de baja velocidad.</li>
+              <li>Flujos de gases a velocidades supersónicas.</li>
+            </ol>
+          </div>
         </div>
       </div>
 
@@ -1035,6 +1295,18 @@
         `Registro enviado. Estado: ${resultado.estado}.`;
     }
 
+    function abrirCursoUnidad1() {
+      document
+        .getElementById("modalCursoUnidad1")
+        .classList.add("activo");
+    }
+
+    function cerrarCursoUnidad1() {
+      document
+        .getElementById("modalCursoUnidad1")
+        .classList.remove("activo");
+    }
+
     function abrirDiagnosticoUnidad1() {
       document
         .getElementById("modalDiagnosticoUnidad1")
@@ -1052,6 +1324,14 @@
       .addEventListener("click", function(event) {
         if (event.target === this) {
           cerrarDiagnosticoUnidad1();
+        }
+      });
+
+    document
+      .getElementById("modalCursoUnidad1")
+      .addEventListener("click", function(event) {
+        if (event.target === this) {
+          cerrarCursoUnidad1();
         }
       });
 
