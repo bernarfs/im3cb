@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Termodinámica | iM3CB</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --azul: #2979ff;
+      --azul-oscuro: #0b1f3a;
+      --negro: #0f0f1a;
+      --naranja: #ff7a00;
+      --rojo: #ff3d3d;
+      --amarillo: #ffc107;
+      --verde: #20c997;
+      --blanco: #ffffff;
+      --gris: #eef2f7;
+      --texto: #1f2937;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7fb;
+      color: var(--texto);
+      line-height: 1.6;
+    }
+
+    /* =========================
+       BARRA SUPERIOR
+    ========================== */
+
+    .topbar {
+      background: var(--negro);
+      color: white;
+      padding: 14px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0,0,0,.18);
+    }
+
+    .marca {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .marca img {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .marca-texto h2 {
+      font-size: 1.15rem;
+      letter-spacing: 1px;
+    }
+
+    .marca-texto p {
+      font-size: .75rem;
+      color: #b9c2d0;
+    }
+
+    .btn-inicio {
+      text-decoration: none;
+      color: white;
+      border: 1px solid rgba(255,255,255,.35);
+      padding: 9px 16px;
+      border-radius: 999px;
+      transition: .25s;
+      font-size: .9rem;
+    }
+
+    .btn-inicio:hover {
+      background: white;
+      color: var(--negro);
+    }
+
+    /* =========================
+       HERO
+    ========================== */
+
+    .hero {
+      min-height: 520px;
+      padding: 80px 7%;
+      display: flex;
+      align-items: center;
+      background:
+        radial-gradient(circle at 85% 30%,
+          rgba(255,122,0,.35),
+          transparent 24%),
+        radial-gradient(circle at 75% 75%,
+          rgba(255,61,61,.25),
+          transparent 25%),
+        linear-gradient(135deg,
+          #08111f 0%,
+          #102c52 48%,
+          #7a2c00 100%);
+      color: white;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "ΔE";
+      position: absolute;
+      right: 7%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: clamp(7rem, 18vw, 15rem);
+      font-weight: 900;
+      color: rgba(255,255,255,.07);
+    }
+
+    .hero-contenido {
+      max-width: 850px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .etiqueta {
+      display: inline-block;
+      background: rgba(255,122,0,.18);
+      border: 1px solid rgba(255,180,80,.6);
+      color: #ffd29b;
+      padding: 7px 15px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+      font-size: .85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.7rem, 7vw, 5.5rem);
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 span {
+      color: #ff9b3d;
+    }
+
+    .hero-subtitulo {
+      font-size: clamp(1.1rem, 2.3vw, 1.55rem);
+      color: #dce7f5;
+      max-width: 700px;
+      margin-bottom: 28px;
+    }
+
+    .hero-botones {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      padding: 13px 22px;
+      border-radius: 12px;
+      font-weight: bold;
+      transition: .25s;
+    }
+
+    .btn-principal {
+      background: var(--naranja);
+      color: white;
+    }
+
+    .btn-principal:hover {
+      transform: translateY(-3px);
+      background: #ff8f26;
+    }
+
+    .btn-secundario {
+      border: 1px solid rgba(255,255,255,.5);
+      color: white;
+      background: rgba(255,255,255,.08);
+    }
+
+    /* =========================
+       CONTENEDORES
+    ========================== */
+
+    .contenedor {
+      width: min(1180px, 90%);
+      margin: auto;
+    }
+
+    .seccion {
+      padding: 75px 0;
+    }
+
+    .titulo-seccion {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .titulo-seccion span {
+      color: var(--naranja);
+      font-size: .85rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .titulo-seccion h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--azul-oscuro);
+      margin-top: 7px;
+    }
+
+    .titulo-seccion p {
+      max-width: 720px;
+      margin: 10px auto 0;
+      color: #64748b;
+    }
+
+    /* =========================
+       OBJETIVO
+    ========================== */
+
+    .objetivo {
+      background: white;
+    }
+
+    .objetivo-card {
+      background:
+        linear-gradient(135deg,
+          #0b1f3a,
+          #163d6b);
+      color: white;
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 18px 45px rgba(11,31,58,.18);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .objetivo-card::before {
+      content: "🎯";
+      position: absolute;
+      right: 25px;
+      top: 10px;
+      font-size: 7rem;
+      opacity: .10;
+    }
+
+    .objetivo-card h3 {
+      color: #ffb15c;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+
+    .objetivo-card p {
+      font-size: 1.12rem;
+      max-width: 950px;
+    }
+
+    /* =========================
+       RUTA
+    ========================== */
+
+    .ruta {
+      background: #eef3f9;
+    }
+
+    .ruta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .ruta-item {
+      background: white;
+      padding: 22px 15px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(15,23,42,.07);
+      position: relative;
+    }
+
+    .ruta-numero {
+      width: 42px;
+      height: 42px;
+      margin: 0 auto 10px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--azul-oscuro);
+      color: white;
+      font-weight: bold;
+    }
+
+    .ruta-item strong {
+      color: var(--azul-oscuro);
+    }
+
+    /* =========================
+       UNIDADES
+    ========================== */
+
+    .unidades {
+      background: white;
+    }
+
+    .unidades-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .unidad-card {
+      background: #fff;
+      border-radius: 22px;
+      padding: 28px;
+      border: 1px solid #e4eaf1;
+      box-shadow: 0 10px 30px rgba(15,23,42,.07);
+      transition: .28s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .unidad-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(15,23,42,.12);
+    }
+
+    .unidad-card.activa {
+      border: 2px solid var(--naranja);
+    }
+
+    .unidad-card.activa::before {
+      content: "UNIDAD ACTIVA";
+      position: absolute;
+      top: 18px;
+      right: -38px;
+      background: var(--naranja);
+      color: white;
+      padding: 6px 45px;
+      transform: rotate(38deg);
+      font-size: .68rem;
+      font-weight: bold;
+    }
+
+    .unidad-icono {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+
+    .unidad-card h3 {
+      color: var(--azul-oscuro);
+      margin-bottom: 14px;
+      padding-right: 30px;
+    }
+
+    .unidad-card ul {
+      padding-left: 20px;
+      color: #526173;
+      margin-bottom: 22px;
+    }
+
+    .unidad-card li {
+      margin-bottom: 7px;
+    }
+
+    .estado {
+      display: inline-block;
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: .78rem;
+      font-weight: bold;
+    }
+
+    .estado-activo {
+      background: #fff0df;
+      color: #c95b00;
+    }
+
+    .estado-proximo {
+      background: #edf1f5;
+      color: #64748b;
+    }
+
+    .btn-unidad {
+      display: inline-block;
+      margin-top: 15px;
+      background: var(--azul-oscuro);
+      color: white;
+      text-decoration: none;
+      padding: 10px 17px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    /* =========================
+       RETO
+    ========================== */
+
+    .reto {
+      background:
+        linear-gradient(135deg,
+          #fff4e7,
+          #fff);
+    }
+
+    .reto-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 35px;
+      align-items: center;
+      background: white;
+      border-radius: 24px;
+      padding: 38px;
+      box-shadow: 0 15px 40px rgba(15,23,42,.08);
+    }
+
+    .reto-visual {
+      min-height: 280px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background:
+        radial-gradient(circle,
+          rgba(255,193,7,.3),
+          transparent 45%),
+        linear-gradient(135deg,
+          #102c52,
+          #7a2c00);
+      color: white;
+      font-size: 5rem;
+    }
+
+    .reto-texto h3 {
+      color: var(--azul-oscuro);
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .reto-texto p {
+      color: #5d6a79;
+      margin-bottom: 15px;
+    }
+
+    /* =========================
+       PIE
+    ========================== */
+
+    footer {
+      background: var(--negro);
+      color: white;
+      text-align: center;
+      padding: 30px 15px;
+    }
+
+    footer p {
+      color: #aab4c2;
+      margin-top: 6px;
+      font-size: .88rem;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width: 850px) {
+      .ruta-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .unidades-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .reto-card {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: 600px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .topbar {
+        padding: 12px 4%;
+      }
+
+      .marca-texto p {
+        display: none;
+      }
+
+      .btn-inicio {
+        font-size: .75rem;
+        padding: 8px 11px;
+      }
+
+      .ruta-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .objetivo-card,
+      .reto-card {
+        padding: 25px;
+      }
+
+      .hero {
+        padding: 65px 6%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- BARRA SUPERIOR -->
+  <header class="topbar">
+    <div class="marca">
+      <img src="logo-im3cb.jpeg" alt="Logo iM3CB">
+
+      <div class="marca-texto">
+        <h2>iM3CB</h2>
+        <p>Ingeniería · Creación · Diseño · Innovación</p>
+      </div>
+    </div>
+
+    <a class="btn-inicio" href="index.html">
+      ← Portal principal
+    </a>
+  </header>
+
+
+  <!-- PORTADA -->
+  <section class="hero">
+    <div class="hero-contenido">
+
+      <span class="etiqueta">
+        Curso de Ingeniería
+      </span>
+
+      <h1>
+        TERMO<span>DINÁMICA</span>
+      </h1>
+
+      <p class="hero-subtitulo">
+        Transforma energía. Analiza procesos.
+        Optimiza sistemas mecatrónicos.
+      </p>
+
+      <div class="hero-botones">
+        <a href="#unidades" class="btn btn-principal">
+          Iniciar curso
+        </a>
+
+        <a href="#objetivo" class="btn btn-secundario">
+          Ver objetivo
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- OBJETIVO -->
+  <section class="seccion objetivo" id="objetivo">
+    <div class="contenedor">
+
+      <div class="titulo-seccion">
+        <span>Propósito formativo</span>
+        <h2>Objetivo de la asignatura</h2>
+      </div>
+
+      <div class="objetivo-card">
+        <h3>🎯 ¿Qué aprenderás?</h3>
+
+        <p>
+          Aplica los conceptos y las leyes termodinámicas para
+          identificar y eficientar los procesos en los que se
+          presentan los fenómenos de transformación de energía
+          y transferencia de calor en sistemas mecatrónicos,
+          que permitan optimizar los consumos y los distintos
+          sistemas de generación de energía.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- RUTA DE APRENDIZAJE -->
+  <section class="seccion ruta">
+    <div class="contenedor">
+
+      <div class="titulo-seccion">
+        <span>Tu recorrido</span>
+        <h2>Ruta de aprendizaje</h2>
+
+        <p>
+          Avanza desde la comprensión de un sistema
+          hasta la optimización energética.
+        </p>
+      </div>
+
+      <div class="ruta-grid">
+
+        <div class="ruta-item">
+          <div class="ruta-numero">1</div>
+          <strong>Sistema</strong>
+          <p>Define fronteras y entorno</p>
+        </div>
+
+        <div class="ruta-item">
+          <div class="ruta-numero">2</div>
+          <strong>Propiedades</strong>
+          <p>Describe el estado</p>
+        </div>
+
+        <div class="ruta-item">
+          <div class="ruta-numero">3</div>
+          <strong>Energía</strong>
+          <p>Identifica transformaciones</p>
+        </div>
+
+        <div class="ruta-item">
+          <div class="ruta-numero">4</div>
+          <strong>Primera Ley</strong>
+          <p>Realiza balances</p>
+        </div>
+
+        <div class="ruta-item">
+          <div class="ruta-numero">5</div>
+          <strong>Segunda Ley</strong>
+          <p>Evalúa eficiencia</p>
+        </div>
+
+        <div class="ruta-item">
+          <div class="ruta-numero">6</div>
+          <strong>Ciclos</strong>
+          <p>Analiza generación</p>
+        </div>
+
+        <div class="ruta-item">
+          <div class="ruta-numero">7</div>
+          <strong>Calor</strong>
+          <p>Estudia transferencia</p>
+        </div>
+
+        <div class="ruta-item">
+          <div class="ruta-numero">8</div>
+          <strong>Optimización</strong>
+          <p>Mejora el sistema</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- UNIDADES -->
+  <section class="seccion unidades" id="unidades">
+    <div class="contenedor">
+
+      <div class="titulo-seccion">
+        <span>Contenido académico</span>
+        <h2>Unidades del curso</h2>
+
+        <p>
+          Cinco unidades para comprender y aplicar
+          la Termodinámica en sistemas de ingeniería.
+        </p>
+      </div>
+
+      <div class="unidades-grid">
+
+        <!-- UNIDAD 1 -->
+        <article class="unidad-card activa">
+          <div class="unidad-icono">🌡️</div>
+
+          <h3>
+            Unidad 1. Conceptos básicos de Termodinámica
+          </h3>
+
+          <ul>
+            <li>
+              1.1 Conceptos básicos, sistemas termodinámicos
+              y formas de energía
+            </li>
+
+            <li>
+              1.2 Propiedades termodinámicas:
+              presión, temperatura y volumen específico
+            </li>
+
+            <li>
+              1.3 Leyes de los gases ideales
+            </li>
+
+            <li>
+              1.4 Sustancias puras y diagramas termodinámicos
+            </li>
+          </ul>
+
+          <span class="estado estado-activo">
+            Disponible
+          </span>
+
+          <br>
+
+          <a href="#" class="btn-unidad">
+            Entrar a Unidad 1 →
+          </a>
+        </article>
+
+
+        <!-- UNIDAD 2 -->
+        <article class="unidad-card">
+          <div class="unidad-icono">⚡</div>
+
+          <h3>
+            Unidad 2. Primera Ley de la Termodinámica
+          </h3>
+
+          <ul>
+            <li>2.1 Introducción a la Primera Ley</li>
+            <li>2.2 Balance de energía en sistemas cerrados</li>
+            <li>2.3 Balance de energía en sistemas abiertos</li>
+          </ul>
+
+          <span class="estado estado-proximo">
+            Próximamente
+          </span>
+        </article>
+
+
+        <!-- UNIDAD 3 -->
+        <article class="unidad-card">
+          <div class="unidad-icono">♻️</div>
+
+          <h3>
+            Unidad 3. Segunda Ley de la Termodinámica
+          </h3>
+
+          <ul>
+            <li>
+              3.1 Procesos reversibles,
+              ciclo ideal de Carnot y máquinas térmicas
+            </li>
+
+            <li>
+              3.2 Procesos irreversibles y entropía
+            </li>
+          </ul>
+
+          <span class="estado estado-proximo">
+            Próximamente
+          </span>
+        </article>
+
+
+        <!-- UNIDAD 4 -->
+        <article class="unidad-card">
+          <div class="unidad-icono">⚙️</div>
+
+          <h3>
+            Unidad 4. Ciclos Termodinámicos
+          </h3>
+
+          <ul>
+            <li>4.1 Ciclo Otto</li>
+            <li>4.2 Ciclo Diesel</li>
+            <li>4.3 Ciclo Rankine</li>
+            <li>4.4 Ciclo de Refrigeración</li>
+          </ul>
+
+          <span class="estado estado-proximo">
+            Próximamente
+          </span>
+        </article>
+
+
+        <!-- UNIDAD 5 -->
+        <article class="unidad-card">
+          <div class="unidad-icono">🔥</div>
+
+          <h3>
+            Unidad 5. Mecanismos de transferencia de calor
+          </h3>
+
+          <ul>
+            <li>5.1 Conducción</li>
+            <li>5.2 Convección</li>
+            <li>5.3 Radiación</li>
+            <li>
+              5.4 Circuitos térmicos y analogía eléctrica
+              en paredes planas
+            </li>
+          </ul>
+
+          <span class="estado estado-proximo">
+            Próximamente
+          </span>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- RETO MECATRÓNICO -->
+  <section class="seccion reto">
+    <div class="contenedor">
+
+      <div class="reto-card">
+
+        <div class="reto-visual">
+          ⚙️🔥
+        </div>
+
+        <div class="reto-texto">
+          <span class="etiqueta"
+                style="color:#b94d00;
+                       border-color:#ffb15c;
+                       background:#fff1df;">
+            Aplicación real
+          </span>
+
+          <h3>Reto Mecatrónico</h3>
+
+          <p>
+            A lo largo del curso analizarás sistemas reales
+            donde la energía se transforma y el calor se
+            transfiere.
+          </p>
+
+          <p>
+            El objetivo será identificar pérdidas,
+            evaluar eficiencia y proponer mejoras
+            para optimizar el consumo energético.
+          </p>
+
+          <a href="#unidades" class="btn btn-principal">
+            Comenzar recorrido
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PIE -->
+  <footer>
+    <strong>iM3CB · Termodinámica</strong>
+
+    <p>
+      Ingeniería · Creación · Diseño · Innovación
+    </p>
+  </footer>
+
+</body>
+</html>
