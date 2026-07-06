@@ -694,9 +694,15 @@
 
 <body>
 <script>
+  const parametrosIniciales =
+    new URLSearchParams(window.location.search);
+
+  const modoAsistencia =
+    parametrosIniciales.get("asistencia") === "1";
+
   if (
-    sessionStorage.getItem("accesoTermo")
-    !== "permitido"
+    !modoAsistencia &&
+    sessionStorage.getItem("accesoTermo") !== "permitido"
   ) {
     window.location.replace("index.html");
   }
