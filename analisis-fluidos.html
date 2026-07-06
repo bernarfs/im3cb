@@ -575,46 +575,180 @@
       border: none;
       display: block;
     }
-.video-tema {
-  margin-top: 24px;
-  padding: 20px;
-  border: 1px solid rgba(0, 153, 255, 0.22);
-  border-radius: 14px;
+    /* ===== TV IM3CB ===== */
+
+.tv-im3cb {
+  margin-top: 28px;
+  padding: 14px;
+  border-radius: 22px;
   background:
-    radial-gradient(
-      circle at top right,
-      rgba(0, 102, 255, 0.12),
-      transparent 42%
-    ),
-    #0b1019;
+    linear-gradient(145deg, #182334, #060a11);
+  border: 2px solid rgba(0, 153, 255, 0.65);
+  box-shadow:
+    0 0 20px rgba(0, 153, 255, 0.25),
+    inset 0 0 18px rgba(255, 255, 255, 0.04);
 }
 
-.video-tema h3 {
-  margin-bottom: 14px;
-  color: white;
-  font-size: 1.25rem;
+.tv-barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px 14px;
 }
 
-.video-tema p {
-  margin-bottom: 16px;
-  color: #aeb6c5;
+.tv-logo {
+  width: 58px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #0099ff;
+  box-shadow: 0 0 12px rgba(0, 153, 255, 0.55);
 }
 
-.video-responsive {
+.tv-estado {
+  color: #66c7ff;
+  font-size: 0.82rem;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+}
+
+.tv-pantalla {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 14px;
   background: #000;
+  border: 1px solid rgba(0, 153, 255, 0.45);
 }
 
-.video-responsive iframe {
+.tv-video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  border: none;
+  border: 0;
+}
+
+/* TELONES */
+
+.telon {
+  position: absolute;
+  top: 0;
+  width: 50.2%;
+  height: 100%;
+  z-index: 4;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #061426 0px,
+      #0b3159 22px,
+      #071a31 44px
+    );
+  transition: transform 1.15s cubic-bezier(.77, 0, .18, 1);
+}
+
+.telon-izq {
+  left: 0;
+  border-right: 1px solid rgba(0, 153, 255, 0.45);
+}
+
+.telon-der {
+  right: 0;
+  border-left: 1px solid rgba(0, 153, 255, 0.45);
+}
+
+/* AL ABRIR */
+
+.tv-pantalla.abierta .telon-izq {
+  transform: translateX(-101%);
+}
+
+.tv-pantalla.abierta .telon-der {
+  transform: translateX(101%);
+}
+
+/* BOTÓN PLAY */
+
+.tv-play {
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 105px;
+  height: 105px;
+  border-radius: 50%;
+
+  border: 2px solid #33b7ff;
+  background:
+    radial-gradient(circle, #087cff, #003a80);
+
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+
+  box-shadow:
+    0 0 20px rgba(0, 153, 255, 0.75),
+    0 0 45px rgba(0, 102, 255, 0.35);
+
+  transition:
+    transform 0.3s ease,
+    opacity 0.4s ease;
+}
+
+.tv-play:hover {
+  transform:
+    translate(-50%, -50%)
+    scale(1.1);
+}
+
+.tv-pantalla.abierta .tv-play {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tv-pie {
+  padding: 14px 8px 4px;
+  text-align: center;
+}
+
+.tv-pie strong {
+  display: block;
+  color: white;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+.tv-pie span {
+  display: block;
+  margin-top: 4px;
+  color: #8f9bad;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 700px) {
+  .tv-im3cb {
+    padding: 9px;
+    border-radius: 16px;
+  }
+
+  .tv-logo {
+    width: 44px;
+    height: 44px;
+  }
+
+  .tv-play {
+    width: 78px;
+    height: 78px;
+    font-size: 1.5rem;
+  }
+
+  .tv-estado {
+    font-size: 0.68rem;
+  }
 }
     footer {
       padding: 30px 20px;
@@ -904,24 +1038,49 @@
     webkitallowfullscreen>
   </iframe>
 </div>
-            <div class="video-tema">
-  <h3>🎥 Video de apoyo</h3>
+ <!-- ===== TV IM3CB CON TELÓN ===== -->
+<div class="tv-im3cb">
 
-  <p>
-    Observa el siguiente video para reforzar los conceptos básicos
-    relacionados con la mecánica de fluidos y los sistemas de unidades.
-  </p>
+  <div class="tv-barra">
+    <img
+      src="logo-im3cb.jpeg"
+      alt="Logo IM3CB"
+      class="tv-logo">
 
-  <div class="video-responsive">
+    <span class="tv-estado">
+      ● VIDEO DE APOYO
+    </span>
+  </div>
+
+  <div class="tv-pantalla" id="tvPantallaFluidos">
+
     <iframe
-      src="https://www.youtube.com/embed/G53gvVh230U"
+      id="videoFluidos"
+      class="tv-video"
+      src=""
       title="Video de apoyo - Conceptos básicos y sistemas de unidades"
-      frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
       allowfullscreen>
     </iframe>
+
+    <div class="telon telon-izq"></div>
+    <div class="telon telon-der"></div>
+
+    <button
+      class="tv-play"
+      type="button"
+      onclick="abrirTvFluidos()"
+      aria-label="Reproducir video">
+      ▶
+    </button>
+
   </div>
+
+  <div class="tv-pie">
+    <strong>Conceptos básicos y sistemas de unidades</strong>
+    <span>Material audiovisual de apoyo · IM3CB</span>
+  </div>
+
 </div>
           </article>
         </div>
@@ -1401,7 +1560,17 @@
           cerrarCursoUnidad1();
         }
       });
+  function abrirTvFluidos() {
+  const pantalla = document.getElementById("tvPantallaFluidos");
+  const video = document.getElementById("videoFluidos");
 
+  if (!pantalla || !video) return;
+
+  video.src =
+    "https://www.youtube.com/embed/G53gvVh230U?autoplay=1&rel=0";
+
+  pantalla.classList.add("abierta");
+}
     prepararFormularioAlumno();
   </script>
 </body>
