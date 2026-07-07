@@ -1843,6 +1843,429 @@
           cerrarCursoUnidad1();
         }
       });
+    /* ===== SOPA DE LETRAS INTERACTIVA IM3CB ===== */
+
+const palabrasSopaFluidos = [
+  "FLUIDO",
+  "DENSIDAD",
+  "PRESION",
+  "VISCOSIDAD",
+  "MASA",
+  "VOLUMEN",
+  "FUERZA",
+  "UNIDADES"
+];
+
+const TAM_SOPA = 20;
+
+let matrizSopaFluidos = [];
+let palabrasEncontradasFluidos = new Set();
+let seleccionandoSopa = false;
+let celdaInicioSopa = null;
+let celdasSeleccionSopa = [];
+
+function crearSopaFluidos() {
+  const tablero = document.getElementById("sopaTableroFluidos");
+
+  if (!tablero || tablero.dataset.creado === "si") {
+    return;
+  }
+
+  matrizSopaFluidos = Array.from(
+    { length: TAM_SOPA },
+    () => Array(TAM_SOPA).fill("")
+  );
+
+  const direcciones = [
+    [0, 1],
+    [0, -1],
+    [1, 0],
+    [-1, 0],
+    [1, 1],
+    [-1, -1],
+    [1, -1],
+    [-1, 1]
+  ];
+
+  const palabrasOrdenadas = [...palabrasSopaFluidos]
+    .sort((a, b) => b.length - a.length);
+
+  palabrasOrdenadas.forEach((palabra) => {
+    let colocada = false;
+
+    for (
+      let intento = 0;
+      intento < 1000 && !colocada;
+      intento++
+    ) {
+      const direccion =
+        direcciones[
+          Math.floor(Math.random() * direcciones.length)
+        ];
+
+      const df = direccion[0];
+      const dc = direccion[1];
+
+      const fila =
+        Math.floor(Math.random() * TAM_SOPA);
+
+      const columna =
+        Math.floor(Math.random() * TAM_SOPA);
+
+      const filaFinal =
+        fila + df * (palabra.length - 1);
+
+      const columnaFinal =
+        columna + dc * (palabra.length - 1);
+
+      if (
+        filaFinal < 0 ||
+        filaFinal >= TAM_SOPA ||
+        columnaFinal < 0 ||
+        columnaFinal >= TAM_SOPA
+      ) {
+        continue;
+      }
+
+      let cabe = true;
+
+      for (let i = 0; i < palabra.length; i++) {
+        const f = fila + df * i;
+        const c = columna + dc * i;
+
+        const letraActual =
+          matrizSopaFluidos[f][c];
+
+        if (
+          letraActual !== "" &&
+          letraActual !== palabra[i]
+        ) {
+          cabe = false;
+          break;
+        }
+      }
+
+      if (!cabe) {
+        continue;
+      }
+
+      for (let i = 0; i < palabra.length; i++) {
+        const f = fila + df * i;
+        const c = columna + dc * i;
+
+        matrizSopaFluidos[f][c] = palabra[i];
+      }
+
+      colocada = true;
+    }
+  });
+
+  const letras =
+    "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+
+  for (let f = 0; f < TAM_SOPA; f++) {
+    for (let c = 0; c < TAM_SOPA; c++) {
+      if (matrizSopaFluidos[f][c] === "") {
+        matrizSopaFluidos[f][c] =
+          letras[
+            Math.floor(Math.random() * letras.length)
+          ];
+      }
+    }
+  }
+
+  tablero.innerHTML = "";
+
+  for (let f = 0; f < TAM_SOPA; f++) {
+    for (let c = 0; c < TAM_SOPA; c++) {
+      const celda =
+        document.createElement("div");
+
+      celda.className = "sopa-celda";
+
+      celda.textContent =
+        matrizSopaFluidos[f][c];
+
+      celda.dataset.fila = f;
+      celda.dataset.columna = c;
+
+      tablero.appendChild(celda);
+    }
+  }
+
+  tablero.dataset.creado = "si";
+
+  activarEventosSopaFluidos();
+  actualizarProgresoSopaFluidos();
+}
+
+function obtenerCeldasLineaSopa(inicio, fin) {
+  const f1 = Number(inicio.dataset.fila);
+  const c1 = Number(inicio.dataset.columna);
+  const f2 = Number(fin.dataset.fila);
+  const c2 = Number(fin.dataset.columna);
+
+  const diferenciaFila = f2 - f1;
+  const diferenciaColumna = c2 - c1;
+
+  const esHorizontal =
+    diferenciaFila === 0;
+
+  const esVertical =
+    diferenciaColumna === 0;
+
+  const esDiagonal =
+    Math.abs(diferenciaFila) ===
+    Math.abs(diferenciaColumna);
+
+  if (
+    !esHorizontal &&
+    !esVertical &&
+    !esDiagonal
+  ) {
+    return [];
+  }
+
+  const pasoFila =
+    Math.sign(diferenciaFila);
+
+  const pasoColumna =
+    Math.sign(diferenciaColumna);
+
+  const pasos = Math.max(
+    Math.abs(diferenciaFila),
+    Math.abs(diferenciaColumna)
+  );
+
+  const tablero =
+    document.getElementById("sopaTableroFluidos");
+
+  const celdas = [];
+
+  for (let i = 0; i <= pasos; i++) {
+    const fila =
+      f1 + pasoFila * i;
+
+    const columna =
+      c1 + pasoColumna * i;
+
+    const celda = tablero.querySelector(
+      `[data-fila="${fila}"][data-columna="${columna}"]`
+    );
+
+    if (celda) {
+      celdas.push(celda);
+    }
+  }
+
+  return celdas;
+}
+
+function limpiarSeleccionTemporalSopa() {
+  celdasSeleccionSopa.forEach((celda) => {
+    celda.classList.remove("seleccionada");
+  });
+
+  celdasSeleccionSopa = [];
+}
+
+function pintarSeleccionSopa(celdaFinal) {
+  limpiarSeleccionTemporalSopa();
+
+  if (!celdaInicioSopa || !celdaFinal) {
+    return;
+  }
+
+  celdasSeleccionSopa =
+    obtenerCeldasLineaSopa(
+      celdaInicioSopa,
+      celdaFinal
+    );
+
+  celdasSeleccionSopa.forEach((celda) => {
+    if (!celda.classList.contains("encontrada")) {
+      celda.classList.add("seleccionada");
+    }
+  });
+}
+
+function comprobarSeleccionSopa() {
+  if (celdasSeleccionSopa.length === 0) {
+    return;
+  }
+
+  const texto = celdasSeleccionSopa
+    .map((celda) => celda.textContent)
+    .join("");
+
+  const textoInvertido =
+    texto
+      .split("")
+      .reverse()
+      .join("");
+
+  const palabraCorrecta =
+    palabrasSopaFluidos.find((palabra) => {
+      return (
+        palabra === texto ||
+        palabra === textoInvertido
+      );
+    });
+
+  if (
+    palabraCorrecta &&
+    !palabrasEncontradasFluidos.has(palabraCorrecta)
+  ) {
+    palabrasEncontradasFluidos.add(
+      palabraCorrecta
+    );
+
+    celdasSeleccionSopa.forEach((celda) => {
+      celda.classList.remove("seleccionada");
+      celda.classList.add("encontrada");
+    });
+
+    actualizarProgresoSopaFluidos();
+  } else {
+    limpiarSeleccionTemporalSopa();
+  }
+}
+
+function activarEventosSopaFluidos() {
+  const tablero =
+    document.getElementById("sopaTableroFluidos");
+
+  if (!tablero) {
+    return;
+  }
+
+  tablero.addEventListener(
+    "pointerdown",
+    (evento) => {
+      const celda =
+        evento.target.closest(".sopa-celda");
+
+      if (!celda) {
+        return;
+      }
+
+      seleccionandoSopa = true;
+      celdaInicioSopa = celda;
+
+      pintarSeleccionSopa(celda);
+
+      evento.preventDefault();
+    }
+  );
+
+  tablero.addEventListener(
+    "pointermove",
+    (evento) => {
+      if (!seleccionandoSopa) {
+        return;
+      }
+
+      const elemento =
+        document.elementFromPoint(
+          evento.clientX,
+          evento.clientY
+        );
+
+      const celda =
+        elemento?.closest(".sopa-celda");
+
+      if (
+        celda &&
+        tablero.contains(celda)
+      ) {
+        pintarSeleccionSopa(celda);
+      }
+    }
+  );
+
+  const finalizarSeleccion = () => {
+    if (!seleccionandoSopa) {
+      return;
+    }
+
+    seleccionandoSopa = false;
+
+    comprobarSeleccionSopa();
+
+    celdaInicioSopa = null;
+  };
+
+  tablero.addEventListener(
+    "pointerup",
+    finalizarSeleccion
+  );
+
+  tablero.addEventListener(
+    "pointercancel",
+    finalizarSeleccion
+  );
+
+  document.addEventListener(
+    "pointerup",
+    finalizarSeleccion
+  );
+}
+
+function actualizarProgresoSopaFluidos() {
+  const contador =
+    document.getElementById(
+      "sopaContadorFluidos"
+    );
+
+  const barra =
+    document.getElementById(
+      "sopaBarraFluidos"
+    );
+
+  const desbloqueo =
+    document.getElementById(
+      "sopaDesbloqueoFluidos"
+    );
+
+  const total =
+    palabrasSopaFluidos.length;
+
+  const aciertos =
+    palabrasEncontradasFluidos.size;
+
+  const porcentaje =
+    (aciertos / total) * 100;
+
+  if (contador) {
+    contador.textContent =
+      `${aciertos} / ${total}`;
+  }
+
+  if (barra) {
+    barra.style.width =
+      `${porcentaje}%`;
+  }
+
+  if (
+    desbloqueo &&
+    aciertos === total
+  ) {
+    desbloqueo.classList.add(
+      "completada"
+    );
+
+    desbloqueo.innerHTML = `
+      <strong>
+        🔓 TEMA DESBLOQUEADO
+      </strong>
+    `;
+
+    sessionStorage.setItem(
+      "tema1SopaCompletada",
+      "si"
+    );
+  }
+}
   function abrirTvFluidos() {
   const pantalla = document.getElementById("tvPantallaFluidos");
   const video = document.getElementById("videoFluidos");
