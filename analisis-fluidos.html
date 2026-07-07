@@ -935,7 +935,169 @@
     0 0 12px rgba(0, 153, 255, 0.55);
   transition: width 0.45s ease;
 }
+/* ===== SISTEMA DE PISTAS IM3CB ===== */
 
+.sopa-pistas {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid rgba(255, 193, 7, 0.28);
+  border-radius: 14px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(255, 193, 7, 0.10),
+      transparent 42%
+    ),
+    rgba(255, 193, 7, 0.035);
+}
+
+.pistas-superior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pistas-superior > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pistas-superior strong {
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.pistas-superior span {
+  color: #f7c85c;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+#botonPistaFluidos {
+  padding: 11px 16px;
+  border: 1px solid rgba(255, 193, 7, 0.55);
+  border-radius: 10px;
+  color: #111827;
+  background:
+    linear-gradient(
+      135deg,
+      #ffd54f,
+      #ffb300
+    );
+  font-size: 0.9rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    opacity 0.18s ease;
+}
+
+#botonPistaFluidos:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 20px rgba(255, 179, 0, 0.22);
+}
+
+#botonPistaFluidos:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none;
+  box-shadow: none;
+}
+
+.pistas-intentos {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.pista-punto {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffc107;
+  box-shadow:
+    0 0 10px rgba(255, 193, 7, 0.55);
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+/* Ayuda ya utilizada */
+
+.pista-punto.usada {
+  background: #3b4352;
+  box-shadow: none;
+  transform: scale(0.82);
+}
+
+/* Zona donde aparece la pista */
+
+.pista-revelada {
+  display: none;
+  margin-top: 16px;
+  padding: 14px;
+  border-left: 4px solid #ffc107;
+  border-radius: 8px;
+  color: #ffffff;
+  background: rgba(255, 193, 7, 0.08);
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-align: center;
+}
+
+.pista-revelada.activa {
+  display: block;
+  animation: aparecerPista 0.4s ease;
+}
+
+@keyframes aparecerPista {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pista-advertencia {
+  margin: 15px 0 0;
+  padding-top: 13px;
+  border-top: 1px solid rgba(255, 193, 7, 0.18);
+  color: #b7c0cf;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.pista-advertencia strong {
+  color: #ffca4b;
+}
+
+/* MÓVIL */
+
+@media (max-width: 700px) {
+  .pistas-superior {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  #botonPistaFluidos {
+    width: 100%;
+  }
+
+  .pista-revelada {
+    font-size: 0.92rem;
+    letter-spacing: 2px;
+  }
+}
 /* BLOQUEO DEL SIGUIENTE TEMA */
 
 .sopa-desbloqueo {
@@ -1353,7 +1515,47 @@
     </div>
 
   </div>
+<!-- ===== SISTEMA DE PISTAS IM3CB ===== -->
+<div class="sopa-pistas" id="sopaPistasFluidos">
 
+  <div class="pistas-superior">
+    <div>
+      <strong>💡 ¿Necesitas una pista?</strong>
+      <span id="pistasDisponiblesFluidos">
+        3 ayudas disponibles
+      </span>
+    </div>
+
+    <button
+      type="button"
+      id="botonPistaFluidos"
+      onclick="usarPistaFluidos()">
+      💡 Usar pista
+    </button>
+  </div>
+
+  <div
+    class="pistas-intentos"
+    id="pistasIntentosFluidos"
+    aria-label="Intentos de pista disponibles">
+
+    <span class="pista-punto"></span>
+    <span class="pista-punto"></span>
+    <span class="pista-punto"></span>
+
+  </div>
+
+  <div
+    class="pista-revelada"
+    id="pistaReveladaFluidos">
+  </div>
+
+  <p class="pista-advertencia">
+    ⚠️ Esta ayuda tiene un costo de
+    <strong>1 punto menos en tu evaluación</strong>.
+  </p>
+
+</div>
   <div
     class="sopa-desbloqueo"
     id="sopaDesbloqueoFluidos">
@@ -2266,6 +2468,162 @@ function actualizarProgresoSopaFluidos() {
     );
   }
 }
+    /* ===== SISTEMA DE PISTAS PERSISTENTES IM3CB ===== */
+
+const CLAVE_PISTAS_FLUIDOS = "im3cb_pistas_fluidos_tema1";
+const MAX_PISTAS_FLUIDOS = 3;
+
+function obtenerEstadoPistasFluidos() {
+  try {
+    const guardado = localStorage.getItem(CLAVE_PISTAS_FLUIDOS);
+
+    if (!guardado) {
+      return {
+        usadas: 0,
+        palabras: []
+      };
+    }
+
+    const estado = JSON.parse(guardado);
+
+    return {
+      usadas: Number(estado.usadas) || 0,
+      palabras: Array.isArray(estado.palabras)
+        ? estado.palabras
+        : []
+    };
+  } catch (error) {
+    return {
+      usadas: 0,
+      palabras: []
+    };
+  }
+}
+
+function guardarEstadoPistasFluidos(estado) {
+  localStorage.setItem(
+    CLAVE_PISTAS_FLUIDOS,
+    JSON.stringify(estado)
+  );
+}
+
+function convertirPalabraEnPista(palabra) {
+  if (!palabra) return "";
+
+  return palabra
+    .split("")
+    .map((letra, indice) => {
+      const esPrimera = indice === 0;
+      const esUltima = indice === palabra.length - 1;
+
+      if (esPrimera || esUltima) {
+        return letra;
+      }
+
+      return indice % 2 === 0
+        ? letra
+        : "_";
+    })
+    .join(" ");
+}
+
+function actualizarInterfazPistasFluidos() {
+  const estado = obtenerEstadoPistasFluidos();
+
+  const textoDisponibles = document.getElementById(
+    "pistasDisponiblesFluidos"
+  );
+
+  const boton = document.getElementById(
+    "botonPistaFluidos"
+  );
+
+  const intentos = document.querySelectorAll(
+    "#pistasIntentosFluidos .pista-punto"
+  );
+
+  const zonaPista = document.getElementById(
+    "pistaReveladaFluidos"
+  );
+
+  const restantes = Math.max(
+    0,
+    MAX_PISTAS_FLUIDOS - estado.usadas
+  );
+
+  if (textoDisponibles) {
+    textoDisponibles.textContent =
+      restantes === 1
+        ? "1 ayuda disponible"
+        : `${restantes} ayudas disponibles`;
+  }
+
+  intentos.forEach((punto, indice) => {
+    punto.classList.toggle(
+      "usada",
+      indice < estado.usadas
+    );
+  });
+
+  if (boton) {
+    boton.disabled =
+      estado.usadas >= MAX_PISTAS_FLUIDOS;
+
+    if (estado.usadas >= MAX_PISTAS_FLUIDOS) {
+      boton.textContent = "🔒 Ayudas agotadas";
+    } else {
+      boton.textContent = "💡 Usar pista";
+    }
+  }
+
+  if (zonaPista && estado.palabras.length > 0) {
+    zonaPista.classList.add("activa");
+
+    zonaPista.innerHTML = estado.palabras
+      .map((palabra, indice) => {
+        return `
+          <div>
+            Pista ${indice + 1}:
+            ${convertirPalabraEnPista(palabra)}
+          </div>
+        `;
+      })
+      .join("");
+  }
+}
+
+function usarPistaFluidos() {
+  const estado = obtenerEstadoPistasFluidos();
+
+  if (estado.usadas >= MAX_PISTAS_FLUIDOS) {
+    actualizarInterfazPistasFluidos();
+    return;
+  }
+
+  const candidatas = palabrasSopaFluidos.filter(
+    (palabra) => {
+      return (
+        !estado.palabras.includes(palabra) &&
+        !palabrasEncontradasFluidos.has(palabra)
+      );
+    }
+  );
+
+  if (candidatas.length === 0) {
+    return;
+  }
+
+  const palabraAleatoria =
+    candidatas[
+      Math.floor(Math.random() * candidatas.length)
+    ];
+
+  estado.palabras.push(palabraAleatoria);
+  estado.usadas += 1;
+
+  guardarEstadoPistasFluidos(estado);
+  actualizarInterfazPistasFluidos();
+}
   function abrirTvFluidos() {
   const pantalla = document.getElementById("tvPantallaFluidos");
   const video = document.getElementById("videoFluidos");
@@ -2281,6 +2639,7 @@ function actualizarProgresoSopaFluidos() {
 if (sopa) {
   sopa.classList.add("activa");
   crearSopaFluidos();
+  actualizarInterfazPistasFluidos();
    }
 }
     prepararFormularioAlumno();
