@@ -935,6 +935,64 @@
     0 0 12px rgba(0, 153, 255, 0.55);
   transition: width 0.45s ease;
 }
+    /* ===== TEMA 1.2 DESBLOQUEABLE ===== */
+
+.tema12-fluidos {
+  display: none;
+  margin-top: 28px;
+  padding: 24px;
+  border: 1px solid rgba(0, 153, 255, 0.28);
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(0, 102, 255, 0.12),
+      transparent 42%
+    ),
+    #0b1019;
+}
+
+/* Se activa al completar 8/8 */
+
+.tema12-fluidos.desbloqueado {
+  display: block;
+  animation: aparecerTema12 0.65s ease;
+}
+
+.tema12-encabezado {
+  margin-bottom: 20px;
+}
+
+.tema12-encabezado small {
+  color: #4da6ff;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.tema12-encabezado h3 {
+  margin: 8px 0 10px;
+  color: #ffffff;
+  font-size: 1.7rem;
+}
+
+.tema12-encabezado p {
+  margin: 0;
+  color: #b7c0cf;
+  line-height: 1.6;
+}
+
+@keyframes aparecerTema12 {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 /* ===== SISTEMA DE PISTAS IM3CB ===== */
 
 .sopa-pistas {
@@ -1567,6 +1625,42 @@
   </div>
 
 </div>
+            <!-- ===== TEMA 1.2 CLASIFICACIÓN DE FLUIDOS ===== -->
+<section
+  id="tema12Fluidos"
+  class="tema12-fluidos">
+
+  <div class="tema12-encabezado">
+    <small>TEMA 1.2</small>
+
+    <h3>Clasificación de fluidos</h3>
+
+    <p>
+      Analiza los principales criterios utilizados
+      para clasificar los fluidos y relaciona su
+      comportamiento con aplicaciones de ingeniería.
+    </p>
+  </div>
+            <div class="sway-contenedor">
+    <iframe
+      width="760px"
+      height="500px"
+      src="https://sway.cloud.microsoft/s/B0wljxjjUnerDGqQ/embed"
+      frameborder="0"
+      marginheight="0"
+      marginwidth="0"
+      max-width="100%"
+      sandbox="allow-forms allow-modals allow-orientation-lock allow-popups allow-same-origin allow-scripts"
+      scrolling="no"
+      style="border: none; max-width: 100%; max-height: 100vh;"
+      allowfullscreen
+      mozallowfullscreen
+      msallowfullscreen
+      webkitallowfullscreen>
+    </iframe>
+  </div>
+
+</section>
           </article>
         </div>
       </div>
@@ -2448,25 +2542,30 @@ function actualizarProgresoSopaFluidos() {
       `${porcentaje}%`;
   }
 
-  if (
-    desbloqueo &&
-    aciertos === total
-  ) {
-    desbloqueo.classList.add(
-      "completada"
-    );
+if (
+  desbloqueo &&
+  aciertos === total
+) {
+  desbloqueo.classList.add("completada");
 
-    desbloqueo.innerHTML = `
-      <strong>
-        🔓 TEMA DESBLOQUEADO
-      </strong>
-    `;
+  desbloqueo.innerHTML = `
+    <strong>
+      🔓 TEMA 1.2 DESBLOQUEADO
+    </strong>
+  `;
 
-    sessionStorage.setItem(
-      "tema1SopaCompletada",
-      "si"
-    );
+  localStorage.setItem(
+    "tema1SopaCompletada",
+    "si"
+  );
+
+  const tema12 =
+    document.getElementById("tema12Fluidos");
+
+  if (tema12) {
+    tema12.classList.add("desbloqueado");
   }
+} 
 }
     /* ===== SISTEMA DE PISTAS PERSISTENTES IM3CB ===== */
 
@@ -2624,6 +2723,32 @@ function usarPistaFluidos() {
   guardarEstadoPistasFluidos(estado);
   actualizarInterfazPistasFluidos();
 }
+    function restaurarTema12Fluidos() {
+  const completado =
+    localStorage.getItem("tema1SopaCompletada");
+
+  const tema12 =
+    document.getElementById("tema12Fluidos");
+
+  const desbloqueo =
+    document.getElementById("sopaDesbloqueoFluidos");
+
+  if (completado === "si") {
+    if (tema12) {
+      tema12.classList.add("desbloqueado");
+    }
+
+    if (desbloqueo) {
+      desbloqueo.classList.add("completada");
+
+      desbloqueo.innerHTML = `
+        <strong>
+          🔓 TEMA 1.2 DESBLOQUEADO
+        </strong>
+      `;
+    }
+  }
+}
   function abrirTvFluidos() {
   const pantalla = document.getElementById("tvPantallaFluidos");
   const video = document.getElementById("videoFluidos");
@@ -2643,6 +2768,7 @@ if (sopa) {
    }
 }
     prepararFormularioAlumno();
+    restaurarTema12Fluidos();
   </script>
 </body>
 </html>
