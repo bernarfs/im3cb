@@ -993,6 +993,357 @@
     transform: translateY(0);
   }
 }
+    /* ===== MISIÓN IM3CB TEMA 1.2 ===== */
+
+.mision-fluidos {
+  display: none;
+  margin-top: 28px;
+  padding: 26px;
+  border: 1px solid rgba(0, 153, 255, 0.38);
+  border-radius: 20px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(0, 102, 255, 0.18),
+      transparent 38%
+    ),
+    linear-gradient(145deg, #111927, #070b12);
+  box-shadow:
+    0 0 28px rgba(0, 102, 255, 0.16);
+}
+
+/* Aparece junto con el Tema 1.2 desbloqueado */
+.mision-fluidos.desbloqueada {
+  display: block;
+  animation: aparecerMision 0.65s ease;
+}
+
+@keyframes aparecerMision {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* PORTADA */
+
+.mision-portada {
+  text-align: center;
+  padding: 28px 18px;
+}
+
+.mision-etiqueta {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 7px 14px;
+  color: #58adff;
+  border: 1px solid rgba(88, 173, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(0, 102, 255, 0.08);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.mision-icono {
+  margin: 8px 0;
+  font-size: 3.8rem;
+}
+
+.mision-portada h3 {
+  margin: 8px 0 12px;
+  color: white;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+}
+
+.mision-portada p {
+  max-width: 680px;
+  margin: 0 auto;
+  color: #aeb8c8;
+  font-size: 1rem;
+}
+
+/* REGLAS */
+
+.mision-reglas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  max-width: 650px;
+  margin: 26px auto;
+}
+
+.mision-reglas > div {
+  padding: 18px 12px;
+  border: 1px solid rgba(0, 153, 255, 0.22);
+  border-radius: 14px;
+  background: rgba(0, 102, 255, 0.06);
+}
+
+.mision-reglas strong {
+  display: block;
+  color: white;
+  font-size: 1.45rem;
+}
+
+.mision-reglas span {
+  display: block;
+  margin-top: 4px;
+  color: #8fa0b6;
+  font-size: 0.82rem;
+}
+
+/* BOTÓN INICIAR */
+
+.btn-iniciar-mision {
+  padding: 14px 24px;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  background:
+    linear-gradient(135deg, #0066ff, #00a8ff);
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow:
+    0 12px 28px rgba(0, 102, 255, 0.28);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.btn-iniciar-mision:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 16px 34px rgba(0, 102, 255, 0.38);
+}
+
+/* JUEGO */
+
+.mision-juego {
+  padding: 8px;
+}
+
+.mision-superior {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  color: #9fcaff;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.mision-barra {
+  height: 10px;
+  margin: 12px 0 24px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #050911;
+}
+
+#misionBarraProgreso {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg, #0066ff, #00c2ff);
+  box-shadow:
+    0 0 12px rgba(0, 153, 255, 0.55);
+  transition: width 0.4s ease;
+}
+
+.mision-contenido {
+  padding: 26px;
+  text-align: center;
+  border: 1px solid rgba(0, 153, 255, 0.22);
+  border-radius: 16px;
+  background: rgba(0, 102, 255, 0.05);
+}
+
+.mision-categoria {
+  color: #58adff;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 1.7px;
+}
+
+.mision-icono-caso {
+  margin: 14px 0 8px;
+  font-size: 3.2rem;
+}
+
+.mision-contenido h4 {
+  margin-bottom: 12px;
+  color: white;
+  font-size: 1.45rem;
+}
+
+.mision-contenido p {
+  max-width: 720px;
+  margin: 0 auto;
+  color: #c0c8d5;
+}
+
+/* OPCIONES */
+
+.mision-opciones {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.mision-opcion {
+  width: 100%;
+  padding: 15px 18px;
+  text-align: left;
+  color: #d9e2ef;
+  border: 1px solid rgba(0, 153, 255, 0.22);
+  border-radius: 12px;
+  background: #0a111d;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+.mision-opcion:hover {
+  transform: translateX(4px);
+  border-color: #3b9cff;
+  background: rgba(0, 102, 255, 0.12);
+}
+
+.mision-opcion.correcta {
+  border-color: #58d68d;
+  background: rgba(88, 214, 141, 0.12);
+}
+
+.mision-opcion.incorrecta {
+  border-color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+}
+
+/* FEEDBACK */
+
+.mision-feedback {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid rgba(0, 153, 255, 0.22);
+  border-radius: 14px;
+  background: rgba(0, 102, 255, 0.06);
+}
+
+.mision-feedback strong {
+  display: block;
+  margin-bottom: 8px;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.mision-feedback p {
+  color: #aeb8c8;
+}
+
+#misionSiguiente {
+  margin-top: 14px;
+  padding: 11px 16px;
+  color: white;
+  border: none;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #0066ff, #00a8ff);
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* RESULTADO */
+
+.mision-resultado {
+  padding: 30px 18px;
+  text-align: center;
+}
+
+.resultado-trofeo {
+  font-size: 4rem;
+}
+
+.resultado-etiqueta {
+  display: block;
+  margin-top: 8px;
+  color: #58adff;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.mision-resultado h3 {
+  margin: 10px 0;
+  color: white;
+  font-size: 1.8rem;
+}
+
+.resultado-puntuacion {
+  margin: 14px 0;
+  color: #58d68d;
+  font-size: 3rem;
+  font-weight: 900;
+}
+
+.resultado-desglose {
+  display: grid;
+  gap: 10px;
+  max-width: 600px;
+  margin: 24px auto;
+}
+
+.resultado-desglose > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 16px;
+  border: 1px solid rgba(0, 153, 255, 0.18);
+  border-radius: 10px;
+  background: rgba(0, 102, 255, 0.05);
+}
+
+.resultado-desglose span {
+  color: #aeb8c8;
+}
+
+.resultado-desglose strong {
+  color: white;
+}
+
+.resultado-acciones {
+  margin-top: 20px;
+}
+
+/* MÓVIL */
+
+@media (max-width: 700px) {
+  .mision-fluidos {
+    padding: 15px;
+  }
+
+  .mision-reglas {
+    grid-template-columns: 1fr;
+  }
+
+  .mision-contenido {
+    padding: 20px 14px;
+  }
+
+  .mision-superior {
+    flex-direction: column;
+  }
+}
 /* ===== SISTEMA DE PISTAS IM3CB ===== */
 
 .sopa-pistas {
@@ -1658,6 +2009,190 @@
       msallowfullscreen
       webkitallowfullscreen>
     </iframe>
+  </div>
+
+</section>
+    <section id="misionFluidos12" class="mision-fluidos">
+
+  <!-- PORTADA -->
+  <div id="misionPortada" class="mision-portada">
+
+    <div class="mision-etiqueta">
+      MISIÓN IM3CB
+    </div>
+
+    <div class="mision-icono">
+      🧪
+    </div>
+
+    <h3>Diagnóstico de Fluidos</h3>
+
+    <p>
+      Analiza 10 situaciones de ingeniería y selecciona
+      la clasificación más adecuada para cada caso.
+    </p>
+
+    <div class="mision-reglas">
+
+      <div>
+        <strong>10</strong>
+        <span>desafíos</span>
+      </div>
+
+      <div>
+        <strong>8/10</strong>
+        <span>para aprobar</span>
+      </div>
+
+      <div>
+        <strong>2</strong>
+        <span>intentos por caso</span>
+      </div>
+
+    </div>
+
+    <button
+      type="button"
+      class="btn-iniciar-mision"
+      onclick="iniciarMisionFluidos()">
+      🚀 INICIAR MISIÓN
+    </button>
+
+  </div>
+
+
+  <!-- ZONA DE PREGUNTAS -->
+  <div
+    id="misionJuego"
+    class="mision-juego"
+    hidden>
+
+    <div class="mision-superior">
+
+      <span id="misionCaso">
+        CASO 01 / 10
+      </span>
+
+      <span id="misionPuntos">
+        0 PUNTOS
+      </span>
+
+    </div>
+
+    <div class="mision-barra">
+      <div id="misionBarraProgreso"></div>
+    </div>
+
+    <div class="mision-contenido">
+
+      <div
+        id="misionCategoria"
+        class="mision-categoria">
+        SISTEMA DE INGENIERÍA
+      </div>
+
+      <div
+        id="misionIconoCaso"
+        class="mision-icono-caso">
+        ⚙️
+      </div>
+
+      <h4 id="misionTitulo">
+        Caso de análisis
+      </h4>
+
+      <p id="misionPregunta">
+        Aquí aparecerá la situación.
+      </p>
+
+      <div
+        id="misionOpciones"
+        class="mision-opciones">
+      </div>
+
+    </div>
+
+
+    <!-- RETROALIMENTACIÓN -->
+    <div
+      id="misionFeedback"
+      class="mision-feedback"
+      hidden>
+
+      <strong id="misionFeedbackTitulo">
+      </strong>
+
+      <p id="misionFeedbackTexto">
+      </p>
+
+      <button
+        id="misionSiguiente"
+        type="button"
+        onclick="siguienteCasoFluidos()">
+        SIGUIENTE DESAFÍO →
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- RESULTADO FINAL -->
+  <div
+    id="misionResultado"
+    class="mision-resultado"
+    hidden>
+
+    <div class="resultado-trofeo">
+      🏆
+    </div>
+
+    <span class="resultado-etiqueta">
+      MISIÓN COMPLETADA
+    </span>
+
+    <h3 id="resultadoNivel">
+      Analista de Fluidos
+    </h3>
+
+    <div
+      id="resultadoPuntuacion"
+      class="resultado-puntuacion">
+      0 / 10
+    </div>
+
+    <p id="resultadoMensaje">
+    </p>
+
+    <div class="resultado-desglose">
+
+      <div>
+        <span>Estado físico</span>
+        <strong id="resEstado">0%</strong>
+      </div>
+
+      <div>
+        <span>Viscosidad</span>
+        <strong id="resViscosidad">0%</strong>
+      </div>
+
+      <div>
+        <span>Compresibilidad</span>
+        <strong id="resCompresibilidad">0%</strong>
+      </div>
+
+      <div>
+        <span>Composición</span>
+        <strong id="resComposicion">0%</strong>
+      </div>
+
+    </div>
+
+    <div
+      id="resultadoAcciones"
+      class="resultado-acciones">
+    </div>
+
   </div>
 
 </section>
@@ -2565,6 +3100,12 @@ if (
   if (tema12) {
     tema12.classList.add("desbloqueado");
   }
+  const mision12 =
+  document.getElementById("misionFluidos12");
+
+if (mision12) {
+  mision12.classList.add("desbloqueada");
+}
 } 
 }
     /* ===== SISTEMA DE PISTAS PERSISTENTES IM3CB ===== */
@@ -2737,7 +3278,12 @@ function usarPistaFluidos() {
     if (tema12) {
       tema12.classList.add("desbloqueado");
     }
+const mision12 =
+  document.getElementById("misionFluidos12");
 
+if (mision12) {
+  mision12.classList.add("desbloqueada");
+}
     if (desbloqueo) {
       desbloqueo.classList.add("completada");
 
@@ -2766,6 +3312,1050 @@ if (sopa) {
   crearSopaFluidos();
   actualizarInterfazPistasFluidos();
    }
+}
+    /* =====================================================
+   MISIÓN IM3CB — DIAGNÓSTICO DE FLUIDOS
+   TEMA 1.2
+===================================================== */
+
+const preguntasMisionFluidos = [
+
+  {
+    categoria: "Compresibilidad",
+    etiqueta: "SISTEMA HIDRÁULICO",
+    icono: "🔧",
+    titulo: "Circuito hidráulico",
+    pregunta:
+      "En un circuito hidráulico se utiliza aceite. " +
+      "Durante el análisis, los cambios de densidad son " +
+      "muy pequeños frente a las variaciones de presión. " +
+      "¿Qué aproximación resulta adecuada?",
+    opciones: [
+      "Fluido aproximadamente incompresible",
+      "Gas altamente compresible",
+      "Mezcla heterogénea",
+      "Fluido ideal sin viscosidad"
+    ],
+    correcta: "Fluido aproximadamente incompresible",
+    explicacion:
+      "En muchos análisis hidráulicos, los líquidos se " +
+      "modelan como aproximadamente incompresibles porque " +
+      "sus cambios de densidad suelen ser pequeños."
+  },
+
+  {
+    categoria: "Compresibilidad",
+    etiqueta: "SISTEMA NEUMÁTICO",
+    icono: "🏭",
+    titulo: "Cilindro neumático",
+    pregunta:
+      "Una línea industrial utiliza aire comprimido para " +
+      "accionar un cilindro. Al cambiar la presión, la " +
+      "densidad del aire puede variar apreciablemente. " +
+      "¿Qué criterio debe priorizarse?",
+    opciones: [
+      "Compresibilidad",
+      "Tensión superficial",
+      "Capilaridad",
+      "Estado sólido"
+    ],
+    correcta: "Compresibilidad",
+    explicacion:
+      "En los gases, las variaciones de presión pueden " +
+      "producir cambios importantes de densidad. Por ello, " +
+      "la compresibilidad es un criterio central."
+  },
+
+  {
+    categoria: "Viscosidad",
+    etiqueta: "PROCESO DE FLUJO",
+    icono: "🍯",
+    titulo: "Agua y miel",
+    pregunta:
+      "A la misma temperatura, la miel presenta mayor " +
+      "resistencia al movimiento que el agua. ¿Qué propiedad " +
+      "explica principalmente esta diferencia?",
+    opciones: [
+      "Viscosidad",
+      "Compresibilidad",
+      "Presión atmosférica",
+      "Volumen del recipiente"
+    ],
+    correcta: "Viscosidad",
+    explicacion:
+      "La viscosidad cuantifica la resistencia interna del " +
+      "fluido a deformarse continuamente bajo un esfuerzo " +
+      "cortante."
+  },
+
+  {
+    categoria: "Estado físico",
+    etiqueta: "ALMACENAMIENTO",
+    icono: "💧",
+    titulo: "Agua en un tanque",
+    pregunta:
+      "El agua conserva aproximadamente su volumen, pero " +
+      "adopta la forma del recipiente que la contiene. " +
+      "¿Cómo se clasifica por su estado físico?",
+    opciones: [
+      "Líquido",
+      "Gas",
+      "Sólido",
+      "Plasma"
+    ],
+    correcta: "Líquido",
+    explicacion:
+      "Un líquido posee volumen relativamente definido, " +
+      "pero no una forma propia; adopta la geometría del " +
+      "recipiente."
+  },
+
+  {
+    categoria: "Estado físico",
+    etiqueta: "DEPÓSITO DE GAS",
+    icono: "💨",
+    titulo: "Aire en un recipiente",
+    pregunta:
+      "El aire introducido en un depósito tiende a ocupar " +
+      "el volumen disponible. ¿Cuál es su clasificación " +
+      "por estado físico?",
+    opciones: [
+      "Gas",
+      "Líquido",
+      "Sólido",
+      "Suspensión"
+    ],
+    correcta: "Gas",
+    explicacion:
+      "Los gases no poseen volumen propio definido y tienden " +
+      "a expandirse hasta ocupar el espacio disponible."
+  },
+
+  {
+    categoria: "Composición",
+    etiqueta: "LABORATORIO",
+    icono: "🧪",
+    titulo: "Agua destilada",
+    pregunta:
+      "En un modelo idealizado, una muestra de agua destilada " +
+      "se considera formada esencialmente por una sola especie " +
+      "química. ¿Cómo se clasifica por composición?",
+    opciones: [
+      "Sustancia pura",
+      "Mezcla heterogénea",
+      "Suspensión",
+      "Emulsión"
+    ],
+    correcta: "Sustancia pura",
+    explicacion:
+      "En el modelo didáctico, el agua destilada se trata " +
+      "como sustancia pura al considerarse esencialmente " +
+      "constituida por H₂O."
+  },
+
+  {
+    categoria: "Composición",
+    etiqueta: "SOLUCIÓN INDUSTRIAL",
+    icono: "🧂",
+    titulo: "Sal disuelta en agua",
+    pregunta:
+      "La sal se disuelve completamente en agua y la mezcla " +
+      "presenta composición uniforme a escala macroscópica. " +
+      "¿Cómo se clasifica?",
+    opciones: [
+      "Mezcla homogénea",
+      "Mezcla heterogénea",
+      "Sustancia pura",
+      "Gas ideal"
+    ],
+    correcta: "Mezcla homogénea",
+    explicacion:
+      "Una solución salina uniforme se clasifica como mezcla " +
+      "homogénea porque sus componentes no forman regiones " +
+      "macroscópicas distinguibles."
+  },
+
+  {
+    categoria: "Composición",
+    etiqueta: "TRANSPORTE DE SEDIMENTOS",
+    icono: "🌊",
+    titulo: "Agua con lodo",
+    pregunta:
+      "Una corriente contiene agua y partículas de suelo " +
+      "distribuidas de manera no uniforme. ¿Cuál es la " +
+      "clasificación más adecuada por composición?",
+    opciones: [
+      "Mezcla heterogénea",
+      "Sustancia pura",
+      "Mezcla homogénea",
+      "Gas compresible"
+    ],
+    correcta: "Mezcla heterogénea",
+    explicacion:
+      "La presencia de partículas y regiones no uniformes " +
+      "permite clasificar el sistema como mezcla heterogénea."
+  },
+
+  {
+    categoria: "Viscosidad",
+    etiqueta: "LUBRICACIÓN MECÁNICA",
+    icono: "⚙️",
+    titulo: "Aceite lubricante",
+    pregunta:
+      "Un ingeniero selecciona un aceite para separar " +
+      "superficies móviles y controlar la resistencia al " +
+      "movimiento entre capas del fluido. ¿Qué propiedad " +
+      "es especialmente relevante?",
+    opciones: [
+      "Viscosidad",
+      "Compresibilidad",
+      "Estado gaseoso",
+      "Capilaridad exclusivamente"
+    ],
+    correcta: "Viscosidad",
+    explicacion:
+      "La viscosidad es fundamental en lubricación porque " +
+      "influye en la resistencia al corte y en la formación " +
+      "de la película lubricante."
+  },
+
+  {
+    categoria: "Compresibilidad",
+    etiqueta: "RETO DE INGENIERÍA",
+    icono: "🚀",
+    titulo: "Actuador con aire comprimido",
+    pregunta:
+      "Se diseña un actuador neumático y es necesario prever " +
+      "cambios apreciables de densidad cuando varía la presión. " +
+      "¿Qué criterio debe priorizar el ingeniero?",
+    opciones: [
+      "Compresibilidad",
+      "Color del fluido",
+      "Forma del recipiente",
+      "Tensión superficial"
+    ],
+    correcta: "Compresibilidad",
+    explicacion:
+      "Cuando la densidad cambia apreciablemente con la " +
+      "presión, el análisis debe considerar la compresibilidad " +
+      "del fluido."
+  }
+
+];
+
+
+/* ===== VARIABLES DE ESTADO ===== */
+
+let indiceMisionFluidos = 0;
+let aciertosMisionFluidos = 0;
+let intentosCasoFluidos = 0;
+let respuestaCasoResuelta = false;
+
+let resultadosCategoriasFluidos = {
+  "Estado físico": {
+    correctas: 0,
+    total: 0
+  },
+  "Viscosidad": {
+    correctas: 0,
+    total: 0
+  },
+  "Compresibilidad": {
+    correctas: 0,
+    total: 0
+  },
+  "Composición": {
+    correctas: 0,
+    total: 0
+  }
+};
+
+
+/* ===== MEZCLAR ARREGLO ===== */
+
+function mezclarMisionFluidos(arreglo) {
+  const copia = [...arreglo];
+
+  for (let i = copia.length - 1; i > 0; i--) {
+    const j = Math.floor(
+      Math.random() * (i + 1)
+    );
+
+    [copia[i], copia[j]] =
+      [copia[j], copia[i]];
+  }
+
+  return copia;
+}
+
+
+/* ===== INICIAR MISIÓN ===== */
+
+function iniciarMisionFluidos() {
+
+  indiceMisionFluidos = 0;
+  aciertosMisionFluidos = 0;
+  intentosCasoFluidos = 0;
+  respuestaCasoResuelta = false;
+
+  resultadosCategoriasFluidos = {
+    "Estado físico": {
+      correctas: 0,
+      total: 0
+    },
+    "Viscosidad": {
+      correctas: 0,
+      total: 0
+    },
+    "Compresibilidad": {
+      correctas: 0,
+      total: 0
+    },
+    "Composición": {
+      correctas: 0,
+      total: 0
+    }
+  };
+
+  const portada =
+    document.getElementById("misionPortada");
+
+  const juego =
+    document.getElementById("misionJuego");
+
+  const resultado =
+    document.getElementById("misionResultado");
+
+  if (portada) {
+    portada.hidden = true;
+  }
+
+  if (juego) {
+    juego.hidden = false;
+  }
+
+  if (resultado) {
+    resultado.hidden = true;
+  }
+
+  mostrarCasoMisionFluidos();
+}
+
+
+/* ===== MOSTRAR PREGUNTA ===== */
+
+function mostrarCasoMisionFluidos() {
+
+  const caso =
+    preguntasMisionFluidos[indiceMisionFluidos];
+
+  if (!caso) {
+    finalizarMisionFluidos();
+    return;
+  }
+
+  intentosCasoFluidos = 0;
+  respuestaCasoResuelta = false;
+
+  const numeroCaso =
+    document.getElementById("misionCaso");
+
+  const puntos =
+    document.getElementById("misionPuntos");
+
+  const barra =
+    document.getElementById("misionBarraProgreso");
+
+  const categoria =
+    document.getElementById("misionCategoria");
+
+  const icono =
+    document.getElementById("misionIconoCaso");
+
+  const titulo =
+    document.getElementById("misionTitulo");
+
+  const pregunta =
+    document.getElementById("misionPregunta");
+
+  const opciones =
+    document.getElementById("misionOpciones");
+
+  const feedback =
+    document.getElementById("misionFeedback");
+
+  if (numeroCaso) {
+    numeroCaso.textContent =
+      "CASO " +
+      String(indiceMisionFluidos + 1).padStart(2, "0") +
+      " / " +
+      preguntasMisionFluidos.length;
+  }
+
+  if (puntos) {
+    puntos.textContent =
+      aciertosMisionFluidos * 10 +
+      " PUNTOS";
+  }
+
+  if (barra) {
+    barra.style.width =
+      (
+        indiceMisionFluidos /
+        preguntasMisionFluidos.length *
+        100
+      ) + "%";
+  }
+
+  if (categoria) {
+    categoria.textContent =
+      caso.etiqueta;
+  }
+
+  if (icono) {
+    icono.textContent =
+      caso.icono;
+  }
+
+  if (titulo) {
+    titulo.textContent =
+      caso.titulo;
+  }
+
+  if (pregunta) {
+    pregunta.textContent =
+      caso.pregunta;
+  }
+
+  if (feedback) {
+    feedback.hidden = true;
+  }
+
+  if (!opciones) return;
+
+  opciones.innerHTML = "";
+
+  const opcionesMezcladas =
+    mezclarMisionFluidos(caso.opciones);
+
+  opcionesMezcladas.forEach(
+    (textoOpcion, indice) => {
+
+      const boton =
+        document.createElement("button");
+
+      boton.type = "button";
+      boton.className = "mision-opcion";
+
+      const letra =
+        String.fromCharCode(65 + indice);
+
+      boton.textContent =
+        letra + " · " + textoOpcion;
+
+      boton.dataset.valor =
+        textoOpcion;
+
+      boton.addEventListener(
+        "click",
+        function () {
+          responderCasoMisionFluidos(
+            textoOpcion,
+            boton
+          );
+        }
+      );
+
+      opciones.appendChild(boton);
+    }
+  );
+}
+
+
+/* ===== RESPONDER CASO ===== */
+
+function responderCasoMisionFluidos(
+  respuesta,
+  botonSeleccionado
+) {
+
+  if (respuestaCasoResuelta) return;
+
+  const caso =
+    preguntasMisionFluidos[indiceMisionFluidos];
+
+  if (!caso) return;
+
+  intentosCasoFluidos++;
+
+  const feedback =
+    document.getElementById("misionFeedback");
+
+  const feedbackTitulo =
+    document.getElementById("misionFeedbackTitulo");
+
+  const feedbackTexto =
+    document.getElementById("misionFeedbackTexto");
+
+  const botonSiguiente =
+    document.getElementById("misionSiguiente");
+
+  const esCorrecta =
+    respuesta === caso.correcta;
+
+
+  /* ===== RESPUESTA CORRECTA ===== */
+
+  if (esCorrecta) {
+
+    respuestaCasoResuelta = true;
+
+    botonSeleccionado.classList.add(
+      "correcta"
+    );
+
+    aciertosMisionFluidos++;
+
+    registrarCategoriaMisionFluidos(
+      caso.categoria,
+      true
+    );
+
+    bloquearOpcionesMisionFluidos();
+
+    if (feedbackTitulo) {
+      feedbackTitulo.textContent =
+        intentosCasoFluidos === 1
+          ? "✅ CORRECTO · +10 PUNTOS"
+          : "✅ CORRECTO EN SEGUNDO INTENTO";
+    }
+
+    if (feedbackTexto) {
+      feedbackTexto.textContent =
+        caso.explicacion;
+    }
+
+    if (feedback) {
+      feedback.hidden = false;
+    }
+
+    if (botonSiguiente) {
+      botonSiguiente.hidden = false;
+    }
+
+    actualizarPuntosMisionFluidos();
+
+    return;
+  }
+
+
+  /* ===== PRIMER ERROR ===== */
+
+  botonSeleccionado.classList.add(
+    "incorrecta"
+  );
+
+  botonSeleccionado.disabled = true;
+
+  if (intentosCasoFluidos < 2) {
+
+    if (feedbackTitulo) {
+      feedbackTitulo.textContent =
+        "⚠️ PRIMER INTENTO INCORRECTO";
+    }
+
+    if (feedbackTexto) {
+      feedbackTexto.textContent =
+        obtenerPistaMisionFluidos(
+          caso.categoria
+        );
+    }
+
+    if (feedback) {
+      feedback.hidden = false;
+    }
+
+    if (botonSiguiente) {
+      botonSiguiente.hidden = true;
+    }
+
+    return;
+  }
+
+
+  /* ===== SEGUNDO ERROR ===== */
+
+  respuestaCasoResuelta = true;
+
+  registrarCategoriaMisionFluidos(
+    caso.categoria,
+    false
+  );
+
+  marcarRespuestaCorrectaMisionFluidos(
+    caso.correcta
+  );
+
+  bloquearOpcionesMisionFluidos();
+
+  if (feedbackTitulo) {
+    feedbackTitulo.textContent =
+      "❌ CASO NO RESUELTO";
+  }
+
+  if (feedbackTexto) {
+    feedbackTexto.textContent =
+      "La respuesta correcta es: " +
+      caso.correcta +
+      ". " +
+      caso.explicacion;
+  }
+
+  if (feedback) {
+    feedback.hidden = false;
+  }
+
+  if (botonSiguiente) {
+    botonSiguiente.hidden = false;
+  }
+}
+
+
+/* ===== PISTAS CONCEPTUALES ===== */
+
+function obtenerPistaMisionFluidos(categoria) {
+
+  const pistas = {
+
+    "Estado físico":
+      "Pista: analiza si el fluido conserva un volumen " +
+      "relativamente definido o si tiende a ocupar todo " +
+      "el espacio disponible.",
+
+    "Viscosidad":
+      "Pista: piensa en la resistencia interna que aparece " +
+      "cuando unas capas del fluido se desplazan respecto " +
+      "de otras.",
+
+    "Compresibilidad":
+      "Pista: observa si los cambios de presión pueden " +
+      "producir variaciones apreciables de densidad.",
+
+    "Composición":
+      "Pista: analiza si existe una sola sustancia o si " +
+      "hay varios componentes distribuidos de manera " +
+      "uniforme o no uniforme."
+
+  };
+
+  return pistas[categoria] ||
+    "Revisa el criterio físico dominante del caso.";
+}
+
+
+/* ===== REGISTRAR CATEGORÍA ===== */
+
+function registrarCategoriaMisionFluidos(
+  categoria,
+  correcta
+) {
+
+  const registro =
+    resultadosCategoriasFluidos[categoria];
+
+  if (!registro) return;
+
+  registro.total++;
+
+  if (correcta) {
+    registro.correctas++;
+  }
+}
+
+
+/* ===== BLOQUEAR OPCIONES ===== */
+
+function bloquearOpcionesMisionFluidos() {
+
+  const botones =
+    document.querySelectorAll(
+      "#misionOpciones .mision-opcion"
+    );
+
+  botones.forEach(
+    boton => {
+      boton.disabled = true;
+    }
+  );
+}
+
+
+/* ===== MOSTRAR RESPUESTA CORRECTA ===== */
+
+function marcarRespuestaCorrectaMisionFluidos(
+  respuestaCorrecta
+) {
+
+  const botones =
+    document.querySelectorAll(
+      "#misionOpciones .mision-opcion"
+    );
+
+  botones.forEach(
+    boton => {
+
+      if (
+        boton.dataset.valor ===
+        respuestaCorrecta
+      ) {
+        boton.classList.add("correcta");
+      }
+
+    }
+  );
+}
+
+
+/* ===== ACTUALIZAR PUNTOS ===== */
+
+function actualizarPuntosMisionFluidos() {
+
+  const puntos =
+    document.getElementById("misionPuntos");
+
+  if (puntos) {
+    puntos.textContent =
+      aciertosMisionFluidos * 10 +
+      " PUNTOS";
+  }
+}
+
+
+/* ===== SIGUIENTE CASO ===== */
+
+function siguienteCasoFluidos() {
+
+  if (!respuestaCasoResuelta) return;
+
+  indiceMisionFluidos++;
+
+  if (
+    indiceMisionFluidos >=
+    preguntasMisionFluidos.length
+  ) {
+    finalizarMisionFluidos();
+    return;
+  }
+
+  mostrarCasoMisionFluidos();
+}
+
+
+/* ===== CALCULAR PORCENTAJE ===== */
+
+function porcentajeCategoriaMisionFluidos(
+  categoria
+) {
+
+  const registro =
+    resultadosCategoriasFluidos[categoria];
+
+  if (
+    !registro ||
+    registro.total === 0
+  ) {
+    return 0;
+  }
+
+  return Math.round(
+    registro.correctas /
+    registro.total *
+    100
+  );
+}
+
+
+/* ===== FINALIZAR MISIÓN ===== */
+
+function finalizarMisionFluidos() {
+
+  const juego =
+    document.getElementById("misionJuego");
+
+  const resultado =
+    document.getElementById("misionResultado");
+
+  const nivel =
+    document.getElementById("resultadoNivel");
+
+  const puntuacion =
+    document.getElementById("resultadoPuntuacion");
+
+  const mensaje =
+    document.getElementById("resultadoMensaje");
+
+  const acciones =
+    document.getElementById("resultadoAcciones");
+
+  const barra =
+    document.getElementById("misionBarraProgreso");
+
+  if (barra) {
+    barra.style.width = "100%";
+  }
+
+  if (juego) {
+    juego.hidden = true;
+  }
+
+  if (resultado) {
+    resultado.hidden = false;
+  }
+
+  const aprobado =
+    aciertosMisionFluidos >= 8;
+
+
+  /* ===== RESULTADOS POR CATEGORÍA ===== */
+
+  const estado =
+    porcentajeCategoriaMisionFluidos(
+      "Estado físico"
+    );
+
+  const viscosidad =
+    porcentajeCategoriaMisionFluidos(
+      "Viscosidad"
+    );
+
+  const compresibilidad =
+    porcentajeCategoriaMisionFluidos(
+      "Compresibilidad"
+    );
+
+  const composicion =
+    porcentajeCategoriaMisionFluidos(
+      "Composición"
+    );
+
+  const resEstado =
+    document.getElementById("resEstado");
+
+  const resViscosidad =
+    document.getElementById("resViscosidad");
+
+  const resCompresibilidad =
+    document.getElementById(
+      "resCompresibilidad"
+    );
+
+  const resComposicion =
+    document.getElementById("resComposicion");
+
+  if (resEstado) {
+    resEstado.textContent =
+      estado + "%";
+  }
+
+  if (resViscosidad) {
+    resViscosidad.textContent =
+      viscosidad + "%";
+  }
+
+  if (resCompresibilidad) {
+    resCompresibilidad.textContent =
+      compresibilidad + "%";
+  }
+
+  if (resComposicion) {
+    resComposicion.textContent =
+      composicion + "%";
+  }
+
+
+  /* ===== PUNTUACIÓN ===== */
+
+  if (puntuacion) {
+    puntuacion.textContent =
+      aciertosMisionFluidos +
+      " / " +
+      preguntasMisionFluidos.length;
+  }
+
+
+  /* ===== APROBADO ===== */
+
+  if (aprobado) {
+
+    if (nivel) {
+      nivel.textContent =
+        aciertosMisionFluidos === 10
+          ? "Especialista en Fluidos"
+          : "Analista de Fluidos";
+    }
+
+    if (mensaje) {
+      mensaje.textContent =
+        "Has demostrado dominio suficiente de los " +
+        "criterios de clasificación de fluidos. " +
+        "El siguiente tema puede ser desbloqueado.";
+    }
+
+    localStorage.setItem(
+      "misionFluidos12Aprobada",
+      "si"
+    );
+
+    localStorage.setItem(
+      "misionFluidos12Puntuacion",
+      String(aciertosMisionFluidos)
+    );
+
+    if (acciones) {
+      acciones.innerHTML = `
+        <button
+          type="button"
+          class="btn-iniciar-mision"
+          onclick="continuarTema13Fluidos()">
+          🔓 CONTINUAR AL TEMA 1.3
+        </button>
+      `;
+    }
+
+  }
+
+
+  /* ===== NO APROBADO ===== */
+
+  else {
+
+    if (nivel) {
+      nivel.textContent =
+        "Misión de refuerzo";
+    }
+
+    const categoriaReforzar =
+      obtenerCategoriaMasDebilFluidos();
+
+    if (mensaje) {
+      mensaje.textContent =
+        "Obtuviste " +
+        aciertosMisionFluidos +
+        "/10. Para avanzar necesitas al menos 8/10. " +
+        "Área recomendada de refuerzo: " +
+        categoriaReforzar +
+        ".";
+    }
+
+    if (acciones) {
+      acciones.innerHTML = `
+        <button
+          type="button"
+          class="btn-iniciar-mision"
+          onclick="reiniciarMisionFluidos()">
+          🔄 REPASAR Y REINTENTAR
+        </button>
+      `;
+    }
+  }
+}
+
+
+/* ===== DETECTAR ÁREA MÁS DÉBIL ===== */
+
+function obtenerCategoriaMasDebilFluidos() {
+
+  const categorias = [
+    "Estado físico",
+    "Viscosidad",
+    "Compresibilidad",
+    "Composición"
+  ];
+
+  let masDebil =
+    categorias[0];
+
+  let menorPorcentaje =
+    porcentajeCategoriaMisionFluidos(
+      masDebil
+    );
+
+  categorias.forEach(
+    categoria => {
+
+      const porcentaje =
+        porcentajeCategoriaMisionFluidos(
+          categoria
+        );
+
+      if (porcentaje < menorPorcentaje) {
+        menorPorcentaje = porcentaje;
+        masDebil = categoria;
+      }
+
+    }
+  );
+
+  return masDebil;
+}
+
+
+/* ===== REINICIAR MISIÓN ===== */
+
+function reiniciarMisionFluidos() {
+
+  const resultado =
+    document.getElementById("misionResultado");
+
+  const portada =
+    document.getElementById("misionPortada");
+
+  const juego =
+    document.getElementById("misionJuego");
+
+  if (resultado) {
+    resultado.hidden = true;
+  }
+
+  if (juego) {
+    juego.hidden = true;
+  }
+
+  if (portada) {
+    portada.hidden = false;
+  }
+
+  const seccion =
+    document.getElementById("misionFluidos12");
+
+  if (seccion) {
+    seccion.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+}
+
+
+/* ===== CONTINUAR AL TEMA 1.3 ===== */
+
+function continuarTema13Fluidos() {
+
+  localStorage.setItem(
+    "tema13FluidosDesbloqueado",
+    "si"
+  );
+
+  alert(
+    "🔓 Tema 1.3 desbloqueado.\n\n" +
+    "Ya puedes continuar con Propiedades " +
+    "mecánicas de los fluidos."
+  );
+
+  /*
+    Más adelante conectaremos aquí
+    la aparición real del Tema 1.3.
+  */
 }
     prepararFormularioAlumno();
     restaurarTema12Fluidos();
