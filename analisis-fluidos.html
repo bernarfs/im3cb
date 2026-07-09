@@ -1650,6 +1650,81 @@
 .boton-cambiar-alumno:hover {
   background: rgba(41, 121, 255, 0.1);
 }
+    /* =========================
+   INDICADOR DE ASISTENCIA
+========================= */
+
+.indicador-asistencia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  margin: 14px 0;
+  padding: 10px 14px;
+
+  border-radius: 12px;
+
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.luz-asistencia {
+  width: 14px;
+  height: 14px;
+
+  border-radius: 50%;
+
+  display: inline-block;
+}
+
+/* ROJO: NO REGISTRADO */
+.indicador-asistencia.no-registrado {
+  color: #ff8a8a;
+  background: rgba(255, 70, 70, 0.10);
+  border: 1px solid rgba(255, 70, 70, 0.28);
+}
+
+.indicador-asistencia.no-registrado
+.luz-asistencia {
+  background: #ff4646;
+
+  box-shadow:
+    0 0 6px #ff4646,
+    0 0 14px rgba(255, 70, 70, 0.75);
+}
+
+/* VERDE: REGISTRADO */
+.indicador-asistencia.registrado {
+  color: #79f2a6;
+  background: rgba(45, 210, 110, 0.10);
+  border: 1px solid rgba(45, 210, 110, 0.30);
+}
+
+.indicador-asistencia.registrado
+.luz-asistencia {
+  background: #2dd66f;
+
+  box-shadow:
+    0 0 6px #2dd66f,
+    0 0 16px rgba(45, 214, 111, 0.85);
+}
+
+/* NARANJA: YA REGISTRADO */
+.indicador-asistencia.ya-registrado {
+  color: #ffc477;
+  background: rgba(255, 170, 60, 0.10);
+  border: 1px solid rgba(255, 170, 60, 0.30);
+}
+
+.indicador-asistencia.ya-registrado
+.luz-asistencia {
+  background: #ff9f43;
+
+  box-shadow:
+    0 0 6px #ff9f43,
+    0 0 16px rgba(255, 159, 67, 0.85);
+}
   </style>
 </head>
 <body>
@@ -1882,7 +1957,18 @@
           <div class="acciones-asistencia">
             <button class="boton-accion" type="button" onclick="registrarAsistenciaAlumno()">Registrar asistencia</button>
           </div>
+<!-- INDICADOR VISUAL DE ASISTENCIA -->
+<div id="indicadorAsistencia"
+     class="indicador-asistencia no-registrado">
 
+  <span id="luzAsistencia"
+        class="luz-asistencia"></span>
+
+  <span id="textoIndicadorAsistencia">
+    No registrado
+  </span>
+
+</div>
           <p id="mensajeAsistencia" class="mensaje-formulario"></p>
         </article>
       </section>
@@ -2681,7 +2767,63 @@
         `Registro abierto para ${obtenerParametro("sesion") || "Análisis de Fluidos"}. ` +
         `Estado actual: ${estado.estado}.`;
     }
+// =====================================
+// INDICADOR VISUAL DE ASISTENCIA
+// =====================================
 
+function actualizarIndicadorAsistencia(estado) {
+
+  const indicador =
+    document.getElementById(
+      "indicadorAsistencia"
+    );
+
+  const texto =
+    document.getElementById(
+      "textoIndicadorAsistencia"
+    );
+
+  if (!indicador || !texto) {
+    return;
+  }
+
+  indicador.classList.remove(
+    "no-registrado",
+    "registrado",
+    "ya-registrado"
+  );
+
+  if (estado === "registrado") {
+
+    indicador.classList.add(
+      "registrado"
+    );
+
+    texto.textContent =
+      "Asistencia registrada";
+
+    return;
+  }
+
+  if (estado === "ya-registrado") {
+
+    indicador.classList.add(
+      "ya-registrado"
+    );
+
+    texto.textContent =
+      "Asistencia ya registrada";
+
+    return;
+  }
+
+  indicador.classList.add(
+    "no-registrado"
+  );
+
+  texto.textContent =
+    "No registrado";
+}
     function registrarAsistenciaAlumno() {
       const mensaje = document.getElementById("mensajeAsistencia");
       const nombre = document.getElementById("nombreAlumno").value.trim();
@@ -2719,7 +2861,9 @@ if (
 
   mensaje.textContent =
     "Esta asistencia ya fue registrada para esta sesión.";
-
+actualizarIndicadorAsistencia(
+  "ya-registrado"
+);
   const botonRegistro =
     document.querySelector(
       "#formularioAlumno .boton-accion"
@@ -2770,6 +2914,9 @@ guardarAlumnoLocal(
       mensaje.style.color = "#58d68d";
       mensaje.textContent =
         `Registro enviado. Estado: ${resultado.estado}.`;
+      actualizarIndicadorAsistencia(
+  "registrado"
+);
       // Recordar que este alumno ya registró
 // esta sesión en este dispositivo
 if (idSesion) {
