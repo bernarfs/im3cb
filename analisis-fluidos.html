@@ -2689,13 +2689,51 @@
       const grupo = document.getElementById("grupoAlumno").value.trim();
       const inicio = Number(obtenerParametro("inicio"));
       const sesion = obtenerParametro("sesion") || "Análisis de Fluidos";
-      const idSesion = obtenerParametro("id") || "";
+      const idSesion =
+  obtenerParametro("id")
+  || "";
 
-      if (!nombre || !matricula || !grupo) {
-        mensaje.style.color = "#ffb86b";
-        mensaje.textContent = "Completa nombre, matrícula y grupo.";
-        return;
-      }
+// 1. Primero verificar datos completos
+if (
+  !nombre ||
+  !matricula ||
+  !grupo
+) {
+  mensaje.style.color = "#ffb86b";
+
+  mensaje.textContent =
+    "Completa nombre, matrícula y grupo.";
+
+  return;
+}
+
+// 2. Después verificar asistencia duplicada
+if (
+  idSesion &&
+  asistenciaYaRegistrada(
+    idSesion,
+    matricula
+  )
+) {
+  mensaje.style.color = "#ffb86b";
+
+  mensaje.textContent =
+    "Esta asistencia ya fue registrada para esta sesión.";
+
+  const botonRegistro =
+    document.querySelector(
+      "#formularioAlumno .boton-accion"
+    );
+
+  if (botonRegistro) {
+    botonRegistro.disabled = true;
+
+    botonRegistro.textContent =
+      "Asistencia ya registrada";
+  }
+
+  return;
+}
 
       if (!inicio || Number.isNaN(inicio)) {
         mensaje.style.color = "#ff6b6b";
@@ -2732,6 +2770,14 @@ guardarAlumnoLocal(
       mensaje.style.color = "#58d68d";
       mensaje.textContent =
         `Registro enviado. Estado: ${resultado.estado}.`;
+      // Recordar que este alumno ya registró
+// esta sesión en este dispositivo
+if (idSesion) {
+  guardarAsistenciaRegistrada(
+    idSesion,
+    matricula
+  );
+}
     }
 
     function abrirCursoUnidad1() {
@@ -4461,6 +4507,64 @@ function continuarTema13Fluidos() {
 // =====================================
 
 const CLAVE_ALUMNO = "im3cbAlumno";
+    const CLAVE_ASISTENCIAS =
+  "im3cbAsistenciasRegistradas";
+
+
+function obtenerAsistenciasRegistradas() {
+
+  const datos =
+    localStorage.getItem(
+      CLAVE_ASISTENCIAS
+    );
+
+  if (!datos) {
+    return [];
+  }
+
+  try {
+    return JSON.parse(datos);
+  } catch (error) {
+    return [];
+  }
+}
+
+
+function asistenciaYaRegistrada(
+  idSesion,
+  matricula
+) {
+
+  const registros =
+    obtenerAsistenciasRegistradas();
+
+  return registros.some(
+    registro =>
+      registro.idSesion === idSesion &&
+      registro.matricula === matricula
+  );
+}
+
+
+function guardarAsistenciaRegistrada(
+  idSesion,
+  matricula
+) {
+
+  const registros =
+    obtenerAsistenciasRegistradas();
+
+  registros.push({
+    idSesion,
+    matricula,
+    fecha: new Date().toISOString()
+  });
+
+  localStorage.setItem(
+    CLAVE_ASISTENCIAS,
+    JSON.stringify(registros)
+  );
+}
 
 
 function guardarAlumnoLocal(nombre, matricula, grupo) {
