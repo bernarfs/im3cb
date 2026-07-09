@@ -1585,6 +1585,71 @@
         grid-template-columns: 1fr;
       }
     }
+    /* =========================
+   ALUMNO RECONOCIDO
+========================= */
+
+.tarjeta-alumno-reconocido {
+  display: none;
+  margin: 18px 0;
+  padding: 18px;
+  border: 1px solid rgba(41, 121, 255, 0.35);
+  border-radius: 16px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(41, 121, 255, 0.14),
+      rgba(15, 15, 26, 0.92)
+    );
+}
+
+.tarjeta-alumno-reconocido.activa {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.alumno-avatar {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(41, 121, 255, 0.18);
+  font-size: 1.8rem;
+}
+
+.alumno-datos {
+  display: grid;
+  gap: 4px;
+}
+
+.alumno-datos strong {
+  color: white;
+  font-size: 1.08rem;
+}
+
+.alumno-datos span {
+  color: #cbd5e1;
+  font-size: 0.92rem;
+}
+
+.boton-cambiar-alumno {
+  grid-column: 1 / -1;
+  padding: 10px 12px;
+  border: 1px solid rgba(41, 121, 255, 0.35);
+  border-radius: 10px;
+  background: transparent;
+  color: #8ab4ff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.boton-cambiar-alumno:hover {
+  background: rgba(41, 121, 255, 0.1);
+}
   </style>
 </head>
 <body>
@@ -1770,7 +1835,35 @@
           <p id="estadoAlumno">
             Completa tus datos para registrar tu asistencia.
           </p>
+<!-- TARJETA DE ALUMNO RECONOCIDO -->
+<div id="tarjetaAlumnoReconocido"
+     class="tarjeta-alumno-reconocido">
 
+  <div class="alumno-avatar">👤</div>
+
+  <div class="alumno-datos">
+    <strong id="alumnoReconocidoNombre">
+      Alumno
+    </strong>
+
+    <span id="alumnoReconocidoMatricula">
+      Matrícula:
+    </span>
+
+    <span id="alumnoReconocidoGrupo">
+      Grupo:
+    </span>
+  </div>
+
+  <button
+    type="button"
+    class="boton-cambiar-alumno"
+    onclick="cambiarEstudiante()">
+    ¿No eres tú? Cambiar estudiante
+  </button>
+
+</div>
+          <div id="camposAlumnoManual">
           <div class="campo">
             <label for="nombreAlumno">Nombre completo</label>
             <input id="nombreAlumno" type="text" placeholder="Escribe tu nombre completo">
@@ -1785,7 +1878,7 @@
             <label for="grupoAlumno">Grupo</label>
             <input id="grupoAlumno" type="text" placeholder="Ej. IM-301">
           </div>
-
+</div>
           <div class="acciones-asistencia">
             <button class="boton-accion" type="button" onclick="registrarAsistenciaAlumno()">Registrar asistencia</button>
           </div>
@@ -4401,47 +4494,199 @@ function obtenerAlumnoLocal() {
   }
 }
 
-
 function cargarAlumnoGuardado() {
 
-  const alumno =
-    obtenerAlumnoLocal();
+  const alumno = obtenerAlumnoLocal();
 
-  if (!alumno) {
-    return;
-  }
+  const tarjeta =
+    document.getElementById(
+      "tarjetaAlumnoReconocido"
+    );
 
-  const nombre =
+  const camposManual =
+    document.getElementById(
+      "camposAlumnoManual"
+    );
+
+  const nombreInput =
     document.getElementById("nombreAlumno");
 
-  const matricula =
+  const matriculaInput =
     document.getElementById("matriculaAlumno");
 
-  const grupo =
+  const grupoInput =
     document.getElementById("grupoAlumno");
-
-  if (nombre) {
-    nombre.value = alumno.nombre || "";
-  }
-
-  if (matricula) {
-    matricula.value = alumno.matricula || "";
-  }
-
-  if (grupo) {
-    grupo.value = alumno.grupo || "";
-  }
 
   const estadoAlumno =
     document.getElementById("estadoAlumno");
 
+
+  // Si no hay alumno guardado
+  if (!alumno) {
+
+    if (tarjeta) {
+      tarjeta.classList.remove("activa");
+    }
+
+    if (camposManual) {
+      camposManual.style.display = "block";
+    }
+
+    return;
+  }
+
+
+  // Mantener datos en los inputs
+  if (nombreInput) {
+    nombreInput.value =
+      alumno.nombre || "";
+  }
+
+  if (matriculaInput) {
+    matriculaInput.value =
+      alumno.matricula || "";
+  }
+
+  if (grupoInput) {
+    grupoInput.value =
+      alumno.grupo || "";
+  }
+
+
+  // Mostrar datos en tarjeta
+  const nombreTarjeta =
+    document.getElementById(
+      "alumnoReconocidoNombre"
+    );
+
+  const matriculaTarjeta =
+    document.getElementById(
+      "alumnoReconocidoMatricula"
+    );
+
+  const grupoTarjeta =
+    document.getElementById(
+      "alumnoReconocidoGrupo"
+    );
+
+  if (nombreTarjeta) {
+    nombreTarjeta.textContent =
+      alumno.nombre || "Alumno";
+  }
+
+  if (matriculaTarjeta) {
+    matriculaTarjeta.textContent =
+      `Matrícula: ${alumno.matricula || ""}`;
+  }
+
+  if (grupoTarjeta) {
+    grupoTarjeta.textContent =
+      `Grupo: ${alumno.grupo || ""}`;
+  }
+
+
+  // Ocultar formulario manual
+  if (camposManual) {
+    camposManual.style.display = "none";
+  }
+
+
+  // Mostrar tarjeta
+  if (tarjeta) {
+    tarjeta.classList.add("activa");
+  }
+
+
+  // Mensaje superior
   if (
     estadoAlumno &&
     alumno.nombre
   ) {
     estadoAlumno.textContent =
-      `Alumno reconocido: ${alumno.nombre}. ` +
-      `Confirma para registrar tu asistencia.`;
+      "Estudiante reconocido en este dispositivo.";
+  }
+}
+
+
+/* =====================================
+   CAMBIAR ESTUDIANTE
+===================================== */
+
+function cambiarEstudiante() {
+
+  const confirmar = window.confirm(
+    "¿Deseas cambiar el estudiante registrado en este dispositivo?"
+  );
+
+  if (!confirmar) {
+    return;
+  }
+
+
+  // Borrar identidad guardada
+  localStorage.removeItem(
+    CLAVE_ALUMNO
+  );
+
+
+  // Limpiar campos
+  const nombreInput =
+    document.getElementById("nombreAlumno");
+
+  const matriculaInput =
+    document.getElementById("matriculaAlumno");
+
+  const grupoInput =
+    document.getElementById("grupoAlumno");
+
+  if (nombreInput) {
+    nombreInput.value = "";
+  }
+
+  if (matriculaInput) {
+    matriculaInput.value = "";
+  }
+
+  if (grupoInput) {
+    grupoInput.value = "";
+  }
+
+
+  // Ocultar tarjeta
+  const tarjeta =
+    document.getElementById(
+      "tarjetaAlumnoReconocido"
+    );
+
+  if (tarjeta) {
+    tarjeta.classList.remove("activa");
+  }
+
+
+  // Mostrar formulario manual
+  const camposManual =
+    document.getElementById(
+      "camposAlumnoManual"
+    );
+
+  if (camposManual) {
+    camposManual.style.display = "block";
+  }
+
+
+  // Actualizar mensaje
+  const estadoAlumno =
+    document.getElementById("estadoAlumno");
+
+  if (estadoAlumno) {
+    estadoAlumno.textContent =
+      "Completa tus datos para registrar tu asistencia.";
+  }
+
+
+  // Colocar cursor en nombre
+  if (nombreInput) {
+    nombreInput.focus();
   }
 }
     prepararFormularioAlumno();
