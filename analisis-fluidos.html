@@ -2611,6 +2611,12 @@
       }
 
       const resultado = calcularEstadoAsistencia(inicio);
+      // Guardar datos del alumno en este dispositivo
+guardarAlumnoLocal(
+  nombre,
+  matricula,
+  grupo
+);
       const datos = {
         curso: "Análisis de Fluidos",
         sesion: `${sesion} | ${idSesion}`,
@@ -4357,7 +4363,89 @@ function continuarTema13Fluidos() {
     la aparición real del Tema 1.3.
   */
 }
+    // =====================================
+// REGISTRO ÚNICO DEL ESTUDIANTE
+// =====================================
+
+const CLAVE_ALUMNO = "im3cbAlumno";
+
+
+function guardarAlumnoLocal(nombre, matricula, grupo) {
+
+  const alumno = {
+    nombre: nombre,
+    matricula: matricula,
+    grupo: grupo
+  };
+
+  localStorage.setItem(
+    CLAVE_ALUMNO,
+    JSON.stringify(alumno)
+  );
+}
+
+
+function obtenerAlumnoLocal() {
+
+  const datos =
+    localStorage.getItem(CLAVE_ALUMNO);
+
+  if (!datos) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(datos);
+  } catch (error) {
+    return null;
+  }
+}
+
+
+function cargarAlumnoGuardado() {
+
+  const alumno =
+    obtenerAlumnoLocal();
+
+  if (!alumno) {
+    return;
+  }
+
+  const nombre =
+    document.getElementById("nombreAlumno");
+
+  const matricula =
+    document.getElementById("matriculaAlumno");
+
+  const grupo =
+    document.getElementById("grupoAlumno");
+
+  if (nombre) {
+    nombre.value = alumno.nombre || "";
+  }
+
+  if (matricula) {
+    matricula.value = alumno.matricula || "";
+  }
+
+  if (grupo) {
+    grupo.value = alumno.grupo || "";
+  }
+
+  const estadoAlumno =
+    document.getElementById("estadoAlumno");
+
+  if (
+    estadoAlumno &&
+    alumno.nombre
+  ) {
+    estadoAlumno.textContent =
+      `Alumno reconocido: ${alumno.nombre}. ` +
+      `Confirma para registrar tu asistencia.`;
+  }
+}
     prepararFormularioAlumno();
+    cargarAlumnoGuardado();
     restaurarTema12Fluidos();
   </script>
 </body>
