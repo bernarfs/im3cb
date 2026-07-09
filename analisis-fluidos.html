@@ -2893,15 +2893,15 @@ guardarAlumnoLocal(
   grupo
 );
       const datos = {
-        curso: "Análisis de Fluidos",
-        sesion: `${sesion} | ${idSesion}`,
-        nombre,
-        matricula,
-        grupo,
-        estado: resultado.estado,
-        minutoRegistro: resultado.minuto
-      };
-
+  curso: "Análisis de Fluidos",
+  sesion: sesion,
+  idSesion: idSesion,
+  nombre,
+  matricula,
+  grupo,
+  estado: resultado.estado,
+  minutoRegistro: resultado.minuto
+};
       fetch(asistenciaConfig.appsScriptUrl, {
         method: "POST",
         mode: "no-cors",
