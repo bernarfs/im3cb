@@ -927,23 +927,57 @@
       </article>
 
 
-      <!-- IA -->
-      <article class="tarjeta">
+     <!-- INTELIGENCIA ARTIFICIAL -->
 
-        <div class="icono">🤖</div>
+<article class="tarjeta tarjeta-fluidos">
 
-        <h3>Inteligencia Artificial</h3>
+  <div class="curso-visual curso-visual-fluidos">
 
-        <p>
-          Herramientas de IA aplicadas al aprendizaje,
-          diseño y solución de problemas.
-        </p>
+    <img
+      src="portada-ia.png"
+      alt="Portada del curso de Inteligencia Artificial"
+      class="imagen-fluidos"
+    >
 
-        <a href="#">
-          Próximamente →
-        </a>
+    <div class="capa-fluidos"></div>
 
-      </article>
+    <span class="etiqueta-curso">
+      CURSO IM3CB
+    </span>
+
+    <div class="titulo-sobre-imagen">
+      <small>IM3CB</small>
+      <strong>INTELIGENCIA ARTIFICIAL</strong>
+    </div>
+
+  </div>
+
+  <div class="curso-contenido">
+
+    <h3>Inteligencia Artificial</h3>
+
+    <p>
+      Aprende a utilizar la Inteligencia Artificial
+      para resolver problemas, generar contenido,
+      automatizar tareas y desarrollar proyectos
+      de ingeniería.
+    </p>
+
+    <div class="curso-datos">
+      <span>📘 5 unidades</span>
+      <span>🤖 IA</span>
+      <span>🚀 Proyectos</span>
+    </div>
+
+    <button
+      class="boton-curso boton-acceso"
+      onclick="abrirAccesoIA()">
+      🔐 Explorar curso →
+    </button>
+
+  </div>
+
+</article>
 
     </div>
 
@@ -976,7 +1010,6 @@
      VENTANA DE ACCESO - FLUIDOS
 ================================= -->
 
-Y justo antes pega todo esto:
 
 <!-- =================================
      VENTANA DE ACCESO - TERMODINÁMICA
@@ -1028,6 +1061,54 @@ Y justo antes pega todo esto:
 
 </div>
   </footer>
+  <!-- =================================
+     VENTANA DE ACCESO - INTELIGENCIA ARTIFICIAL
+================================= -->
+
+<div id="modalAccesoIA" class="modal-acceso">
+
+  <div class="modal-contenido">
+
+    <button
+      class="cerrar-modal"
+      onclick="cerrarAccesoIA()"
+      aria-label="Cerrar">
+      ×
+    </button>
+
+    <div class="candado-modal">🔐</div>
+
+    <p class="modal-marca">IM3CB</p>
+
+    <h2>Acceso al curso</h2>
+
+    <h3>Inteligencia Artificial</h3>
+
+    <p class="modal-texto">
+      Ingresa el código proporcionado por el docente.
+    </p>
+
+    <input
+      type="password"
+      id="codigoIA"
+      class="input-codigo"
+      placeholder="Código de acceso"
+      autocomplete="off">
+
+    <button
+      class="boton-ingresar"
+      onclick="validarAccesoIA()">
+      Ingresar al curso
+    </button>
+
+    <p
+      id="mensajeAccesoIA"
+      class="mensaje-acceso">
+    </p>
+
+  </div>
+
+</div>
 <!-- =================================
      VENTANA DE ACCESO - FLUIDOS
 ================================= -->
@@ -1168,6 +1249,109 @@ document.addEventListener(
 
         if (event.target === this) {
           cerrarAccesoTermo();
+        }
+
+      }
+    );
+
+  }
+);
+  function abrirAccesoIA() {
+
+  const modal =
+    document.getElementById("modalAccesoIA");
+
+  const input =
+    document.getElementById("codigoIA");
+
+  const mensaje =
+    document.getElementById("mensajeAccesoIA");
+
+  modal.classList.add("activo");
+
+  mensaje.textContent = "";
+  input.value = "";
+
+  setTimeout(() => input.focus(), 100);
+}
+
+function cerrarAccesoIA() {
+
+  document
+    .getElementById("modalAccesoIA")
+    .classList.remove("activo");
+
+}
+
+function validarAccesoIA() {
+
+  const codigoCorrecto = "IA2026";
+
+  const input =
+    document.getElementById("codigoIA");
+
+  const mensaje =
+    document.getElementById("mensajeAccesoIA");
+
+  const codigoIngresado =
+    input.value.trim().toUpperCase();
+
+  if (codigoIngresado === codigoCorrecto) {
+
+    mensaje.style.color = "#58d68d";
+    mensaje.textContent = "✓ Acceso autorizado";
+
+    sessionStorage.setItem(
+      "accesoIA",
+      "permitido"
+    );
+
+    setTimeout(() => {
+
+      window.location.href =
+        "inteligencia-artificial.html";
+
+    }, 700);
+
+  } else {
+
+    mensaje.style.color = "#ff6b6b";
+    mensaje.textContent = "✕ Código incorrecto";
+
+    input.value = "";
+    input.focus();
+
+  }
+
+}
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    const inputIA =
+      document.getElementById("codigoIA");
+
+    const modalIA =
+      document.getElementById("modalAccesoIA");
+
+    inputIA.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+          validarAccesoIA();
+        }
+
+      }
+    );
+
+    modalIA.addEventListener(
+      "click",
+      function(event) {
+
+        if (event.target === this) {
+          cerrarAccesoIA();
         }
 
       }
