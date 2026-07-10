@@ -2402,6 +2402,525 @@
     padding: 19px 16px;
   }
 }
+    /* =====================================================
+   LABORATORIO DE PROBLEMAS · ESTACIÓN 1
+===================================================== */
+
+.prop13-lab-problemas {
+  margin-top: 28px;
+  overflow: hidden;
+  border: 1px solid #bfdbfe;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.10);
+}
+
+/* ENCABEZADO */
+
+.prop13-lab-header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 22px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(45, 214, 111, 0.22),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #123c7a 58%,
+      #2979ff
+    );
+  color: #ffffff;
+}
+
+.prop13-lab-icono {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.15);
+  font-size: 2rem;
+}
+
+.prop13-lab-etiqueta {
+  display: block;
+  margin-bottom: 4px;
+  color: #93c5fd;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.prop13-lab-header h4 {
+  margin: 0 0 5px;
+  color: #ffffff;
+  font-size: 1.35rem;
+}
+
+.prop13-lab-header p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.86);
+  line-height: 1.5;
+}
+
+/* PESTAÑAS */
+
+.prop13-lab-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px;
+  background: #eff6ff;
+  border-bottom: 1px solid #dbeafe;
+}
+
+.prop13-lab-tab {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 15px;
+  background: #ffffff;
+  color: #334155;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.prop13-lab-tab:hover {
+  transform: translateY(-2px);
+  border-color: #2979ff;
+  box-shadow: 0 8px 20px rgba(41, 121, 255, 0.14);
+}
+
+.prop13-lab-tab.activa {
+  border-color: #2979ff;
+  background:
+    linear-gradient(
+      135deg,
+      #1d4ed8,
+      #2979ff
+    );
+  color: #ffffff;
+}
+
+.prop13-lab-tab > span {
+  font-size: 1.6rem;
+}
+
+.prop13-lab-tab strong,
+.prop13-lab-tab small {
+  display: block;
+}
+
+.prop13-lab-tab small {
+  margin-top: 3px;
+  opacity: 0.78;
+}
+
+/* PANELES */
+
+.prop13-lab-panel {
+  display: none;
+  padding: 22px;
+}
+
+.prop13-lab-panel.activo {
+  display: block;
+  animation: prop13LabEntrada 0.3s ease;
+}
+
+@keyframes prop13LabEntrada {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* PROGRESO */
+
+.prop13-problema-progreso {
+  margin-bottom: 18px;
+}
+
+.prop13-problema-progreso > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.prop13-problema-progreso span {
+  color: #2979ff;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.prop13-problema-progreso strong {
+  color: #0f172a;
+}
+
+.prop13-progreso-pista {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e2e8f0;
+}
+
+.prop13-progreso-pista > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      90deg,
+      #2979ff,
+      #2dd66f
+    );
+  transition: width 0.3s ease;
+}
+
+/* SLIDES */
+
+.prop13-problema-slide {
+  display: none;
+}
+
+.prop13-problema-slide.activo {
+  display: block;
+  animation: prop13ProblemaEntrada 0.32s ease;
+}
+
+@keyframes prop13ProblemaEntrada {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* CABECERA DEL PROBLEMA */
+
+.prop13-problema-cabecera {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.prop13-problema-numero {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+  background:
+    linear-gradient(
+      135deg,
+      #2979ff,
+      #1d4ed8
+    );
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 900;
+  box-shadow: 0 8px 18px rgba(41, 121, 255, 0.25);
+}
+
+.prop13-problema-cabecera small {
+  color: #2979ff;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+}
+
+.prop13-problema-cabecera h5 {
+  margin: 3px 0 0;
+  color: #0f172a;
+  font-size: 1.15rem;
+}
+
+/* IMÁGENES */
+
+.prop13-problema-imagen {
+  padding: 10px;
+  overflow: hidden;
+  border: 1px solid #dbeafe;
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      135deg,
+      #f8fafc,
+      #eff6ff
+    );
+}
+
+.prop13-problema-imagen img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.prop13-imagen-retos {
+  border-color: #fed7aa;
+  background:
+    linear-gradient(
+      135deg,
+      #fff7ed,
+      #fffbeb
+    );
+}
+
+/* IDEA CLAVE */
+
+.prop13-problema-clave {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 15px;
+  padding: 14px 16px;
+  border-left: 4px solid #2dd66f;
+  border-radius: 12px;
+  background: #ecfdf5;
+}
+
+.prop13-problema-clave > span {
+  font-size: 1.35rem;
+}
+
+.prop13-problema-clave p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.55;
+}
+
+/* NAVEGACIÓN */
+
+.prop13-problema-nav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.prop13-problema-nav > button {
+  padding: 11px 15px;
+  border: 0;
+  border-radius: 12px;
+  background: #2979ff;
+  color: #ffffff;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.prop13-problema-nav > button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(41, 121, 255, 0.22);
+}
+
+.prop13-problema-nav > button:disabled {
+  background: #cbd5e1;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+.prop13-problema-puntos {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.prop13-problema-puntos button {
+  width: 11px;
+  height: 11px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #cbd5e1;
+  cursor: pointer;
+}
+
+.prop13-problema-puntos button.activo {
+  width: 28px;
+  border-radius: 999px;
+  background: #2979ff;
+}
+
+/* RETOS */
+
+.prop13-reto-header {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 18px;
+  padding: 17px;
+  border: 1px solid #fed7aa;
+  border-radius: 17px;
+  background:
+    linear-gradient(
+      135deg,
+      #fff7ed,
+      #fffbeb
+    );
+}
+
+.prop13-reto-icono {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: #ffedd5;
+  font-size: 1.8rem;
+}
+
+.prop13-reto-header small {
+  color: #ea580c;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+}
+
+.prop13-reto-header h5 {
+  margin: 3px 0 4px;
+  color: #0f172a;
+  font-size: 1.2rem;
+}
+
+.prop13-reto-header p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.5;
+}
+
+/* PASOS */
+
+.prop13-reto-pasos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.prop13-reto-pasos > div {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 14px;
+  border: 1px solid #dbeafe;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.prop13-reto-pasos span {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  background: #2979ff;
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.prop13-reto-pasos p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.45;
+}
+
+/* AVISO */
+
+.prop13-reto-aviso {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 16px;
+  padding: 15px;
+  border: 1px solid #fde68a;
+  border-radius: 14px;
+  background: #fffbeb;
+}
+
+.prop13-reto-aviso > span {
+  font-size: 1.4rem;
+}
+
+.prop13-reto-aviso p {
+  margin: 0;
+  color: #713f12;
+  line-height: 1.5;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+
+  .prop13-lab-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .prop13-problema-nav {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .prop13-problema-puntos {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    margin-bottom: 4px;
+  }
+
+  .prop13-problema-nav > button {
+    width: 100%;
+  }
+
+  .prop13-reto-pasos {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+
+  .prop13-lab-header {
+    align-items: flex-start;
+    padding: 18px 15px;
+  }
+
+  .prop13-lab-panel {
+    padding: 16px 12px;
+  }
+
+  .prop13-problema-imagen {
+    padding: 5px;
+  }
+
+  .prop13-problema-cabecera h5 {
+    font-size: 1rem;
+  }
+}
   </style>
 </head>
 <body>
@@ -3315,7 +3834,469 @@
       </div>
 
     </div>
+<!-- =====================================================
+     LABORATORIO DE PROBLEMAS · ESTACIÓN 1
+===================================================== -->
 
+<div class="prop13-lab-problemas" id="labProblemasMasa">
+
+  <!-- ENCABEZADO -->
+
+  <div class="prop13-lab-header">
+
+    <div class="prop13-lab-icono">
+      🧠
+    </div>
+
+    <div>
+      <span class="prop13-lab-etiqueta">
+        APLICA LO APRENDIDO
+      </span>
+
+      <h4>
+        Laboratorio de problemas
+      </h4>
+
+      <p>
+        Analiza ejemplos resueltos y después
+        enfrenta los problemas propuestos.
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- PESTAÑAS -->
+
+  <div class="prop13-lab-tabs">
+
+    <button
+      type="button"
+      class="prop13-lab-tab activa"
+      onclick="cambiarLabMasa('resueltos', this)">
+
+      <span>📘</span>
+
+      <div>
+        <strong>Ejemplos resueltos</strong>
+        <small>4 casos guiados</small>
+      </div>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="prop13-lab-tab"
+      onclick="cambiarLabMasa('propuestos', this)">
+
+      <span>🎯</span>
+
+      <div>
+        <strong>Ahora tú resuelve</strong>
+        <small>3 retos sin solución</small>
+      </div>
+
+    </button>
+
+  </div>
+
+
+  <!-- =================================================
+       PANEL · EJEMPLOS RESUELTOS
+  ================================================== -->
+
+  <div
+    id="labMasa-resueltos"
+    class="prop13-lab-panel activo">
+
+
+    <!-- PROGRESO -->
+
+    <div class="prop13-problema-progreso">
+
+      <div>
+        <span>
+          EJEMPLO GUIADO
+        </span>
+
+        <strong id="contadorProblemaMasa">
+          1 de 4
+        </strong>
+      </div>
+
+      <div class="prop13-progreso-pista">
+
+        <span
+          id="barraProblemaMasa"
+          style="width: 25%;">
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- =============================================
+         PROBLEMA 1
+    ============================================== -->
+
+    <article
+      class="prop13-problema-slide activo"
+      data-problema-masa="0">
+
+      <div class="prop13-problema-cabecera">
+
+        <span class="prop13-problema-numero">
+          1
+        </span>
+
+        <div>
+          <small>
+            EJEMPLO RESUELTO
+          </small>
+
+          <h5>
+            Peso de un depósito de aceite
+          </h5>
+        </div>
+
+      </div>
+
+      <div class="prop13-problema-imagen">
+
+        <img
+          src="problema-resuelto-1.png"
+          alt="Problema resuelto sobre el peso de un depósito de aceite"
+          loading="lazy">
+
+      </div>
+
+      <div class="prop13-problema-clave">
+
+        <span>🔎</span>
+
+        <p>
+          <strong>Idea clave:</strong>
+          relaciona masa y peso mediante
+          <b>w = mg</b>.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <!-- =============================================
+         PROBLEMA 2
+    ============================================== -->
+
+    <article
+      class="prop13-problema-slide"
+      data-problema-masa="1">
+
+      <div class="prop13-problema-cabecera">
+
+        <span class="prop13-problema-numero">
+          2
+        </span>
+
+        <div>
+          <small>
+            EJEMPLO RESUELTO
+          </small>
+
+          <h5>
+            Densidad y peso específico
+            de la glicerina
+          </h5>
+        </div>
+
+      </div>
+
+      <div class="prop13-problema-imagen">
+
+        <img
+          src="problema-resuelto-2.png"
+          alt="Problema resuelto de densidad y peso específico de la glicerina"
+          loading="lazy">
+
+      </div>
+
+      <div class="prop13-problema-clave">
+
+        <span>🔎</span>
+
+        <p>
+          <strong>Idea clave:</strong>
+          utiliza la gravedad específica para
+          determinar densidad y peso específico.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <!-- =============================================
+         PROBLEMA 3
+    ============================================== -->
+
+    <article
+      class="prop13-problema-slide"
+      data-problema-masa="2">
+
+      <div class="prop13-problema-cabecera">
+
+        <span class="prop13-problema-numero">
+          3
+        </span>
+
+        <div>
+          <small>
+            EJEMPLO RESUELTO
+          </small>
+
+          <h5>
+            Masa de un litro de agua
+          </h5>
+        </div>
+
+      </div>
+
+      <div class="prop13-problema-imagen">
+
+        <img
+          src="problema-resuelto-3.png"
+          alt="Problema resuelto para encontrar masa a partir del peso"
+          loading="lazy">
+
+      </div>
+
+      <div class="prop13-problema-clave">
+
+        <span>🔎</span>
+
+        <p>
+          <strong>Idea clave:</strong>
+          despeja la masa mediante
+          <b>m = w / g</b>
+          y conserva la consistencia de unidades.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <!-- =============================================
+         PROBLEMA 4
+    ============================================== -->
+
+    <article
+      class="prop13-problema-slide"
+      data-problema-masa="3">
+
+      <div class="prop13-problema-cabecera">
+
+        <span class="prop13-problema-numero">
+          4
+        </span>
+
+        <div>
+          <small>
+            EJEMPLO RESUELTO
+          </small>
+
+          <h5>
+            Peso de un galón de mercurio
+          </h5>
+        </div>
+
+      </div>
+
+      <div class="prop13-problema-imagen">
+
+        <img
+          src="problema-resuelto-4.png"
+          alt="Problema resuelto del peso de un galón de mercurio"
+          loading="lazy">
+
+      </div>
+
+      <div class="prop13-problema-clave">
+
+        <span>🔎</span>
+
+        <p>
+          <strong>Idea clave:</strong>
+          aplica
+          <b>w = mg</b>
+          trabajando correctamente con
+          slugs y unidades inglesas.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <!-- NAVEGACIÓN -->
+
+    <div class="prop13-problema-nav">
+
+      <button
+        type="button"
+        id="btnProblemaMasaAnterior"
+        onclick="moverProblemaMasa(-1)"
+        disabled>
+
+        ← Anterior
+
+      </button>
+
+
+      <div class="prop13-problema-puntos">
+
+        <button
+          type="button"
+          class="activo"
+          onclick="irProblemaMasa(0)"
+          aria-label="Ir al problema 1">
+        </button>
+
+        <button
+          type="button"
+          onclick="irProblemaMasa(1)"
+          aria-label="Ir al problema 2">
+        </button>
+
+        <button
+          type="button"
+          onclick="irProblemaMasa(2)"
+          aria-label="Ir al problema 3">
+        </button>
+
+        <button
+          type="button"
+          onclick="irProblemaMasa(3)"
+          aria-label="Ir al problema 4">
+        </button>
+
+      </div>
+
+
+      <button
+        type="button"
+        id="btnProblemaMasaSiguiente"
+        onclick="moverProblemaMasa(1)">
+
+        Siguiente →
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       PANEL · PROBLEMAS PROPUESTOS
+  ================================================== -->
+
+  <div
+    id="labMasa-propuestos"
+    class="prop13-lab-panel">
+
+    <div class="prop13-reto-header">
+
+      <span class="prop13-reto-icono">
+        🎯
+      </span>
+
+      <div>
+        <small>
+          RETO DEL ESTUDIANTE
+        </small>
+
+        <h5>
+          Ahora tú resuelve
+        </h5>
+
+        <p>
+          Analiza los tres problemas.
+          Identifica los datos, selecciona
+          las ecuaciones y desarrolla tu procedimiento.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="prop13-problema-imagen prop13-imagen-retos">
+
+      <img
+        src="problemas-propuestos.png"
+        alt="Tres problemas propuestos sin solución sobre propiedades de los fluidos"
+        loading="lazy">
+
+    </div>
+
+
+    <div class="prop13-reto-pasos">
+
+      <div>
+        <span>1</span>
+
+        <p>
+          <strong>Identifica</strong>
+          los datos y las incógnitas.
+        </p>
+      </div>
+
+
+      <div>
+        <span>2</span>
+
+        <p>
+          <strong>Selecciona</strong>
+          la ecuación apropiada.
+        </p>
+      </div>
+
+
+      <div>
+        <span>3</span>
+
+        <p>
+          <strong>Resuelve</strong>
+          cuidando las unidades.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="prop13-reto-aviso">
+
+      <span>💡</span>
+
+      <p>
+        <strong>Consejo de ingeniería:</strong>
+        no sustituyas valores inmediatamente.
+        Primero escribe la ecuación general,
+        despeja la incógnita y después sustituye.
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- =====================================================
+     FIN LABORATORIO DE PROBLEMAS
+===================================================== -->
   </section>
 
 
@@ -6130,7 +7111,233 @@ function abrirPropiedad13(nombre, boton) {
     boton.classList.add("activa");
   }
 }
+/* =====================================================
+   LABORATORIO DE PROBLEMAS · ESTACIÓN 1
+===================================================== */
 
+let problemaMasaActual = 0;
+
+
+/* =====================================================
+   CAMBIAR PESTAÑA DEL LABORATORIO
+===================================================== */
+
+function cambiarLabMasa(panel, boton) {
+
+  const laboratorio =
+    document.getElementById("labProblemasMasa");
+
+  if (!laboratorio) {
+    return;
+  }
+
+  const paneles =
+    laboratorio.querySelectorAll(
+      ".prop13-lab-panel"
+    );
+
+  const botones =
+    laboratorio.querySelectorAll(
+      ".prop13-lab-tab"
+    );
+
+  paneles.forEach(elemento => {
+    elemento.classList.remove("activo");
+  });
+
+  botones.forEach(elemento => {
+    elemento.classList.remove("activa");
+  });
+
+  const panelSeleccionado =
+    document.getElementById(
+      "labMasa-" + panel
+    );
+
+  if (panelSeleccionado) {
+    panelSeleccionado.classList.add("activo");
+  }
+
+  if (boton) {
+    boton.classList.add("activa");
+  }
+}
+
+
+/* =====================================================
+   MOVER PROBLEMA
+===================================================== */
+
+function moverProblemaMasa(direccion) {
+
+  const slides =
+    document.querySelectorAll(
+      "[data-problema-masa]"
+    );
+
+  if (!slides.length) {
+    return;
+  }
+
+  problemaMasaActual += direccion;
+
+  if (problemaMasaActual < 0) {
+    problemaMasaActual = 0;
+  }
+
+  if (
+    problemaMasaActual >
+    slides.length - 1
+  ) {
+    problemaMasaActual =
+      slides.length - 1;
+  }
+
+  actualizarProblemaMasa();
+}
+
+
+/* =====================================================
+   IR DIRECTAMENTE A UN PROBLEMA
+===================================================== */
+
+function irProblemaMasa(indice) {
+
+  const slides =
+    document.querySelectorAll(
+      "[data-problema-masa]"
+    );
+
+  if (!slides.length) {
+    return;
+  }
+
+  if (
+    indice < 0 ||
+    indice >= slides.length
+  ) {
+    return;
+  }
+
+  problemaMasaActual = indice;
+
+  actualizarProblemaMasa();
+}
+
+
+/* =====================================================
+   ACTUALIZAR INTERFAZ DEL CARRUSEL
+===================================================== */
+
+function actualizarProblemaMasa() {
+
+  const slides =
+    document.querySelectorAll(
+      "[data-problema-masa]"
+    );
+
+  const puntos =
+    document.querySelectorAll(
+      ".prop13-problema-puntos button"
+    );
+
+  const contador =
+    document.getElementById(
+      "contadorProblemaMasa"
+    );
+
+  const barra =
+    document.getElementById(
+      "barraProblemaMasa"
+    );
+
+  const botonAnterior =
+    document.getElementById(
+      "btnProblemaMasaAnterior"
+    );
+
+  const botonSiguiente =
+    document.getElementById(
+      "btnProblemaMasaSiguiente"
+    );
+
+  if (!slides.length) {
+    return;
+  }
+
+
+  /* MOSTRAR SLIDE ACTUAL */
+
+  slides.forEach((slide, indice) => {
+
+    slide.classList.toggle(
+      "activo",
+      indice === problemaMasaActual
+    );
+
+  });
+
+
+  /* ACTUALIZAR PUNTOS */
+
+  puntos.forEach((punto, indice) => {
+
+    punto.classList.toggle(
+      "activo",
+      indice === problemaMasaActual
+    );
+
+  });
+
+
+  /* ACTUALIZAR CONTADOR */
+
+  if (contador) {
+
+    contador.textContent =
+      (problemaMasaActual + 1) +
+      " de " +
+      slides.length;
+
+  }
+
+
+  /* ACTUALIZAR BARRA */
+
+  if (barra) {
+
+    const porcentaje =
+      ((problemaMasaActual + 1) /
+      slides.length) * 100;
+
+    barra.style.width =
+      porcentaje + "%";
+
+  }
+
+
+  /* ACTIVAR / DESACTIVAR BOTONES */
+
+  if (botonAnterior) {
+
+    botonAnterior.disabled =
+      problemaMasaActual === 0;
+
+  }
+
+  if (botonSiguiente) {
+
+    botonSiguiente.disabled =
+      problemaMasaActual ===
+      slides.length - 1;
+
+  }
+}
+
+
+/* =====================================================
+   FIN LABORATORIO DE PROBLEMAS
+===================================================== */
 /* =====================================================
    FIN NAVEGACIÓN TEMA 1.3
 ===================================================== */
