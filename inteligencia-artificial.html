@@ -1,0 +1,7827 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Análisis de Fluidos | IM3CB</title>
+
+  <script>
+    const parametrosIniciales = new URLSearchParams(window.location.search);
+    const modoAsistencia = parametrosIniciales.get("asistencia") === "1";
+
+    if (
+      !modoAsistencia &&
+      sessionStorage.getItem("accesoFluidos") !== "permitido"
+    ) {
+      window.location.href = "index.html";
+    }
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      color: white;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(0, 102, 255, 0.18), transparent 32rem),
+        linear-gradient(135deg, #05070b, #10141d 48%, #05070b);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      min-height: 75px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 8%;
+      background: rgba(10, 12, 18, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0, 102, 255, 0.25);
+    }
+
+    .marca {
+      color: white;
+      font-size: 1.7rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+
+    .marca span {
+      color: #0066ff;
+    }
+
+    .regresar {
+      display: inline-block;
+      padding: 11px 16px;
+      color: white;
+      text-decoration: none;
+      border: 1px solid rgba(59, 156, 255, 0.45);
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    .regresar:hover {
+      color: #9fcaff;
+      border-color: rgba(59, 156, 255, 0.85);
+      transform: translateY(-2px);
+    }
+
+    .nav-acciones {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 46px 0 70px;
+    }
+
+    .hero-curso {
+      display: grid;
+      grid-template-columns: 1fr 0.95fr;
+      gap: 34px;
+      align-items: center;
+      margin-bottom: 54px;
+    }
+
+    .etiqueta {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 7px 12px;
+      color: white;
+      background: rgba(0, 102, 255, 0.9);
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      margin-bottom: 18px;
+      font-size: clamp(2.5rem, 7vw, 5.8rem);
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+
+    h1 span,
+    h2 span {
+      color: #1683ff;
+    }
+
+    .intro {
+      max-width: 700px;
+      color: #c5c9d3;
+      font-size: 1.08rem;
+    }
+
+    .hero-imagen {
+      overflow: hidden;
+      border: 1px solid rgba(0, 153, 255, 0.35);
+      border-radius: 18px;
+      background: #07101d;
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.45),
+        0 0 35px rgba(0, 102, 255, 0.2);
+    }
+
+    .hero-imagen img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+
+    .panel {
+      margin-bottom: 34px;
+      padding: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      background: linear-gradient(145deg, #171b24, #10131a);
+      box-shadow: 0 18px 45px rgba(0, 102, 255, 0.12);
+    }
+
+    .panel h2 {
+      margin-bottom: 12px;
+      font-size: 2rem;
+    }
+
+    .panel p {
+      color: #aeb6c5;
+    }
+
+    .temario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 26px;
+    }
+
+    .unidad {
+      padding: 24px;
+      border: 1px solid rgba(0, 153, 255, 0.22);
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at top right, rgba(0, 102, 255, 0.12), transparent 42%),
+        #0b1019;
+    }
+
+    .unidad-activa {
+      border-color: rgba(88, 173, 255, 0.7);
+      box-shadow: 0 0 28px rgba(0, 102, 255, 0.14);
+    }
+
+    .unidad small {
+      display: block;
+      margin-bottom: 10px;
+      color: #58adff;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .unidad h3 {
+      margin-bottom: 14px;
+      font-size: 1.15rem;
+      line-height: 1.25;
+    }
+
+    .unidad ol {
+      padding-left: 20px;
+      color: #b9bfcb;
+    }
+
+    .unidad li {
+      margin: 8px 0;
+    }
+
+    .estado-unidad {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 6px 10px;
+      color: #06111f;
+      background: #58adff;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .boton-unidad {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 11px 15px;
+      color: white;
+      text-decoration: none;
+      background: linear-gradient(135deg, #0066ff, #00a2ff);
+      border: none;
+      border-radius: 8px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .boton-unidad:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0, 102, 255, 0.32);
+    }
+
+    .diagnostico {
+      margin-top: 26px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .tema-diagnostico {
+      padding: 24px;
+      border: 1px solid rgba(0, 153, 255, 0.22);
+      border-radius: 14px;
+      background: #0b1019;
+    }
+
+    .tema-diagnostico h3 {
+      margin-bottom: 12px;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .tema-diagnostico p {
+      margin-bottom: 14px;
+    }
+
+    .tema-diagnostico ol {
+      padding-left: 22px;
+      color: #b9bfcb;
+    }
+
+    .tema-diagnostico li {
+      margin: 10px 0;
+    }
+
+    .subtema-card {
+      margin-top: 24px;
+      padding: 24px;
+      border: 1px solid rgba(0, 153, 255, 0.22);
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at top right, rgba(0, 102, 255, 0.12), transparent 42%),
+        #0b1019;
+    }
+
+    .subtema-card h3 {
+      margin-bottom: 12px;
+      color: white;
+      font-size: 1.35rem;
+    }
+
+    .subtema-card p {
+      margin-bottom: 16px;
+    }
+
+    .imagen-unidad {
+      display: block;
+      width: 100%;
+      margin: 18px 0 22px;
+      border: 1px solid rgba(0, 153, 255, 0.22);
+      border-radius: 14px;
+      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.28);
+    }
+
+    .modal-diagnostico {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 6000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(2, 6, 14, 0.86);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-diagnostico.activo {
+      display: flex;
+    }
+
+    .modal-diagnostico-contenido {
+      position: relative;
+      width: min(820px, 100%);
+      max-height: min(86vh, 760px);
+      overflow: auto;
+      padding: 32px;
+      border: 1px solid rgba(42, 145, 255, 0.45);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at top, rgba(0, 119, 255, 0.18), transparent 42%),
+        linear-gradient(145deg, #151b27, #090d15);
+      box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.65),
+        0 0 35px rgba(0, 102, 255, 0.18);
+    }
+
+    .cerrar-diagnostico {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      border: none;
+      background: transparent;
+      color: #aeb7c7;
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
+    .modal-diagnostico-contenido h2 {
+      margin-bottom: 10px;
+    }
+
+    .modal-diagnostico-contenido ol {
+      margin-top: 18px;
+      padding-left: 24px;
+      color: #b9bfcb;
+    }
+
+    .modal-diagnostico-contenido li {
+      margin: 12px 0;
+    }
+
+    .pregunta-diagnostico {
+      margin: 18px 0;
+      padding: 18px;
+      border: 1px solid rgba(0, 153, 255, 0.2);
+      border-radius: 12px;
+      background: rgba(0, 102, 255, 0.06);
+    }
+
+    .pregunta-diagnostico p {
+      margin-bottom: 10px;
+      color: white;
+      font-weight: 800;
+    }
+
+    .pregunta-diagnostico ol {
+      margin-top: 0;
+      padding-left: 24px;
+    }
+
+    .evaluacion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .parcial {
+      padding: 22px;
+      border: 1px solid rgba(0, 153, 255, 0.22);
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at top right, rgba(0, 102, 255, 0.12), transparent 42%),
+        #0b1019;
+    }
+
+    .parcial h3 {
+      margin-bottom: 14px;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .parcial ul {
+      padding-left: 20px;
+      color: #b9bfcb;
+    }
+
+    .parcial li {
+      margin: 10px 0;
+    }
+
+    .asistencia-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 22px;
+      align-items: start;
+      margin-top: 24px;
+    }
+
+    .asistencia-card {
+      padding: 24px;
+      border: 1px solid rgba(0, 153, 255, 0.22);
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at top right, rgba(0, 102, 255, 0.12), transparent 42%),
+        #0b1019;
+    }
+
+    .campo {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .campo label {
+      color: #9fcaff;
+      font-weight: 800;
+      font-size: 0.92rem;
+    }
+
+    .campo input {
+      width: 100%;
+      padding: 13px 14px;
+      color: white;
+      background: #080c14;
+      border: 1px solid rgba(59, 156, 255, 0.35);
+      border-radius: 9px;
+      font: inherit;
+      outline: none;
+    }
+
+    .campo input:focus {
+      border-color: #3b9cff;
+      box-shadow: 0 0 0 3px rgba(59, 156, 255, 0.12);
+    }
+
+    .acciones-asistencia {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .boton-accion {
+      padding: 12px 15px;
+      color: white;
+      background: linear-gradient(135deg, #0066ff, #00a2ff);
+      border: none;
+      border-radius: 9px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .boton-accion:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0, 102, 255, 0.32);
+    }
+
+    .boton-secundario {
+      color: #9fcaff;
+      background: rgba(0, 102, 255, 0.1);
+      border: 1px solid rgba(0, 153, 255, 0.28);
+      box-shadow: none;
+    }
+
+    .estado-lista {
+      margin-top: 16px;
+      padding: 14px;
+      color: #b9bfcb;
+      border: 1px solid rgba(0, 153, 255, 0.18);
+      border-radius: 10px;
+      background: rgba(0, 102, 255, 0.06);
+    }
+
+    .reloj-lista {
+      margin-top: 16px;
+      color: #58adff;
+      font-size: clamp(2rem, 8vw, 4rem);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .qr-box {
+      display: grid;
+      gap: 14px;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .qr-box img {
+      display: none;
+      width: 230px;
+      height: 230px;
+      padding: 10px;
+      border-radius: 12px;
+      background: white;
+      cursor: pointer;
+    }
+
+    .qr-box img.activo {
+      display: block;
+    }
+
+    .enlace-asistencia {
+      display: inline-block;
+      word-break: break-all;
+      color: #9fcaff;
+      font-size: 0.88rem;
+    }
+
+    .enlace-asistencia:hover {
+      color: white;
+    }
+
+    .formulario-alumno {
+      display: none;
+      margin-top: 24px;
+    }
+
+    .formulario-alumno.activo {
+      display: block;
+    }
+
+    .mensaje-formulario {
+      min-height: 24px;
+      margin-top: 14px;
+      color: #9fcaff;
+      font-weight: 800;
+    }
+
+    .aviso {
+      margin-top: 20px;
+      padding: 16px;
+      color: #9fcaff;
+      border: 1px solid rgba(0, 153, 255, 0.25);
+      border-radius: 10px;
+      background: rgba(0, 102, 255, 0.08);
+      font-size: 0.95rem;
+    }
+
+    .sway-contenedor {
+      margin-top: 20px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 153, 255, 0.22);
+    }
+
+    .sway-contenedor iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      display: block;
+    }
+    /* ===== TV IM3CB ===== */
+
+.tv-im3cb {
+  margin-top: 28px;
+  padding: 14px;
+  border-radius: 22px;
+  background:
+    linear-gradient(145deg, #182334, #060a11);
+  border: 2px solid rgba(0, 153, 255, 0.65);
+  box-shadow:
+    0 0 20px rgba(0, 153, 255, 0.25),
+    inset 0 0 18px rgba(255, 255, 255, 0.04);
+}
+
+.tv-barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px 14px;
+}
+
+.tv-logo {
+  width: 58px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #0099ff;
+  box-shadow: 0 0 12px rgba(0, 153, 255, 0.55);
+}
+
+.tv-estado {
+  color: #66c7ff;
+  font-size: 0.82rem;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+}
+
+.tv-pantalla {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #000;
+  border: 1px solid rgba(0, 153, 255, 0.45);
+}
+
+.tv-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* TELONES */
+
+.telon {
+  position: absolute;
+  top: 0;
+  width: 50.2%;
+  height: 100%;
+  z-index: 4;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #061426 0px,
+      #0b3159 22px,
+      #071a31 44px
+    );
+  transition: transform 1.15s cubic-bezier(.77, 0, .18, 1);
+}
+
+.telon-izq {
+  left: 0;
+  border-right: 1px solid rgba(0, 153, 255, 0.45);
+}
+
+.telon-der {
+  right: 0;
+  border-left: 1px solid rgba(0, 153, 255, 0.45);
+}
+
+/* AL ABRIR */
+
+.tv-pantalla.abierta .telon-izq {
+  transform: translateX(-101%);
+}
+
+.tv-pantalla.abierta .telon-der {
+  transform: translateX(101%);
+}
+
+/* BOTÓN PLAY */
+
+.tv-play {
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 105px;
+  height: 105px;
+  border-radius: 50%;
+
+  border: 2px solid #33b7ff;
+  background:
+    radial-gradient(circle, #087cff, #003a80);
+
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+
+  box-shadow:
+    0 0 20px rgba(0, 153, 255, 0.75),
+    0 0 45px rgba(0, 102, 255, 0.35);
+
+  transition:
+    transform 0.3s ease,
+    opacity 0.4s ease;
+}
+
+.tv-play:hover {
+  transform:
+    translate(-50%, -50%)
+    scale(1.1);
+}
+
+.tv-pantalla.abierta .tv-play {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tv-pie {
+  padding: 14px 8px 4px;
+  text-align: center;
+}
+
+.tv-pie strong {
+  display: block;
+  color: white;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+.tv-pie span {
+  display: block;
+  margin-top: 4px;
+  color: #8f9bad;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 700px) {
+  .tv-im3cb {
+    padding: 9px;
+    border-radius: 16px;
+  }
+
+  .tv-logo {
+    width: 44px;
+    height: 44px;
+  }
+
+  .tv-play {
+    width: 78px;
+    height: 78px;
+    font-size: 1.5rem;
+  }
+
+  .tv-estado {
+    font-size: 0.68rem;
+  }
+}
+    /* ===== SOPA DE LETRAS IM3CB ===== */
+
+.sopa-im3cb {
+  display: none;
+  margin-top: 28px;
+  padding: 22px;
+  border: 1px solid rgba(0, 153, 255, 0.45);
+  border-radius: 20px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(0, 102, 255, 0.16),
+      transparent 38%
+    ),
+    linear-gradient(145deg, #111927, #070b12);
+  box-shadow:
+    0 0 24px rgba(0, 102, 255, 0.16);
+}
+
+/* Aparece después de pulsar PLAY */
+.sopa-im3cb.activa {
+  display: block;
+  animation: aparecerSopa 0.7s ease;
+}
+
+@keyframes aparecerSopa {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sopa-cabecera {
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.sopa-cabecera small {
+  display: block;
+  margin-bottom: 6px;
+  color: #58adff;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 1.8px;
+}
+
+.sopa-cabecera h3 {
+  margin: 0;
+  color: white;
+  font-size: 1.35rem;
+}
+
+.sopa-cabecera p {
+  margin-top: 8px;
+  color: #9ca8ba;
+  font-size: 0.92rem;
+}
+
+/* TABLERO 20 x 20 */
+
+.sopa-tablero-wrap {
+  width: 100%;
+  overflow-x: auto;
+  padding: 8px 0 12px;
+  overscroll-behavior: contain;
+}
+
+.sopa-tablero {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  width: min(100%, 700px);
+  min-width: 560px;
+  margin: 0 auto;
+  border: 1px solid rgba(0, 153, 255, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #050a12;
+
+  /* Evita selección normal del navegador */
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.sopa-celda {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #c8d3e2;
+  background: rgba(5, 12, 22, 0.94);
+  border:
+    1px solid rgba(255, 255, 255, 0.035);
+
+  font-size: clamp(0.62rem, 1.4vw, 0.92rem);
+  font-weight: 800;
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+/* Selección temporal */
+
+.sopa-celda.seleccionada {
+  color: white;
+  background: rgba(0, 132, 255, 0.55);
+  box-shadow:
+    inset 0 0 8px rgba(102, 199, 255, 0.45);
+}
+
+/* Palabra acertada */
+
+.sopa-celda.encontrada {
+  color: white;
+  background:
+    linear-gradient(
+      135deg,
+      #0066ff,
+      #00a8ff
+    );
+  box-shadow:
+    inset 0 0 10px rgba(255, 255, 255, 0.22),
+    0 0 8px rgba(0, 153, 255, 0.4);
+}
+
+/* INDICADOR DE ACIERTOS */
+
+.sopa-progreso {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid rgba(0, 153, 255, 0.2);
+  border-radius: 12px;
+  background: rgba(0, 102, 255, 0.06);
+}
+
+.sopa-progreso-superior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.sopa-progreso-superior span {
+  color: #9fcaff;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.sopa-contador {
+  color: white !important;
+  font-size: 1rem !important;
+}
+
+.sopa-barra {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #050911;
+}
+
+.sopa-barra-avance {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      90deg,
+      #0066ff,
+      #00b7ff
+    );
+  box-shadow:
+    0 0 12px rgba(0, 153, 255, 0.55);
+  transition: width 0.45s ease;
+}
+    /* ===== TEMA 1.2 DESBLOQUEABLE ===== */
+
+.tema12-fluidos {
+  display: none;
+  margin-top: 28px;
+  padding: 24px;
+  border: 1px solid rgba(0, 153, 255, 0.28);
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(0, 102, 255, 0.12),
+      transparent 42%
+    ),
+    #0b1019;
+}
+
+/* Se activa al completar 8/8 */
+
+.tema12-fluidos.desbloqueado {
+  display: block;
+  animation: aparecerTema12 0.65s ease;
+}
+
+.tema12-encabezado {
+  margin-bottom: 20px;
+}
+
+.tema12-encabezado small {
+  color: #4da6ff;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.tema12-encabezado h3 {
+  margin: 8px 0 10px;
+  color: #ffffff;
+  font-size: 1.7rem;
+}
+
+.tema12-encabezado p {
+  margin: 0;
+  color: #b7c0cf;
+  line-height: 1.6;
+}
+
+@keyframes aparecerTema12 {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+    /* ===== MISIÓN IM3CB TEMA 1.2 ===== */
+
+.mision-fluidos {
+  display: none;
+  margin-top: 28px;
+  padding: 26px;
+  border: 1px solid rgba(0, 153, 255, 0.38);
+  border-radius: 20px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(0, 102, 255, 0.18),
+      transparent 38%
+    ),
+    linear-gradient(145deg, #111927, #070b12);
+  box-shadow:
+    0 0 28px rgba(0, 102, 255, 0.16);
+}
+
+/* Aparece junto con el Tema 1.2 desbloqueado */
+.mision-fluidos.desbloqueada {
+  display: block;
+  animation: aparecerMision 0.65s ease;
+}
+
+@keyframes aparecerMision {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* PORTADA */
+
+.mision-portada {
+  text-align: center;
+  padding: 28px 18px;
+}
+
+.mision-etiqueta {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 7px 14px;
+  color: #58adff;
+  border: 1px solid rgba(88, 173, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(0, 102, 255, 0.08);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.mision-icono {
+  margin: 8px 0;
+  font-size: 3.8rem;
+}
+
+.mision-portada h3 {
+  margin: 8px 0 12px;
+  color: white;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+}
+
+.mision-portada p {
+  max-width: 680px;
+  margin: 0 auto;
+  color: #aeb8c8;
+  font-size: 1rem;
+}
+
+/* REGLAS */
+
+.mision-reglas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  max-width: 650px;
+  margin: 26px auto;
+}
+
+.mision-reglas > div {
+  padding: 18px 12px;
+  border: 1px solid rgba(0, 153, 255, 0.22);
+  border-radius: 14px;
+  background: rgba(0, 102, 255, 0.06);
+}
+
+.mision-reglas strong {
+  display: block;
+  color: white;
+  font-size: 1.45rem;
+}
+
+.mision-reglas span {
+  display: block;
+  margin-top: 4px;
+  color: #8fa0b6;
+  font-size: 0.82rem;
+}
+
+/* BOTÓN INICIAR */
+
+.btn-iniciar-mision {
+  padding: 14px 24px;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  background:
+    linear-gradient(135deg, #0066ff, #00a8ff);
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow:
+    0 12px 28px rgba(0, 102, 255, 0.28);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.btn-iniciar-mision:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 16px 34px rgba(0, 102, 255, 0.38);
+}
+
+/* JUEGO */
+
+.mision-juego {
+  padding: 8px;
+}
+
+.mision-superior {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  color: #9fcaff;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.mision-barra {
+  height: 10px;
+  margin: 12px 0 24px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #050911;
+}
+
+#misionBarraProgreso {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg, #0066ff, #00c2ff);
+  box-shadow:
+    0 0 12px rgba(0, 153, 255, 0.55);
+  transition: width 0.4s ease;
+}
+
+.mision-contenido {
+  padding: 26px;
+  text-align: center;
+  border: 1px solid rgba(0, 153, 255, 0.22);
+  border-radius: 16px;
+  background: rgba(0, 102, 255, 0.05);
+}
+
+.mision-categoria {
+  color: #58adff;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 1.7px;
+}
+
+.mision-icono-caso {
+  margin: 14px 0 8px;
+  font-size: 3.2rem;
+}
+
+.mision-contenido h4 {
+  margin-bottom: 12px;
+  color: white;
+  font-size: 1.45rem;
+}
+
+.mision-contenido p {
+  max-width: 720px;
+  margin: 0 auto;
+  color: #c0c8d5;
+}
+
+/* OPCIONES */
+
+.mision-opciones {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.mision-opcion {
+  width: 100%;
+  padding: 15px 18px;
+  text-align: left;
+  color: #d9e2ef;
+  border: 1px solid rgba(0, 153, 255, 0.22);
+  border-radius: 12px;
+  background: #0a111d;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+.mision-opcion:hover {
+  transform: translateX(4px);
+  border-color: #3b9cff;
+  background: rgba(0, 102, 255, 0.12);
+}
+
+.mision-opcion.correcta {
+  border-color: #58d68d;
+  background: rgba(88, 214, 141, 0.12);
+}
+
+.mision-opcion.incorrecta {
+  border-color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+}
+
+/* FEEDBACK */
+
+.mision-feedback {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid rgba(0, 153, 255, 0.22);
+  border-radius: 14px;
+  background: rgba(0, 102, 255, 0.06);
+}
+
+.mision-feedback strong {
+  display: block;
+  margin-bottom: 8px;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.mision-feedback p {
+  color: #aeb8c8;
+}
+
+#misionSiguiente {
+  margin-top: 14px;
+  padding: 11px 16px;
+  color: white;
+  border: none;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #0066ff, #00a8ff);
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* RESULTADO */
+
+.mision-resultado {
+  padding: 30px 18px;
+  text-align: center;
+}
+
+.resultado-trofeo {
+  font-size: 4rem;
+}
+
+.resultado-etiqueta {
+  display: block;
+  margin-top: 8px;
+  color: #58adff;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.mision-resultado h3 {
+  margin: 10px 0;
+  color: white;
+  font-size: 1.8rem;
+}
+
+.resultado-puntuacion {
+  margin: 14px 0;
+  color: #58d68d;
+  font-size: 3rem;
+  font-weight: 900;
+}
+
+.resultado-desglose {
+  display: grid;
+  gap: 10px;
+  max-width: 600px;
+  margin: 24px auto;
+}
+
+.resultado-desglose > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 16px;
+  border: 1px solid rgba(0, 153, 255, 0.18);
+  border-radius: 10px;
+  background: rgba(0, 102, 255, 0.05);
+}
+
+.resultado-desglose span {
+  color: #aeb8c8;
+}
+
+.resultado-desglose strong {
+  color: white;
+}
+
+.resultado-acciones {
+  margin-top: 20px;
+}
+
+/* MÓVIL */
+
+@media (max-width: 700px) {
+  .mision-fluidos {
+    padding: 15px;
+  }
+
+  .mision-reglas {
+    grid-template-columns: 1fr;
+  }
+
+  .mision-contenido {
+    padding: 20px 14px;
+  }
+
+  .mision-superior {
+    flex-direction: column;
+  }
+}
+/* ===== SISTEMA DE PISTAS IM3CB ===== */
+
+.sopa-pistas {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid rgba(255, 193, 7, 0.28);
+  border-radius: 14px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(255, 193, 7, 0.10),
+      transparent 42%
+    ),
+    rgba(255, 193, 7, 0.035);
+}
+
+.pistas-superior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pistas-superior > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pistas-superior strong {
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.pistas-superior span {
+  color: #f7c85c;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+#botonPistaFluidos {
+  padding: 11px 16px;
+  border: 1px solid rgba(255, 193, 7, 0.55);
+  border-radius: 10px;
+  color: #111827;
+  background:
+    linear-gradient(
+      135deg,
+      #ffd54f,
+      #ffb300
+    );
+  font-size: 0.9rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    opacity 0.18s ease;
+}
+
+#botonPistaFluidos:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 20px rgba(255, 179, 0, 0.22);
+}
+
+#botonPistaFluidos:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none;
+  box-shadow: none;
+}
+
+.pistas-intentos {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.pista-punto {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffc107;
+  box-shadow:
+    0 0 10px rgba(255, 193, 7, 0.55);
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+/* Ayuda ya utilizada */
+
+.pista-punto.usada {
+  background: #3b4352;
+  box-shadow: none;
+  transform: scale(0.82);
+}
+
+/* Zona donde aparece la pista */
+
+.pista-revelada {
+  display: none;
+  margin-top: 16px;
+  padding: 14px;
+  border-left: 4px solid #ffc107;
+  border-radius: 8px;
+  color: #ffffff;
+  background: rgba(255, 193, 7, 0.08);
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-align: center;
+}
+
+.pista-revelada.activa {
+  display: block;
+  animation: aparecerPista 0.4s ease;
+}
+
+@keyframes aparecerPista {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pista-advertencia {
+  margin: 15px 0 0;
+  padding-top: 13px;
+  border-top: 1px solid rgba(255, 193, 7, 0.18);
+  color: #b7c0cf;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.pista-advertencia strong {
+  color: #ffca4b;
+}
+
+/* MÓVIL */
+
+@media (max-width: 700px) {
+  .pistas-superior {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  #botonPistaFluidos {
+    width: 100%;
+  }
+
+  .pista-revelada {
+    font-size: 0.92rem;
+    letter-spacing: 2px;
+  }
+}
+/* BLOQUEO DEL SIGUIENTE TEMA */
+
+.sopa-desbloqueo {
+  margin-top: 16px;
+  padding: 15px;
+  text-align: center;
+  border: 1px solid rgba(255, 184, 107, 0.25);
+  border-radius: 12px;
+  background: rgba(255, 184, 107, 0.06);
+}
+
+.sopa-desbloqueo strong {
+  display: block;
+  color: #ffb86b;
+  font-size: 0.92rem;
+  letter-spacing: 0.6px;
+}
+
+.sopa-desbloqueo.completada {
+  border-color: rgba(88, 214, 141, 0.4);
+  background: rgba(88, 214, 141, 0.08);
+}
+
+.sopa-desbloqueo.completada strong {
+  color: #58d68d;
+}
+
+/* MÓVIL */
+
+@media (max-width: 700px) {
+  .sopa-im3cb {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .sopa-tablero {
+    min-width: 520px;
+  }
+
+  .sopa-cabecera h3 {
+    font-size: 1.12rem;
+  }
+}
+    footer {
+      padding: 30px 20px;
+      text-align: center;
+      color: #7f8795;
+      background: #050609;
+      border-top: 1px solid rgba(0, 102, 255, 0.2);
+    }
+
+    footer strong {
+      color: #1683ff;
+    }
+
+    @media (max-width: 850px) {
+      nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 16px 5%;
+      }
+
+      .hero-curso {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-imagen {
+        order: -1;
+      }
+
+      .panel {
+        padding: 24px;
+      }
+
+      .asistencia-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    /* =========================
+   ALUMNO RECONOCIDO
+========================= */
+
+.tarjeta-alumno-reconocido {
+  display: none;
+  margin: 18px 0;
+  padding: 18px;
+  border: 1px solid rgba(41, 121, 255, 0.35);
+  border-radius: 16px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(41, 121, 255, 0.14),
+      rgba(15, 15, 26, 0.92)
+    );
+}
+
+.tarjeta-alumno-reconocido.activa {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.alumno-avatar {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(41, 121, 255, 0.18);
+  font-size: 1.8rem;
+}
+
+.alumno-datos {
+  display: grid;
+  gap: 4px;
+}
+
+.alumno-datos strong {
+  color: white;
+  font-size: 1.08rem;
+}
+
+.alumno-datos span {
+  color: #cbd5e1;
+  font-size: 0.92rem;
+}
+
+.boton-cambiar-alumno {
+  grid-column: 1 / -1;
+  padding: 10px 12px;
+  border: 1px solid rgba(41, 121, 255, 0.35);
+  border-radius: 10px;
+  background: transparent;
+  color: #8ab4ff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.boton-cambiar-alumno:hover {
+  background: rgba(41, 121, 255, 0.1);
+}
+    /* =========================
+   INDICADOR DE ASISTENCIA
+========================= */
+
+.indicador-asistencia {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  margin: 14px 0;
+  padding: 10px 14px;
+
+  border-radius: 12px;
+
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.luz-asistencia {
+  width: 14px;
+  height: 14px;
+
+  border-radius: 50%;
+
+  display: inline-block;
+}
+
+/* ROJO: NO REGISTRADO */
+.indicador-asistencia.no-registrado {
+  color: #ff8a8a;
+  background: rgba(255, 70, 70, 0.10);
+  border: 1px solid rgba(255, 70, 70, 0.28);
+}
+
+.indicador-asistencia.no-registrado
+.luz-asistencia {
+  background: #ff4646;
+
+  box-shadow:
+    0 0 6px #ff4646,
+    0 0 14px rgba(255, 70, 70, 0.75);
+}
+
+/* VERDE: REGISTRADO */
+.indicador-asistencia.registrado {
+  color: #79f2a6;
+  background: rgba(45, 210, 110, 0.10);
+  border: 1px solid rgba(45, 210, 110, 0.30);
+}
+
+.indicador-asistencia.registrado
+.luz-asistencia {
+  background: #2dd66f;
+
+  box-shadow:
+    0 0 6px #2dd66f,
+    0 0 16px rgba(45, 214, 111, 0.85);
+}
+
+/* NARANJA: YA REGISTRADO */
+.indicador-asistencia.ya-registrado {
+  color: #ffc477;
+  background: rgba(255, 170, 60, 0.10);
+  border: 1px solid rgba(255, 170, 60, 0.30);
+}
+
+.indicador-asistencia.ya-registrado
+.luz-asistencia {
+  background: #ff9f43;
+
+  box-shadow:
+    0 0 6px #ff9f43,
+    0 0 16px rgba(255, 159, 67, 0.85);
+}
+    /* =====================================================
+   TEMA 1.3 · PROPIEDADES DE LOS FLUIDOS
+===================================================== */
+
+.propiedades-13 {
+  margin-top: 28px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(41, 121, 255, 0.18);
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.98),
+      rgba(239,246,255,0.96)
+    );
+  box-shadow:
+    0 18px 45px rgba(15, 23, 42, 0.12);
+}
+
+
+/* ENCABEZADO */
+
+.prop13-encabezado {
+  padding: 30px 26px 24px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(45, 214, 111, 0.35),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #123c7a 58%,
+      #2979ff
+    );
+}
+
+.prop13-etiqueta {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 12px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.prop13-encabezado h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
+  line-height: 1.1;
+}
+
+.prop13-encabezado > p {
+  max-width: 760px;
+  margin: 0;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.65;
+}
+
+.prop13-mensaje {
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+  margin-top: 20px;
+  padding: 15px 17px;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(8px);
+}
+
+.prop13-mensaje > span {
+  font-size: 1.7rem;
+}
+
+.prop13-mensaje strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.prop13-mensaje p {
+  margin: 0;
+  color: rgba(255,255,255,0.86);
+  line-height: 1.5;
+}
+
+
+/* RUTA DE ESTACIONES */
+
+.prop13-ruta {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  padding: 18px;
+  background: #eaf2ff;
+  border-bottom: 1px solid #dbeafe;
+}
+
+.prop13-tab {
+  appearance: none;
+  min-height: 112px;
+  padding: 14px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 17px;
+  background: #ffffff;
+  color: #334155;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.prop13-tab:hover {
+  transform: translateY(-3px);
+  border-color: #2979ff;
+  box-shadow:
+    0 10px 24px rgba(41, 121, 255, 0.16);
+}
+
+.prop13-tab.activa {
+  color: #ffffff;
+  border-color: #2979ff;
+  background:
+    linear-gradient(
+      135deg,
+      #1d4ed8,
+      #2979ff
+    );
+  box-shadow:
+    0 12px 28px rgba(41, 121, 255, 0.28);
+}
+
+.prop13-numero {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  margin: 0 auto 8px;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-weight: 900;
+}
+
+.prop13-tab.activa .prop13-numero {
+  background: rgba(255,255,255,0.2);
+  color: #ffffff;
+}
+
+.prop13-tab strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.88rem;
+}
+
+.prop13-tab small {
+  display: block;
+  opacity: 0.78;
+}
+
+
+/* PANELES */
+
+.prop13-panel {
+  display: none;
+  padding: 26px;
+  animation: prop13Entrada 0.35s ease;
+}
+
+.prop13-panel.activo {
+  display: block;
+}
+
+@keyframes prop13Entrada {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.prop13-panel-titulo {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.prop13-icono {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background:
+    linear-gradient(
+      135deg,
+      #dbeafe,
+      #bfdbfe
+    );
+  font-size: 1.8rem;
+}
+
+.prop13-panel-titulo small {
+  color: #2979ff;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.prop13-panel-titulo h4 {
+  margin: 3px 0 0;
+  color: #0f172a;
+  font-size: 1.45rem;
+}
+
+.prop13-intro {
+  max-width: 850px;
+  margin: 0 0 22px;
+  color: #475569;
+  line-height: 1.7;
+}
+
+
+/* GRID DE CONCEPTOS */
+
+.prop13-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.prop13-grid.dos {
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+}
+
+.prop13-concepto {
+  position: relative;
+  padding: 22px 18px 18px;
+  overflow: hidden;
+  border: 1px solid #dbeafe;
+  border-radius: 19px;
+  background: #ffffff;
+  box-shadow:
+    0 10px 26px rgba(15, 23, 42, 0.07);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.prop13-concepto:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 16px 34px rgba(15, 23, 42, 0.12);
+}
+
+.prop13-simbolo {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 13px;
+  border-radius: 15px;
+  background:
+    linear-gradient(
+      135deg,
+      #2979ff,
+      #1d4ed8
+    );
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 900;
+  box-shadow:
+    0 8px 18px rgba(41, 121, 255, 0.25);
+}
+
+.prop13-concepto h5 {
+  margin: 0 0 9px;
+  color: #0f172a;
+  font-size: 1.08rem;
+}
+
+.prop13-concepto p {
+  color: #475569;
+  line-height: 1.6;
+}
+
+.prop13-concepto ul {
+  margin: 12px 0;
+  padding-left: 19px;
+  color: #475569;
+  line-height: 1.55;
+}
+
+
+/* FÓRMULAS */
+
+.prop13-formula {
+  margin: 15px 0;
+  padding: 14px 12px;
+  border: 1px solid #bfdbfe;
+  border-radius: 14px;
+  background:
+    linear-gradient(
+      135deg,
+      #eff6ff,
+      #dbeafe
+    );
+  color: #123c7a;
+  text-align: center;
+  font-family:
+    "Cambria Math",
+    "Times New Roman",
+    serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.prop13-formula.secundaria {
+  margin-top: -7px;
+  background: #f8fafc;
+}
+
+.prop13-formula.grande {
+  max-width: 420px;
+  margin: 18px auto;
+  font-size: 1.45rem;
+}
+
+.prop13-unidad {
+  display: inline-flex;
+  padding: 7px 10px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: #ecfdf5;
+  color: #047857;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.prop13-nota {
+  padding: 11px 12px;
+  border-left: 4px solid #ff9f43;
+  border-radius: 8px;
+  background: #fff7ed;
+  color: #9a3412 !important;
+}
+
+
+/* APLICACIÓN */
+
+.prop13-aplicacion {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-top: 20px;
+  padding: 17px;
+  border: 1px solid #bbf7d0;
+  border-radius: 17px;
+  background:
+    linear-gradient(
+      135deg,
+      #ecfdf5,
+      #f0fdf4
+    );
+}
+
+.prop13-aplicacion > span {
+  font-size: 1.8rem;
+}
+
+.prop13-aplicacion strong {
+  color: #166534;
+}
+
+.prop13-aplicacion p {
+  margin: 5px 0 0;
+  color: #475569;
+  line-height: 1.55;
+}
+
+
+/* COMPARACIÓN DE FLUIDOS */
+
+.prop13-comparacion {
+  display: grid;
+  grid-template-columns:
+    1fr auto 1fr auto 1fr;
+  gap: 10px;
+  align-items: center;
+  margin: 20px 0;
+  padding: 18px;
+  border-radius: 18px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.prop13-fluido {
+  padding: 15px 10px;
+  border-radius: 15px;
+  background: #ffffff;
+  text-align: center;
+  box-shadow:
+    0 7px 18px rgba(15,23,42,0.07);
+}
+
+.prop13-fluido span {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 2rem;
+}
+
+.prop13-fluido strong,
+.prop13-fluido small {
+  display: block;
+}
+
+.prop13-fluido small {
+  margin-top: 4px;
+  color: #64748b;
+}
+
+.prop13-flecha {
+  color: #2979ff;
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+
+/* TEMPERATURA */
+
+.prop13-temperatura {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #fed7aa;
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      135deg,
+      #fff7ed,
+      #fffbeb
+    );
+}
+
+.prop13-temperatura h5 {
+  margin: 0 0 14px;
+  color: #9a3412;
+  font-size: 1.05rem;
+}
+
+.prop13-temp-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.prop13-temp-grid > div {
+  padding: 15px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.82);
+}
+
+.prop13-temp-grid p {
+  margin: 6px 0 0;
+  color: #475569;
+  line-height: 1.55;
+}
+
+
+/* DILATACIÓN */
+
+.prop13-dilatacion {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ddd6fe;
+  border-radius: 19px;
+  background:
+    linear-gradient(
+      135deg,
+      #faf5ff,
+      #f5f3ff
+    );
+}
+
+.prop13-dilatacion > p {
+  color: #475569;
+  line-height: 1.65;
+}
+
+
+/* EJEMPLOS */
+
+.prop13-ejemplos {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.prop13-ejemplos > div {
+  padding: 18px 14px;
+  border: 1px solid #dbeafe;
+  border-radius: 17px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.prop13-ejemplos span {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 2rem;
+}
+
+.prop13-ejemplos strong {
+  color: #0f172a;
+}
+
+.prop13-ejemplos p {
+  margin: 6px 0 0;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+
+/* CIERRE */
+
+.prop13-cierre {
+  display: grid;
+  grid-template-columns:
+    auto 1fr auto;
+  gap: 15px;
+  align-items: center;
+  padding: 22px 24px;
+  border-top: 1px solid #dbeafe;
+  background:
+    linear-gradient(
+      135deg,
+      #eff6ff,
+      #ecfdf5
+    );
+}
+
+.prop13-cierre > span {
+  font-size: 2rem;
+}
+
+.prop13-cierre strong {
+  color: #0f172a;
+  font-size: 1.05rem;
+}
+
+.prop13-cierre p {
+  margin: 5px 0 0;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.prop13-boton-problemas {
+  min-width: 150px;
+  padding: 12px 15px;
+  border: 0;
+  border-radius: 14px;
+  background: #cbd5e1;
+  color: #64748b;
+  font-weight: 900;
+  cursor: not-allowed;
+}
+
+.prop13-boton-problemas small {
+  display: block;
+  margin-top: 3px;
+  font-weight: 700;
+}
+
+
+/* =====================================================
+   RESPONSIVE · CELULAR
+===================================================== */
+
+@media (max-width: 820px) {
+
+  .prop13-ruta {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .prop13-grid,
+  .prop13-grid.dos {
+    grid-template-columns: 1fr;
+  }
+
+  .prop13-ejemplos {
+    grid-template-columns: 1fr;
+  }
+
+  .prop13-cierre {
+    grid-template-columns:
+      auto 1fr;
+  }
+
+  .prop13-boton-problemas {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 560px) {
+
+  .prop13-encabezado {
+    padding: 24px 18px 20px;
+  }
+
+  .prop13-ruta {
+    grid-template-columns: 1fr;
+    padding: 13px;
+  }
+
+  .prop13-tab {
+    min-height: auto;
+    text-align: left;
+  }
+
+  .prop13-numero {
+    display: inline-grid;
+    margin: 0 8px 0 0;
+    vertical-align: middle;
+  }
+
+  .prop13-tab strong {
+    display: inline;
+  }
+
+  .prop13-tab small {
+    margin-top: 6px;
+    padding-left: 42px;
+  }
+
+  .prop13-panel {
+    padding: 20px 16px;
+  }
+
+  .prop13-comparacion {
+    grid-template-columns: 1fr;
+  }
+
+  .prop13-flecha {
+    transform: rotate(90deg);
+    text-align: center;
+  }
+
+  .prop13-temp-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .prop13-cierre {
+    padding: 19px 16px;
+  }
+}
+    /* =====================================================
+   LABORATORIO DE PROBLEMAS · ESTACIÓN 1
+===================================================== */
+
+.prop13-lab-problemas {
+  margin-top: 28px;
+  overflow: hidden;
+  border: 1px solid #bfdbfe;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.10);
+}
+
+/* ENCABEZADO */
+
+.prop13-lab-header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 22px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(45, 214, 111, 0.22),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #0f172a,
+      #123c7a 58%,
+      #2979ff
+    );
+  color: #ffffff;
+}
+
+.prop13-lab-icono {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.15);
+  font-size: 2rem;
+}
+
+.prop13-lab-etiqueta {
+  display: block;
+  margin-bottom: 4px;
+  color: #93c5fd;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.prop13-lab-header h4 {
+  margin: 0 0 5px;
+  color: #ffffff;
+  font-size: 1.35rem;
+}
+
+.prop13-lab-header p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.86);
+  line-height: 1.5;
+}
+
+/* PESTAÑAS */
+
+.prop13-lab-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px;
+  background: #eff6ff;
+  border-bottom: 1px solid #dbeafe;
+}
+
+.prop13-lab-tab {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 15px;
+  background: #ffffff;
+  color: #334155;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.prop13-lab-tab:hover {
+  transform: translateY(-2px);
+  border-color: #2979ff;
+  box-shadow: 0 8px 20px rgba(41, 121, 255, 0.14);
+}
+
+.prop13-lab-tab.activa {
+  border-color: #2979ff;
+  background:
+    linear-gradient(
+      135deg,
+      #1d4ed8,
+      #2979ff
+    );
+  color: #ffffff;
+}
+
+.prop13-lab-tab > span {
+  font-size: 1.6rem;
+}
+
+.prop13-lab-tab strong,
+.prop13-lab-tab small {
+  display: block;
+}
+
+.prop13-lab-tab small {
+  margin-top: 3px;
+  opacity: 0.78;
+}
+
+/* PANELES */
+
+.prop13-lab-panel {
+  display: none;
+  padding: 22px;
+}
+
+.prop13-lab-panel.activo {
+  display: block;
+  animation: prop13LabEntrada 0.3s ease;
+}
+
+@keyframes prop13LabEntrada {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* PROGRESO */
+
+.prop13-problema-progreso {
+  margin-bottom: 18px;
+}
+
+.prop13-problema-progreso > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.prop13-problema-progreso span {
+  color: #2979ff;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.prop13-problema-progreso strong {
+  color: #0f172a;
+}
+
+.prop13-progreso-pista {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e2e8f0;
+}
+
+.prop13-progreso-pista > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      90deg,
+      #2979ff,
+      #2dd66f
+    );
+  transition: width 0.3s ease;
+}
+
+/* SLIDES */
+
+.prop13-problema-slide {
+  display: none;
+}
+
+.prop13-problema-slide.activo {
+  display: block;
+  animation: prop13ProblemaEntrada 0.32s ease;
+}
+
+@keyframes prop13ProblemaEntrada {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* CABECERA DEL PROBLEMA */
+
+.prop13-problema-cabecera {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.prop13-problema-numero {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+  background:
+    linear-gradient(
+      135deg,
+      #2979ff,
+      #1d4ed8
+    );
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 900;
+  box-shadow: 0 8px 18px rgba(41, 121, 255, 0.25);
+}
+
+.prop13-problema-cabecera small {
+  color: #2979ff;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+}
+
+.prop13-problema-cabecera h5 {
+  margin: 3px 0 0;
+  color: #0f172a;
+  font-size: 1.15rem;
+}
+
+/* IMÁGENES */
+
+.prop13-problema-imagen {
+  padding: 10px;
+  overflow: hidden;
+  border: 1px solid #dbeafe;
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      135deg,
+      #f8fafc,
+      #eff6ff
+    );
+}
+
+.prop13-problema-imagen img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.prop13-imagen-retos {
+  border-color: #fed7aa;
+  background:
+    linear-gradient(
+      135deg,
+      #fff7ed,
+      #fffbeb
+    );
+}
+
+/* IDEA CLAVE */
+
+.prop13-problema-clave {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 15px;
+  padding: 14px 16px;
+  border-left: 4px solid #2dd66f;
+  border-radius: 12px;
+  background: #ecfdf5;
+}
+
+.prop13-problema-clave > span {
+  font-size: 1.35rem;
+}
+
+.prop13-problema-clave p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.55;
+}
+
+/* NAVEGACIÓN */
+
+.prop13-problema-nav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.prop13-problema-nav > button {
+  padding: 11px 15px;
+  border: 0;
+  border-radius: 12px;
+  background: #2979ff;
+  color: #ffffff;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.prop13-problema-nav > button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(41, 121, 255, 0.22);
+}
+
+.prop13-problema-nav > button:disabled {
+  background: #cbd5e1;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+.prop13-problema-puntos {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.prop13-problema-puntos button {
+  width: 11px;
+  height: 11px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #cbd5e1;
+  cursor: pointer;
+}
+
+.prop13-problema-puntos button.activo {
+  width: 28px;
+  border-radius: 999px;
+  background: #2979ff;
+}
+
+/* RETOS */
+
+.prop13-reto-header {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 18px;
+  padding: 17px;
+  border: 1px solid #fed7aa;
+  border-radius: 17px;
+  background:
+    linear-gradient(
+      135deg,
+      #fff7ed,
+      #fffbeb
+    );
+}
+
+.prop13-reto-icono {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: #ffedd5;
+  font-size: 1.8rem;
+}
+
+.prop13-reto-header small {
+  color: #ea580c;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+}
+
+.prop13-reto-header h5 {
+  margin: 3px 0 4px;
+  color: #0f172a;
+  font-size: 1.2rem;
+}
+
+.prop13-reto-header p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.5;
+}
+
+/* PASOS */
+
+.prop13-reto-pasos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.prop13-reto-pasos > div {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 14px;
+  border: 1px solid #dbeafe;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.prop13-reto-pasos span {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  background: #2979ff;
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.prop13-reto-pasos p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.45;
+}
+
+/* AVISO */
+
+.prop13-reto-aviso {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 16px;
+  padding: 15px;
+  border: 1px solid #fde68a;
+  border-radius: 14px;
+  background: #fffbeb;
+}
+
+.prop13-reto-aviso > span {
+  font-size: 1.4rem;
+}
+
+.prop13-reto-aviso p {
+  margin: 0;
+  color: #713f12;
+  line-height: 1.5;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+
+  .prop13-lab-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .prop13-problema-nav {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .prop13-problema-puntos {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    margin-bottom: 4px;
+  }
+
+  .prop13-problema-nav > button {
+    width: 100%;
+  }
+
+  .prop13-reto-pasos {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+
+  .prop13-lab-header {
+    align-items: flex-start;
+    padding: 18px 15px;
+  }
+
+  .prop13-lab-panel {
+    padding: 16px 12px;
+  }
+
+  .prop13-problema-imagen {
+    padding: 5px;
+  }
+
+  .prop13-problema-cabecera h5 {
+    font-size: 1rem;
+  }
+}
+    /* =====================================================
+   FRANJA VISUAL · TEMPERATURA Y VISCOSIDAD
+===================================================== */
+
+.prop13-franja-viscosidad {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 14px;
+  align-items: stretch;
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid #dbeafe;
+  border-radius: 20px;
+  background:
+    linear-gradient(
+      135deg,
+      #eff6ff,
+      #fff7ed
+    );
+}
+
+.prop13-franja-caso {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  min-height: 92px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow:
+    0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.prop13-franja-caso.liquido {
+  border-left: 5px solid #2979ff;
+}
+
+.prop13-franja-caso.gas {
+  border-left: 5px solid #ff9f43;
+}
+
+.prop13-franja-icono {
+  font-size: 1.8rem;
+}
+
+.prop13-franja-fluido {
+  font-size: 2rem;
+}
+
+.prop13-franja-caso small {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.prop13-franja-caso.liquido small {
+  color: #1d4ed8;
+}
+
+.prop13-franja-caso.gas small {
+  color: #c2410c;
+}
+
+.prop13-franja-caso strong {
+  display: block;
+  color: #0f172a;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.prop13-franja-vs {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  align-self: center;
+  border-radius: 50%;
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 900;
+  box-shadow:
+    0 7px 16px rgba(15, 23, 42, 0.18);
+}
+
+.prop13-franja-conclusion {
+  margin: 12px 0 0;
+  padding: 14px 16px;
+  border-left: 4px solid #8b5cf6;
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      135deg,
+      #f5f3ff,
+      #faf5ff
+    );
+  color: #475569;
+  line-height: 1.6;
+}
+
+.prop13-franja-conclusion strong {
+  color: #6d28d9;
+}
+
+
+/* CELULAR */
+
+@media (max-width: 700px) {
+
+  .prop13-franja-viscosidad {
+    grid-template-columns: 1fr;
+  }
+
+  .prop13-franja-vs {
+    margin: 0 auto;
+  }
+
+  .prop13-franja-caso {
+    grid-template-columns: auto 1fr auto;
+  }
+}
+
+
+@media (max-width: 430px) {
+
+  .prop13-franja-caso {
+    grid-template-columns: auto 1fr;
+  }
+
+  .prop13-franja-fluido {
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+}
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="marca" href="index.html">IM<span>3</span>CB</a>
+    <div class="nav-acciones">
+      <a class="regresar" href="#evaluacion">Evaluación</a>
+      <a class="regresar" href="#asistencia">Pasar lista</a>
+      <a class="regresar" href="index.html#cursos">Regresar al portal</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero-curso">
+      <div>
+        <span class="etiqueta">CURSO DE INGENIERÍA</span>
+        <h1>Análisis de <span>Fluidos</span></h1>
+        <p class="intro">
+          Analizar y simular sistemas mecatrónicos que involucren fluidos en
+          condiciones estáticas y dinámicas, mediante la aplicación de los
+          principios de Pascal y Arquímedes, así como de las leyes fundamentales
+          de la mecánica de fluidos, diferenciando el comportamiento de los
+          flujos compresibles e incompresibles para predecir su respuesta y
+          contribuir al diseño, evaluación y optimización de aplicaciones
+          mecatrónicas.
+        </p>
+      </div>
+
+      <div class="hero-imagen">
+        <img src="portada-fluidos.png" alt="Portada del curso Análisis de Fluidos">
+      </div>
+    </section>
+
+    <div style="text-align: center; margin: 30px 0;">
+      <button class="boton-accion" type="button" onclick="abrirDiagnosticoUnidad1()" style="padding: 15px 30px; font-size: 1.1rem;">
+        Evaluación diagnóstica
+      </button>
+    </div>
+
+    <section class="panel" id="temario">
+      <h2>Temario <span>oficial</span></h2>
+      <p>
+        El curso se organiza en cinco unidades progresivas, desde los conceptos
+        básicos hasta el análisis de flujo compresible.
+      </p>
+
+      <div class="temario-grid">
+        <article class="unidad unidad-activa">
+          <span class="estado-unidad">ACTIVA</span>
+          <small>UNIDAD 1</small>
+          <h3>Fundamentos de Mecánica de Fluidos</h3>
+          <ol>
+            <li>Conceptos básicos y sistemas de unidades.</li>
+            <li>Clasificación de fluidos.</li>
+            <li>Propiedades mecánicas de los fluidos.</li>
+          </ol>
+          <button class="boton-unidad" type="button" onclick="abrirCursoUnidad1()">Ir al curso</button>
+        </article>
+
+        <article class="unidad">
+          <small>UNIDAD 2</small>
+          <h3>Principios de Hidrostática</h3>
+          <ol>
+            <li>Medición de la presión.</li>
+            <li>Principio de Pascal.</li>
+            <li>Principio de Arquímedes.</li>
+          </ol>
+        </article>
+
+        <article class="unidad">
+          <small>UNIDAD 3</small>
+          <h3>Leyes y principios básicos para análisis de flujo de fluidos</h3>
+          <ol>
+            <li>Clasificación de flujos.</li>
+            <li>Ecuación de continuidad.</li>
+            <li>Ecuación de la energía.</li>
+          </ol>
+        </article>
+
+        <article class="unidad">
+          <small>UNIDAD 4</small>
+          <h3>Sistemas de tuberías de flujo incompresible</h3>
+          <ol>
+            <li>Tuberías.</li>
+            <li>Ecuación de la energía.</li>
+            <li>Pérdidas por fricción en tuberías, accesorios y conexiones.</li>
+            <li>Cálculo de sistemas de tuberías.</li>
+            <li>Golpe de Ariete.</li>
+          </ol>
+        </article>
+
+        <article class="unidad">
+          <small>UNIDAD 5</small>
+          <h3>Sistemas de tuberías de flujo compresible</h3>
+          <ol>
+            <li>Tuberías.</li>
+            <li>Leyes de los gases.</li>
+            <li>Ecuación de la energía.</li>
+            <li>Pérdidas por fricción en tuberías.</li>
+            <li>Ecuaciones teóricas-empíricas para determinar el flujo volumétrico.</li>
+            <li>Ondas de choque.</li>
+          </ol>
+        </article>
+      </div>
+
+      <section class="panel" id="evaluacion">
+        <h2>Evaluación <span>del curso</span></h2>
+        <p>
+          La calificación de cada parcial se integra con examen y trabajos
+          realizados en clase.
+        </p>
+
+        <div class="evaluacion-grid">
+          <article class="parcial">
+            <h3>1er parcial</h3>
+            <ul>
+              <li>80% examen.</li>
+              <li>20% trabajos en clase.</li>
+            </ul>
+          </article>
+
+          <article class="parcial">
+            <h3>2do parcial</h3>
+            <ul>
+              <li>50% examen.</li>
+              <li>50% trabajos en clase.</li>
+            </ul>
+          </article>
+
+          <article class="parcial">
+            <h3>3er parcial</h3>
+            <ul>
+              <li>80% proyecto.</li>
+              <li>20% trabajos en clase.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" id="asistencia">
+        <h2>Pasar <span>lista</span></h2>
+        <p>
+          Inicia una sesión de asistencia para generar un QR temporal. Los
+          primeros 15 minutos cuentan como asistencia, los siguientes 5 minutos
+          como retardo y después queda fuera de tiempo.
+        </p>
+
+        <div class="asistencia-layout">
+          <article class="asistencia-card">
+            <h3>Panel docente</h3>
+            <div class="campo">
+              <label for="codigoDocente">Código docente</label>
+              <input id="codigoDocente" type="password" placeholder="Código para iniciar lista" autocomplete="off">
+            </div>
+
+            <div class="campo">
+              <label for="sesionLista">Sesión o tema</label>
+              <input id="sesionLista" type="text" placeholder="Ej. Unidad 1 - Diagnóstico">
+            </div>
+
+            <div class="acciones-asistencia">
+              <button class="boton-accion" type="button" onclick="iniciarPaseLista()">Iniciar pase de lista</button>
+              <button class="boton-accion boton-secundario" type="button" onclick="cerrarPaseLista()">Cerrar lista</button>
+            </div>
+
+            <div id="estadoLista" class="estado-lista">
+              Lista inactiva. Ingresa el código docente para generar el QR.
+            </div>
+            <div id="relojLista" class="reloj-lista">20:00</div>
+          </article>
+
+          <article class="asistencia-card qr-box">
+            <h3>QR de asistencia</h3>
+            <img id="qrAsistencia" alt="QR para pase de lista" onclick="abrirEnlaceAsistencia()">
+            <a id="enlaceAsistencia" class="enlace-asistencia" href="#" target="_blank" rel="noopener">
+              El enlace aparecerá al iniciar el pase de lista.
+            </a>
+          </article>
+        </div>
+
+        <article id="formularioAlumno" class="asistencia-card formulario-alumno">
+          <h3>Registro de asistencia</h3>
+          <p id="estadoAlumno">
+            Completa tus datos para registrar tu asistencia.
+          </p>
+<!-- TARJETA DE ALUMNO RECONOCIDO -->
+<div id="tarjetaAlumnoReconocido"
+     class="tarjeta-alumno-reconocido">
+
+  <div class="alumno-avatar">👤</div>
+
+  <div class="alumno-datos">
+    <strong id="alumnoReconocidoNombre">
+      Alumno
+    </strong>
+
+    <span id="alumnoReconocidoMatricula">
+      Matrícula:
+    </span>
+
+    <span id="alumnoReconocidoGrupo">
+      Grupo:
+    </span>
+  </div>
+
+  <button
+    type="button"
+    class="boton-cambiar-alumno"
+    onclick="cambiarEstudiante()">
+    ¿No eres tú? Cambiar estudiante
+  </button>
+
+</div>
+          <div id="camposAlumnoManual">
+          <div class="campo">
+            <label for="nombreAlumno">Nombre completo</label>
+            <input id="nombreAlumno" type="text" placeholder="Escribe tu nombre completo">
+          </div>
+
+          <div class="campo">
+            <label for="matriculaAlumno">Matrícula</label>
+            <input id="matriculaAlumno" type="text" placeholder="Escribe tu matrícula">
+          </div>
+
+          <div class="campo">
+            <label for="grupoAlumno">Grupo</label>
+            <input id="grupoAlumno" type="text" placeholder="Ej. IM-301">
+          </div>
+</div>
+          <div class="acciones-asistencia">
+            <button class="boton-accion" type="button" onclick="registrarAsistenciaAlumno()">Registrar asistencia</button>
+          </div>
+<!-- INDICADOR VISUAL DE ASISTENCIA -->
+<div id="indicadorAsistencia"
+     class="indicador-asistencia no-registrado">
+
+  <span id="luzAsistencia"
+        class="luz-asistencia"></span>
+
+  <span id="textoIndicadorAsistencia">
+    No registrado
+  </span>
+
+</div>
+          <p id="mensajeAsistencia" class="mensaje-formulario"></p>
+        </article>
+      </section>
+
+
+
+      <div id="modalCursoUnidad1" class="modal-diagnostico">
+        <div class="modal-diagnostico-contenido">
+          <button
+            class="cerrar-diagnostico"
+            type="button"
+            onclick="cerrarCursoUnidad1()"
+            aria-label="Cerrar Unidad 1">
+            ×
+          </button>
+
+          <h2>Unidad 1 <span>activa</span></h2>
+          <p>
+            Después de revisar la evaluación del curso y realizar el pase de
+            lista, inicia con el primer subtema de la unidad.
+          </p>
+
+          <article class="subtema-card">
+            <small>SUBTEMA 1.1</small>
+            <h3>Conceptos básicos y sistemas de unidades</h3>
+            <p>
+              Reconoce los conceptos iniciales de la mecánica de fluidos y la
+              importancia de trabajar con sistemas de unidades consistentes en
+              problemas de ingeniería.
+            </p>
+            <div class="sway-contenedor">
+  <iframe
+    width="760px"
+    height="500px"
+    src="https://sway.cloud.microsoft/s/QgrEBkCBHez0dmAh/embed"
+    frameborder="0"
+    marginheight="0"
+    marginwidth="0"
+    max-width="100%"
+    sandbox="allow-forms allow-modals allow-orientation-lock allow-popups allow-same-origin allow-scripts"
+    scrolling="no"
+    style="border: none; max-width: 100%; max-height: 100vh;"
+    allowfullscreen
+    mozallowfullscreen
+    msallowfullscreen
+    webkitallowfullscreen>
+  </iframe>
+</div>
+ <!-- ===== TV IM3CB CON TELÓN ===== -->
+<div class="tv-im3cb">
+
+  <div class="tv-barra">
+    <img
+      src="logo-im3cb.jpeg"
+      alt="Logo IM3CB"
+      class="tv-logo">
+
+    <span class="tv-estado">
+      ● VIDEO DE APOYO
+    </span>
+  </div>
+
+  <div class="tv-pantalla" id="tvPantallaFluidos">
+
+    <iframe
+      id="videoFluidos"
+      class="tv-video"
+      src=""
+      title="Video de apoyo - Conceptos básicos y sistemas de unidades"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+
+    <div class="telon telon-izq"></div>
+    <div class="telon telon-der"></div>
+
+    <button
+      class="tv-play"
+      type="button"
+      onclick="abrirTvFluidos()"
+      aria-label="Reproducir video">
+      ▶
+    </button>
+
+  </div>
+
+  <div class="tv-pie">
+    <strong>Conceptos básicos y sistemas de unidades</strong>
+    <span>Material audiovisual de apoyo · IM3CB</span>
+  </div>
+
+</div>
+            <!-- ===== SOPA DE LETRAS INTERACTIVA IM3CB ===== -->
+<div class="sopa-im3cb" id="sopaFluidos">
+
+  <div class="sopa-cabecera">
+    <small>RETO IM3CB</small>
+
+    <h3>🧩 Descubre los conceptos ocultos</h3>
+
+    <p>
+      Selecciona las palabras arrastrando sobre las letras.
+      Pueden aparecer en distintas direcciones.
+    </p>
+  </div>
+
+  <div class="sopa-tablero-wrap">
+    <div
+      class="sopa-tablero"
+      id="sopaTableroFluidos"
+      aria-label="Sopa de letras interactiva">
+    </div>
+  </div>
+
+  <div class="sopa-progreso">
+
+    <div class="sopa-progreso-superior">
+      <span>CONCEPTOS ENCONTRADOS</span>
+
+      <span
+        class="sopa-contador"
+        id="sopaContadorFluidos">
+        0 / 8
+      </span>
+    </div>
+
+    <div class="sopa-barra">
+      <div
+        class="sopa-barra-avance"
+        id="sopaBarraFluidos">
+      </div>
+    </div>
+
+  </div>
+<!-- ===== SISTEMA DE PISTAS IM3CB ===== -->
+<div class="sopa-pistas" id="sopaPistasFluidos">
+
+  <div class="pistas-superior">
+    <div>
+      <strong>💡 ¿Necesitas una pista?</strong>
+      <span id="pistasDisponiblesFluidos">
+        3 ayudas disponibles
+      </span>
+    </div>
+
+    <button
+      type="button"
+      id="botonPistaFluidos"
+      onclick="usarPistaFluidos()">
+      💡 Usar pista
+    </button>
+  </div>
+
+  <div
+    class="pistas-intentos"
+    id="pistasIntentosFluidos"
+    aria-label="Intentos de pista disponibles">
+
+    <span class="pista-punto"></span>
+    <span class="pista-punto"></span>
+    <span class="pista-punto"></span>
+
+  </div>
+
+  <div
+    class="pista-revelada"
+    id="pistaReveladaFluidos">
+  </div>
+
+  <p class="pista-advertencia">
+    ⚠️ Esta ayuda tiene un costo de
+    <strong>1 punto menos en tu evaluación</strong>.
+  </p>
+
+</div>
+  <div
+    class="sopa-desbloqueo"
+    id="sopaDesbloqueoFluidos">
+
+    <strong>
+      🔒 SIGUIENTE TEMA BLOQUEADO
+    </strong>
+
+  </div>
+
+</div>
+            <!-- ===== TEMA 1.2 CLASIFICACIÓN DE FLUIDOS ===== -->
+<section
+  id="tema12Fluidos"
+  class="tema12-fluidos">
+
+  <div class="tema12-encabezado">
+    <small>TEMA 1.2</small>
+
+    <h3>Clasificación de fluidos</h3>
+
+    <p>
+      Analiza los principales criterios utilizados
+      para clasificar los fluidos y relaciona su
+      comportamiento con aplicaciones de ingeniería.
+    </p>
+  </div>
+            <div class="sway-contenedor">
+    <iframe
+      width="760px"
+      height="500px"
+      src="https://sway.cloud.microsoft/s/B0wljxjjUnerDGqQ/embed"
+      frameborder="0"
+      marginheight="0"
+      marginwidth="0"
+      max-width="100%"
+      sandbox="allow-forms allow-modals allow-orientation-lock allow-popups allow-same-origin allow-scripts"
+      scrolling="no"
+      style="border: none; max-width: 100%; max-height: 100vh;"
+      allowfullscreen
+      mozallowfullscreen
+      msallowfullscreen
+      webkitallowfullscreen>
+    </iframe>
+  </div>
+
+</section>
+    <section id="misionFluidos12" class="mision-fluidos">
+
+  <!-- PORTADA -->
+  <div id="misionPortada" class="mision-portada">
+
+    <div class="mision-etiqueta">
+      MISIÓN IM3CB
+    </div>
+
+    <div class="mision-icono">
+      🧪
+    </div>
+
+    <h3>Diagnóstico de Fluidos</h3>
+
+    <p>
+      Analiza 10 situaciones de ingeniería y selecciona
+      la clasificación más adecuada para cada caso.
+    </p>
+
+    <div class="mision-reglas">
+
+      <div>
+        <strong>10</strong>
+        <span>desafíos</span>
+      </div>
+
+      <div>
+        <strong>8/10</strong>
+        <span>para aprobar</span>
+      </div>
+
+      <div>
+        <strong>2</strong>
+        <span>intentos por caso</span>
+      </div>
+
+    </div>
+
+    <button
+      type="button"
+      class="btn-iniciar-mision"
+      onclick="iniciarMisionFluidos()">
+      🚀 INICIAR MISIÓN
+    </button>
+
+  </div>
+
+
+  <!-- ZONA DE PREGUNTAS -->
+  <div
+    id="misionJuego"
+    class="mision-juego"
+    hidden>
+
+    <div class="mision-superior">
+
+      <span id="misionCaso">
+        CASO 01 / 10
+      </span>
+
+      <span id="misionPuntos">
+        0 PUNTOS
+      </span>
+
+    </div>
+
+    <div class="mision-barra">
+      <div id="misionBarraProgreso"></div>
+    </div>
+
+    <div class="mision-contenido">
+
+      <div
+        id="misionCategoria"
+        class="mision-categoria">
+        SISTEMA DE INGENIERÍA
+      </div>
+
+      <div
+        id="misionIconoCaso"
+        class="mision-icono-caso">
+        ⚙️
+      </div>
+
+      <h4 id="misionTitulo">
+        Caso de análisis
+      </h4>
+
+      <p id="misionPregunta">
+        Aquí aparecerá la situación.
+      </p>
+
+      <div
+        id="misionOpciones"
+        class="mision-opciones">
+      </div>
+
+    </div>
+
+
+    <!-- RETROALIMENTACIÓN -->
+    <div
+      id="misionFeedback"
+      class="mision-feedback"
+      hidden>
+
+      <strong id="misionFeedbackTitulo">
+      </strong>
+
+      <p id="misionFeedbackTexto">
+      </p>
+
+      <button
+        id="misionSiguiente"
+        type="button"
+        onclick="siguienteCasoFluidos()">
+        SIGUIENTE DESAFÍO →
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- RESULTADO FINAL -->
+  <div
+    id="misionResultado"
+    class="mision-resultado"
+    hidden>
+
+    <div class="resultado-trofeo">
+      🏆
+    </div>
+
+    <span class="resultado-etiqueta">
+      MISIÓN COMPLETADA
+    </span>
+
+    <h3 id="resultadoNivel">
+      Analista de Fluidos
+    </h3>
+
+    <div
+      id="resultadoPuntuacion"
+      class="resultado-puntuacion">
+      0 / 10
+    </div>
+
+    <p id="resultadoMensaje">
+    </p>
+
+    <div class="resultado-desglose">
+
+      <div>
+        <span>Estado físico</span>
+        <strong id="resEstado">0%</strong>
+      </div>
+
+      <div>
+        <span>Viscosidad</span>
+        <strong id="resViscosidad">0%</strong>
+      </div>
+
+      <div>
+        <span>Compresibilidad</span>
+        <strong id="resCompresibilidad">0%</strong>
+      </div>
+
+      <div>
+        <span>Composición</span>
+        <strong id="resComposicion">0%</strong>
+      </div>
+
+    </div>
+
+    <div
+      id="resultadoAcciones"
+      class="resultado-acciones">
+    </div>
+
+  </div>
+
+</section>
+            <!-- =====================================================
+     SUBTEMA 1.3 · PROPIEDADES DE LOS FLUIDOS
+===================================================== -->
+
+<article class="subtema-card propiedades-13" id="subtema13">
+
+  <div class="prop13-encabezado">
+
+    <span class="prop13-etiqueta">
+      SUBTEMA 1.3
+    </span>
+
+    <h3>Propiedades de los fluidos</h3>
+
+    <p>
+      Las propiedades de un fluido permiten describir,
+      comparar y predecir su comportamiento ante cambios
+      de presión, temperatura, movimiento y contacto con
+      otras superficies.
+    </p>
+
+    <div class="prop13-mensaje">
+      <span>💡</span>
+
+      <div>
+        <strong>Explora como ingeniero</strong>
+        <p>
+          Selecciona cada estación para relacionar
+          conceptos, ecuaciones y aplicaciones reales.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- NAVEGACIÓN DE ESTACIONES -->
+
+  <div class="prop13-ruta">
+
+    <button
+      class="prop13-tab activa"
+      type="button"
+      onclick="abrirPropiedad13('masa', this)">
+
+      <span class="prop13-numero">1</span>
+
+      <strong>Masa y volumen</strong>
+
+      <small>
+        ρ · γ · v
+      </small>
+
+    </button>
+
+
+    <button
+      class="prop13-tab"
+      type="button"
+      onclick="abrirPropiedad13('flujo', this)">
+
+      <span class="prop13-numero">2</span>
+
+      <strong>Flujo y resistencia</strong>
+
+      <small>
+        μ · ν
+      </small>
+
+    </button>
+
+
+    <button
+      class="prop13-tab"
+      type="button"
+      onclick="abrirPropiedad13('presion', this)">
+
+      <span class="prop13-numero">3</span>
+
+      <strong>Presión y cambio</strong>
+
+      <small>
+        p · κ · K · α
+      </small>
+
+    </button>
+
+
+    <button
+      class="prop13-tab"
+      type="button"
+      onclick="abrirPropiedad13('superficie', this)">
+
+      <span class="prop13-numero">4</span>
+
+      <strong>Superficie</strong>
+
+      <small>
+        σ · Capilaridad
+      </small>
+
+    </button>
+
+  </div>
+
+
+  <!-- =================================================
+       ESTACIÓN 1
+  ================================================== -->
+
+  <section
+    id="prop13-masa"
+    class="prop13-panel activo">
+
+    <div class="prop13-panel-titulo">
+
+      <span class="prop13-icono">⚖️</span>
+
+      <div>
+        <small>ESTACIÓN 1</small>
+        <h4>Masa, peso y volumen</h4>
+      </div>
+
+    </div>
+
+
+    <p class="prop13-intro">
+      Estas propiedades relacionan la cantidad de materia,
+      el espacio ocupado y la acción de la gravedad sobre
+      un fluido.
+    </p>
+
+
+    <div class="prop13-grid">
+
+
+      <!-- DENSIDAD -->
+
+      <article class="prop13-concepto">
+
+        <span class="prop13-simbolo">
+          ρ
+        </span>
+
+        <h5>Densidad</h5>
+
+        <p>
+          La densidad expresa la cantidad de masa
+          contenida por unidad de volumen.
+        </p>
+
+        <div class="prop13-formula">
+          ρ = m / V
+        </div>
+
+        <ul>
+          <li>
+            ρ = densidad
+          </li>
+
+          <li>
+            m = masa
+          </li>
+
+          <li>
+            V = volumen
+          </li>
+        </ul>
+
+        <div class="prop13-unidad">
+          SI: kg/m³
+        </div>
+
+      </article>
+
+
+      <!-- PESO ESPECÍFICO -->
+
+      <article class="prop13-concepto">
+
+        <span class="prop13-simbolo">
+          γ
+        </span>
+
+        <h5>Peso específico</h5>
+
+        <p>
+          Representa el peso del fluido contenido
+          en una unidad de volumen.
+        </p>
+
+        <div class="prop13-formula">
+          γ = W / V
+        </div>
+
+        <div class="prop13-formula secundaria">
+          γ = ρg
+        </div>
+
+        <p class="prop13-nota">
+          Depende de la densidad del fluido
+          y de la aceleración gravitatoria.
+        </p>
+
+        <div class="prop13-unidad">
+          SI: N/m³
+        </div>
+
+      </article>
+
+
+      <!-- VOLUMEN ESPECÍFICO -->
+
+      <article class="prop13-concepto">
+
+        <span class="prop13-simbolo">
+          v
+        </span>
+
+        <h5>Volumen específico</h5>
+
+        <p>
+          Es el volumen ocupado por unidad
+          de masa de una sustancia.
+        </p>
+
+        <div class="prop13-formula">
+          v = V / m
+        </div>
+
+        <div class="prop13-formula secundaria">
+          v = 1 / ρ
+        </div>
+
+        <p class="prop13-nota">
+          Es el recíproco de la densidad.
+        </p>
+
+        <div class="prop13-unidad">
+          SI: m³/kg
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <div class="prop13-aplicacion">
+
+      <span>🏭</span>
+
+      <div>
+        <strong>Aplicación en ingeniería</strong>
+
+        <p>
+          Estas propiedades se utilizan para calcular
+          masas almacenadas, fuerzas gravitatorias,
+          capacidad de tanques y comportamiento de
+          fluidos en sistemas industriales.
+        </p>
+      </div>
+
+    </div>
+<!-- =====================================================
+     LABORATORIO DE PROBLEMAS · ESTACIÓN 1
+===================================================== -->
+
+<div class="prop13-lab-problemas" id="labProblemasMasa">
+
+  <!-- ENCABEZADO -->
+
+  <div class="prop13-lab-header">
+
+    <div class="prop13-lab-icono">
+      🧠
+    </div>
+
+    <div>
+      <span class="prop13-lab-etiqueta">
+        APLICA LO APRENDIDO
+      </span>
+
+      <h4>
+        Laboratorio de problemas
+      </h4>
+
+      <p>
+        Analiza ejemplos resueltos y después
+        enfrenta los problemas propuestos.
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- PESTAÑAS -->
+
+  <div class="prop13-lab-tabs">
+
+    <button
+      type="button"
+      class="prop13-lab-tab activa"
+      onclick="cambiarLabMasa('resueltos', this)">
+
+      <span>📘</span>
+
+      <div>
+        <strong>Ejemplos resueltos</strong>
+        <small>4 casos guiados</small>
+      </div>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="prop13-lab-tab"
+      onclick="cambiarLabMasa('propuestos', this)">
+
+      <span>🎯</span>
+
+      <div>
+        <strong>Ahora tú resuelve</strong>
+        <small>3 retos sin solución</small>
+      </div>
+
+    </button>
+
+  </div>
+
+
+  <!-- =================================================
+       PANEL · EJEMPLOS RESUELTOS
+  ================================================== -->
+
+  <div
+    id="labMasa-resueltos"
+    class="prop13-lab-panel activo">
+
+
+    <!-- PROGRESO -->
+
+    <div class="prop13-problema-progreso">
+
+      <div>
+        <span>
+          EJEMPLO GUIADO
+        </span>
+
+        <strong id="contadorProblemaMasa">
+          1 de 4
+        </strong>
+      </div>
+
+      <div class="prop13-progreso-pista">
+
+        <span
+          id="barraProblemaMasa"
+          style="width: 25%;">
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- =============================================
+         PROBLEMA 1
+    ============================================== -->
+
+    <article
+      class="prop13-problema-slide activo"
+      data-problema-masa="0">
+
+      <div class="prop13-problema-cabecera">
+
+        <span class="prop13-problema-numero">
+          1
+        </span>
+
+        <div>
+          <small>
+            EJEMPLO RESUELTO
+          </small>
+
+          <h5>
+            Peso de un depósito de aceite
+          </h5>
+        </div>
+
+      </div>
+
+      <div class="prop13-problema-imagen">
+
+        <img
+          src="problema-resuelto-1.png"
+          alt="Problema resuelto sobre el peso de un depósito de aceite"
+          loading="lazy">
+
+      </div>
+
+      <div class="prop13-problema-clave">
+
+        <span>🔎</span>
+
+        <p>
+          <strong>Idea clave:</strong>
+          relaciona masa y peso mediante
+          <b>w = mg</b>.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <!-- =============================================
+         PROBLEMA 2
+    ============================================== -->
+
+    <article
+      class="prop13-problema-slide"
+      data-problema-masa="1">
+
+      <div class="prop13-problema-cabecera">
+
+        <span class="prop13-problema-numero">
+          2
+        </span>
+
+        <div>
+          <small>
+            EJEMPLO RESUELTO
+          </small>
+
+          <h5>
+            Densidad y peso específico
+            de la glicerina
+          </h5>
+        </div>
+
+      </div>
+
+      <div class="prop13-problema-imagen">
+
+        <img
+          src="problema-resuelto-2.png"
+          alt="Problema resuelto de densidad y peso específico de la glicerina"
+          loading="lazy">
+
+      </div>
+
+      <div class="prop13-problema-clave">
+
+        <span>🔎</span>
+
+        <p>
+          <strong>Idea clave:</strong>
+          utiliza la gravedad específica para
+          determinar densidad y peso específico.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <!-- =============================================
+         PROBLEMA 3
+    ============================================== -->
+
+    <article
+      class="prop13-problema-slide"
+      data-problema-masa="2">
+
+      <div class="prop13-problema-cabecera">
+
+        <span class="prop13-problema-numero">
+          3
+        </span>
+
+        <div>
+          <small>
+            EJEMPLO RESUELTO
+          </small>
+
+          <h5>
+            Masa de un litro de agua
+          </h5>
+        </div>
+
+      </div>
+
+      <div class="prop13-problema-imagen">
+
+        <img
+          src="problema-resuelto-3.png"
+          alt="Problema resuelto para encontrar masa a partir del peso"
+          loading="lazy">
+
+      </div>
+
+      <div class="prop13-problema-clave">
+
+        <span>🔎</span>
+
+        <p>
+          <strong>Idea clave:</strong>
+          despeja la masa mediante
+          <b>m = w / g</b>
+          y conserva la consistencia de unidades.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <!-- =============================================
+         PROBLEMA 4
+    ============================================== -->
+
+    <article
+      class="prop13-problema-slide"
+      data-problema-masa="3">
+
+      <div class="prop13-problema-cabecera">
+
+        <span class="prop13-problema-numero">
+          4
+        </span>
+
+        <div>
+          <small>
+            EJEMPLO RESUELTO
+          </small>
+
+          <h5>
+            Peso de un galón de mercurio
+          </h5>
+        </div>
+
+      </div>
+
+      <div class="prop13-problema-imagen">
+
+        <img
+          src="problema-resuelto-4.png"
+          alt="Problema resuelto del peso de un galón de mercurio"
+          loading="lazy">
+
+      </div>
+
+      <div class="prop13-problema-clave">
+
+        <span>🔎</span>
+
+        <p>
+          <strong>Idea clave:</strong>
+          aplica
+          <b>w = mg</b>
+          trabajando correctamente con
+          slugs y unidades inglesas.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <!-- NAVEGACIÓN -->
+
+    <div class="prop13-problema-nav">
+
+      <button
+        type="button"
+        id="btnProblemaMasaAnterior"
+        onclick="moverProblemaMasa(-1)"
+        disabled>
+
+        ← Anterior
+
+      </button>
+
+
+      <div class="prop13-problema-puntos">
+
+        <button
+          type="button"
+          class="activo"
+          onclick="irProblemaMasa(0)"
+          aria-label="Ir al problema 1">
+        </button>
+
+        <button
+          type="button"
+          onclick="irProblemaMasa(1)"
+          aria-label="Ir al problema 2">
+        </button>
+
+        <button
+          type="button"
+          onclick="irProblemaMasa(2)"
+          aria-label="Ir al problema 3">
+        </button>
+
+        <button
+          type="button"
+          onclick="irProblemaMasa(3)"
+          aria-label="Ir al problema 4">
+        </button>
+
+      </div>
+
+
+      <button
+        type="button"
+        id="btnProblemaMasaSiguiente"
+        onclick="moverProblemaMasa(1)">
+
+        Siguiente →
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       PANEL · PROBLEMAS PROPUESTOS
+  ================================================== -->
+
+  <div
+    id="labMasa-propuestos"
+    class="prop13-lab-panel">
+
+    <div class="prop13-reto-header">
+
+      <span class="prop13-reto-icono">
+        🎯
+      </span>
+
+      <div>
+        <small>
+          RETO DEL ESTUDIANTE
+        </small>
+
+        <h5>
+          Ahora tú resuelve
+        </h5>
+
+        <p>
+          Analiza los tres problemas.
+          Identifica los datos, selecciona
+          las ecuaciones y desarrolla tu procedimiento.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="prop13-problema-imagen prop13-imagen-retos">
+
+      <img
+        src="problemas-propuestos.png"
+        alt="Tres problemas propuestos sin solución sobre propiedades de los fluidos"
+        loading="lazy">
+
+    </div>
+
+
+    <div class="prop13-reto-pasos">
+
+      <div>
+        <span>1</span>
+
+        <p>
+          <strong>Identifica</strong>
+          los datos y las incógnitas.
+        </p>
+      </div>
+
+
+      <div>
+        <span>2</span>
+
+        <p>
+          <strong>Selecciona</strong>
+          la ecuación apropiada.
+        </p>
+      </div>
+
+
+      <div>
+        <span>3</span>
+
+        <p>
+          <strong>Resuelve</strong>
+          cuidando las unidades.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="prop13-reto-aviso">
+
+      <span>💡</span>
+
+      <p>
+        <strong>Consejo de ingeniería:</strong>
+        no sustituyas valores inmediatamente.
+        Primero escribe la ecuación general,
+        despeja la incógnita y después sustituye.
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- =====================================================
+     FIN LABORATORIO DE PROBLEMAS
+===================================================== -->
+  </section>
+
+
+  <!-- =================================================
+       ESTACIÓN 2
+  ================================================== -->
+
+  <section
+    id="prop13-flujo"
+    class="prop13-panel">
+
+    <div class="prop13-panel-titulo">
+
+      <span class="prop13-icono">🧪</span>
+
+      <div>
+        <small>ESTACIÓN 2</small>
+        <h4>Flujo y resistencia interna</h4>
+      </div>
+
+    </div>
+
+
+    <p class="prop13-intro">
+      La viscosidad describe la resistencia interna
+      que presenta un fluido cuando sus capas se
+      desplazan unas respecto de otras.
+    </p>
+
+
+    <div class="prop13-comparacion">
+
+      <div class="prop13-fluido">
+        <span>💧</span>
+        <strong>Agua</strong>
+        <small>Baja viscosidad</small>
+      </div>
+
+      <div class="prop13-flecha">
+        →
+      </div>
+
+      <div class="prop13-fluido">
+        <span>🛢️</span>
+        <strong>Aceite</strong>
+        <small>Viscosidad media</small>
+      </div>
+
+      <div class="prop13-flecha">
+        →
+      </div>
+
+      <div class="prop13-fluido">
+        <span>🍯</span>
+        <strong>Miel</strong>
+        <small>Alta viscosidad</small>
+      </div>
+
+    </div>
+
+
+    <div class="prop13-grid dos">
+
+
+      <!-- VISCOSIDAD DINÁMICA -->
+
+      <article class="prop13-concepto">
+
+        <span class="prop13-simbolo">
+          μ
+        </span>
+
+        <h5>Viscosidad dinámica</h5>
+
+        <p>
+          Mide la resistencia interna del fluido
+          frente a una deformación por esfuerzo
+          cortante.
+        </p>
+
+        <div class="prop13-formula">
+          τ = μ (du/dy)
+        </div>
+
+        <ul>
+          <li>
+            τ = esfuerzo cortante
+          </li>
+
+          <li>
+            μ = viscosidad dinámica
+          </li>
+
+          <li>
+            du/dy = gradiente de velocidad
+          </li>
+        </ul>
+
+        <div class="prop13-unidad">
+          SI: Pa·s
+        </div>
+
+      </article>
+
+
+      <!-- VISCOSIDAD CINEMÁTICA -->
+
+      <article class="prop13-concepto">
+
+        <span class="prop13-simbolo">
+          ν
+        </span>
+
+        <h5>Viscosidad cinemática</h5>
+
+        <p>
+          Relaciona la viscosidad dinámica
+          con la densidad del fluido.
+        </p>
+
+        <div class="prop13-formula">
+          ν = μ / ρ
+        </div>
+
+        <p class="prop13-nota">
+          Permite comparar la difusión del movimiento
+          dentro de fluidos con diferente densidad.
+        </p>
+
+        <div class="prop13-unidad">
+          SI: m²/s
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <div class="prop13-temperatura">
+
+      <h5>
+        🌡️ Efecto de la temperatura
+      </h5>
+
+      <div class="prop13-temp-grid">
+
+        <div>
+  <strong>💧 Líquidos</strong>
+
+  <p>
+    Al aumentar la temperatura,
+    <strong>generalmente disminuye la viscosidad</strong>,
+    porque se reduce el efecto relativo de las
+    fuerzas de cohesión entre sus moléculas.
+  </p>
+</div>
+
+
+<div>
+  <strong>💨 Gases</strong>
+
+  <p>
+    Al aumentar la temperatura,
+    <strong>generalmente aumenta la viscosidad</strong>,
+    debido al incremento de la transferencia
+    de cantidad de movimiento entre moléculas.
+  </p>
+</div>
+        </div>
+        <!-- FRANJA VISUAL · TEMPERATURA Y VISCOSIDAD -->
+
+<div class="prop13-franja-viscosidad">
+
+  <div class="prop13-franja-caso liquido">
+    <span class="prop13-franja-icono">🌡️</span>
+
+    <div>
+      <small>EN LÍQUIDOS</small>
+      <strong>
+        ↑ Temperatura → ↓ Viscosidad
+      </strong>
+    </div>
+
+    <span class="prop13-franja-fluido">💧</span>
+  </div>
+
+
+  <div class="prop13-franja-vs">
+    ≠
+  </div>
+
+
+  <div class="prop13-franja-caso gas">
+    <span class="prop13-franja-icono">🌡️</span>
+
+    <div>
+      <small>EN GASES</small>
+      <strong>
+        ↑ Temperatura → ↑ Viscosidad
+      </strong>
+    </div>
+
+    <span class="prop13-franja-fluido">💨</span>
+  </div>
+
+</div>
+
+<p class="prop13-franja-conclusion">
+  <strong>Idea clave:</strong>
+  la temperatura produce un comportamiento opuesto:
+  al aumentar <b>T</b>, la viscosidad <b>μ</b> tiende a disminuir
+  en líquidos y a aumentar en gases.
+</p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =================================================
+       ESTACIÓN 3
+  ================================================== -->
+
+  <section
+    id="prop13-presion"
+    class="prop13-panel">
+
+    <div class="prop13-panel-titulo">
+
+      <span class="prop13-icono">🗜️</span>
+
+      <div>
+        <small>ESTACIÓN 3</small>
+        <h4>Respuesta a presión y temperatura</h4>
+      </div>
+
+    </div>
+
+
+    <p class="prop13-intro">
+      Los fluidos pueden cambiar su volumen,
+      densidad y estado cuando varían la presión
+      y la temperatura.
+    </p>
+
+
+    <div class="prop13-grid">
+
+
+      <!-- PRESIÓN -->
+
+      <article class="prop13-concepto">
+
+        <span class="prop13-simbolo">
+          p
+        </span>
+
+        <h5>Presión</h5>
+
+        <p>
+          Representa la fuerza normal ejercida
+          por unidad de área.
+        </p>
+
+        <div class="prop13-formula">
+          p = F / A
+        </div>
+
+        <div class="prop13-unidad">
+          SI: Pa = N/m²
+        </div>
+
+      </article>
+
+
+      <!-- COMPRESIBILIDAD -->
+
+      <article class="prop13-concepto">
+
+        <span class="prop13-simbolo">
+          κ
+        </span>
+
+        <h5>Compresibilidad</h5>
+
+        <p>
+          Describe la capacidad de un fluido
+          para modificar su volumen cuando
+          cambia la presión.
+        </p>
+
+        <div class="prop13-formula">
+          κ = -(1/V)(dV/dp)
+        </div>
+
+        <p class="prop13-nota">
+          Los gases son mucho más compresibles
+          que los líquidos.
+        </p>
+
+      </article>
+
+
+      <!-- MÓDULO VOLUMÉTRICO -->
+
+      <article class="prop13-concepto">
+
+        <span class="prop13-simbolo">
+          K
+        </span>
+
+        <h5>Módulo volumétrico</h5>
+
+        <p>
+          Mide la resistencia del fluido
+          frente a cambios de volumen.
+        </p>
+
+        <div class="prop13-formula">
+          K = 1 / κ
+        </div>
+
+        <p class="prop13-nota">
+          Un valor grande de K indica
+          baja compresibilidad.
+        </p>
+
+        <div class="prop13-unidad">
+          SI: Pa
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <article class="prop13-dilatacion">
+
+      <div class="prop13-panel-titulo">
+
+        <span class="prop13-icono">
+          🌡️
+        </span>
+
+        <div>
+          <small>TEMPERATURA</small>
+          <h4>Dilatación térmica volumétrica</h4>
+        </div>
+
+      </div>
+
+      <p>
+        Cuando cambia la temperatura,
+        el volumen de un fluido puede modificarse.
+        Esta respuesta se representa mediante
+        el coeficiente de dilatación volumétrica.
+      </p>
+
+      <div class="prop13-formula grande">
+        αᵥ = (1/V)(∂V/∂T)
+      </div>
+
+      <div class="prop13-aplicacion">
+        <span>⚙️</span>
+
+        <div>
+          <strong>¿Dónde importa?</strong>
+
+          <p>
+            Tanques, tuberías, sistemas térmicos,
+            circuitos hidráulicos y procesos donde
+            existen variaciones importantes de temperatura.
+          </p>
+        </div>
+      </div>
+
+    </article>
+
+  </section>
+
+
+  <!-- =================================================
+       ESTACIÓN 4
+  ================================================== -->
+
+  <section
+    id="prop13-superficie"
+    class="prop13-panel">
+
+    <div class="prop13-panel-titulo">
+
+      <span class="prop13-icono">💧</span>
+
+      <div>
+        <small>ESTACIÓN 4</small>
+        <h4>Fenómenos de superficie</h4>
+      </div>
+
+    </div>
+
+
+    <p class="prop13-intro">
+      En la frontera entre un líquido y otro medio
+      aparecen fenómenos asociados con las fuerzas
+      intermoleculares.
+    </p>
+
+
+    <div class="prop13-grid dos">
+
+
+      <!-- TENSIÓN SUPERFICIAL -->
+
+      <article class="prop13-concepto">
+
+        <span class="prop13-simbolo">
+          σ
+        </span>
+
+        <h5>Tensión superficial</h5>
+
+        <p>
+          Es el efecto producido por las fuerzas
+          cohesivas entre moléculas en la superficie
+          de un líquido.
+        </p>
+
+        <div class="prop13-formula">
+          σ = F / L
+        </div>
+
+        <p class="prop13-nota">
+          Ayuda a explicar la forma de las gotas
+          y el comportamiento de pequeñas superficies
+          líquidas.
+        </p>
+
+        <div class="prop13-unidad">
+          SI: N/m
+        </div>
+
+      </article>
+
+
+      <!-- CAPILARIDAD -->
+
+      <article class="prop13-concepto">
+
+        <span class="prop13-simbolo">
+          h
+        </span>
+
+        <h5>Capilaridad</h5>
+
+        <p>
+          Es el ascenso o descenso de un líquido
+          dentro de conductos muy pequeños debido
+          al equilibrio entre cohesión, adhesión
+          y tensión superficial.
+        </p>
+
+        <div class="prop13-formula">
+          h = 2σ cosθ / (ρgr)
+        </div>
+
+        <ul>
+          <li>
+            σ = tensión superficial
+          </li>
+
+          <li>
+            θ = ángulo de contacto
+          </li>
+
+          <li>
+            r = radio del tubo
+          </li>
+        </ul>
+
+      </article>
+
+    </div>
+
+
+    <div class="prop13-ejemplos">
+
+      <div>
+        <span>🌱</span>
+        <strong>Plantas</strong>
+        <p>
+          Transporte de agua en conductos pequeños.
+        </p>
+      </div>
+
+      <div>
+        <span>🧪</span>
+        <strong>Tubos capilares</strong>
+        <p>
+          Ascenso o descenso de líquidos.
+        </p>
+      </div>
+
+      <div>
+        <span>🎨</span>
+        <strong>Recubrimientos</strong>
+        <p>
+          Interacción entre líquidos y superficies.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =================================================
+       CIERRE DEL RECORRIDO
+  ================================================== -->
+
+  <div class="prop13-cierre">
+
+    <span>🎯</span>
+
+    <div>
+      <strong>
+        Del concepto a la solución
+      </strong>
+
+      <p>
+        Ya conoces las propiedades fundamentales.
+        El siguiente paso será utilizarlas para
+        resolver problemas de ingeniería.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="prop13-boton-problemas"
+      disabled>
+
+      🔒 Problemas
+      <small>Próximamente</small>
+
+    </button>
+
+  </div>
+
+</article>
+          </article>
+        </div>
+      </div>
+
+      <div id="modalDiagnosticoUnidad1" class="modal-diagnostico">
+        <div class="modal-diagnostico-contenido">
+          <button
+            class="cerrar-diagnostico"
+            type="button"
+            onclick="cerrarDiagnosticoUnidad1()"
+            aria-label="Cerrar evaluación diagnóstica">
+            ×
+          </button>
+
+          <h2>Evaluación diagnóstica</h2>
+
+          <div class="pregunta-diagnostico">
+            <p>1. ¿Cuál de las siguientes características define mejor a un fluido?</p>
+            <ol type="a">
+              <li>Se deforma continuamente cuando se somete a un esfuerzo cortante.</li>
+              <li>Mantiene siempre una forma geométrica definida.</li>
+              <li>No puede ejercer presión sobre las paredes de un recipiente.</li>
+              <li>Conserva siempre su volumen y su forma.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>2. En el Sistema Internacional de Unidades, la presión se mide en:</p>
+            <ol type="a">
+              <li>Newton</li>
+              <li>Pascal</li>
+              <li>Joule</li>
+              <li>Watt</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>3. ¿Cuál de las siguientes expresiones representa correctamente la densidad de una sustancia?</p>
+            <ol type="a">
+              <li>ρ = m / V</li>
+              <li>ρ = mV</li>
+              <li>ρ = V / m</li>
+              <li>ρ = A / W</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>4. ¿Cuál de los siguientes es un ejemplo típico de fluido?</p>
+            <ol type="a">
+              <li>Una barra de acero</li>
+              <li>Un bloque de concreto</li>
+              <li>Una placa de aluminio</li>
+              <li>El agua y el aire</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>5. La viscosidad de un fluido representa:</p>
+            <ol type="a">
+              <li>Su resistencia interna al movimiento o deformación.</li>
+              <li>Su capacidad para aumentar de volumen.</li>
+              <li>La cantidad total de masa del fluido.</li>
+              <li>Su capacidad para producir presión atmosférica.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>6. La presión ejercida por una fuerza perpendicular sobre una superficie se determina mediante:</p>
+            <ol type="a">
+              <li>P = F · A</li>
+              <li>P = A / F</li>
+              <li>P = F / A</li>
+              <li>P = F + A</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>7. En un fluido en reposo, la presión hidrostática aumenta principalmente cuando:</p>
+            <ol type="a">
+              <li>Disminuye la profundidad.</li>
+              <li>Disminuye el área del recipiente.</li>
+              <li>Aumenta la profundidad.</li>
+              <li>Cambia la forma del recipiente.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>8. El principio de Pascal establece que:</p>
+            <ol type="a">
+              <li>Todo cuerpo sumergido experimenta una fuerza hacia arriba.</li>
+              <li>La energía de un fluido siempre permanece constante.</li>
+              <li>La velocidad de un fluido aumenta con su viscosidad.</li>
+              <li>La presión aplicada a un fluido confinado se transmite en todas direcciones.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>9. ¿Cuál de los siguientes dispositivos funciona principalmente con base en el principio de Pascal?</p>
+            <ol type="a">
+              <li>Prensa hidráulica</li>
+              <li>Termómetro</li>
+              <li>Anemómetro</li>
+              <li>Turbina eólica</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>10. Según el principio de Arquímedes, un cuerpo sumergido total o parcialmente en un fluido experimenta:</p>
+            <ol type="a">
+              <li>Una fuerza horizontal igual a su masa.</li>
+              <li>Un empuje vertical igual al peso del fluido desalojado.</li>
+              <li>Una reducción total de su volumen.</li>
+              <li>Una presión independiente de la profundidad.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>11. El caudal volumétrico se define como:</p>
+            <ol type="a">
+              <li>La masa de fluido por unidad de volumen.</li>
+              <li>La fuerza ejercida por el fluido sobre una superficie.</li>
+              <li>El volumen de fluido que atraviesa una sección por unidad de tiempo.</li>
+              <li>La energía total del fluido.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>12. Para un flujo incompresible y permanente, la ecuación de continuidad entre dos secciones puede expresarse como:</p>
+            <ol type="a">
+              <li>P1 A1 = P2 A2</li>
+              <li>F1 V1 = F2 V2</li>
+              <li>A1 P1 = A2 P2</li>
+              <li>A1 V1 = A2 V2</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>13. Si un fluido incompresible circula por una tubería y el área transversal disminuye, su velocidad:</p>
+            <ol type="a">
+              <li>Aumenta.</li>
+              <li>Disminuye.</li>
+              <li>Permanece constante.</li>
+              <li>Se vuelve igual a cero.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>14. La ecuación de Bernoulli relaciona principalmente:</p>
+            <ol type="a">
+              <li>Masa, temperatura y viscosidad.</li>
+              <li>Presión, velocidad y altura.</li>
+              <li>Fuerza, aceleración y tiempo.</li>
+              <li>Densidad, volumen y temperatura.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>15. En una tubería real, las pérdidas de energía se producen principalmente debido a:</p>
+            <ol type="a">
+              <li>La conservación de la masa.</li>
+              <li>El principio de Arquímedes.</li>
+              <li>La fricción del fluido y los accesorios.</li>
+              <li>La ausencia de viscosidad.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>16. El número de Reynolds se utiliza principalmente para:</p>
+            <ol type="a">
+              <li>Calcular directamente la presión atmosférica.</li>
+              <li>Medir la densidad del fluido.</li>
+              <li>Calcular el empuje hidrostático.</li>
+              <li>Determinar el régimen de flujo.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>17. Un flujo con número de Reynolds bajo en una tubería circular generalmente se considera:</p>
+            <ol type="a">
+              <li>Laminar</li>
+              <li>Turbulento</li>
+              <li>Supersónico</li>
+              <li>Compresible</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>18. El golpe de ariete en una tubería se produce principalmente por:</p>
+            <ol type="a">
+              <li>Una disminución gradual de la temperatura.</li>
+              <li>Un cambio brusco en la velocidad del fluido.</li>
+              <li>Un aumento constante del diámetro.</li>
+              <li>La ausencia de válvulas.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>19. ¿Cuál es la diferencia fundamental entre un flujo compresible y uno incompresible?</p>
+            <ol type="a">
+              <li>En el flujo incompresible no existe velocidad.</li>
+              <li>En el flujo compresible no existe presión.</li>
+              <li>En el flujo compresible la densidad puede variar significativamente.</li>
+              <li>En el flujo incompresible siempre existe turbulencia.</li>
+            </ol>
+          </div>
+
+          <div class="pregunta-diagnostico">
+            <p>20. Una onda de choque puede presentarse principalmente en:</p>
+            <ol type="a">
+              <li>Fluidos completamente estáticos.</li>
+              <li>Líquidos almacenados sin movimiento.</li>
+              <li>Flujos exclusivamente laminares de baja velocidad.</li>
+              <li>Flujos de gases a velocidades supersónicas.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <p class="aviso">
+        Nota: el acceso con código se valida en el navegador con sessionStorage.
+        Esto solo controla la navegación en el cliente y no debe considerarse
+        autenticación segura.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 <strong>IM3CB</strong> · Ingeniería • Creación • Diseño • Innovación</p>
+  </footer>
+
+  <script>
+    const asistenciaConfig = {
+      codigoDocente: "LISTA2026",
+      appsScriptUrl: "https://script.google.com/macros/s/AKfycbxOWrXDita6tMIcoecsZNmbaYMZ5X3COB3wBSWsscIkfa_pGjTiRaFlF43ahsm_6vYn/exec",
+      minutosAsistencia: 15,
+      minutosRetardo: 5
+    };
+
+    let temporizadorLista = null;
+
+    function obtenerParametro(nombre) {
+      return new URLSearchParams(window.location.search).get(nombre);
+    }
+
+    function formatoDosDigitos(valor) {
+      return String(valor).padStart(2, "0");
+    }
+
+    function calcularEstadoAsistencia(inicioMs) {
+      const ahora = Date.now();
+      const diferenciaMs = Math.max(0, ahora - inicioMs);
+      const minuto = Math.floor(diferenciaMs / 60000);
+      const limiteAsistencia = asistenciaConfig.minutosAsistencia;
+      const limiteRetardo = limiteAsistencia + asistenciaConfig.minutosRetardo;
+
+      if (minuto < limiteAsistencia) {
+        return { estado: "Asistencia", minuto };
+      }
+
+      if (minuto < limiteRetardo) {
+        return { estado: "Retardo", minuto };
+      }
+
+      return { estado: "Fuera de tiempo", minuto };
+    }
+
+    function actualizarReloj(inicioMs) {
+      const reloj = document.getElementById("relojLista");
+      const estadoLista = document.getElementById("estadoLista");
+      const duracionTotalMs =
+        (asistenciaConfig.minutosAsistencia + asistenciaConfig.minutosRetardo) * 60000;
+      const restanteMs = Math.max(0, inicioMs + duracionTotalMs - Date.now());
+      const minutos = Math.floor(restanteMs / 60000);
+      const segundos = Math.floor((restanteMs % 60000) / 1000);
+      const estado = calcularEstadoAsistencia(inicioMs);
+
+      reloj.textContent = `${formatoDosDigitos(minutos)}:${formatoDosDigitos(segundos)}`;
+      estadoLista.textContent =
+        restanteMs > 0
+          ? `Lista activa. Estado actual de registro: ${estado.estado}.`
+          : "Lista cerrada. Los registros posteriores quedan fuera de tiempo.";
+
+      if (restanteMs <= 0 && temporizadorLista) {
+        clearInterval(temporizadorLista);
+        temporizadorLista = null;
+      }
+    }
+
+    function iniciarPaseLista() {
+      const codigo = document.getElementById("codigoDocente").value.trim().toUpperCase();
+      const sesion = document.getElementById("sesionLista").value.trim() || "Análisis de Fluidos";
+      const estadoLista = document.getElementById("estadoLista");
+      const qr = document.getElementById("qrAsistencia");
+      const enlace = document.getElementById("enlaceAsistencia");
+
+      if (codigo !== asistenciaConfig.codigoDocente) {
+        estadoLista.textContent = "Código docente incorrecto.";
+        return;
+      }
+
+      const inicio = Date.now();
+      const idSesion = `AF-${inicio}`;
+      const url = new URL(window.location.href);
+      url.search = "";
+      url.hash = "asistencia";
+      url.searchParams.set("asistencia", "1");
+      url.searchParams.set("inicio", String(inicio));
+      url.searchParams.set("sesion", sesion);
+      url.searchParams.set("id", idSesion);
+
+      const urlAsistencia = url.toString();
+      const qrUrl =
+        "https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=" +
+        encodeURIComponent(urlAsistencia);
+
+      qr.src = qrUrl;
+      qr.dataset.url = urlAsistencia;
+      qr.classList.add("activo");
+      enlace.textContent = urlAsistencia;
+      enlace.href = urlAsistencia;
+
+      if (temporizadorLista) {
+        clearInterval(temporizadorLista);
+      }
+
+      actualizarReloj(inicio);
+      temporizadorLista = setInterval(() => actualizarReloj(inicio), 1000);
+    }
+
+    function cerrarPaseLista() {
+      const estadoLista = document.getElementById("estadoLista");
+      const qr = document.getElementById("qrAsistencia");
+      const enlace = document.getElementById("enlaceAsistencia");
+
+      if (temporizadorLista) {
+        clearInterval(temporizadorLista);
+        temporizadorLista = null;
+      }
+
+      document.getElementById("relojLista").textContent = "20:00";
+      estadoLista.textContent = "Lista cerrada.";
+      qr.removeAttribute("src");
+      qr.removeAttribute("data-url");
+      qr.classList.remove("activo");
+      enlace.textContent = "El enlace aparecerá al iniciar el pase de lista.";
+      enlace.href = "#";
+    }
+
+    function abrirEnlaceAsistencia() {
+      const qr = document.getElementById("qrAsistencia");
+      const url = qr.dataset.url;
+
+      if (url) {
+        window.open(url, "_blank", "noopener");
+      }
+    }
+
+    function prepararFormularioAlumno() {
+      if (obtenerParametro("asistencia") !== "1") return;
+
+      const formulario = document.getElementById("formularioAlumno");
+      const estadoAlumno = document.getElementById("estadoAlumno");
+      const inicio = Number(obtenerParametro("inicio"));
+
+      const portada = document.querySelector(".hero-curso");
+      const temario = document.getElementById("temario");
+
+      if (portada) {
+        portada.style.display = "none";
+      }
+
+      if (temario) {
+        [...temario.children].forEach((elemento) => {
+          if (elemento.id !== "asistencia") {
+            elemento.style.display = "none";
+          }
+        });
+      }
+
+      formulario.classList.add("activo");
+      document.getElementById("asistencia").scrollIntoView({ behavior: "smooth" });
+
+      if (!inicio || Number.isNaN(inicio)) {
+        estadoAlumno.textContent = "El enlace de asistencia no es válido.";
+        return;
+      }
+
+      const estado = calcularEstadoAsistencia(inicio);
+      estadoAlumno.textContent =
+        `Registro abierto para ${obtenerParametro("sesion") || "Análisis de Fluidos"}. ` +
+        `Estado actual: ${estado.estado}.`;
+    }
+// =====================================
+// INDICADOR VISUAL DE ASISTENCIA
+// =====================================
+
+function actualizarIndicadorAsistencia(estado) {
+
+  const indicador =
+    document.getElementById(
+      "indicadorAsistencia"
+    );
+
+  const texto =
+    document.getElementById(
+      "textoIndicadorAsistencia"
+    );
+
+  if (!indicador || !texto) {
+    return;
+  }
+
+  indicador.classList.remove(
+    "no-registrado",
+    "registrado",
+    "ya-registrado"
+  );
+
+  if (estado === "registrado") {
+
+    indicador.classList.add(
+      "registrado"
+    );
+
+    texto.textContent =
+      "Asistencia registrada";
+
+    return;
+  }
+
+  if (estado === "ya-registrado") {
+
+    indicador.classList.add(
+      "ya-registrado"
+    );
+
+    texto.textContent =
+      "Asistencia ya registrada";
+
+    return;
+  }
+
+  indicador.classList.add(
+    "no-registrado"
+  );
+
+  texto.textContent =
+    "No registrado";
+}
+    function registrarAsistenciaAlumno() {
+      const mensaje = document.getElementById("mensajeAsistencia");
+      const nombre = document.getElementById("nombreAlumno").value.trim();
+      const matricula = document.getElementById("matriculaAlumno").value.trim();
+      const grupo = document.getElementById("grupoAlumno").value.trim();
+      const inicio = Number(obtenerParametro("inicio"));
+      const sesion = obtenerParametro("sesion") || "Análisis de Fluidos";
+      const idSesion =
+  obtenerParametro("id")
+  || "";
+
+// 1. Primero verificar datos completos
+if (
+  !nombre ||
+  !matricula ||
+  !grupo
+) {
+  mensaje.style.color = "#ffb86b";
+
+  mensaje.textContent =
+    "Completa nombre, matrícula y grupo.";
+
+  return;
+}
+
+// 2. Después verificar asistencia duplicada
+if (
+  idSesion &&
+  asistenciaYaRegistrada(
+    idSesion,
+    matricula
+  )
+) {
+  mensaje.style.color = "#ffb86b";
+
+  mensaje.textContent =
+    "Esta asistencia ya fue registrada para esta sesión.";
+actualizarIndicadorAsistencia(
+  "ya-registrado"
+);
+  const botonRegistro =
+    document.querySelector(
+      "#formularioAlumno .boton-accion"
+    );
+
+  if (botonRegistro) {
+    botonRegistro.disabled = true;
+
+    botonRegistro.textContent =
+      "Asistencia ya registrada";
+  }
+
+  return;
+}
+
+      if (!inicio || Number.isNaN(inicio)) {
+        mensaje.style.color = "#ff6b6b";
+        mensaje.textContent = "El enlace de asistencia no es válido.";
+        return;
+      }
+
+      const resultado = calcularEstadoAsistencia(inicio);
+      // Guardar datos del alumno en este dispositivo
+guardarAlumnoLocal(
+  nombre,
+  matricula,
+  grupo
+);
+      const datos = {
+  curso: "Análisis de Fluidos",
+  sesion: sesion,
+  idSesion: idSesion,
+  nombre,
+  matricula,
+  grupo,
+  estado: resultado.estado,
+  minutoRegistro: resultado.minuto
+};
+      fetch(asistenciaConfig.appsScriptUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(datos)
+      });
+
+      mensaje.style.color = "#58d68d";
+      mensaje.textContent =
+        `Registro enviado. Estado: ${resultado.estado}.`;
+      actualizarIndicadorAsistencia(
+  "registrado"
+);
+      // Recordar que este alumno ya registró
+// esta sesión en este dispositivo
+if (idSesion) {
+  guardarAsistenciaRegistrada(
+    idSesion,
+    matricula
+  );
+}
+    }
+
+    function abrirCursoUnidad1() {
+      document
+        .getElementById("modalCursoUnidad1")
+        .classList.add("activo");
+    }
+
+    function cerrarCursoUnidad1() {
+      document
+        .getElementById("modalCursoUnidad1")
+        .classList.remove("activo");
+    }
+
+    function abrirDiagnosticoUnidad1() {
+      document
+        .getElementById("modalDiagnosticoUnidad1")
+        .classList.add("activo");
+    }
+
+    function cerrarDiagnosticoUnidad1() {
+      document
+        .getElementById("modalDiagnosticoUnidad1")
+        .classList.remove("activo");
+    }
+
+    document
+      .getElementById("modalDiagnosticoUnidad1")
+      .addEventListener("click", function(event) {
+        if (event.target === this) {
+          cerrarDiagnosticoUnidad1();
+        }
+      });
+
+    document
+      .getElementById("modalCursoUnidad1")
+      .addEventListener("click", function(event) {
+        if (event.target === this) {
+          cerrarCursoUnidad1();
+        }
+      });
+    /* ===== SOPA DE LETRAS INTERACTIVA IM3CB ===== */
+
+const palabrasSopaFluidos = [
+  "FLUIDO",
+  "DENSIDAD",
+  "PRESION",
+  "VISCOSIDAD",
+  "MASA",
+  "VOLUMEN",
+  "FUERZA",
+  "UNIDADES"
+];
+
+const TAM_SOPA = 20;
+
+let matrizSopaFluidos = [];
+let palabrasEncontradasFluidos = new Set();
+let seleccionandoSopa = false;
+let celdaInicioSopa = null;
+let celdasSeleccionSopa = [];
+
+function crearSopaFluidos() {
+  const tablero = document.getElementById("sopaTableroFluidos");
+
+  if (!tablero || tablero.dataset.creado === "si") {
+    return;
+  }
+
+  matrizSopaFluidos = Array.from(
+    { length: TAM_SOPA },
+    () => Array(TAM_SOPA).fill("")
+  );
+
+  const direcciones = [
+    [0, 1],
+    [0, -1],
+    [1, 0],
+    [-1, 0],
+    [1, 1],
+    [-1, -1],
+    [1, -1],
+    [-1, 1]
+  ];
+
+  const palabrasOrdenadas = [...palabrasSopaFluidos]
+    .sort((a, b) => b.length - a.length);
+
+  palabrasOrdenadas.forEach((palabra) => {
+    let colocada = false;
+
+    for (
+      let intento = 0;
+      intento < 1000 && !colocada;
+      intento++
+    ) {
+      const direccion =
+        direcciones[
+          Math.floor(Math.random() * direcciones.length)
+        ];
+
+      const df = direccion[0];
+      const dc = direccion[1];
+
+      const fila =
+        Math.floor(Math.random() * TAM_SOPA);
+
+      const columna =
+        Math.floor(Math.random() * TAM_SOPA);
+
+      const filaFinal =
+        fila + df * (palabra.length - 1);
+
+      const columnaFinal =
+        columna + dc * (palabra.length - 1);
+
+      if (
+        filaFinal < 0 ||
+        filaFinal >= TAM_SOPA ||
+        columnaFinal < 0 ||
+        columnaFinal >= TAM_SOPA
+      ) {
+        continue;
+      }
+
+      let cabe = true;
+
+      for (let i = 0; i < palabra.length; i++) {
+        const f = fila + df * i;
+        const c = columna + dc * i;
+
+        const letraActual =
+          matrizSopaFluidos[f][c];
+
+        if (
+          letraActual !== "" &&
+          letraActual !== palabra[i]
+        ) {
+          cabe = false;
+          break;
+        }
+      }
+
+      if (!cabe) {
+        continue;
+      }
+
+      for (let i = 0; i < palabra.length; i++) {
+        const f = fila + df * i;
+        const c = columna + dc * i;
+
+        matrizSopaFluidos[f][c] = palabra[i];
+      }
+
+      colocada = true;
+    }
+  });
+
+  const letras =
+    "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+
+  for (let f = 0; f < TAM_SOPA; f++) {
+    for (let c = 0; c < TAM_SOPA; c++) {
+      if (matrizSopaFluidos[f][c] === "") {
+        matrizSopaFluidos[f][c] =
+          letras[
+            Math.floor(Math.random() * letras.length)
+          ];
+      }
+    }
+  }
+
+  tablero.innerHTML = "";
+
+  for (let f = 0; f < TAM_SOPA; f++) {
+    for (let c = 0; c < TAM_SOPA; c++) {
+      const celda =
+        document.createElement("div");
+
+      celda.className = "sopa-celda";
+
+      celda.textContent =
+        matrizSopaFluidos[f][c];
+
+      celda.dataset.fila = f;
+      celda.dataset.columna = c;
+
+      tablero.appendChild(celda);
+    }
+  }
+
+  tablero.dataset.creado = "si";
+
+  activarEventosSopaFluidos();
+  actualizarProgresoSopaFluidos();
+}
+
+function obtenerCeldasLineaSopa(inicio, fin) {
+  const f1 = Number(inicio.dataset.fila);
+  const c1 = Number(inicio.dataset.columna);
+  const f2 = Number(fin.dataset.fila);
+  const c2 = Number(fin.dataset.columna);
+
+  const diferenciaFila = f2 - f1;
+  const diferenciaColumna = c2 - c1;
+
+  const esHorizontal =
+    diferenciaFila === 0;
+
+  const esVertical =
+    diferenciaColumna === 0;
+
+  const esDiagonal =
+    Math.abs(diferenciaFila) ===
+    Math.abs(diferenciaColumna);
+
+  if (
+    !esHorizontal &&
+    !esVertical &&
+    !esDiagonal
+  ) {
+    return [];
+  }
+
+  const pasoFila =
+    Math.sign(diferenciaFila);
+
+  const pasoColumna =
+    Math.sign(diferenciaColumna);
+
+  const pasos = Math.max(
+    Math.abs(diferenciaFila),
+    Math.abs(diferenciaColumna)
+  );
+
+  const tablero =
+    document.getElementById("sopaTableroFluidos");
+
+  const celdas = [];
+
+  for (let i = 0; i <= pasos; i++) {
+    const fila =
+      f1 + pasoFila * i;
+
+    const columna =
+      c1 + pasoColumna * i;
+
+    const celda = tablero.querySelector(
+      `[data-fila="${fila}"][data-columna="${columna}"]`
+    );
+
+    if (celda) {
+      celdas.push(celda);
+    }
+  }
+
+  return celdas;
+}
+
+function limpiarSeleccionTemporalSopa() {
+  celdasSeleccionSopa.forEach((celda) => {
+    celda.classList.remove("seleccionada");
+  });
+
+  celdasSeleccionSopa = [];
+}
+
+function pintarSeleccionSopa(celdaFinal) {
+  limpiarSeleccionTemporalSopa();
+
+  if (!celdaInicioSopa || !celdaFinal) {
+    return;
+  }
+
+  celdasSeleccionSopa =
+    obtenerCeldasLineaSopa(
+      celdaInicioSopa,
+      celdaFinal
+    );
+
+  celdasSeleccionSopa.forEach((celda) => {
+    if (!celda.classList.contains("encontrada")) {
+      celda.classList.add("seleccionada");
+    }
+  });
+}
+
+function comprobarSeleccionSopa() {
+  if (celdasSeleccionSopa.length === 0) {
+    return;
+  }
+
+  const texto = celdasSeleccionSopa
+    .map((celda) => celda.textContent)
+    .join("");
+
+  const textoInvertido =
+    texto
+      .split("")
+      .reverse()
+      .join("");
+
+  const palabraCorrecta =
+    palabrasSopaFluidos.find((palabra) => {
+      return (
+        palabra === texto ||
+        palabra === textoInvertido
+      );
+    });
+
+  if (
+    palabraCorrecta &&
+    !palabrasEncontradasFluidos.has(palabraCorrecta)
+  ) {
+    palabrasEncontradasFluidos.add(
+      palabraCorrecta
+    );
+
+    celdasSeleccionSopa.forEach((celda) => {
+      celda.classList.remove("seleccionada");
+      celda.classList.add("encontrada");
+    });
+
+    actualizarProgresoSopaFluidos();
+  } else {
+    limpiarSeleccionTemporalSopa();
+  }
+}
+
+function activarEventosSopaFluidos() {
+  const tablero =
+    document.getElementById("sopaTableroFluidos");
+
+  if (!tablero) {
+    return;
+  }
+
+  tablero.addEventListener(
+    "pointerdown",
+    (evento) => {
+      const celda =
+        evento.target.closest(".sopa-celda");
+
+      if (!celda) {
+        return;
+      }
+
+      seleccionandoSopa = true;
+      celdaInicioSopa = celda;
+
+      pintarSeleccionSopa(celda);
+
+      evento.preventDefault();
+    }
+  );
+
+  tablero.addEventListener(
+    "pointermove",
+    (evento) => {
+      if (!seleccionandoSopa) {
+        return;
+      }
+
+      const elemento =
+        document.elementFromPoint(
+          evento.clientX,
+          evento.clientY
+        );
+
+      const celda =
+        elemento?.closest(".sopa-celda");
+
+      if (
+        celda &&
+        tablero.contains(celda)
+      ) {
+        pintarSeleccionSopa(celda);
+      }
+    }
+  );
+
+  const finalizarSeleccion = () => {
+    if (!seleccionandoSopa) {
+      return;
+    }
+
+    seleccionandoSopa = false;
+
+    comprobarSeleccionSopa();
+
+    celdaInicioSopa = null;
+  };
+
+  tablero.addEventListener(
+    "pointerup",
+    finalizarSeleccion
+  );
+
+  tablero.addEventListener(
+    "pointercancel",
+    finalizarSeleccion
+  );
+
+  document.addEventListener(
+    "pointerup",
+    finalizarSeleccion
+  );
+}
+
+function actualizarProgresoSopaFluidos() {
+  const contador =
+    document.getElementById(
+      "sopaContadorFluidos"
+    );
+
+  const barra =
+    document.getElementById(
+      "sopaBarraFluidos"
+    );
+
+  const desbloqueo =
+    document.getElementById(
+      "sopaDesbloqueoFluidos"
+    );
+
+  const total =
+    palabrasSopaFluidos.length;
+
+  const aciertos =
+    palabrasEncontradasFluidos.size;
+
+  const porcentaje =
+    (aciertos / total) * 100;
+
+  if (contador) {
+    contador.textContent =
+      `${aciertos} / ${total}`;
+  }
+
+  if (barra) {
+    barra.style.width =
+      `${porcentaje}%`;
+  }
+
+if (
+  desbloqueo &&
+  aciertos === total
+) {
+  desbloqueo.classList.add("completada");
+
+  desbloqueo.innerHTML = `
+    <strong>
+      🔓 TEMA 1.2 DESBLOQUEADO
+    </strong>
+  `;
+
+  localStorage.setItem(
+    "tema1SopaCompletada",
+    "si"
+  );
+
+  const tema12 =
+    document.getElementById("tema12Fluidos");
+
+  if (tema12) {
+    tema12.classList.add("desbloqueado");
+  }
+  const mision12 =
+  document.getElementById("misionFluidos12");
+
+if (mision12) {
+  mision12.classList.add("desbloqueada");
+}
+} 
+}
+    /* ===== SISTEMA DE PISTAS PERSISTENTES IM3CB ===== */
+
+const CLAVE_PISTAS_FLUIDOS = "im3cb_pistas_fluidos_tema1";
+const MAX_PISTAS_FLUIDOS = 3;
+
+function obtenerEstadoPistasFluidos() {
+  try {
+    const guardado = localStorage.getItem(CLAVE_PISTAS_FLUIDOS);
+
+    if (!guardado) {
+      return {
+        usadas: 0,
+        palabras: []
+      };
+    }
+
+    const estado = JSON.parse(guardado);
+
+    return {
+      usadas: Number(estado.usadas) || 0,
+      palabras: Array.isArray(estado.palabras)
+        ? estado.palabras
+        : []
+    };
+  } catch (error) {
+    return {
+      usadas: 0,
+      palabras: []
+    };
+  }
+}
+
+function guardarEstadoPistasFluidos(estado) {
+  localStorage.setItem(
+    CLAVE_PISTAS_FLUIDOS,
+    JSON.stringify(estado)
+  );
+}
+
+function convertirPalabraEnPista(palabra) {
+  if (!palabra) return "";
+
+  return palabra
+    .split("")
+    .map((letra, indice) => {
+      const esPrimera = indice === 0;
+      const esUltima = indice === palabra.length - 1;
+
+      if (esPrimera || esUltima) {
+        return letra;
+      }
+
+      return indice % 2 === 0
+        ? letra
+        : "_";
+    })
+    .join(" ");
+}
+
+function actualizarInterfazPistasFluidos() {
+  const estado = obtenerEstadoPistasFluidos();
+
+  const textoDisponibles = document.getElementById(
+    "pistasDisponiblesFluidos"
+  );
+
+  const boton = document.getElementById(
+    "botonPistaFluidos"
+  );
+
+  const intentos = document.querySelectorAll(
+    "#pistasIntentosFluidos .pista-punto"
+  );
+
+  const zonaPista = document.getElementById(
+    "pistaReveladaFluidos"
+  );
+
+  const restantes = Math.max(
+    0,
+    MAX_PISTAS_FLUIDOS - estado.usadas
+  );
+
+  if (textoDisponibles) {
+    textoDisponibles.textContent =
+      restantes === 1
+        ? "1 ayuda disponible"
+        : `${restantes} ayudas disponibles`;
+  }
+
+  intentos.forEach((punto, indice) => {
+    punto.classList.toggle(
+      "usada",
+      indice < estado.usadas
+    );
+  });
+
+  if (boton) {
+    boton.disabled =
+      estado.usadas >= MAX_PISTAS_FLUIDOS;
+
+    if (estado.usadas >= MAX_PISTAS_FLUIDOS) {
+      boton.textContent = "🔒 Ayudas agotadas";
+    } else {
+      boton.textContent = "💡 Usar pista";
+    }
+  }
+
+  if (zonaPista && estado.palabras.length > 0) {
+    zonaPista.classList.add("activa");
+
+    zonaPista.innerHTML = estado.palabras
+      .map((palabra, indice) => {
+        return `
+          <div>
+            Pista ${indice + 1}:
+            ${convertirPalabraEnPista(palabra)}
+          </div>
+        `;
+      })
+      .join("");
+  }
+}
+
+function usarPistaFluidos() {
+  const estado = obtenerEstadoPistasFluidos();
+
+  if (estado.usadas >= MAX_PISTAS_FLUIDOS) {
+    actualizarInterfazPistasFluidos();
+    return;
+  }
+
+  const candidatas = palabrasSopaFluidos.filter(
+    (palabra) => {
+      return (
+        !estado.palabras.includes(palabra) &&
+        !palabrasEncontradasFluidos.has(palabra)
+      );
+    }
+  );
+
+  if (candidatas.length === 0) {
+    return;
+  }
+
+  const palabraAleatoria =
+    candidatas[
+      Math.floor(Math.random() * candidatas.length)
+    ];
+
+  estado.palabras.push(palabraAleatoria);
+  estado.usadas += 1;
+
+  guardarEstadoPistasFluidos(estado);
+  actualizarInterfazPistasFluidos();
+}
+    function restaurarTema12Fluidos() {
+  const completado =
+    localStorage.getItem("tema1SopaCompletada");
+
+  const tema12 =
+    document.getElementById("tema12Fluidos");
+
+  const desbloqueo =
+    document.getElementById("sopaDesbloqueoFluidos");
+
+  if (completado === "si") {
+    if (tema12) {
+      tema12.classList.add("desbloqueado");
+    }
+const mision12 =
+  document.getElementById("misionFluidos12");
+
+if (mision12) {
+  mision12.classList.add("desbloqueada");
+}
+    if (desbloqueo) {
+      desbloqueo.classList.add("completada");
+
+      desbloqueo.innerHTML = `
+        <strong>
+          🔓 TEMA 1.2 DESBLOQUEADO
+        </strong>
+      `;
+    }
+  }
+}
+  function abrirTvFluidos() {
+  const pantalla = document.getElementById("tvPantallaFluidos");
+  const video = document.getElementById("videoFluidos");
+
+  if (!pantalla || !video) return;
+
+  video.src =
+    "https://www.youtube.com/embed/G53gvVh230U?autoplay=1&rel=0";
+
+  pantalla.classList.add("abierta");
+    const sopa = document.getElementById("sopaFluidos");
+
+if (sopa) {
+  sopa.classList.add("activa");
+  crearSopaFluidos();
+  actualizarInterfazPistasFluidos();
+   }
+}
+    /* =====================================================
+   MISIÓN IM3CB — DIAGNÓSTICO DE FLUIDOS
+   TEMA 1.2
+===================================================== */
+
+const preguntasMisionFluidos = [
+
+  {
+    categoria: "Compresibilidad",
+    etiqueta: "SISTEMA HIDRÁULICO",
+    icono: "🔧",
+    titulo: "Circuito hidráulico",
+    pregunta:
+      "En un circuito hidráulico se utiliza aceite. " +
+      "Durante el análisis, los cambios de densidad son " +
+      "muy pequeños frente a las variaciones de presión. " +
+      "¿Qué aproximación resulta adecuada?",
+    opciones: [
+      "Fluido aproximadamente incompresible",
+      "Gas altamente compresible",
+      "Mezcla heterogénea",
+      "Fluido ideal sin viscosidad"
+    ],
+    correcta: "Fluido aproximadamente incompresible",
+    explicacion:
+      "En muchos análisis hidráulicos, los líquidos se " +
+      "modelan como aproximadamente incompresibles porque " +
+      "sus cambios de densidad suelen ser pequeños."
+  },
+
+  {
+    categoria: "Compresibilidad",
+    etiqueta: "SISTEMA NEUMÁTICO",
+    icono: "🏭",
+    titulo: "Cilindro neumático",
+    pregunta:
+      "Una línea industrial utiliza aire comprimido para " +
+      "accionar un cilindro. Al cambiar la presión, la " +
+      "densidad del aire puede variar apreciablemente. " +
+      "¿Qué criterio debe priorizarse?",
+    opciones: [
+      "Compresibilidad",
+      "Tensión superficial",
+      "Capilaridad",
+      "Estado sólido"
+    ],
+    correcta: "Compresibilidad",
+    explicacion:
+      "En los gases, las variaciones de presión pueden " +
+      "producir cambios importantes de densidad. Por ello, " +
+      "la compresibilidad es un criterio central."
+  },
+
+  {
+    categoria: "Viscosidad",
+    etiqueta: "PROCESO DE FLUJO",
+    icono: "🍯",
+    titulo: "Agua y miel",
+    pregunta:
+      "A la misma temperatura, la miel presenta mayor " +
+      "resistencia al movimiento que el agua. ¿Qué propiedad " +
+      "explica principalmente esta diferencia?",
+    opciones: [
+      "Viscosidad",
+      "Compresibilidad",
+      "Presión atmosférica",
+      "Volumen del recipiente"
+    ],
+    correcta: "Viscosidad",
+    explicacion:
+      "La viscosidad cuantifica la resistencia interna del " +
+      "fluido a deformarse continuamente bajo un esfuerzo " +
+      "cortante."
+  },
+
+  {
+    categoria: "Estado físico",
+    etiqueta: "ALMACENAMIENTO",
+    icono: "💧",
+    titulo: "Agua en un tanque",
+    pregunta:
+      "El agua conserva aproximadamente su volumen, pero " +
+      "adopta la forma del recipiente que la contiene. " +
+      "¿Cómo se clasifica por su estado físico?",
+    opciones: [
+      "Líquido",
+      "Gas",
+      "Sólido",
+      "Plasma"
+    ],
+    correcta: "Líquido",
+    explicacion:
+      "Un líquido posee volumen relativamente definido, " +
+      "pero no una forma propia; adopta la geometría del " +
+      "recipiente."
+  },
+
+  {
+    categoria: "Estado físico",
+    etiqueta: "DEPÓSITO DE GAS",
+    icono: "💨",
+    titulo: "Aire en un recipiente",
+    pregunta:
+      "El aire introducido en un depósito tiende a ocupar " +
+      "el volumen disponible. ¿Cuál es su clasificación " +
+      "por estado físico?",
+    opciones: [
+      "Gas",
+      "Líquido",
+      "Sólido",
+      "Suspensión"
+    ],
+    correcta: "Gas",
+    explicacion:
+      "Los gases no poseen volumen propio definido y tienden " +
+      "a expandirse hasta ocupar el espacio disponible."
+  },
+
+  {
+    categoria: "Composición",
+    etiqueta: "LABORATORIO",
+    icono: "🧪",
+    titulo: "Agua destilada",
+    pregunta:
+      "En un modelo idealizado, una muestra de agua destilada " +
+      "se considera formada esencialmente por una sola especie " +
+      "química. ¿Cómo se clasifica por composición?",
+    opciones: [
+      "Sustancia pura",
+      "Mezcla heterogénea",
+      "Suspensión",
+      "Emulsión"
+    ],
+    correcta: "Sustancia pura",
+    explicacion:
+      "En el modelo didáctico, el agua destilada se trata " +
+      "como sustancia pura al considerarse esencialmente " +
+      "constituida por H₂O."
+  },
+
+  {
+    categoria: "Composición",
+    etiqueta: "SOLUCIÓN INDUSTRIAL",
+    icono: "🧂",
+    titulo: "Sal disuelta en agua",
+    pregunta:
+      "La sal se disuelve completamente en agua y la mezcla " +
+      "presenta composición uniforme a escala macroscópica. " +
+      "¿Cómo se clasifica?",
+    opciones: [
+      "Mezcla homogénea",
+      "Mezcla heterogénea",
+      "Sustancia pura",
+      "Gas ideal"
+    ],
+    correcta: "Mezcla homogénea",
+    explicacion:
+      "Una solución salina uniforme se clasifica como mezcla " +
+      "homogénea porque sus componentes no forman regiones " +
+      "macroscópicas distinguibles."
+  },
+
+  {
+    categoria: "Composición",
+    etiqueta: "TRANSPORTE DE SEDIMENTOS",
+    icono: "🌊",
+    titulo: "Agua con lodo",
+    pregunta:
+      "Una corriente contiene agua y partículas de suelo " +
+      "distribuidas de manera no uniforme. ¿Cuál es la " +
+      "clasificación más adecuada por composición?",
+    opciones: [
+      "Mezcla heterogénea",
+      "Sustancia pura",
+      "Mezcla homogénea",
+      "Gas compresible"
+    ],
+    correcta: "Mezcla heterogénea",
+    explicacion:
+      "La presencia de partículas y regiones no uniformes " +
+      "permite clasificar el sistema como mezcla heterogénea."
+  },
+
+  {
+    categoria: "Viscosidad",
+    etiqueta: "LUBRICACIÓN MECÁNICA",
+    icono: "⚙️",
+    titulo: "Aceite lubricante",
+    pregunta:
+      "Un ingeniero selecciona un aceite para separar " +
+      "superficies móviles y controlar la resistencia al " +
+      "movimiento entre capas del fluido. ¿Qué propiedad " +
+      "es especialmente relevante?",
+    opciones: [
+      "Viscosidad",
+      "Compresibilidad",
+      "Estado gaseoso",
+      "Capilaridad exclusivamente"
+    ],
+    correcta: "Viscosidad",
+    explicacion:
+      "La viscosidad es fundamental en lubricación porque " +
+      "influye en la resistencia al corte y en la formación " +
+      "de la película lubricante."
+  },
+
+  {
+    categoria: "Compresibilidad",
+    etiqueta: "RETO DE INGENIERÍA",
+    icono: "🚀",
+    titulo: "Actuador con aire comprimido",
+    pregunta:
+      "Se diseña un actuador neumático y es necesario prever " +
+      "cambios apreciables de densidad cuando varía la presión. " +
+      "¿Qué criterio debe priorizar el ingeniero?",
+    opciones: [
+      "Compresibilidad",
+      "Color del fluido",
+      "Forma del recipiente",
+      "Tensión superficial"
+    ],
+    correcta: "Compresibilidad",
+    explicacion:
+      "Cuando la densidad cambia apreciablemente con la " +
+      "presión, el análisis debe considerar la compresibilidad " +
+      "del fluido."
+  }
+
+];
+
+
+/* ===== VARIABLES DE ESTADO ===== */
+
+let indiceMisionFluidos = 0;
+let aciertosMisionFluidos = 0;
+let intentosCasoFluidos = 0;
+let respuestaCasoResuelta = false;
+
+let resultadosCategoriasFluidos = {
+  "Estado físico": {
+    correctas: 0,
+    total: 0
+  },
+  "Viscosidad": {
+    correctas: 0,
+    total: 0
+  },
+  "Compresibilidad": {
+    correctas: 0,
+    total: 0
+  },
+  "Composición": {
+    correctas: 0,
+    total: 0
+  }
+};
+
+
+/* ===== MEZCLAR ARREGLO ===== */
+
+function mezclarMisionFluidos(arreglo) {
+  const copia = [...arreglo];
+
+  for (let i = copia.length - 1; i > 0; i--) {
+    const j = Math.floor(
+      Math.random() * (i + 1)
+    );
+
+    [copia[i], copia[j]] =
+      [copia[j], copia[i]];
+  }
+
+  return copia;
+}
+
+
+/* ===== INICIAR MISIÓN ===== */
+
+function iniciarMisionFluidos() {
+
+  indiceMisionFluidos = 0;
+  aciertosMisionFluidos = 0;
+  intentosCasoFluidos = 0;
+  respuestaCasoResuelta = false;
+
+  resultadosCategoriasFluidos = {
+    "Estado físico": {
+      correctas: 0,
+      total: 0
+    },
+    "Viscosidad": {
+      correctas: 0,
+      total: 0
+    },
+    "Compresibilidad": {
+      correctas: 0,
+      total: 0
+    },
+    "Composición": {
+      correctas: 0,
+      total: 0
+    }
+  };
+
+  const portada =
+    document.getElementById("misionPortada");
+
+  const juego =
+    document.getElementById("misionJuego");
+
+  const resultado =
+    document.getElementById("misionResultado");
+
+  if (portada) {
+    portada.hidden = true;
+  }
+
+  if (juego) {
+    juego.hidden = false;
+  }
+
+  if (resultado) {
+    resultado.hidden = true;
+  }
+
+  mostrarCasoMisionFluidos();
+}
+
+
+/* ===== MOSTRAR PREGUNTA ===== */
+
+function mostrarCasoMisionFluidos() {
+
+  const caso =
+    preguntasMisionFluidos[indiceMisionFluidos];
+
+  if (!caso) {
+    finalizarMisionFluidos();
+    return;
+  }
+
+  intentosCasoFluidos = 0;
+  respuestaCasoResuelta = false;
+
+  const numeroCaso =
+    document.getElementById("misionCaso");
+
+  const puntos =
+    document.getElementById("misionPuntos");
+
+  const barra =
+    document.getElementById("misionBarraProgreso");
+
+  const categoria =
+    document.getElementById("misionCategoria");
+
+  const icono =
+    document.getElementById("misionIconoCaso");
+
+  const titulo =
+    document.getElementById("misionTitulo");
+
+  const pregunta =
+    document.getElementById("misionPregunta");
+
+  const opciones =
+    document.getElementById("misionOpciones");
+
+  const feedback =
+    document.getElementById("misionFeedback");
+
+  if (numeroCaso) {
+    numeroCaso.textContent =
+      "CASO " +
+      String(indiceMisionFluidos + 1).padStart(2, "0") +
+      " / " +
+      preguntasMisionFluidos.length;
+  }
+
+  if (puntos) {
+    puntos.textContent =
+      aciertosMisionFluidos * 10 +
+      " PUNTOS";
+  }
+
+  if (barra) {
+    barra.style.width =
+      (
+        indiceMisionFluidos /
+        preguntasMisionFluidos.length *
+        100
+      ) + "%";
+  }
+
+  if (categoria) {
+    categoria.textContent =
+      caso.etiqueta;
+  }
+
+  if (icono) {
+    icono.textContent =
+      caso.icono;
+  }
+
+  if (titulo) {
+    titulo.textContent =
+      caso.titulo;
+  }
+
+  if (pregunta) {
+    pregunta.textContent =
+      caso.pregunta;
+  }
+
+  if (feedback) {
+    feedback.hidden = true;
+  }
+
+  if (!opciones) return;
+
+  opciones.innerHTML = "";
+
+  const opcionesMezcladas =
+    mezclarMisionFluidos(caso.opciones);
+
+  opcionesMezcladas.forEach(
+    (textoOpcion, indice) => {
+
+      const boton =
+        document.createElement("button");
+
+      boton.type = "button";
+      boton.className = "mision-opcion";
+
+      const letra =
+        String.fromCharCode(65 + indice);
+
+      boton.textContent =
+        letra + " · " + textoOpcion;
+
+      boton.dataset.valor =
+        textoOpcion;
+
+      boton.addEventListener(
+        "click",
+        function () {
+          responderCasoMisionFluidos(
+            textoOpcion,
+            boton
+          );
+        }
+      );
+
+      opciones.appendChild(boton);
+    }
+  );
+}
+
+
+/* ===== RESPONDER CASO ===== */
+
+function responderCasoMisionFluidos(
+  respuesta,
+  botonSeleccionado
+) {
+
+  if (respuestaCasoResuelta) return;
+
+  const caso =
+    preguntasMisionFluidos[indiceMisionFluidos];
+
+  if (!caso) return;
+
+  intentosCasoFluidos++;
+
+  const feedback =
+    document.getElementById("misionFeedback");
+
+  const feedbackTitulo =
+    document.getElementById("misionFeedbackTitulo");
+
+  const feedbackTexto =
+    document.getElementById("misionFeedbackTexto");
+
+  const botonSiguiente =
+    document.getElementById("misionSiguiente");
+
+  const esCorrecta =
+    respuesta === caso.correcta;
+
+
+  /* ===== RESPUESTA CORRECTA ===== */
+
+  if (esCorrecta) {
+
+    respuestaCasoResuelta = true;
+
+    botonSeleccionado.classList.add(
+      "correcta"
+    );
+
+    aciertosMisionFluidos++;
+
+    registrarCategoriaMisionFluidos(
+      caso.categoria,
+      true
+    );
+
+    bloquearOpcionesMisionFluidos();
+
+    if (feedbackTitulo) {
+      feedbackTitulo.textContent =
+        intentosCasoFluidos === 1
+          ? "✅ CORRECTO · +10 PUNTOS"
+          : "✅ CORRECTO EN SEGUNDO INTENTO";
+    }
+
+    if (feedbackTexto) {
+      feedbackTexto.textContent =
+        caso.explicacion;
+    }
+
+    if (feedback) {
+      feedback.hidden = false;
+    }
+
+    if (botonSiguiente) {
+      botonSiguiente.hidden = false;
+    }
+
+    actualizarPuntosMisionFluidos();
+
+    return;
+  }
+
+
+  /* ===== PRIMER ERROR ===== */
+
+  botonSeleccionado.classList.add(
+    "incorrecta"
+  );
+
+  botonSeleccionado.disabled = true;
+
+  if (intentosCasoFluidos < 2) {
+
+    if (feedbackTitulo) {
+      feedbackTitulo.textContent =
+        "⚠️ PRIMER INTENTO INCORRECTO";
+    }
+
+    if (feedbackTexto) {
+      feedbackTexto.textContent =
+        obtenerPistaMisionFluidos(
+          caso.categoria
+        );
+    }
+
+    if (feedback) {
+      feedback.hidden = false;
+    }
+
+    if (botonSiguiente) {
+      botonSiguiente.hidden = true;
+    }
+
+    return;
+  }
+
+
+  /* ===== SEGUNDO ERROR ===== */
+
+  respuestaCasoResuelta = true;
+
+  registrarCategoriaMisionFluidos(
+    caso.categoria,
+    false
+  );
+
+  marcarRespuestaCorrectaMisionFluidos(
+    caso.correcta
+  );
+
+  bloquearOpcionesMisionFluidos();
+
+  if (feedbackTitulo) {
+    feedbackTitulo.textContent =
+      "❌ CASO NO RESUELTO";
+  }
+
+  if (feedbackTexto) {
+    feedbackTexto.textContent =
+      "La respuesta correcta es: " +
+      caso.correcta +
+      ". " +
+      caso.explicacion;
+  }
+
+  if (feedback) {
+    feedback.hidden = false;
+  }
+
+  if (botonSiguiente) {
+    botonSiguiente.hidden = false;
+  }
+}
+
+
+/* ===== PISTAS CONCEPTUALES ===== */
+
+function obtenerPistaMisionFluidos(categoria) {
+
+  const pistas = {
+
+    "Estado físico":
+      "Pista: analiza si el fluido conserva un volumen " +
+      "relativamente definido o si tiende a ocupar todo " +
+      "el espacio disponible.",
+
+    "Viscosidad":
+      "Pista: piensa en la resistencia interna que aparece " +
+      "cuando unas capas del fluido se desplazan respecto " +
+      "de otras.",
+
+    "Compresibilidad":
+      "Pista: observa si los cambios de presión pueden " +
+      "producir variaciones apreciables de densidad.",
+
+    "Composición":
+      "Pista: analiza si existe una sola sustancia o si " +
+      "hay varios componentes distribuidos de manera " +
+      "uniforme o no uniforme."
+
+  };
+
+  return pistas[categoria] ||
+    "Revisa el criterio físico dominante del caso.";
+}
+
+
+/* ===== REGISTRAR CATEGORÍA ===== */
+
+function registrarCategoriaMisionFluidos(
+  categoria,
+  correcta
+) {
+
+  const registro =
+    resultadosCategoriasFluidos[categoria];
+
+  if (!registro) return;
+
+  registro.total++;
+
+  if (correcta) {
+    registro.correctas++;
+  }
+}
+
+
+/* ===== BLOQUEAR OPCIONES ===== */
+
+function bloquearOpcionesMisionFluidos() {
+
+  const botones =
+    document.querySelectorAll(
+      "#misionOpciones .mision-opcion"
+    );
+
+  botones.forEach(
+    boton => {
+      boton.disabled = true;
+    }
+  );
+}
+
+
+/* ===== MOSTRAR RESPUESTA CORRECTA ===== */
+
+function marcarRespuestaCorrectaMisionFluidos(
+  respuestaCorrecta
+) {
+
+  const botones =
+    document.querySelectorAll(
+      "#misionOpciones .mision-opcion"
+    );
+
+  botones.forEach(
+    boton => {
+
+      if (
+        boton.dataset.valor ===
+        respuestaCorrecta
+      ) {
+        boton.classList.add("correcta");
+      }
+
+    }
+  );
+}
+
+
+/* ===== ACTUALIZAR PUNTOS ===== */
+
+function actualizarPuntosMisionFluidos() {
+
+  const puntos =
+    document.getElementById("misionPuntos");
+
+  if (puntos) {
+    puntos.textContent =
+      aciertosMisionFluidos * 10 +
+      " PUNTOS";
+  }
+}
+
+
+/* ===== SIGUIENTE CASO ===== */
+
+function siguienteCasoFluidos() {
+
+  if (!respuestaCasoResuelta) return;
+
+  indiceMisionFluidos++;
+
+  if (
+    indiceMisionFluidos >=
+    preguntasMisionFluidos.length
+  ) {
+    finalizarMisionFluidos();
+    return;
+  }
+
+  mostrarCasoMisionFluidos();
+}
+
+
+/* ===== CALCULAR PORCENTAJE ===== */
+
+function porcentajeCategoriaMisionFluidos(
+  categoria
+) {
+
+  const registro =
+    resultadosCategoriasFluidos[categoria];
+
+  if (
+    !registro ||
+    registro.total === 0
+  ) {
+    return 0;
+  }
+
+  return Math.round(
+    registro.correctas /
+    registro.total *
+    100
+  );
+}
+
+
+/* ===== FINALIZAR MISIÓN ===== */
+
+function finalizarMisionFluidos() {
+
+  const juego =
+    document.getElementById("misionJuego");
+
+  const resultado =
+    document.getElementById("misionResultado");
+
+  const nivel =
+    document.getElementById("resultadoNivel");
+
+  const puntuacion =
+    document.getElementById("resultadoPuntuacion");
+
+  const mensaje =
+    document.getElementById("resultadoMensaje");
+
+  const acciones =
+    document.getElementById("resultadoAcciones");
+
+  const barra =
+    document.getElementById("misionBarraProgreso");
+
+  if (barra) {
+    barra.style.width = "100%";
+  }
+
+  if (juego) {
+    juego.hidden = true;
+  }
+
+  if (resultado) {
+    resultado.hidden = false;
+  }
+
+  const aprobado =
+    aciertosMisionFluidos >= 8;
+
+
+  /* ===== RESULTADOS POR CATEGORÍA ===== */
+
+  const estado =
+    porcentajeCategoriaMisionFluidos(
+      "Estado físico"
+    );
+
+  const viscosidad =
+    porcentajeCategoriaMisionFluidos(
+      "Viscosidad"
+    );
+
+  const compresibilidad =
+    porcentajeCategoriaMisionFluidos(
+      "Compresibilidad"
+    );
+
+  const composicion =
+    porcentajeCategoriaMisionFluidos(
+      "Composición"
+    );
+
+  const resEstado =
+    document.getElementById("resEstado");
+
+  const resViscosidad =
+    document.getElementById("resViscosidad");
+
+  const resCompresibilidad =
+    document.getElementById(
+      "resCompresibilidad"
+    );
+
+  const resComposicion =
+    document.getElementById("resComposicion");
+
+  if (resEstado) {
+    resEstado.textContent =
+      estado + "%";
+  }
+
+  if (resViscosidad) {
+    resViscosidad.textContent =
+      viscosidad + "%";
+  }
+
+  if (resCompresibilidad) {
+    resCompresibilidad.textContent =
+      compresibilidad + "%";
+  }
+
+  if (resComposicion) {
+    resComposicion.textContent =
+      composicion + "%";
+  }
+
+
+  /* ===== PUNTUACIÓN ===== */
+
+  if (puntuacion) {
+    puntuacion.textContent =
+      aciertosMisionFluidos +
+      " / " +
+      preguntasMisionFluidos.length;
+  }
+
+
+  /* ===== APROBADO ===== */
+
+  if (aprobado) {
+
+    if (nivel) {
+      nivel.textContent =
+        aciertosMisionFluidos === 10
+          ? "Especialista en Fluidos"
+          : "Analista de Fluidos";
+    }
+
+    if (mensaje) {
+      mensaje.textContent =
+        "Has demostrado dominio suficiente de los " +
+        "criterios de clasificación de fluidos. " +
+        "El siguiente tema puede ser desbloqueado.";
+    }
+
+    localStorage.setItem(
+      "misionFluidos12Aprobada",
+      "si"
+    );
+
+    localStorage.setItem(
+      "misionFluidos12Puntuacion",
+      String(aciertosMisionFluidos)
+    );
+
+    if (acciones) {
+      acciones.innerHTML = `
+        <button
+          type="button"
+          class="btn-iniciar-mision"
+          onclick="continuarTema13Fluidos()">
+          🔓 CONTINUAR AL TEMA 1.3
+        </button>
+      `;
+    }
+
+  }
+
+
+  /* ===== NO APROBADO ===== */
+
+  else {
+
+    if (nivel) {
+      nivel.textContent =
+        "Misión de refuerzo";
+    }
+
+    const categoriaReforzar =
+      obtenerCategoriaMasDebilFluidos();
+
+    if (mensaje) {
+      mensaje.textContent =
+        "Obtuviste " +
+        aciertosMisionFluidos +
+        "/10. Para avanzar necesitas al menos 8/10. " +
+        "Área recomendada de refuerzo: " +
+        categoriaReforzar +
+        ".";
+    }
+
+    if (acciones) {
+      acciones.innerHTML = `
+        <button
+          type="button"
+          class="btn-iniciar-mision"
+          onclick="reiniciarMisionFluidos()">
+          🔄 REPASAR Y REINTENTAR
+        </button>
+      `;
+    }
+  }
+}
+
+
+/* ===== DETECTAR ÁREA MÁS DÉBIL ===== */
+
+function obtenerCategoriaMasDebilFluidos() {
+
+  const categorias = [
+    "Estado físico",
+    "Viscosidad",
+    "Compresibilidad",
+    "Composición"
+  ];
+
+  let masDebil =
+    categorias[0];
+
+  let menorPorcentaje =
+    porcentajeCategoriaMisionFluidos(
+      masDebil
+    );
+
+  categorias.forEach(
+    categoria => {
+
+      const porcentaje =
+        porcentajeCategoriaMisionFluidos(
+          categoria
+        );
+
+      if (porcentaje < menorPorcentaje) {
+        menorPorcentaje = porcentaje;
+        masDebil = categoria;
+      }
+
+    }
+  );
+
+  return masDebil;
+}
+
+
+/* ===== REINICIAR MISIÓN ===== */
+
+function reiniciarMisionFluidos() {
+
+  const resultado =
+    document.getElementById("misionResultado");
+
+  const portada =
+    document.getElementById("misionPortada");
+
+  const juego =
+    document.getElementById("misionJuego");
+
+  if (resultado) {
+    resultado.hidden = true;
+  }
+
+  if (juego) {
+    juego.hidden = true;
+  }
+
+  if (portada) {
+    portada.hidden = false;
+  }
+
+  const seccion =
+    document.getElementById("misionFluidos12");
+
+  if (seccion) {
+    seccion.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+}
+
+
+/* ===== CONTINUAR AL TEMA 1.3 ===== */
+
+function continuarTema13Fluidos() {
+
+  localStorage.setItem(
+    "tema13FluidosDesbloqueado",
+    "si"
+  );
+
+  alert(
+    "🔓 Tema 1.3 desbloqueado.\n\n" +
+    "Ya puedes continuar con Propiedades " +
+    "mecánicas de los fluidos."
+  );
+
+ const tema13 =
+  document.getElementById("subtema13");
+
+if (tema13) {
+  tema13.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+}
+    /* =====================================================
+   NAVEGACIÓN INTERACTIVA · TEMA 1.3
+===================================================== */
+
+function abrirPropiedad13(nombre, boton) {
+
+  const paneles =
+    document.querySelectorAll(".prop13-panel");
+
+  const botones =
+    document.querySelectorAll(".prop13-tab");
+
+  // Ocultar todas las estaciones
+  paneles.forEach(panel => {
+    panel.classList.remove("activo");
+  });
+
+  // Desactivar todos los botones
+  botones.forEach(tab => {
+    tab.classList.remove("activa");
+  });
+
+  // Mostrar la estación seleccionada
+  const panelSeleccionado =
+    document.getElementById(
+      "prop13-" + nombre
+    );
+
+  if (panelSeleccionado) {
+    panelSeleccionado.classList.add("activo");
+  }
+
+  // Activar visualmente el botón pulsado
+  if (boton) {
+    boton.classList.add("activa");
+  }
+}
+/* =====================================================
+   LABORATORIO DE PROBLEMAS · ESTACIÓN 1
+===================================================== */
+
+let problemaMasaActual = 0;
+
+
+/* =====================================================
+   CAMBIAR PESTAÑA DEL LABORATORIO
+===================================================== */
+
+function cambiarLabMasa(panel, boton) {
+
+  const laboratorio =
+    document.getElementById("labProblemasMasa");
+
+  if (!laboratorio) {
+    return;
+  }
+
+  const paneles =
+    laboratorio.querySelectorAll(
+      ".prop13-lab-panel"
+    );
+
+  const botones =
+    laboratorio.querySelectorAll(
+      ".prop13-lab-tab"
+    );
+
+  paneles.forEach(elemento => {
+    elemento.classList.remove("activo");
+  });
+
+  botones.forEach(elemento => {
+    elemento.classList.remove("activa");
+  });
+
+  const panelSeleccionado =
+    document.getElementById(
+      "labMasa-" + panel
+    );
+
+  if (panelSeleccionado) {
+    panelSeleccionado.classList.add("activo");
+  }
+
+  if (boton) {
+    boton.classList.add("activa");
+  }
+}
+
+
+/* =====================================================
+   MOVER PROBLEMA
+===================================================== */
+
+function moverProblemaMasa(direccion) {
+
+  const slides =
+    document.querySelectorAll(
+      "[data-problema-masa]"
+    );
+
+  if (!slides.length) {
+    return;
+  }
+
+  problemaMasaActual += direccion;
+
+  if (problemaMasaActual < 0) {
+    problemaMasaActual = 0;
+  }
+
+  if (
+    problemaMasaActual >
+    slides.length - 1
+  ) {
+    problemaMasaActual =
+      slides.length - 1;
+  }
+
+  actualizarProblemaMasa();
+}
+
+
+/* =====================================================
+   IR DIRECTAMENTE A UN PROBLEMA
+===================================================== */
+
+function irProblemaMasa(indice) {
+
+  const slides =
+    document.querySelectorAll(
+      "[data-problema-masa]"
+    );
+
+  if (!slides.length) {
+    return;
+  }
+
+  if (
+    indice < 0 ||
+    indice >= slides.length
+  ) {
+    return;
+  }
+
+  problemaMasaActual = indice;
+
+  actualizarProblemaMasa();
+}
+
+
+/* =====================================================
+   ACTUALIZAR INTERFAZ DEL CARRUSEL
+===================================================== */
+
+function actualizarProblemaMasa() {
+
+  const slides =
+    document.querySelectorAll(
+      "[data-problema-masa]"
+    );
+
+  const puntos =
+    document.querySelectorAll(
+      ".prop13-problema-puntos button"
+    );
+
+  const contador =
+    document.getElementById(
+      "contadorProblemaMasa"
+    );
+
+  const barra =
+    document.getElementById(
+      "barraProblemaMasa"
+    );
+
+  const botonAnterior =
+    document.getElementById(
+      "btnProblemaMasaAnterior"
+    );
+
+  const botonSiguiente =
+    document.getElementById(
+      "btnProblemaMasaSiguiente"
+    );
+
+  if (!slides.length) {
+    return;
+  }
+
+
+  /* MOSTRAR SLIDE ACTUAL */
+
+  slides.forEach((slide, indice) => {
+
+    slide.classList.toggle(
+      "activo",
+      indice === problemaMasaActual
+    );
+
+  });
+
+
+  /* ACTUALIZAR PUNTOS */
+
+  puntos.forEach((punto, indice) => {
+
+    punto.classList.toggle(
+      "activo",
+      indice === problemaMasaActual
+    );
+
+  });
+
+
+  /* ACTUALIZAR CONTADOR */
+
+  if (contador) {
+
+    contador.textContent =
+      (problemaMasaActual + 1) +
+      " de " +
+      slides.length;
+
+  }
+
+
+  /* ACTUALIZAR BARRA */
+
+  if (barra) {
+
+    const porcentaje =
+      ((problemaMasaActual + 1) /
+      slides.length) * 100;
+
+    barra.style.width =
+      porcentaje + "%";
+
+  }
+
+
+  /* ACTIVAR / DESACTIVAR BOTONES */
+
+  if (botonAnterior) {
+
+    botonAnterior.disabled =
+      problemaMasaActual === 0;
+
+  }
+
+  if (botonSiguiente) {
+
+    botonSiguiente.disabled =
+      problemaMasaActual ===
+      slides.length - 1;
+
+  }
+}
+
+
+/* =====================================================
+   FIN LABORATORIO DE PROBLEMAS
+===================================================== */
+/* =====================================================
+   FIN NAVEGACIÓN TEMA 1.3
+===================================================== */
+    // =====================================
+// REGISTRO ÚNICO DEL ESTUDIANTE
+// =====================================
+
+const CLAVE_ALUMNO = "im3cbAlumno";
+    const CLAVE_ASISTENCIAS =
+  "im3cbAsistenciasRegistradas";
+
+
+function obtenerAsistenciasRegistradas() {
+
+  const datos =
+    localStorage.getItem(
+      CLAVE_ASISTENCIAS
+    );
+
+  if (!datos) {
+    return [];
+  }
+
+  try {
+    return JSON.parse(datos);
+  } catch (error) {
+    return [];
+  }
+}
+
+
+function asistenciaYaRegistrada(
+  idSesion,
+  matricula
+) {
+
+  const registros =
+    obtenerAsistenciasRegistradas();
+
+  return registros.some(
+    registro =>
+      registro.idSesion === idSesion &&
+      registro.matricula === matricula
+  );
+}
+
+
+function guardarAsistenciaRegistrada(
+  idSesion,
+  matricula
+) {
+
+  const registros =
+    obtenerAsistenciasRegistradas();
+
+  registros.push({
+    idSesion,
+    matricula,
+    fecha: new Date().toISOString()
+  });
+
+  localStorage.setItem(
+    CLAVE_ASISTENCIAS,
+    JSON.stringify(registros)
+  );
+}
+
+
+function guardarAlumnoLocal(nombre, matricula, grupo) {
+
+  const alumno = {
+    nombre: nombre,
+    matricula: matricula,
+    grupo: grupo
+  };
+
+  localStorage.setItem(
+    CLAVE_ALUMNO,
+    JSON.stringify(alumno)
+  );
+}
+
+
+function obtenerAlumnoLocal() {
+
+  const datos =
+    localStorage.getItem(CLAVE_ALUMNO);
+
+  if (!datos) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(datos);
+  } catch (error) {
+    return null;
+  }
+}
+
+function cargarAlumnoGuardado() {
+
+  const alumno = obtenerAlumnoLocal();
+
+  const tarjeta =
+    document.getElementById(
+      "tarjetaAlumnoReconocido"
+    );
+
+  const camposManual =
+    document.getElementById(
+      "camposAlumnoManual"
+    );
+
+  const nombreInput =
+    document.getElementById("nombreAlumno");
+
+  const matriculaInput =
+    document.getElementById("matriculaAlumno");
+
+  const grupoInput =
+    document.getElementById("grupoAlumno");
+
+  const estadoAlumno =
+    document.getElementById("estadoAlumno");
+
+
+  // Si no hay alumno guardado
+  if (!alumno) {
+
+    if (tarjeta) {
+      tarjeta.classList.remove("activa");
+    }
+
+    if (camposManual) {
+      camposManual.style.display = "block";
+    }
+
+    return;
+  }
+
+
+  // Mantener datos en los inputs
+  if (nombreInput) {
+    nombreInput.value =
+      alumno.nombre || "";
+  }
+
+  if (matriculaInput) {
+    matriculaInput.value =
+      alumno.matricula || "";
+  }
+
+  if (grupoInput) {
+    grupoInput.value =
+      alumno.grupo || "";
+  }
+
+
+  // Mostrar datos en tarjeta
+  const nombreTarjeta =
+    document.getElementById(
+      "alumnoReconocidoNombre"
+    );
+
+  const matriculaTarjeta =
+    document.getElementById(
+      "alumnoReconocidoMatricula"
+    );
+
+  const grupoTarjeta =
+    document.getElementById(
+      "alumnoReconocidoGrupo"
+    );
+
+  if (nombreTarjeta) {
+    nombreTarjeta.textContent =
+      alumno.nombre || "Alumno";
+  }
+
+  if (matriculaTarjeta) {
+    matriculaTarjeta.textContent =
+      `Matrícula: ${alumno.matricula || ""}`;
+  }
+
+  if (grupoTarjeta) {
+    grupoTarjeta.textContent =
+      `Grupo: ${alumno.grupo || ""}`;
+  }
+
+
+  // Ocultar formulario manual
+  if (camposManual) {
+    camposManual.style.display = "none";
+  }
+
+
+  // Mostrar tarjeta
+  if (tarjeta) {
+    tarjeta.classList.add("activa");
+  }
+
+
+  // Mensaje superior
+  if (
+    estadoAlumno &&
+    alumno.nombre
+  ) {
+    estadoAlumno.textContent =
+      "Estudiante reconocido en este dispositivo.";
+  }
+}
+
+
+/* =====================================
+   CAMBIAR ESTUDIANTE
+===================================== */
+
+function cambiarEstudiante() {
+
+  const confirmar = window.confirm(
+    "¿Deseas cambiar el estudiante registrado en este dispositivo?"
+  );
+
+  if (!confirmar) {
+    return;
+  }
+
+
+  // Borrar identidad guardada
+  localStorage.removeItem(
+    CLAVE_ALUMNO
+  );
+
+
+  // Limpiar campos
+  const nombreInput =
+    document.getElementById("nombreAlumno");
+
+  const matriculaInput =
+    document.getElementById("matriculaAlumno");
+
+  const grupoInput =
+    document.getElementById("grupoAlumno");
+
+  if (nombreInput) {
+    nombreInput.value = "";
+  }
+
+  if (matriculaInput) {
+    matriculaInput.value = "";
+  }
+
+  if (grupoInput) {
+    grupoInput.value = "";
+  }
+
+
+  // Ocultar tarjeta
+  const tarjeta =
+    document.getElementById(
+      "tarjetaAlumnoReconocido"
+    );
+
+  if (tarjeta) {
+    tarjeta.classList.remove("activa");
+  }
+
+
+  // Mostrar formulario manual
+  const camposManual =
+    document.getElementById(
+      "camposAlumnoManual"
+    );
+
+  if (camposManual) {
+    camposManual.style.display = "block";
+  }
+
+
+  // Actualizar mensaje
+  const estadoAlumno =
+    document.getElementById("estadoAlumno");
+
+  if (estadoAlumno) {
+    estadoAlumno.textContent =
+      "Completa tus datos para registrar tu asistencia.";
+  }
+
+
+  // Colocar cursor en nombre
+  if (nombreInput) {
+    nombreInput.focus();
+  }
+}
+    prepararFormularioAlumno();
+    cargarAlumnoGuardado();
+    restaurarTema12Fluidos();
+  </script>
+</body>
+</html>
