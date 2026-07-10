@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Análisis de Fluidos | IM3CB</title>
+  <title>Inteligencia Artificial | IM3CB</title>
 
   <script>
     const parametrosIniciales = new URLSearchParams(window.location.search);
@@ -3059,8 +3059,60 @@
   }
 }
   </style>
+    .curso-ia {
+      background:
+        radial-gradient(circle at 12% 8%, rgba(0, 229, 255, 0.22), transparent 30rem),
+        radial-gradient(circle at 84% 18%, rgba(122, 92, 255, 0.18), transparent 28rem),
+        linear-gradient(135deg, #03050b, #0d1324 48%, #04070f);
+    }
+
+    .curso-ia .hero-curso {
+      position: relative;
+    }
+
+    .curso-ia .hero-curso::before {
+      content: "";
+      position: absolute;
+      inset: -18px;
+      z-index: -1;
+      border-radius: 28px;
+      background:
+        linear-gradient(120deg, rgba(0, 229, 255, 0.12), transparent 38%),
+        linear-gradient(300deg, rgba(122, 92, 255, 0.16), transparent 42%);
+      filter: blur(2px);
+    }
+
+    .curso-ia .etiqueta {
+      background: linear-gradient(135deg, #00d4ff, #6f5bff);
+      box-shadow: 0 0 24px rgba(0, 212, 255, 0.28);
+    }
+
+    .curso-ia h1 span,
+    .curso-ia h2 span {
+      color: #00d4ff;
+    }
+
+    .curso-ia .unidad,
+    .curso-ia .asistencia-card,
+    .curso-ia .parcial,
+    .curso-ia .subtema-card {
+      border-color: rgba(0, 212, 255, 0.28);
+      background:
+        radial-gradient(circle at top right, rgba(0, 212, 255, 0.12), transparent 42%),
+        linear-gradient(145deg, rgba(9, 18, 35, 0.98), rgba(6, 10, 20, 0.98));
+    }
+
+    .curso-ia .boton-accion,
+    .curso-ia .boton-unidad {
+      background: linear-gradient(135deg, #006dff, #00d4ff);
+    }
+
+    .curso-ia .estado-unidad {
+      background: #00d4ff;
+    }
+  </style>
 </head>
-<body>
+<body class="curso-ia">
   <nav>
     <a class="marca" href="index.html">IM<span>3</span>CB</a>
     <div class="nav-acciones">
@@ -3074,20 +3126,17 @@
     <section class="hero-curso">
       <div>
         <span class="etiqueta">CURSO DE INGENIERÍA</span>
-        <h1>Análisis de <span>Fluidos</span></h1>
+        <h1>Inteligencia <span>Artificial</span></h1>
         <p class="intro">
-          Analizar y simular sistemas mecatrónicos que involucren fluidos en
-          condiciones estáticas y dinámicas, mediante la aplicación de los
-          principios de Pascal y Arquímedes, así como de las leyes fundamentales
-          de la mecánica de fluidos, diferenciando el comportamiento de los
-          flujos compresibles e incompresibles para predecir su respuesta y
-          contribuir al diseño, evaluación y optimización de aplicaciones
-          mecatrónicas.
+          Aprende a utilizar la Inteligencia Artificial para resolver problemas,
+          automatizar procesos, generar contenido y desarrollar soluciones
+          aplicadas a la ingeniería.
         </p>
       </div>
 
       <div class="hero-imagen">
-        <img src="portada-fluidos.png" alt="Portada del curso Análisis de Fluidos">
+        <!-- Portada IA temporal pendiente: <img src="portada-ia.png" alt="Portada del curso Inteligencia Artificial"> -->
+        <img src="portada-fluidos.png" alt="Portada temporal del curso Inteligencia Artificial">
       </div>
     </section>
 
@@ -3097,72 +3146,88 @@
       </button>
     </div>
 
+    <!-- ====================================
+    IA
+    ==================================== -->
     <section class="panel" id="temario">
       <h2>Temario <span>oficial</span></h2>
       <p>
-        El curso se organiza en cinco unidades progresivas, desde los conceptos
-        básicos hasta el análisis de flujo compresible.
+        El curso se organiza en cinco unidades progresivas, desde los fundamentos
+        de la Inteligencia Artificial hasta el desarrollo de un proyecto integrador.
       </p>
 
       <div class="temario-grid">
+        <!-- ====================================
+        UNIDAD 1
+        ==================================== -->
         <article class="unidad unidad-activa">
-          <span class="estado-unidad">ACTIVA</span>
+          <span class="estado-unidad">IA ACTIVA</span>
           <small>UNIDAD 1</small>
-          <h3>Fundamentos de Mecánica de Fluidos</h3>
+          <h3>Fundamentos de Inteligencia Artificial</h3>
           <ol>
-            <li>Conceptos básicos y sistemas de unidades.</li>
-            <li>Clasificación de fluidos.</li>
-            <li>Propiedades mecánicas de los fluidos.</li>
+            <li>Conceptos básicos de Inteligencia Artificial.</li>
+            <li>Tipos de IA y campos de aplicación.</li>
+            <li>Datos, modelos y algoritmos.</li>
           </ol>
-          <button class="boton-unidad" type="button" onclick="abrirCursoUnidad1()">Ir al curso</button>
+          <button class="boton-unidad" type="button" onclick="abrirCursoUnidad1()">Explorar curso</button>
         </article>
 
+        <!-- ====================================
+        UNIDAD 2
+        ==================================== -->
         <article class="unidad">
           <small>UNIDAD 2</small>
-          <h3>Principios de Hidrostática</h3>
+          <h3>Ingeniería de Prompts</h3>
           <ol>
-            <li>Medición de la presión.</li>
-            <li>Principio de Pascal.</li>
-            <li>Principio de Arquímedes.</li>
+            <li>Estructura de instrucciones efectivas.</li>
+            <li>Contexto, rol, formato y restricciones.</li>
+            <li>Iteración y evaluación de respuestas.</li>
           </ol>
         </article>
 
+        <!-- ====================================
+        UNIDAD 3
+        ==================================== -->
         <article class="unidad">
           <small>UNIDAD 3</small>
-          <h3>Leyes y principios básicos para análisis de flujo de fluidos</h3>
+          <h3>IA Generativa</h3>
           <ol>
-            <li>Clasificación de flujos.</li>
-            <li>Ecuación de continuidad.</li>
-            <li>Ecuación de la energía.</li>
+            <li>Generación de texto, imagen y código.</li>
+            <li>Modelos generativos y casos de uso.</li>
+            <li>Riesgos, sesgos y verificación.</li>
           </ol>
         </article>
 
+        <!-- ====================================
+        UNIDAD 4
+        ==================================== -->
         <article class="unidad">
           <small>UNIDAD 4</small>
-          <h3>Sistemas de tuberías de flujo incompresible</h3>
+          <h3>Automatización y Productividad</h3>
           <ol>
-            <li>Tuberías.</li>
-            <li>Ecuación de la energía.</li>
-            <li>Pérdidas por fricción en tuberías, accesorios y conexiones.</li>
-            <li>Cálculo de sistemas de tuberías.</li>
-            <li>Golpe de Ariete.</li>
+            <li>Flujos de trabajo asistidos por IA.</li>
+            <li>Herramientas para productividad académica e industrial.</li>
+            <li>Automatización de tareas repetitivas.</li>
           </ol>
         </article>
 
+        <!-- ====================================
+        UNIDAD 5
+        ==================================== -->
         <article class="unidad">
           <small>UNIDAD 5</small>
-          <h3>Sistemas de tuberías de flujo compresible</h3>
+          <h3>Proyecto Integrador</h3>
           <ol>
-            <li>Tuberías.</li>
-            <li>Leyes de los gases.</li>
-            <li>Ecuación de la energía.</li>
-            <li>Pérdidas por fricción en tuberías.</li>
-            <li>Ecuaciones teóricas-empíricas para determinar el flujo volumétrico.</li>
-            <li>Ondas de choque.</li>
+            <li>Identificación del problema.</li>
+            <li>Diseño de solución con IA.</li>
+            <li>Implementación, evaluación y presentación.</li>
           </ol>
         </article>
       </div>
 
+      <!-- ====================================
+      EVALUACIÓN
+      ==================================== -->
       <section class="panel" id="evaluacion">
         <h2>Evaluación <span>del curso</span></h2>
         <p>
@@ -3197,6 +3262,9 @@
         </div>
       </section>
 
+      <!-- ====================================
+      ASISTENCIA
+      ==================================== -->
       <section class="panel" id="asistencia">
         <h2>Pasar <span>lista</span></h2>
         <p>
@@ -3321,16 +3389,15 @@
           <h2>Unidad 1 <span>activa</span></h2>
           <p>
             Después de revisar la evaluación del curso y realizar el pase de
-            lista, inicia con el primer subtema de la unidad.
+            lista, inicia con los fundamentos de Inteligencia Artificial.
           </p>
 
           <article class="subtema-card">
             <small>SUBTEMA 1.1</small>
-            <h3>Conceptos básicos y sistemas de unidades</h3>
+            <h3>Conceptos básicos de Inteligencia Artificial</h3>
             <p>
-              Reconoce los conceptos iniciales de la mecánica de fluidos y la
-              importancia de trabajar con sistemas de unidades consistentes en
-              problemas de ingeniería.
+              Reconoce qué es la IA, cómo utiliza datos y modelos, y de qué
+              manera puede apoyar la solución de problemas de ingeniería.
             </p>
             <div class="sway-contenedor">
   <iframe
@@ -3370,7 +3437,7 @@
       id="videoFluidos"
       class="tv-video"
       src=""
-      title="Video de apoyo - Conceptos básicos y sistemas de unidades"
+      title="Video de apoyo - Conceptos básicos de Inteligencia Artificial"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       allowfullscreen>
     </iframe>
@@ -3389,11 +3456,14 @@
   </div>
 
   <div class="tv-pie">
-    <strong>Conceptos básicos y sistemas de unidades</strong>
+    <strong>Conceptos básicos de Inteligencia Artificial</strong>
     <span>Material audiovisual de apoyo · IM3CB</span>
   </div>
 
 </div>
+            <!-- ====================================
+            ACTIVIDADES
+            ==================================== -->
             <!-- ===== SOPA DE LETRAS INTERACTIVA IM3CB ===== -->
 <div class="sopa-im3cb" id="sopaFluidos">
 
@@ -3488,7 +3558,7 @@
   </div>
 
 </div>
-            <!-- ===== TEMA 1.2 CLASIFICACIÓN DE FLUIDOS ===== -->
+            <!-- ===== TEMA 1.2 FUNDAMENTOS DE IA ===== -->
 <section
   id="tema12Fluidos"
   class="tema12-fluidos">
@@ -3496,12 +3566,11 @@
   <div class="tema12-encabezado">
     <small>TEMA 1.2</small>
 
-    <h3>Clasificación de fluidos</h3>
+    <h3>Tipos de Inteligencia Artificial</h3>
 
     <p>
-      Analiza los principales criterios utilizados
-      para clasificar los fluidos y relaciona su
-      comportamiento con aplicaciones de ingeniería.
+      Analiza los principales enfoques de IA y relaciona sus capacidades
+      con aplicaciones académicas, creativas e industriales.
     </p>
   </div>
             <div class="sway-contenedor">
@@ -3537,7 +3606,7 @@
       🧪
     </div>
 
-    <h3>Diagnóstico de Fluidos</h3>
+    <h3>Diagnóstico de Inteligencia Artificial</h3>
 
     <p>
       Analiza 10 situaciones de ingeniería y selecciona
@@ -3664,7 +3733,7 @@
     </span>
 
     <h3 id="resultadoNivel">
-      Analista de Fluidos
+      Analista de IA
     </h3>
 
     <div
@@ -3679,22 +3748,22 @@
     <div class="resultado-desglose">
 
       <div>
-        <span>Estado físico</span>
+        <span>Datos</span>
         <strong id="resEstado">0%</strong>
       </div>
 
       <div>
-        <span>Viscosidad</span>
+        <span>Prompts</span>
         <strong id="resViscosidad">0%</strong>
       </div>
 
       <div>
-        <span>Compresibilidad</span>
+        <span>IA generativa</span>
         <strong id="resCompresibilidad">0%</strong>
       </div>
 
       <div>
-        <span>Composición</span>
+        <span>Responsabilidad</span>
         <strong id="resComposicion">0%</strong>
       </div>
 
@@ -3709,7 +3778,7 @@
 
 </section>
             <!-- =====================================================
-     SUBTEMA 1.3 · PROPIEDADES DE LOS FLUIDOS
+     SUBTEMA 1.3 · APLICACIONES DE IA
 ===================================================== -->
 
 <article class="subtema-card propiedades-13" id="subtema13">
@@ -3720,13 +3789,12 @@
       SUBTEMA 1.3
     </span>
 
-    <h3>Propiedades de los fluidos</h3>
+    <h3>Aplicaciones de la Inteligencia Artificial</h3>
 
     <p>
-      Las propiedades de un fluido permiten describir,
-      comparar y predecir su comportamiento ante cambios
-      de presión, temperatura, movimiento y contacto con
-      otras superficies.
+      Las aplicaciones de IA permiten analizar información,
+      generar contenido, automatizar procesos y apoyar la
+      toma de decisiones en problemas de ingeniería.
     </p>
 
     <div class="prop13-mensaje">
@@ -3755,10 +3823,10 @@
 
       <span class="prop13-numero">1</span>
 
-      <strong>Masa y volumen</strong>
+      <strong>Datos y modelos</strong>
 
       <small>
-        ρ · γ · v
+        Dataset · modelo · algoritmo
       </small>
 
     </button>
@@ -3771,10 +3839,10 @@
 
       <span class="prop13-numero">2</span>
 
-      <strong>Flujo y resistencia</strong>
+      <strong>Prompts y contexto</strong>
 
       <small>
-        μ · ν
+        rol · tarea · formato
       </small>
 
     </button>
@@ -3787,10 +3855,10 @@
 
       <span class="prop13-numero">3</span>
 
-      <strong>Presión y cambio</strong>
+      <strong>Generación y revisión</strong>
 
       <small>
-        p · κ · K · α
+        salida · sesgo · verificación
       </small>
 
     </button>
@@ -3803,10 +3871,10 @@
 
       <span class="prop13-numero">4</span>
 
-      <strong>Superficie</strong>
+      <strong>Automatización</strong>
 
       <small>
-        σ · Capilaridad
+        flujo · productividad
       </small>
 
     </button>
@@ -3828,126 +3896,126 @@
 
       <div>
         <small>ESTACIÓN 1</small>
-        <h4>Masa, peso y volumen</h4>
+        <h4>Datos, modelos y algoritmos</h4>
       </div>
 
     </div>
 
 
     <p class="prop13-intro">
-      Estas propiedades relacionan la cantidad de materia,
-      el espacio ocupado y la acción de la gravedad sobre
-      un fluido.
+      Estos conceptos permiten comprender cómo una IA aprende
+      patrones, procesa información y entrega resultados útiles.
     </p>
 
 
     <div class="prop13-grid">
 
 
-      <!-- DENSIDAD -->
+      <!-- DATOS -->
 
       <article class="prop13-concepto">
 
         <span class="prop13-simbolo">
-          ρ
+          D
         </span>
 
-        <h5>Densidad</h5>
+        <h5>Datos</h5>
 
         <p>
-          La densidad expresa la cantidad de masa
-          contenida por unidad de volumen.
+          Los datos son ejemplos, registros o evidencias que
+          alimentan el entrenamiento y la evaluación de modelos.
         </p>
 
         <div class="prop13-formula">
-          ρ = m / V
+          datos = ejemplos + contexto
         </div>
 
         <ul>
           <li>
-            ρ = densidad
+            calidad = exactitud y relevancia
           </li>
 
           <li>
-            m = masa
+            cantidad = volumen de ejemplos
           </li>
 
           <li>
-            V = volumen
+            variedad = casos diferentes
           </li>
         </ul>
 
         <div class="prop13-unidad">
-          SI: kg/m³
+          Base: confiabilidad
         </div>
 
       </article>
 
 
-      <!-- PESO ESPECÍFICO -->
+      <!-- MODELO -->
 
       <article class="prop13-concepto">
 
         <span class="prop13-simbolo">
-          γ
+          M
         </span>
 
-        <h5>Peso específico</h5>
+        <h5>Modelo</h5>
 
         <p>
-          Representa el peso del fluido contenido
-          en una unidad de volumen.
+          Representa el sistema que identifica patrones
+          y genera predicciones o respuestas.
         </p>
 
         <div class="prop13-formula">
-          γ = W / V
+          modelo = datos + aprendizaje
         </div>
 
         <div class="prop13-formula secundaria">
-          γ = ρg
+          salida = entrada procesada
         </div>
 
         <p class="prop13-nota">
-          Depende de la densidad del fluido
-          y de la aceleración gravitatoria.
+          Depende del tipo de datos, el entrenamiento
+          y la tarea que se desea resolver.
         </p>
 
         <div class="prop13-unidad">
-          SI: N/m³
+          Base: desempeño
         </div>
 
       </article>
 
 
-      <!-- VOLUMEN ESPECÍFICO -->
+      <!-- ALGORITMO -->
 
       <article class="prop13-concepto">
 
         <span class="prop13-simbolo">
-          v
+          A
         </span>
 
-        <h5>Volumen específico</h5>
+        <h5>Algoritmo</h5>
 
         <p>
-          Es el volumen ocupado por unidad
-          de masa de una sustancia.
+          Es el procedimiento que permite transformar
+          datos en decisiones, predicciones o contenido.
         </p>
 
         <div class="prop13-formula">
-          v = V / m
+          algoritmo = pasos + reglas
         </div>
 
         <div class="prop13-formula secundaria">
-          v = 1 / ρ
+          resultado = proceso aplicado
         </div>
 
         <p class="prop13-nota">
-          Es el recíproco de la densidad.
+          Su utilidad depende de la tarea, los datos
+          y la forma de evaluar sus resultados.
         </p>
 
         <div class="prop13-unidad">
-          SI: m³/kg
+          Base: lógica
         </div>
 
       </article>
@@ -3963,10 +4031,9 @@
         <strong>Aplicación en ingeniería</strong>
 
         <p>
-          Estas propiedades se utilizan para calcular
-          masas almacenadas, fuerzas gravitatorias,
-          capacidad de tanques y comportamiento de
-          fluidos en sistemas industriales.
+          Estos conceptos se utilizan para crear asistentes,
+          clasificadores, generadores de contenido y sistemas
+          de apoyo a decisiones en ingeniería.
         </p>
       </div>
 
@@ -3991,12 +4058,12 @@
       </span>
 
       <h4>
-        Laboratorio de problemas
+        Laboratorio de casos de IA
       </h4>
 
       <p>
-        Analiza ejemplos resueltos y después
-        enfrenta los problemas propuestos.
+        Analiza ejemplos guiados y después
+        enfrenta casos propuestos.
       </p>
     </div>
 
@@ -4144,8 +4211,8 @@
           </small>
 
           <h5>
-            Densidad y peso específico
-            de la glicerina
+            Calidad de datos
+            para un modelo
           </h5>
         </div>
 
@@ -4155,7 +4222,7 @@
 
         <img
           src="problema-resuelto-2.png"
-          alt="Problema resuelto de densidad y peso específico de la glicerina"
+          alt="Caso resuelto sobre calidad de datos para Inteligencia Artificial"
           loading="lazy">
 
       </div>
@@ -4166,8 +4233,8 @@
 
         <p>
           <strong>Idea clave:</strong>
-          utiliza la gravedad específica para
-          determinar densidad y peso específico.
+          identifica datos confiables antes de
+          seleccionar una herramienta de IA.
         </p>
 
       </div>
@@ -4374,7 +4441,7 @@
 
       <img
         src="problemas-propuestos.png"
-        alt="Tres problemas propuestos sin solución sobre propiedades de los fluidos"
+        alt="Tres casos propuestos sin solución sobre aplicaciones de Inteligencia Artificial"
         loading="lazy">
 
     </div>
@@ -4407,7 +4474,7 @@
 
         <p>
           <strong>Resuelve</strong>
-          cuidando las unidades.
+          justificando el criterio.
         </p>
       </div>
 
@@ -4420,9 +4487,8 @@
 
       <p>
         <strong>Consejo de ingeniería:</strong>
-        no sustituyas valores inmediatamente.
-        Primero escribe la ecuación general,
-        despeja la incógnita y después sustituye.
+        define primero el problema, identifica los datos
+        disponibles y después elige la herramienta de IA.
       </p>
 
     </div>
@@ -4451,16 +4517,15 @@
 
       <div>
         <small>ESTACIÓN 2</small>
-        <h4>Flujo y resistencia interna</h4>
+        <h4>Prompts y contexto</h4>
       </div>
 
     </div>
 
 
     <p class="prop13-intro">
-      La viscosidad describe la resistencia interna
-      que presenta un fluido cuando sus capas se
-      desplazan unas respecto de otras.
+      Un prompt bien diseñado guía al sistema de IA mediante
+      objetivo, contexto, rol, formato y restricciones.
     </p>
 
 
@@ -4468,8 +4533,8 @@
 
       <div class="prop13-fluido">
         <span>💧</span>
-        <strong>Agua</strong>
-        <small>Baja viscosidad</small>
+        <strong>Prompt breve</strong>
+        <small>Poco contexto</small>
       </div>
 
       <div class="prop13-flecha">
@@ -4478,8 +4543,8 @@
 
       <div class="prop13-fluido">
         <span>🛢️</span>
-        <strong>Aceite</strong>
-        <small>Viscosidad media</small>
+        <strong>Prompt guiado</strong>
+        <small>Contexto suficiente</small>
       </div>
 
       <div class="prop13-flecha">
@@ -4488,8 +4553,8 @@
 
       <div class="prop13-fluido">
         <span>🍯</span>
-        <strong>Miel</strong>
-        <small>Alta viscosidad</small>
+        <strong>Prompt experto</strong>
+        <small>Rol, formato y criterios</small>
       </div>
 
     </div>
@@ -4498,73 +4563,72 @@
     <div class="prop13-grid dos">
 
 
-      <!-- VISCOSIDAD DINÁMICA -->
+      <!-- PROMPT -->
 
       <article class="prop13-concepto">
 
         <span class="prop13-simbolo">
-          μ
+          P
         </span>
 
-        <h5>Viscosidad dinámica</h5>
+        <h5>Prompt</h5>
 
         <p>
-          Mide la resistencia interna del fluido
-          frente a una deformación por esfuerzo
-          cortante.
+          Define la instrucción que recibe la IA para
+          producir una respuesta alineada con la tarea.
         </p>
 
         <div class="prop13-formula">
-          τ = μ (du/dy)
+          prompt = tarea + contexto + formato
         </div>
 
         <ul>
           <li>
-            τ = esfuerzo cortante
+            tarea = lo que se solicita
           </li>
 
           <li>
-            μ = viscosidad dinámica
+            contexto = información relevante
           </li>
 
           <li>
-            du/dy = gradiente de velocidad
+            formato = cómo debe responder
           </li>
         </ul>
 
         <div class="prop13-unidad">
-          SI: Pa·s
+          Base: claridad
         </div>
 
       </article>
 
 
-      <!-- VISCOSIDAD CINEMÁTICA -->
+      <!-- CONTEXTO -->
 
       <article class="prop13-concepto">
 
         <span class="prop13-simbolo">
-          ν
+          C
         </span>
 
-        <h5>Viscosidad cinemática</h5>
+        <h5>Contexto</h5>
 
         <p>
-          Relaciona la viscosidad dinámica
-          con la densidad del fluido.
+          Aporta datos, restricciones y criterios para
+          que la respuesta sea más precisa y útil.
         </p>
 
         <div class="prop13-formula">
-          ν = μ / ρ
+          contexto = antecedentes + límites
         </div>
 
         <p class="prop13-nota">
-          Permite comparar la difusión del movimiento
-          dentro de fluidos con diferente densidad.
+          Permite reducir ambigüedades y adaptar la
+          respuesta al problema real.
         </p>
 
         <div class="prop13-unidad">
-          SI: m²/s
+          Base: pertinencia
         </div>
 
       </article>
@@ -4575,35 +4639,33 @@
     <div class="prop13-temperatura">
 
       <h5>
-        🌡️ Efecto de la temperatura
+        🔁 Iteración del prompt
       </h5>
 
       <div class="prop13-temp-grid">
 
         <div>
-  <strong>💧 Líquidos</strong>
+  <strong>📝 Primer intento</strong>
 
   <p>
-    Al aumentar la temperatura,
-    <strong>generalmente disminuye la viscosidad</strong>,
-    porque se reduce el efecto relativo de las
-    fuerzas de cohesión entre sus moléculas.
+    Una instrucción general puede producir
+    <strong>respuestas incompletas</strong>,
+    porque no define criterios ni formato.
   </p>
 </div>
 
 
 <div>
-  <strong>💨 Gases</strong>
+  <strong>🎯 Prompt refinado</strong>
 
   <p>
-    Al aumentar la temperatura,
-    <strong>generalmente aumenta la viscosidad</strong>,
-    debido al incremento de la transferencia
-    de cantidad de movimiento entre moléculas.
+    Al agregar contexto, ejemplos y restricciones,
+    <strong>mejora la utilidad de la respuesta</strong>
+    y se facilita la verificación.
   </p>
 </div>
         </div>
-        <!-- FRANJA VISUAL · TEMPERATURA Y VISCOSIDAD -->
+        <!-- FRANJA VISUAL · ITERACIÓN DE PROMPTS -->
 
 <div class="prop13-franja-viscosidad">
 
@@ -4611,13 +4673,13 @@
     <span class="prop13-franja-icono">🌡️</span>
 
     <div>
-      <small>EN LÍQUIDOS</small>
+      <small>PROMPT GENERAL</small>
       <strong>
-        ↑ Temperatura → ↓ Viscosidad
+        Menos contexto → Más ambigüedad
       </strong>
     </div>
 
-    <span class="prop13-franja-fluido">💧</span>
+    <span class="prop13-franja-fluido">📝</span>
   </div>
 
 
@@ -4630,22 +4692,21 @@
     <span class="prop13-franja-icono">🌡️</span>
 
     <div>
-      <small>EN GASES</small>
+      <small>PROMPT REFINADO</small>
       <strong>
-        ↑ Temperatura → ↑ Viscosidad
+        Más contexto → Mejor respuesta
       </strong>
     </div>
 
-    <span class="prop13-franja-fluido">💨</span>
+    <span class="prop13-franja-fluido">🎯</span>
   </div>
 
 </div>
 
 <p class="prop13-franja-conclusion">
   <strong>Idea clave:</strong>
-  la temperatura produce un comportamiento opuesto:
-  al aumentar <b>T</b>, la viscosidad <b>μ</b> tiende a disminuir
-  en líquidos y a aumentar en gases.
+  iterar el prompt mejora la calidad de la salida, pero
+  siempre requiere revisión humana y fuentes confiables.
 </p>
 
     </div>
@@ -4667,102 +4728,101 @@
 
       <div>
         <small>ESTACIÓN 3</small>
-        <h4>Respuesta a presión y temperatura</h4>
+        <h4>Generación, sesgos y verificación</h4>
       </div>
 
     </div>
 
 
     <p class="prop13-intro">
-      Los fluidos pueden cambiar su volumen,
-      densidad y estado cuando varían la presión
-      y la temperatura.
+      Las respuestas generadas por IA pueden ser útiles,
+      pero deben revisarse para detectar errores, sesgos
+      o información inventada.
     </p>
 
 
     <div class="prop13-grid">
 
 
-      <!-- PRESIÓN -->
+      <!-- SALIDA -->
 
       <article class="prop13-concepto">
 
         <span class="prop13-simbolo">
-          p
+          S
         </span>
 
-        <h5>Presión</h5>
+        <h5>Salida</h5>
 
         <p>
-          Representa la fuerza normal ejercida
-          por unidad de área.
+          Es el texto, imagen, código o recomendación
+          que genera la herramienta de IA.
         </p>
 
         <div class="prop13-formula">
-          p = F / A
+          salida = prompt + modelo
         </div>
 
         <div class="prop13-unidad">
-          SI: Pa = N/m²
+          Base: utilidad
         </div>
 
       </article>
 
 
-      <!-- COMPRESIBILIDAD -->
+      <!-- SESGO -->
 
       <article class="prop13-concepto">
 
         <span class="prop13-simbolo">
-          κ
+          B
         </span>
 
-        <h5>Compresibilidad</h5>
+        <h5>Sesgo</h5>
 
         <p>
-          Describe la capacidad de un fluido
-          para modificar su volumen cuando
-          cambia la presión.
+          Describe una tendencia del sistema a favorecer
+          ciertos patrones, grupos o resultados.
         </p>
 
         <div class="prop13-formula">
-          κ = -(1/V)(dV/dp)
+          sesgo = datos + diseño + contexto
         </div>
 
         <p class="prop13-nota">
-          Los gases son mucho más compresibles
-          que los líquidos.
+          Puede reducirse con revisión, datos diversos
+          y evaluación responsable.
         </p>
 
       </article>
 
 
-      <!-- MÓDULO VOLUMÉTRICO -->
+      <!-- VERIFICACIÓN -->
 
       <article class="prop13-concepto">
 
         <span class="prop13-simbolo">
-          K
+          V
         </span>
 
-        <h5>Módulo volumétrico</h5>
+        <h5>Verificación</h5>
 
         <p>
-          Mide la resistencia del fluido
-          frente a cambios de volumen.
+          Evalúa si la salida es correcta,
+          útil y consistente con fuentes confiables.
         </p>
 
         <div class="prop13-formula">
-          K = 1 / κ
+          verificación = fuentes + criterio
         </div>
 
         <p class="prop13-nota">
-          Un valor grande de K indica
-          baja compresibilidad.
+          Una respuesta clara no siempre es verdadera;
+          debe comprobarse antes de aplicarse.
         </p>
 
         <div class="prop13-unidad">
-          SI: Pa
+          Base: confianza
         </div>
 
       </article>
@@ -4779,21 +4839,20 @@
         </span>
 
         <div>
-          <small>TEMPERATURA</small>
-          <h4>Dilatación térmica volumétrica</h4>
+          <small>REVISIÓN</small>
+          <h4>Mejora iterativa de respuestas</h4>
         </div>
 
       </div>
 
       <p>
-        Cuando cambia la temperatura,
-        el volumen de un fluido puede modificarse.
-        Esta respuesta se representa mediante
-        el coeficiente de dilatación volumétrica.
+        Cuando cambia el contexto, la instrucción o los datos,
+        la respuesta de la IA puede mejorar. La revisión permite
+        corregir errores y afinar el resultado.
       </p>
 
       <div class="prop13-formula grande">
-        αᵥ = (1/V)(∂V/∂T)
+        mejora = respuesta + retroalimentación
       </div>
 
       <div class="prop13-aplicacion">
@@ -4803,9 +4862,9 @@
           <strong>¿Dónde importa?</strong>
 
           <p>
-            Tanques, tuberías, sistemas térmicos,
-            circuitos hidráulicos y procesos donde
-            existen variaciones importantes de temperatura.
+            Reportes técnicos, planeación de clase, análisis
+            de datos, generación de contenido y automatización
+            de procesos académicos o industriales.
           </p>
         </div>
       </div>
@@ -4825,91 +4884,87 @@
 
     <div class="prop13-panel-titulo">
 
-      <span class="prop13-icono">💧</span>
+      <span class="prop13-icono">⚙️</span>
 
       <div>
         <small>ESTACIÓN 4</small>
-        <h4>Fenómenos de superficie</h4>
+        <h4>Automatización y productividad</h4>
       </div>
 
     </div>
 
 
     <p class="prop13-intro">
-      En la frontera entre un líquido y otro medio
-      aparecen fenómenos asociados con las fuerzas
-      intermoleculares.
+      La IA puede integrarse en flujos de trabajo para reducir
+      tareas repetitivas, organizar información y apoyar la
+      toma de decisiones.
     </p>
 
 
     <div class="prop13-grid dos">
 
 
-      <!-- TENSIÓN SUPERFICIAL -->
+      <!-- AUTOMATIZACIÓN -->
 
       <article class="prop13-concepto">
 
         <span class="prop13-simbolo">
-          σ
+          F
         </span>
 
-        <h5>Tensión superficial</h5>
+        <h5>Flujo de trabajo</h5>
 
         <p>
-          Es el efecto producido por las fuerzas
-          cohesivas entre moléculas en la superficie
-          de un líquido.
+          Es la secuencia de pasos que conecta entradas,
+          herramientas de IA, revisión humana y resultados.
         </p>
 
         <div class="prop13-formula">
-          σ = F / L
+          flujo = entrada + IA + revisión
         </div>
 
         <p class="prop13-nota">
-          Ayuda a explicar la forma de las gotas
-          y el comportamiento de pequeñas superficies
-          líquidas.
+          Ayuda a documentar procesos, reducir errores y
+          repetir tareas con mayor consistencia.
         </p>
 
         <div class="prop13-unidad">
-          SI: N/m
+          Base: organización
         </div>
 
       </article>
 
 
-      <!-- CAPILARIDAD -->
+      <!-- PRODUCTIVIDAD -->
 
       <article class="prop13-concepto">
 
         <span class="prop13-simbolo">
-          h
+          P
         </span>
 
-        <h5>Capilaridad</h5>
+        <h5>Productividad</h5>
 
         <p>
-          Es el ascenso o descenso de un líquido
-          dentro de conductos muy pequeños debido
-          al equilibrio entre cohesión, adhesión
-          y tensión superficial.
+          Es la capacidad de producir mejores entregables
+          en menos tiempo sin perder revisión ni calidad.
         </p>
 
         <div class="prop13-formula">
-          h = 2σ cosθ / (ρgr)
+          productividad = rapidez + calidad
         </div>
 
         <ul>
           <li>
-            σ = tensión superficial
+            rapidez = menos tareas repetitivas
           </li>
 
           <li>
-            θ = ángulo de contacto
+            calidad = revisión y mejora
           </li>
 
           <li>
-            r = radio del tubo
+            criterio = decisión humana
           </li>
         </ul>
 
@@ -4922,25 +4977,25 @@
 
       <div>
         <span>🌱</span>
-        <strong>Plantas</strong>
+        <strong>Clases</strong>
         <p>
-          Transporte de agua en conductos pequeños.
+          Planeación, rúbricas y material de apoyo.
         </p>
       </div>
 
       <div>
         <span>🧪</span>
-        <strong>Tubos capilares</strong>
+        <strong>Reportes</strong>
         <p>
-          Ascenso o descenso de líquidos.
+          Resumen, clasificación y corrección de borradores.
         </p>
       </div>
 
       <div>
         <span>🎨</span>
-        <strong>Recubrimientos</strong>
+        <strong>Proyectos</strong>
         <p>
-          Interacción entre líquidos y superficies.
+          Prototipos, documentación y validación de ideas.
         </p>
       </div>
 
@@ -4999,202 +5054,202 @@
           <h2>Evaluación diagnóstica</h2>
 
           <div class="pregunta-diagnostico">
-            <p>1. ¿Cuál de las siguientes características define mejor a un fluido?</p>
+            <p>1. ¿Cuál de las siguientes opciones define mejor a la Inteligencia Artificial?</p>
             <ol type="a">
-              <li>Se deforma continuamente cuando se somete a un esfuerzo cortante.</li>
-              <li>Mantiene siempre una forma geométrica definida.</li>
-              <li>No puede ejercer presión sobre las paredes de un recipiente.</li>
-              <li>Conserva siempre su volumen y su forma.</li>
+              <li>Sistemas capaces de realizar tareas que normalmente requieren inteligencia humana.</li>
+              <li>Una hoja de cálculo con fórmulas básicas.</li>
+              <li>Un dispositivo que solo almacena archivos.</li>
+              <li>Un programa que no utiliza datos ni reglas.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>2. En el Sistema Internacional de Unidades, la presión se mide en:</p>
+            <p>2. ¿Qué elemento es fundamental para entrenar o ajustar muchos sistemas de IA?</p>
             <ol type="a">
-              <li>Newton</li>
-              <li>Pascal</li>
-              <li>Joule</li>
-              <li>Watt</li>
+              <li>Datos</li>
+              <li>Pintura</li>
+              <li>Voltaje doméstico</li>
+              <li>Velocidad del viento</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>3. ¿Cuál de las siguientes expresiones representa correctamente la densidad de una sustancia?</p>
+            <p>3. El aprendizaje automático se refiere principalmente a:</p>
             <ol type="a">
-              <li>ρ = m / V</li>
-              <li>ρ = mV</li>
-              <li>ρ = V / m</li>
-              <li>ρ = A / W</li>
+              <li>Sistemas que mejoran su desempeño a partir de datos.</li>
+              <li>Copiar texto sin analizarlo.</li>
+              <li>Apagar una computadora automáticamente.</li>
+              <li>Diseñar únicamente piezas mecánicas.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>4. ¿Cuál de los siguientes es un ejemplo típico de fluido?</p>
+            <p>4. ¿Cuál es un ejemplo de IA generativa?</p>
             <ol type="a">
-              <li>Una barra de acero</li>
-              <li>Un bloque de concreto</li>
-              <li>Una placa de aluminio</li>
-              <li>El agua y el aire</li>
+              <li>Crear texto, imágenes o código a partir de instrucciones.</li>
+              <li>Medir una distancia con una regla.</li>
+              <li>Guardar archivos en una carpeta.</li>
+              <li>Imprimir un documento sin cambios.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>5. La viscosidad de un fluido representa:</p>
+            <p>5. Un prompt es:</p>
             <ol type="a">
-              <li>Su resistencia interna al movimiento o deformación.</li>
-              <li>Su capacidad para aumentar de volumen.</li>
-              <li>La cantidad total de masa del fluido.</li>
-              <li>Su capacidad para producir presión atmosférica.</li>
+              <li>La instrucción o entrada que se entrega a un sistema de IA.</li>
+              <li>Un componente físico de una computadora.</li>
+              <li>Un error de conexión a internet.</li>
+              <li>Un tipo de cable eléctrico.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>6. La presión ejercida por una fuerza perpendicular sobre una superficie se determina mediante:</p>
+            <p>6. La ingeniería de prompts busca principalmente:</p>
             <ol type="a">
-              <li>P = F · A</li>
-              <li>P = A / F</li>
-              <li>P = F / A</li>
-              <li>P = F + A</li>
+              <li>Diseñar instrucciones claras para obtener mejores respuestas.</li>
+              <li>Aumentar el brillo de la pantalla.</li>
+              <li>Reemplazar todas las evaluaciones humanas.</li>
+              <li>Eliminar la necesidad de verificar información.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>7. En un fluido en reposo, la presión hidrostática aumenta principalmente cuando:</p>
+            <p>7. ¿Qué significa que una IA pueda presentar una “alucinación”?</p>
             <ol type="a">
-              <li>Disminuye la profundidad.</li>
-              <li>Disminuye el área del recipiente.</li>
-              <li>Aumenta la profundidad.</li>
-              <li>Cambia la forma del recipiente.</li>
+              <li>Que genere información incorrecta o inventada con apariencia convincente.</li>
+              <li>Que deje de consumir energía.</li>
+              <li>Que funcione sin datos.</li>
+              <li>Que solo responda con números.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>8. El principio de Pascal establece que:</p>
+            <p>8. Un modelo de lenguaje grande se utiliza principalmente para:</p>
             <ol type="a">
-              <li>Todo cuerpo sumergido experimenta una fuerza hacia arriba.</li>
-              <li>La energía de un fluido siempre permanece constante.</li>
-              <li>La velocidad de un fluido aumenta con su viscosidad.</li>
-              <li>La presión aplicada a un fluido confinado se transmite en todas direcciones.</li>
+              <li>Procesar y generar lenguaje natural.</li>
+              <li>Medir temperatura ambiente.</li>
+              <li>Soldar componentes electrónicos.</li>
+              <li>Controlar directamente una válvula hidráulica.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>9. ¿Cuál de los siguientes dispositivos funciona principalmente con base en el principio de Pascal?</p>
+            <p>9. ¿Cuál es una buena práctica al usar IA en trabajos académicos?</p>
             <ol type="a">
-              <li>Prensa hidráulica</li>
-              <li>Termómetro</li>
-              <li>Anemómetro</li>
-              <li>Turbina eólica</li>
+              <li>Verificar la información y citar las fuentes utilizadas.</li>
+              <li>Copiar todo sin revisar.</li>
+              <li>Ocultar el uso de herramientas cuando se exige transparencia.</li>
+              <li>Aceptar cualquier respuesta como verdadera.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>10. Según el principio de Arquímedes, un cuerpo sumergido total o parcialmente en un fluido experimenta:</p>
+            <p>10. ¿Qué es un sesgo en IA?</p>
             <ol type="a">
-              <li>Una fuerza horizontal igual a su masa.</li>
-              <li>Un empuje vertical igual al peso del fluido desalojado.</li>
-              <li>Una reducción total de su volumen.</li>
-              <li>Una presión independiente de la profundidad.</li>
+              <li>Una tendencia del sistema a favorecer ciertos patrones o resultados.</li>
+              <li>Una mejora automática garantizada.</li>
+              <li>Un formato de imagen.</li>
+              <li>Una contraseña del sistema.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>11. El caudal volumétrico se define como:</p>
+            <p>11. En IA, un conjunto de datos sirve para:</p>
             <ol type="a">
-              <li>La masa de fluido por unidad de volumen.</li>
-              <li>La fuerza ejercida por el fluido sobre una superficie.</li>
-              <li>El volumen de fluido que atraviesa una sección por unidad de tiempo.</li>
-              <li>La energía total del fluido.</li>
+              <li>Entrenar, probar o validar modelos.</li>
+              <li>Reemplazar completamente el criterio humano.</li>
+              <li>Eliminar todos los errores de un sistema.</li>
+              <li>Convertir texto en electricidad.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>12. Para un flujo incompresible y permanente, la ecuación de continuidad entre dos secciones puede expresarse como:</p>
+            <p>12. ¿Cuál es una tarea común de clasificación con IA?</p>
             <ol type="a">
-              <li>P1 A1 = P2 A2</li>
-              <li>F1 V1 = F2 V2</li>
-              <li>A1 P1 = A2 P2</li>
-              <li>A1 V1 = A2 V2</li>
+              <li>Separar correos en deseados y no deseados.</li>
+              <li>Calcular el área de un círculo sin datos.</li>
+              <li>Apretar un tornillo manualmente.</li>
+              <li>Encender una lámpara con un interruptor simple.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>13. Si un fluido incompresible circula por una tubería y el área transversal disminuye, su velocidad:</p>
+            <p>13. La automatización con IA puede ayudar a:</p>
             <ol type="a">
-              <li>Aumenta.</li>
-              <li>Disminuye.</li>
-              <li>Permanece constante.</li>
-              <li>Se vuelve igual a cero.</li>
+              <li>Reducir tareas repetitivas y apoyar decisiones.</li>
+              <li>Eliminar todas las responsabilidades profesionales.</li>
+              <li>Garantizar resultados perfectos sin revisión.</li>
+              <li>Evitar el uso de datos.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>14. La ecuación de Bernoulli relaciona principalmente:</p>
+            <p>14. ¿Qué opción describe mejor el uso responsable de IA?</p>
             <ol type="a">
-              <li>Masa, temperatura y viscosidad.</li>
-              <li>Presión, velocidad y altura.</li>
-              <li>Fuerza, aceleración y tiempo.</li>
-              <li>Densidad, volumen y temperatura.</li>
+              <li>Usarla con verificación, privacidad, transparencia y criterio humano.</li>
+              <li>Usarla para sustituir toda revisión.</li>
+              <li>Compartir datos sensibles sin permiso.</li>
+              <li>Aceptar cualquier salida sin análisis.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>15. En una tubería real, las pérdidas de energía se producen principalmente debido a:</p>
+            <p>15. ¿Qué es una API en el contexto de herramientas de IA?</p>
             <ol type="a">
-              <li>La conservación de la masa.</li>
-              <li>El principio de Arquímedes.</li>
-              <li>La fricción del fluido y los accesorios.</li>
-              <li>La ausencia de viscosidad.</li>
+              <li>Una interfaz para conectar aplicaciones con servicios de IA.</li>
+              <li>Un archivo de imagen sin compresión.</li>
+              <li>Un tipo de examen presencial.</li>
+              <li>Una unidad de memoria física.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>16. El número de Reynolds se utiliza principalmente para:</p>
+            <p>16. ¿Qué conviene incluir en un buen prompt?</p>
             <ol type="a">
-              <li>Calcular directamente la presión atmosférica.</li>
-              <li>Medir la densidad del fluido.</li>
-              <li>Calcular el empuje hidrostático.</li>
-              <li>Determinar el régimen de flujo.</li>
+              <li>Objetivo, contexto, formato esperado y restricciones.</li>
+              <li>Solo una palabra aislada.</li>
+              <li>Datos personales innecesarios.</li>
+              <li>Instrucciones contradictorias sin prioridad.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>17. Un flujo con número de Reynolds bajo en una tubería circular generalmente se considera:</p>
+            <p>17. Un chatbot con IA se caracteriza por:</p>
             <ol type="a">
-              <li>Laminar</li>
-              <li>Turbulento</li>
-              <li>Supersónico</li>
-              <li>Compresible</li>
+              <li>Interactuar mediante lenguaje natural con el usuario.</li>
+              <li>Funcionar únicamente como calculadora básica.</li>
+              <li>Requerir siempre impresión en papel.</li>
+              <li>No poder procesar texto.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>18. El golpe de ariete en una tubería se produce principalmente por:</p>
+            <p>18. La privacidad de datos en IA es importante porque:</p>
             <ol type="a">
-              <li>Una disminución gradual de la temperatura.</li>
-              <li>Un cambio brusco en la velocidad del fluido.</li>
-              <li>Un aumento constante del diámetro.</li>
-              <li>La ausencia de válvulas.</li>
+              <li>Evita exponer información personal o sensible sin autorización.</li>
+              <li>Impide aprender cualquier concepto técnico.</li>
+              <li>Solo aplica a imágenes decorativas.</li>
+              <li>No tiene relación con herramientas digitales.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>19. ¿Cuál es la diferencia fundamental entre un flujo compresible y uno incompresible?</p>
+            <p>19. ¿Qué resultado se espera de un proyecto integrador con IA?</p>
             <ol type="a">
-              <li>En el flujo incompresible no existe velocidad.</li>
-              <li>En el flujo compresible no existe presión.</li>
-              <li>En el flujo compresible la densidad puede variar significativamente.</li>
-              <li>En el flujo incompresible siempre existe turbulencia.</li>
+              <li>Una solución aplicada que resuelva o mejore un proceso real.</li>
+              <li>Una lista sin propósito de herramientas populares.</li>
+              <li>Una copia exacta de un ejemplo sin adaptación.</li>
+              <li>Un documento sin evidencia ni prueba.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>20. Una onda de choque puede presentarse principalmente en:</p>
+            <p>20. ¿Cuál es una limitación de las herramientas de IA actuales?</p>
             <ol type="a">
-              <li>Fluidos completamente estáticos.</li>
-              <li>Líquidos almacenados sin movimiento.</li>
-              <li>Flujos exclusivamente laminares de baja velocidad.</li>
-              <li>Flujos de gases a velocidades supersónicas.</li>
+              <li>Pueden equivocarse y requieren supervisión humana.</li>
+              <li>Siempre conocen información actualizada sin conexión.</li>
+              <li>Nunca presentan sesgos.</li>
+              <li>No necesitan instrucciones claras.</li>
             </ol>
           </div>
         </div>
@@ -5272,7 +5327,7 @@
 
     function iniciarPaseLista() {
       const codigo = document.getElementById("codigoDocente").value.trim().toUpperCase();
-      const sesion = document.getElementById("sesionLista").value.trim() || "Análisis de Fluidos";
+      const sesion = document.getElementById("sesionLista").value.trim() || "Inteligencia Artificial";
       const estadoLista = document.getElementById("estadoLista");
       const qr = document.getElementById("qrAsistencia");
       const enlace = document.getElementById("enlaceAsistencia");
@@ -5371,7 +5426,7 @@
 
       const estado = calcularEstadoAsistencia(inicio);
       estadoAlumno.textContent =
-        `Registro abierto para ${obtenerParametro("sesion") || "Análisis de Fluidos"}. ` +
+        `Registro abierto para ${obtenerParametro("sesion") || "Inteligencia Artificial"}. ` +
         `Estado actual: ${estado.estado}.`;
     }
 // =====================================
@@ -5437,7 +5492,7 @@ function actualizarIndicadorAsistencia(estado) {
       const matricula = document.getElementById("matriculaAlumno").value.trim();
       const grupo = document.getElementById("grupoAlumno").value.trim();
       const inicio = Number(obtenerParametro("inicio"));
-      const sesion = obtenerParametro("sesion") || "Análisis de Fluidos";
+      const sesion = obtenerParametro("sesion") || "Inteligencia Artificial";
       const idSesion =
   obtenerParametro("id")
   || "";
@@ -5500,7 +5555,7 @@ guardarAlumnoLocal(
   grupo
 );
       const datos = {
-  curso: "Análisis de Fluidos",
+  curso: "Inteligencia Artificial",
   sesion: sesion,
   idSesion: idSesion,
   nombre,
@@ -5576,14 +5631,14 @@ if (idSesion) {
     /* ===== SOPA DE LETRAS INTERACTIVA IM3CB ===== */
 
 const palabrasSopaFluidos = [
-  "FLUIDO",
-  "DENSIDAD",
-  "PRESION",
-  "VISCOSIDAD",
-  "MASA",
-  "VOLUMEN",
-  "FUERZA",
-  "UNIDADES"
+  "PROMPT",
+  "DATOS",
+  "MODELO",
+  "ALGORITMO",
+  "CHATBOT",
+  "AUTOMATIZAR",
+  "GENERATIVA",
+  "ETICA"
 ];
 
 const TAM_SOPA = 20;
@@ -6213,231 +6268,220 @@ if (sopa) {
    }
 }
     /* =====================================================
-   MISIÓN IM3CB — DIAGNÓSTICO DE FLUIDOS
+   MISIÓN IM3CB — DIAGNÓSTICO DE IA
    TEMA 1.2
 ===================================================== */
 
 const preguntasMisionFluidos = [
 
   {
-    categoria: "Compresibilidad",
-    etiqueta: "SISTEMA HIDRÁULICO",
-    icono: "🔧",
-    titulo: "Circuito hidráulico",
+    categoria: "Datos",
+    etiqueta: "DATOS",
+    icono: "🧠",
+    titulo: "Conjunto de entrenamiento",
     pregunta:
-      "En un circuito hidráulico se utiliza aceite. " +
-      "Durante el análisis, los cambios de densidad son " +
-      "muy pequeños frente a las variaciones de presión. " +
-      "¿Qué aproximación resulta adecuada?",
+      "Un equipo quiere entrenar un modelo para detectar fallas " +
+      "en reportes técnicos. Antes de elegir la herramienta, " +
+      "necesita reunir ejemplos confiables y organizados. " +
+      "¿Qué elemento debe priorizar?",
     opciones: [
-      "Fluido aproximadamente incompresible",
-      "Gas altamente compresible",
-      "Mezcla heterogénea",
-      "Fluido ideal sin viscosidad"
+      "Datos de calidad",
+      "Un color de interfaz",
+      "Un nombre llamativo",
+      "Una contraseña compartida"
     ],
-    correcta: "Fluido aproximadamente incompresible",
+    correcta: "Datos de calidad",
     explicacion:
-      "En muchos análisis hidráulicos, los líquidos se " +
-      "modelan como aproximadamente incompresibles porque " +
-      "sus cambios de densidad suelen ser pequeños."
+      "Los datos de calidad permiten entrenar, evaluar y " +
+      "mejorar modelos de IA con mayor confiabilidad."
   },
 
   {
-    categoria: "Compresibilidad",
-    etiqueta: "SISTEMA NEUMÁTICO",
-    icono: "🏭",
-    titulo: "Cilindro neumático",
+    categoria: "Prompts",
+    etiqueta: "PROMPT",
+    icono: "⌨️",
+    titulo: "Instrucción clara",
     pregunta:
-      "Una línea industrial utiliza aire comprimido para " +
-      "accionar un cilindro. Al cambiar la presión, la " +
-      "densidad del aire puede variar apreciablemente. " +
-      "¿Qué criterio debe priorizarse?",
+      "Un estudiante pide a una IA que genere una rúbrica, " +
+      "pero no indica nivel, criterios ni formato. " +
+      "¿Qué debe mejorar para obtener una respuesta útil?",
     opciones: [
-      "Compresibilidad",
-      "Tensión superficial",
-      "Capilaridad",
-      "Estado sólido"
+      "El prompt",
+      "El tamaño del monitor",
+      "El color del botón",
+      "El volumen del equipo"
     ],
-    correcta: "Compresibilidad",
+    correcta: "El prompt",
     explicacion:
-      "En los gases, las variaciones de presión pueden " +
-      "producir cambios importantes de densidad. Por ello, " +
-      "la compresibilidad es un criterio central."
+      "Un buen prompt define objetivo, contexto, formato y " +
+      "restricciones para guiar mejor a la IA."
   },
 
   {
-    categoria: "Viscosidad",
-    etiqueta: "PROCESO DE FLUJO",
-    icono: "🍯",
-    titulo: "Agua y miel",
+    categoria: "Generativa",
+    etiqueta: "IA GENERATIVA",
+    icono: "✨",
+    titulo: "Contenido asistido",
     pregunta:
-      "A la misma temperatura, la miel presenta mayor " +
-      "resistencia al movimiento que el agua. ¿Qué propiedad " +
-      "explica principalmente esta diferencia?",
+      "Una herramienta produce borradores de texto, imágenes " +
+      "y código a partir de instrucciones del usuario. " +
+      "¿Qué tipo de IA representa?",
     opciones: [
-      "Viscosidad",
-      "Compresibilidad",
-      "Presión atmosférica",
-      "Volumen del recipiente"
+      "IA generativa",
+      "Archivo comprimido",
+      "Sensor analógico",
+      "Registro manual"
     ],
-    correcta: "Viscosidad",
+    correcta: "IA generativa",
     explicacion:
-      "La viscosidad cuantifica la resistencia interna del " +
-      "fluido a deformarse continuamente bajo un esfuerzo " +
-      "cortante."
+      "La IA generativa crea contenido nuevo a partir de " +
+      "patrones aprendidos y de las instrucciones recibidas."
   },
 
   {
-    categoria: "Estado físico",
-    etiqueta: "ALMACENAMIENTO",
-    icono: "💧",
-    titulo: "Agua en un tanque",
+    categoria: "Responsabilidad",
+    etiqueta: "ÉTICA",
+    icono: "🛡️",
+    titulo: "Verificación",
     pregunta:
-      "El agua conserva aproximadamente su volumen, pero " +
-      "adopta la forma del recipiente que la contiene. " +
-      "¿Cómo se clasifica por su estado físico?",
+      "Una IA entrega una respuesta convincente, pero no cita " +
+      "fuentes y podría contener errores. " +
+      "¿Qué acción responsable corresponde?",
     opciones: [
-      "Líquido",
-      "Gas",
-      "Sólido",
-      "Plasma"
+      "Verificar la información",
+      "Publicarla sin revisar",
+      "Ignorar el contexto",
+      "Eliminar la pregunta"
     ],
-    correcta: "Líquido",
+    correcta: "Verificar la información",
     explicacion:
-      "Un líquido posee volumen relativamente definido, " +
-      "pero no una forma propia; adopta la geometría del " +
-      "recipiente."
+      "Las respuestas de IA deben revisarse con criterio, " +
+      "fuentes y evidencia antes de usarse."
   },
 
   {
-    categoria: "Estado físico",
-    etiqueta: "DEPÓSITO DE GAS",
-    icono: "💨",
-    titulo: "Aire en un recipiente",
+    categoria: "Datos",
+    etiqueta: "MODELO",
+    icono: "📊",
+    titulo: "Predicción",
     pregunta:
-      "El aire introducido en un depósito tiende a ocupar " +
-      "el volumen disponible. ¿Cuál es su clasificación " +
-      "por estado físico?",
+      "Un sistema revisa datos históricos de mantenimiento " +
+      "para anticipar posibles fallas en una máquina. " +
+      "¿Qué está realizando?",
     opciones: [
-      "Gas",
-      "Líquido",
-      "Sólido",
-      "Suspensión"
+      "Predicción con IA",
+      "Decoración visual",
+      "Borrado de datos",
+      "Impresión mecánica"
     ],
-    correcta: "Gas",
+    correcta: "Predicción con IA",
     explicacion:
-      "Los gases no poseen volumen propio definido y tienden " +
-      "a expandirse hasta ocupar el espacio disponible."
+      "Los modelos pueden analizar patrones históricos para " +
+      "estimar resultados o comportamientos futuros."
   },
 
   {
-    categoria: "Composición",
-    etiqueta: "LABORATORIO",
-    icono: "🧪",
-    titulo: "Agua destilada",
+    categoria: "Prompts",
+    etiqueta: "ROL Y FORMATO",
+    icono: "🧩",
+    titulo: "Respuesta estructurada",
     pregunta:
-      "En un modelo idealizado, una muestra de agua destilada " +
-      "se considera formada esencialmente por una sola especie " +
-      "química. ¿Cómo se clasifica por composición?",
+      "Para obtener una explicación con tabla y pasos, el usuario " +
+      "indica a la IA que actúe como tutor y entregue el resultado " +
+      "en columnas. ¿Qué técnica está aplicando?",
     opciones: [
-      "Sustancia pura",
-      "Mezcla heterogénea",
-      "Suspensión",
-      "Emulsión"
+      "Diseño de prompt",
+      "Borrado de memoria",
+      "Compresión de archivos",
+      "Cambio de voltaje"
     ],
-    correcta: "Sustancia pura",
+    correcta: "Diseño de prompt",
     explicacion:
-      "En el modelo didáctico, el agua destilada se trata " +
-      "como sustancia pura al considerarse esencialmente " +
-      "constituida por H₂O."
+      "Asignar rol, formato y restricciones ayuda a obtener " +
+      "respuestas más útiles y consistentes."
   },
 
   {
-    categoria: "Composición",
-    etiqueta: "SOLUCIÓN INDUSTRIAL",
-    icono: "🧂",
-    titulo: "Sal disuelta en agua",
-    pregunta:
-      "La sal se disuelve completamente en agua y la mezcla " +
-      "presenta composición uniforme a escala macroscópica. " +
-      "¿Cómo se clasifica?",
-    opciones: [
-      "Mezcla homogénea",
-      "Mezcla heterogénea",
-      "Sustancia pura",
-      "Gas ideal"
-    ],
-    correcta: "Mezcla homogénea",
-    explicacion:
-      "Una solución salina uniforme se clasifica como mezcla " +
-      "homogénea porque sus componentes no forman regiones " +
-      "macroscópicas distinguibles."
-  },
-
-  {
-    categoria: "Composición",
-    etiqueta: "TRANSPORTE DE SEDIMENTOS",
-    icono: "🌊",
-    titulo: "Agua con lodo",
-    pregunta:
-      "Una corriente contiene agua y partículas de suelo " +
-      "distribuidas de manera no uniforme. ¿Cuál es la " +
-      "clasificación más adecuada por composición?",
-    opciones: [
-      "Mezcla heterogénea",
-      "Sustancia pura",
-      "Mezcla homogénea",
-      "Gas compresible"
-    ],
-    correcta: "Mezcla heterogénea",
-    explicacion:
-      "La presencia de partículas y regiones no uniformes " +
-      "permite clasificar el sistema como mezcla heterogénea."
-  },
-
-  {
-    categoria: "Viscosidad",
-    etiqueta: "LUBRICACIÓN MECÁNICA",
+    categoria: "Automatización",
+    etiqueta: "PRODUCTIVIDAD",
     icono: "⚙️",
-    titulo: "Aceite lubricante",
+    titulo: "Flujo de trabajo",
     pregunta:
-      "Un ingeniero selecciona un aceite para separar " +
-      "superficies móviles y controlar la resistencia al " +
-      "movimiento entre capas del fluido. ¿Qué propiedad " +
-      "es especialmente relevante?",
+      "Un docente quiere resumir respuestas, generar reportes " +
+      "y clasificar evidencias de manera repetible. " +
+      "¿Qué enfoque puede apoyarlo?",
     opciones: [
-      "Viscosidad",
-      "Compresibilidad",
-      "Estado gaseoso",
-      "Capilaridad exclusivamente"
+      "Automatización con IA",
+      "Duplicar archivos manualmente",
+      "Apagar el sistema",
+      "Cambiar el escritorio"
     ],
-    correcta: "Viscosidad",
+    correcta: "Automatización con IA",
     explicacion:
-      "La viscosidad es fundamental en lubricación porque " +
-      "influye en la resistencia al corte y en la formación " +
-      "de la película lubricante."
+      "La IA puede integrarse en flujos de trabajo para " +
+      "reducir tareas repetitivas y organizar información."
   },
 
   {
-    categoria: "Compresibilidad",
-    etiqueta: "RETO DE INGENIERÍA",
-    icono: "🚀",
-    titulo: "Actuador con aire comprimido",
+    categoria: "Responsabilidad",
+    etiqueta: "PRIVACIDAD",
+    icono: "🔒",
+    titulo: "Datos sensibles",
     pregunta:
-      "Se diseña un actuador neumático y es necesario prever " +
-      "cambios apreciables de densidad cuando varía la presión. " +
-      "¿Qué criterio debe priorizar el ingeniero?",
+      "Antes de usar una herramienta de IA, una persona piensa " +
+      "pegar nombres, matrículas y datos privados de estudiantes. " +
+      "¿Qué debe considerar?",
     opciones: [
-      "Compresibilidad",
-      "Color del fluido",
-      "Forma del recipiente",
-      "Tensión superficial"
+      "Privacidad y autorización",
+      "Solo el color del documento",
+      "El tamaño de la ventana",
+      "La marca del teclado"
     ],
-    correcta: "Compresibilidad",
+    correcta: "Privacidad y autorización",
     explicacion:
-      "Cuando la densidad cambia apreciablemente con la " +
-      "presión, el análisis debe considerar la compresibilidad " +
-      "del fluido."
+      "Los datos sensibles deben protegerse y usarse solo con " +
+      "permiso y medidas adecuadas."
+  },
+
+  {
+    categoria: "Generativa",
+    etiqueta: "ALUCINACIÓN",
+    icono: "🔎",
+    titulo: "Respuesta incorrecta",
+    pregunta:
+      "Una IA inventa una referencia bibliográfica que parece " +
+      "real, pero no existe. ¿Cómo se llama este riesgo?",
+    opciones: [
+      "Alucinación",
+      "Compilación",
+      "Indexación perfecta",
+      "Conversión analógica"
+    ],
+    correcta: "Alucinación",
+    explicacion:
+      "Una alucinación ocurre cuando la IA genera contenido " +
+      "falso o no verificable con apariencia confiable."
+  },
+
+  {
+    categoria: "Automatización",
+    etiqueta: "PROYECTO",
+    icono: "🚀",
+    titulo: "Solución aplicada",
+    pregunta:
+      "Un equipo desarrolla un asistente que clasifica solicitudes, " +
+      "genera respuestas iniciales y registra resultados para mejorar " +
+      "un proceso real. ¿Qué tipo de resultado representa?",
+    opciones: [
+      "Proyecto integrador con IA",
+      "Cambio de fondo",
+      "Lista sin propósito",
+      "Registro sin análisis"
+    ],
+    correcta: "Proyecto integrador con IA",
+    explicacion:
+      "Un proyecto integrador aplica IA a un problema concreto, " +
+      "con diseño, prueba y evaluación de resultados."
   }
 
 ];
@@ -6451,19 +6495,23 @@ let intentosCasoFluidos = 0;
 let respuestaCasoResuelta = false;
 
 let resultadosCategoriasFluidos = {
-  "Estado físico": {
+  "Datos": {
     correctas: 0,
     total: 0
   },
-  "Viscosidad": {
+  "Prompts": {
     correctas: 0,
     total: 0
   },
-  "Compresibilidad": {
+  "Generativa": {
     correctas: 0,
     total: 0
   },
-  "Composición": {
+  "Responsabilidad": {
+    correctas: 0,
+    total: 0
+  },
+  "Automatización": {
     correctas: 0,
     total: 0
   }
@@ -6498,19 +6546,23 @@ function iniciarMisionFluidos() {
   respuestaCasoResuelta = false;
 
   resultadosCategoriasFluidos = {
-    "Estado físico": {
+    "Datos": {
       correctas: 0,
       total: 0
     },
-    "Viscosidad": {
+    "Prompts": {
       correctas: 0,
       total: 0
     },
-    "Compresibilidad": {
+    "Generativa": {
       correctas: 0,
       total: 0
     },
-    "Composición": {
+    "Responsabilidad": {
+      correctas: 0,
+      total: 0
+    },
+    "Automatización": {
       correctas: 0,
       total: 0
     }
@@ -6826,29 +6878,30 @@ function obtenerPistaMisionFluidos(categoria) {
 
   const pistas = {
 
-    "Estado físico":
-      "Pista: analiza si el fluido conserva un volumen " +
-      "relativamente definido o si tiende a ocupar todo " +
-      "el espacio disponible.",
+    "Datos":
+      "Pista: revisa si el caso depende de información " +
+      "confiable, organizada y representativa.",
 
-    "Viscosidad":
-      "Pista: piensa en la resistencia interna que aparece " +
-      "cuando unas capas del fluido se desplazan respecto " +
-      "de otras.",
+    "Prompts":
+      "Pista: observa si la instrucción incluye objetivo, " +
+      "contexto, formato y restricciones.",
 
-    "Compresibilidad":
-      "Pista: observa si los cambios de presión pueden " +
-      "producir variaciones apreciables de densidad.",
+    "Generativa":
+      "Pista: identifica si la herramienta crea texto, " +
+      "imagen, código u otro contenido nuevo.",
 
-    "Composición":
-      "Pista: analiza si existe una sola sustancia o si " +
-      "hay varios componentes distribuidos de manera " +
-      "uniforme o no uniforme."
+    "Responsabilidad":
+      "Pista: piensa en privacidad, verificación, sesgos " +
+      "y uso transparente de la IA.",
+
+    "Automatización":
+      "Pista: revisa si el caso integra IA para reducir " +
+      "tareas repetitivas o mejorar un proceso."
 
   };
 
   return pistas[categoria] ||
-    "Revisa el criterio físico dominante del caso.";
+    "Revisa el criterio de IA dominante del caso.";
 }
 
 
@@ -7019,22 +7072,22 @@ function finalizarMisionFluidos() {
 
   const estado =
     porcentajeCategoriaMisionFluidos(
-      "Estado físico"
+      "Datos"
     );
 
   const viscosidad =
     porcentajeCategoriaMisionFluidos(
-      "Viscosidad"
+      "Prompts"
     );
 
   const compresibilidad =
     porcentajeCategoriaMisionFluidos(
-      "Compresibilidad"
+      "Generativa"
     );
 
   const composicion =
     porcentajeCategoriaMisionFluidos(
-      "Composición"
+      "Responsabilidad"
     );
 
   const resEstado =
@@ -7089,14 +7142,14 @@ function finalizarMisionFluidos() {
     if (nivel) {
       nivel.textContent =
         aciertosMisionFluidos === 10
-          ? "Especialista en Fluidos"
-          : "Analista de Fluidos";
+          ? "Especialista en IA"
+          : "Analista de IA";
     }
 
     if (mensaje) {
       mensaje.textContent =
         "Has demostrado dominio suficiente de los " +
-        "criterios de clasificación de fluidos. " +
+        "fundamentos de Inteligencia Artificial. " +
         "El siguiente tema puede ser desbloqueado.";
     }
 
@@ -7165,10 +7218,11 @@ function finalizarMisionFluidos() {
 function obtenerCategoriaMasDebilFluidos() {
 
   const categorias = [
-    "Estado físico",
-    "Viscosidad",
-    "Compresibilidad",
-    "Composición"
+    "Datos",
+    "Prompts",
+    "Generativa",
+    "Responsabilidad",
+    "Automatización"
   ];
 
   let masDebil =
@@ -7247,8 +7301,8 @@ function continuarTema13Fluidos() {
 
   alert(
     "🔓 Tema 1.3 desbloqueado.\n\n" +
-    "Ya puedes continuar con Propiedades " +
-    "mecánicas de los fluidos."
+    "Ya puedes continuar con Aplicaciones " +
+    "de la Inteligencia Artificial."
   );
 
  const tema13 =
