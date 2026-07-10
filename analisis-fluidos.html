@@ -2921,6 +2921,143 @@
     font-size: 1rem;
   }
 }
+    /* =====================================================
+   FRANJA VISUAL · TEMPERATURA Y VISCOSIDAD
+===================================================== */
+
+.prop13-franja-viscosidad {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 14px;
+  align-items: stretch;
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid #dbeafe;
+  border-radius: 20px;
+  background:
+    linear-gradient(
+      135deg,
+      #eff6ff,
+      #fff7ed
+    );
+}
+
+.prop13-franja-caso {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  min-height: 92px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow:
+    0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.prop13-franja-caso.liquido {
+  border-left: 5px solid #2979ff;
+}
+
+.prop13-franja-caso.gas {
+  border-left: 5px solid #ff9f43;
+}
+
+.prop13-franja-icono {
+  font-size: 1.8rem;
+}
+
+.prop13-franja-fluido {
+  font-size: 2rem;
+}
+
+.prop13-franja-caso small {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.prop13-franja-caso.liquido small {
+  color: #1d4ed8;
+}
+
+.prop13-franja-caso.gas small {
+  color: #c2410c;
+}
+
+.prop13-franja-caso strong {
+  display: block;
+  color: #0f172a;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.prop13-franja-vs {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  align-self: center;
+  border-radius: 50%;
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 900;
+  box-shadow:
+    0 7px 16px rgba(15, 23, 42, 0.18);
+}
+
+.prop13-franja-conclusion {
+  margin: 12px 0 0;
+  padding: 14px 16px;
+  border-left: 4px solid #8b5cf6;
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      135deg,
+      #f5f3ff,
+      #faf5ff
+    );
+  color: #475569;
+  line-height: 1.6;
+}
+
+.prop13-franja-conclusion strong {
+  color: #6d28d9;
+}
+
+
+/* CELULAR */
+
+@media (max-width: 700px) {
+
+  .prop13-franja-viscosidad {
+    grid-template-columns: 1fr;
+  }
+
+  .prop13-franja-vs {
+    margin: 0 auto;
+  }
+
+  .prop13-franja-caso {
+    grid-template-columns: auto 1fr auto;
+  }
+}
+
+
+@media (max-width: 430px) {
+
+  .prop13-franja-caso {
+    grid-template-columns: auto 1fr;
+  }
+
+  .prop13-franja-fluido {
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+}
   </style>
 </head>
 <body>
@@ -4444,22 +4581,72 @@
       <div class="prop13-temp-grid">
 
         <div>
-          <strong>Líquidos</strong>
-          <p>
-            Al aumentar la temperatura,
-            generalmente disminuye la viscosidad.
-          </p>
-        </div>
+  <strong>💧 Líquidos</strong>
 
-        <div>
-          <strong>Gases</strong>
-          <p>
-            Al aumentar la temperatura,
-            generalmente aumenta la viscosidad.
-          </p>
-        </div>
+  <p>
+    Al aumentar la temperatura,
+    <strong>generalmente disminuye la viscosidad</strong>,
+    porque se reduce el efecto relativo de las
+    fuerzas de cohesión entre sus moléculas.
+  </p>
+</div>
 
-      </div>
+
+<div>
+  <strong>💨 Gases</strong>
+
+  <p>
+    Al aumentar la temperatura,
+    <strong>generalmente aumenta la viscosidad</strong>,
+    debido al incremento de la transferencia
+    de cantidad de movimiento entre moléculas.
+  </p>
+</div>
+        </div>
+        <!-- FRANJA VISUAL · TEMPERATURA Y VISCOSIDAD -->
+
+<div class="prop13-franja-viscosidad">
+
+  <div class="prop13-franja-caso liquido">
+    <span class="prop13-franja-icono">🌡️</span>
+
+    <div>
+      <small>EN LÍQUIDOS</small>
+      <strong>
+        ↑ Temperatura → ↓ Viscosidad
+      </strong>
+    </div>
+
+    <span class="prop13-franja-fluido">💧</span>
+  </div>
+
+
+  <div class="prop13-franja-vs">
+    ≠
+  </div>
+
+
+  <div class="prop13-franja-caso gas">
+    <span class="prop13-franja-icono">🌡️</span>
+
+    <div>
+      <small>EN GASES</small>
+      <strong>
+        ↑ Temperatura → ↑ Viscosidad
+      </strong>
+    </div>
+
+    <span class="prop13-franja-fluido">💨</span>
+  </div>
+
+</div>
+
+<p class="prop13-franja-conclusion">
+  <strong>Idea clave:</strong>
+  la temperatura produce un comportamiento opuesto:
+  al aumentar <b>T</b>, la viscosidad <b>μ</b> tiende a disminuir
+  en líquidos y a aumentar en gases.
+</p>
 
     </div>
 
