@@ -194,19 +194,41 @@ background:#16a34a;
 
 <header>
 
-<h1>🧪 IM3CB LAB</h1>
+<div class="lab-badge">
+🧪 LABORATORIO VIRTUAL IM3CB
+</div>
 
-<h2>Viscosímetro Universal Saybolt</h2>
+<h1>Viscosímetro Universal Saybolt</h1>
+
+<h2>Misión 1 · Determinación de la viscosidad de un fluido</h2>
 
 <p>
 
-Bienvenido al primer laboratorio virtual de Ingeniería de IM3CB.
-
-Aquí aprenderás cómo se determina la viscosidad de un fluido,
-interpretarás gráficas, resolverás problemas y realizarás
-experimentos virtuales como si estuvieras en un laboratorio real.
+En esta misión conocerás el funcionamiento del viscosímetro
+Universal Saybolt, interpretarás la relación entre los segundos
+Saybolt (SUS) y la viscosidad cinemática, analizarás aplicaciones
+industriales y resolverás un caso práctico de ingeniería.
 
 </p>
+
+<div class="lab-info">
+
+<div>
+<strong>⏱ Duración</strong><br>
+15 minutos
+</div>
+
+<div>
+<strong>🎯 Dificultad</strong><br>
+Nivel básico
+</div>
+
+<div>
+<strong>🏅 Recompensa</strong><br>
+100 puntos IM3CB
+</div>
+
+</div>
 
 </header>
 
