@@ -210,7 +210,36 @@ Saybolt (SUS) y la viscosidad cinemática, analizarás aplicaciones
 industriales y resolverás un caso práctico de ingeniería.
 
 </p>
+<div class="lab-mision">
 
+    <h3>🎯 Misión</h3>
+
+    <p>
+        Determinar la viscosidad de un fluido mediante el
+        viscosímetro Universal Saybolt e interpretar la
+        conversión entre SUS y mm²/s.
+    </p>
+
+    <div class="lab-datos">
+
+        <div>
+            ⏱ <strong>Tiempo</strong><br>
+            15 minutos
+        </div>
+
+        <div>
+            🏅 <strong>Puntaje</strong><br>
+            100 puntos
+        </div>
+
+        <div>
+            📚 <strong>Competencia</strong><br>
+            Viscosidad y conversión SUS
+        </div>
+
+    </div>
+
+</div>
 <div class="lab-info">
 
 <div>
