@@ -4846,6 +4846,465 @@
 
     </div>
 
+<!-- =====================================================
+     LABORATORIO DE PROBLEMAS · ESTACIÓN 1
+===================================================== -->
+
+<div class="prop13-lab-problemas" id="labProblemasMasa">
+
+  <!-- ENCABEZADO -->
+
+  <div class="prop13-lab-header">
+
+    <div class="prop13-lab-icono">
+      🧠
+    </div>
+
+    <div>
+      <span class="prop13-lab-etiqueta">
+        APLICA LO APRENDIDO
+      </span>
+
+      <h4>
+        Laboratorio de problemas
+      </h4>
+
+      <p>
+        Analiza ejemplos resueltos y después
+        enfrenta los problemas propuestos.
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- PESTAÑAS -->
+
+  <div class="prop13-lab-tabs">
+
+    <button
+      type="button"
+      class="prop13-lab-tab activa"
+      onclick="cambiarLabMasa('resueltos', this)">
+
+      <span>📘</span>
+
+      <div>
+        <strong>Ejemplos resueltos</strong>
+        <small>4 casos guiados</small>
+      </div>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="prop13-lab-tab"
+      onclick="cambiarLabMasa('propuestos', this)">
+
+      <span>🎯</span>
+
+      <div>
+        <strong>Ahora tú resuelve</strong>
+        <small>3 retos sin solución</small>
+      </div>
+
+    </button>
+
+  </div>
+
+
+  <!-- =================================================
+       PANEL · EJEMPLOS RESUELTOS
+  ================================================== -->
+
+  <div
+    id="labMasa-resueltos"
+    class="prop13-lab-panel activo">
+
+
+    <!-- PROGRESO -->
+
+    <div class="prop13-problema-progreso">
+
+      <div>
+        <span>
+          EJEMPLO GUIADO
+        </span>
+
+        <strong id="contadorProblemaMasa">
+          1 de 4
+        </strong>
+      </div>
+
+      <div class="prop13-progreso-pista">
+
+        <span
+          id="barraProblemaMasa"
+          style="width: 25%;">
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- =============================================
+         PROBLEMA 1
+    ============================================== -->
+
+    <article
+      class="prop13-problema-slide activo"
+      data-problema-masa="0">
+
+      <div class="prop13-problema-cabecera">
+
+        <span class="prop13-problema-numero">
+          1
+        </span>
+
+        <div>
+          <small>
+            EJEMPLO RESUELTO
+          </small>
+
+          <h5>
+            Peso de un depósito de aceite
+          </h5>
+        </div>
+
+      </div>
+
+      <div class="prop13-problema-imagen">
+
+        <img
+          src="problema-resuelto-1.png"
+          alt="Problema resuelto sobre el peso de un depósito de aceite"
+          loading="lazy">
+
+      </div>
+
+      <div class="prop13-problema-clave">
+
+        <span>🔎</span>
+
+        <p>
+          <strong>Idea clave:</strong>
+          relaciona masa y peso mediante
+          <b>w = mg</b>.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <!-- =============================================
+         PROBLEMA 2
+    ============================================== -->
+
+    <article
+      class="prop13-problema-slide"
+      data-problema-masa="1">
+
+      <div class="prop13-problema-cabecera">
+
+        <span class="prop13-problema-numero">
+          2
+        </span>
+
+        <div>
+          <small>
+            EJEMPLO RESUELTO
+          </small>
+
+          <h5>
+            Densidad y peso específico
+            de la glicerina
+          </h5>
+        </div>
+
+      </div>
+
+      <div class="prop13-problema-imagen">
+
+        <img
+          src="problema-resuelto-2.png"
+          alt="Problema resuelto de densidad y peso específico de la glicerina"
+          loading="lazy">
+
+      </div>
+
+      <div class="prop13-problema-clave">
+
+        <span>🔎</span>
+
+        <p>
+          <strong>Idea clave:</strong>
+          utiliza la gravedad específica para
+          determinar densidad y peso específico.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <!-- =============================================
+         PROBLEMA 3
+    ============================================== -->
+
+    <article
+      class="prop13-problema-slide"
+      data-problema-masa="2">
+
+      <div class="prop13-problema-cabecera">
+
+        <span class="prop13-problema-numero">
+          3
+        </span>
+
+        <div>
+          <small>
+            EJEMPLO RESUELTO
+          </small>
+
+          <h5>
+            Masa de un litro de agua
+          </h5>
+        </div>
+
+      </div>
+
+      <div class="prop13-problema-imagen">
+
+        <img
+          src="problema-resuelto-3.png"
+          alt="Problema resuelto para encontrar masa a partir del peso"
+          loading="lazy">
+
+      </div>
+
+      <div class="prop13-problema-clave">
+
+        <span>🔎</span>
+
+        <p>
+          <strong>Idea clave:</strong>
+          despeja la masa mediante
+          <b>m = w / g</b>
+          y conserva la consistencia de unidades.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <!-- =============================================
+         PROBLEMA 4
+    ============================================== -->
+
+    <article
+      class="prop13-problema-slide"
+      data-problema-masa="3">
+
+      <div class="prop13-problema-cabecera">
+
+        <span class="prop13-problema-numero">
+          4
+        </span>
+
+        <div>
+          <small>
+            EJEMPLO RESUELTO
+          </small>
+
+          <h5>
+            Peso de un galón de mercurio
+          </h5>
+        </div>
+
+      </div>
+
+      <div class="prop13-problema-imagen">
+
+        <img
+          src="problema-resuelto-4.png"
+          alt="Problema resuelto del peso de un galón de mercurio"
+          loading="lazy">
+
+      </div>
+
+      <div class="prop13-problema-clave">
+
+        <span>🔎</span>
+
+        <p>
+          <strong>Idea clave:</strong>
+          aplica
+          <b>w = mg</b>
+          trabajando correctamente con
+          slugs y unidades inglesas.
+        </p>
+
+      </div>
+
+    </article>
+
+
+    <!-- NAVEGACIÓN -->
+
+    <div class="prop13-problema-nav">
+
+      <button
+        type="button"
+        id="btnProblemaMasaAnterior"
+        onclick="moverProblemaMasa(-1)"
+        disabled>
+
+        ← Anterior
+
+      </button>
+
+
+      <div class="prop13-problema-puntos">
+
+        <button
+          type="button"
+          class="activo"
+          onclick="irProblemaMasa(0)"
+          aria-label="Ir al problema 1">
+        </button>
+
+        <button
+          type="button"
+          onclick="irProblemaMasa(1)"
+          aria-label="Ir al problema 2">
+        </button>
+
+        <button
+          type="button"
+          onclick="irProblemaMasa(2)"
+          aria-label="Ir al problema 3">
+        </button>
+
+        <button
+          type="button"
+          onclick="irProblemaMasa(3)"
+          aria-label="Ir al problema 4">
+        </button>
+
+      </div>
+
+
+      <button
+        type="button"
+        id="btnProblemaMasaSiguiente"
+        onclick="moverProblemaMasa(1)">
+
+        Siguiente →
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       PANEL · PROBLEMAS PROPUESTOS
+  ================================================== -->
+
+  <div
+    id="labMasa-propuestos"
+    class="prop13-lab-panel">
+
+    <div class="prop13-reto-header">
+
+      <span class="prop13-reto-icono">
+        🎯
+      </span>
+
+      <div>
+        <small>
+          RETO DEL ESTUDIANTE
+        </small>
+
+        <h5>
+          Ahora tú resuelve
+        </h5>
+
+        <p>
+          Analiza los tres problemas.
+          Identifica los datos, selecciona
+          las ecuaciones y desarrolla tu procedimiento.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="prop13-problema-imagen prop13-imagen-retos">
+
+      <img
+        src="problemas-propuestos.png"
+        alt="Tres problemas propuestos sin solución sobre propiedades de los fluidos"
+        loading="lazy">
+
+    </div>
+
+
+    <div class="prop13-reto-pasos">
+
+      <div>
+        <span>1</span>
+
+        <p>
+          <strong>Identifica</strong>
+          los datos y las incógnitas.
+        </p>
+      </div>
+
+
+      <div>
+        <span>2</span>
+
+        <p>
+          <strong>Selecciona</strong>
+          la ecuación apropiada.
+        </p>
+      </div>
+
+
+      <div>
+        <span>3</span>
+
+        <p>
+          <strong>Resuelve</strong>
+          cuidando las unidades.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="prop13-reto-aviso">
+
+      <span>💡</span>
+
+      <p>
+        <strong>Consejo de ingeniería:</strong>
+        no sustituyas valores inmediatamente.
+        Primero escribe la ecuación general,
+        despeja la incógnita y después sustituye.
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
   </section>
 
 
