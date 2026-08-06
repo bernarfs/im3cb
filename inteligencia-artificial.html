@@ -8,10 +8,13 @@
   <script>
     const parametrosIniciales = new URLSearchParams(window.location.search);
     const modoAsistencia = parametrosIniciales.get("asistencia") === "1";
+    const accesoIA = sessionStorage.getItem("accesoIA") === "permitido";
+    const accesoFluidos = sessionStorage.getItem("accesoFluidos") === "permitido";
 
     if (
       !modoAsistencia &&
-      sessionStorage.getItem("accesoIA") !== "permitido"
+      !accesoIA &&
+      !accesoFluidos
     ) {
       window.location.href = "index.html";
     }
