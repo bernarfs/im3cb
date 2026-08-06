@@ -11,7 +11,7 @@
 
     if (
       !modoAsistencia &&
-      sessionStorage.getItem("accesoFluidos") !== "permitido"
+      sessionStorage.getItem("accesoIA") !== "permitido"
     ) {
       window.location.href = "index.html";
     }
@@ -5338,7 +5338,7 @@
       }
 
       const inicio = Date.now();
-      const idSesion = `AF-${inicio}`;
+      const idSesion = `IA-${inicio}`;
       const url = new URL(window.location.href);
       url.search = "";
       url.hash = "asistencia";
