@@ -838,56 +838,7 @@
   </div>
 
 </article>
-<!-- TERMODINÁMICA -->
 
-<article class="tarjeta tarjeta-fluidos">
-
-  <div class="curso-visual curso-visual-fluidos">
-
-    <img
-      src="portada-termodinamica.png"
-      alt="Portada del curso de Termodinámica"
-      class="imagen-fluidos"
-    >
-
-    <div class="capa-fluidos"></div>
-
-    <span class="etiqueta-curso">
-      CURSO DE INGENIERÍA
-    </span>
-
-    <div class="titulo-sobre-imagen">
-      <small>IM3CB</small>
-      <strong>TERMODINÁMICA</strong>
-    </div>
-
-  </div>
-
-  <div class="curso-contenido">
-
-    <h3>Termodinámica</h3>
-
-    <p>
-      Transformación de energía, leyes termodinámicas,
-      ciclos, eficiencia energética y transferencia
-      de calor aplicada a sistemas mecatrónicos.
-    </p>
-
-    <div class="curso-datos">
-      <span>📘 5 unidades</span>
-      <span>🔥 Energía</span>
-      <span>⚙️ Mecatrónica</span>
-    </div>
-
-    <button
-  class="boton-curso boton-acceso"
-  onclick="abrirAccesoTermo()">
-  🔐 Explorar curso →
-   </button>
-
-  </div>
-
-</article>
 
       <!-- INSTRUMENTACIÓN -->
       <article class="tarjeta">
@@ -927,57 +878,25 @@
       </article>
 
 
-     <!-- INTELIGENCIA ARTIFICIAL -->
+      <!-- IA -->
+      <article class="tarjeta">
 
-<article class="tarjeta tarjeta-fluidos">
+        <div class="icono">🤖</div>
 
-  <div class="curso-visual curso-visual-fluidos">
+        <h3>Inteligencia Artificial</h3>
 
-    <img
-      src="portada-ia.png"
-      alt="Portada del curso de Inteligencia Artificial"
-      class="imagen-fluidos"
-    >
+        <p>
+          Herramientas de IA aplicadas al aprendizaje,
+          diseño y solución de problemas.
+        </p>
 
-    <div class="capa-fluidos"></div>
+        <button
+          class="boton-curso boton-acceso"
+          onclick="abrirAccesoIA()">
+          🔐 Explorar curso →
+        </button>
 
-    <span class="etiqueta-curso">
-      CURSO IM3CB
-    </span>
-
-    <div class="titulo-sobre-imagen">
-      <small>IM3CB</small>
-      <strong>INTELIGENCIA ARTIFICIAL</strong>
-    </div>
-
-  </div>
-
-  <div class="curso-contenido">
-
-    <h3>Inteligencia Artificial</h3>
-
-    <p>
-      Aprende a utilizar la Inteligencia Artificial
-      para resolver problemas, generar contenido,
-      automatizar tareas y desarrollar proyectos
-      de ingeniería.
-    </p>
-
-    <div class="curso-datos">
-      <span>📘 5 unidades</span>
-      <span>🤖 IA</span>
-      <span>🚀 Proyectos</span>
-    </div>
-
-    <button
-      class="boton-curso boton-acceso"
-      onclick="abrirAccesoIA()">
-      🔐 Explorar curso →
-    </button>
-
-  </div>
-
-</article>
+      </article>
 
     </div>
 
@@ -1006,109 +925,8 @@
       © 2026 <strong>IM3CB</strong>
       · Ingeniería • Creación • Diseño • Innovación
     </p>
-<!-- =================================
-     VENTANA DE ACCESO - FLUIDOS
-================================= -->
 
-
-<!-- =================================
-     VENTANA DE ACCESO - TERMODINÁMICA
-================================= -->
-
-<div id="modalAccesoTermo" class="modal-acceso">
-
-  <div class="modal-contenido">
-
-    <button
-      class="cerrar-modal"
-      onclick="cerrarAccesoTermo()"
-      aria-label="Cerrar">
-      ×
-    </button>
-
-    <div class="candado-modal">🔐</div>
-
-    <p class="modal-marca">IM3CB</p>
-
-    <h2>Acceso al curso</h2>
-
-    <h3>Termodinámica</h3>
-
-    <p class="modal-texto">
-      Ingresa el código proporcionado por el docente.
-    </p>
-
-    <input
-      type="password"
-      id="codigoTermo"
-      class="input-codigo"
-      placeholder="Código de acceso"
-      autocomplete="off"
-    >
-
-    <button
-      class="boton-ingresar"
-      onclick="validarAccesoTermo()">
-      Ingresar al curso
-    </button>
-
-    <p
-      id="mensajeAccesoTermo"
-      class="mensaje-acceso">
-    </p>
-
-  </div>
-
-</div>
   </footer>
-  <!-- =================================
-     VENTANA DE ACCESO - INTELIGENCIA ARTIFICIAL
-================================= -->
-
-<div id="modalAccesoIA" class="modal-acceso">
-
-  <div class="modal-contenido">
-
-    <button
-      class="cerrar-modal"
-      onclick="cerrarAccesoIA()"
-      aria-label="Cerrar">
-      ×
-    </button>
-
-    <div class="candado-modal">🔐</div>
-
-    <p class="modal-marca">IM3CB</p>
-
-    <h2>Acceso al curso</h2>
-
-    <h3>Inteligencia Artificial</h3>
-
-    <p class="modal-texto">
-      Ingresa el código proporcionado por el docente.
-    </p>
-
-    <input
-      type="password"
-      id="codigoIA"
-      class="input-codigo"
-      placeholder="Código de acceso"
-      autocomplete="off">
-
-    <button
-      class="boton-ingresar"
-      onclick="validarAccesoIA()">
-      Ingresar al curso
-    </button>
-
-    <p
-      id="mensajeAccesoIA"
-      class="mensaje-acceso">
-    </p>
-
-  </div>
-
-</div>
 <!-- =================================
      VENTANA DE ACCESO - FLUIDOS
 ================================= -->
@@ -1156,209 +974,54 @@
 
 </div>
 
+<!-- =================================
+     VENTANA DE ACCESO - IA
+================================= -->
+
+<div id="modalAccesoIA" class="modal-acceso">
+
+  <div class="modal-contenido">
+
+    <button
+      class="cerrar-modal"
+      onclick="cerrarAccesoIA()"
+      aria-label="Cerrar">
+      ×
+    </button>
+
+    <div class="candado-modal">🔐</div>
+
+    <p class="modal-marca">IM3CB</p>
+
+    <h2>Acceso al curso</h2>
+
+    <h3>Inteligencia Artificial</h3>
+
+    <p class="modal-texto">
+      Ingresa el código proporcionado por el docente.
+    </p>
+
+    <input
+      type="password"
+      id="codigoIA"
+      class="input-codigo"
+      placeholder="Código de acceso"
+      autocomplete="off"
+    >
+
+    <button
+      class="boton-ingresar"
+      onclick="validarAccesoIA()">
+      Ingresar al curso
+    </button>
+
+    <p id="mensajeAccesoIA" class="mensaje-acceso"></p>
+
+  </div>
+
+</div>
+
 <script>
-  function abrirAccesoTermo() {
-  const modal =
-    document.getElementById("modalAccesoTermo");
-
-  const input =
-    document.getElementById("codigoTermo");
-
-  const mensaje =
-    document.getElementById("mensajeAccesoTermo");
-
-  modal.classList.add("activo");
-  mensaje.textContent = "";
-  input.value = "";
-
-  setTimeout(() => input.focus(), 100);
-}
-
-
-function cerrarAccesoTermo() {
-  document
-    .getElementById("modalAccesoTermo")
-    .classList.remove("activo");
-}
-
-
-function validarAccesoTermo() {
-
-  const codigoCorrecto = "TERMO2026";
-
-  const input =
-    document.getElementById("codigoTermo");
-
-  const mensaje =
-    document.getElementById("mensajeAccesoTermo");
-
-  const codigoIngresado =
-    input.value.trim().toUpperCase();
-
-  if (codigoIngresado === codigoCorrecto) {
-
-    mensaje.style.color = "#58d68d";
-    mensaje.textContent = "✓ Acceso autorizado";
-
-    sessionStorage.setItem(
-      "accesoTermo",
-      "permitido"
-    );
-
-    setTimeout(() => {
-      window.location.href =
-        "termodinamica.html";
-    }, 700);
-
-  } else {
-
-    mensaje.style.color = "#ff6b6b";
-    mensaje.textContent =
-      "✕ Código incorrecto";
-
-    input.value = "";
-    input.focus();
-  }
-}
-
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function() {
-
-    const inputTermo =
-      document.getElementById("codigoTermo");
-
-    const modalTermo =
-      document.getElementById("modalAccesoTermo");
-
-    inputTermo.addEventListener(
-      "keydown",
-      function(event) {
-
-        if (event.key === "Enter") {
-          validarAccesoTermo();
-        }
-
-      }
-    );
-
-    modalTermo.addEventListener(
-      "click",
-      function(event) {
-
-        if (event.target === this) {
-          cerrarAccesoTermo();
-        }
-
-      }
-    );
-
-  }
-);
-  function abrirAccesoIA() {
-
-  const modal =
-    document.getElementById("modalAccesoIA");
-
-  const input =
-    document.getElementById("codigoIA");
-
-  const mensaje =
-    document.getElementById("mensajeAccesoIA");
-
-  modal.classList.add("activo");
-
-  mensaje.textContent = "";
-  input.value = "";
-
-  setTimeout(() => input.focus(), 100);
-}
-
-function cerrarAccesoIA() {
-
-  document
-    .getElementById("modalAccesoIA")
-    .classList.remove("activo");
-
-}
-
-function validarAccesoIA() {
-
-  const codigoCorrecto = "IA2026";
-
-  const input =
-    document.getElementById("codigoIA");
-
-  const mensaje =
-    document.getElementById("mensajeAccesoIA");
-
-  const codigoIngresado =
-    input.value.trim().toUpperCase();
-
-  if (codigoIngresado === codigoCorrecto) {
-
-    mensaje.style.color = "#58d68d";
-    mensaje.textContent = "✓ Acceso autorizado";
-
-    sessionStorage.setItem(
-      "accesoIA",
-      "permitido"
-    );
-
-    setTimeout(() => {
-
-      window.location.href =
-        "inteligencia-artificial.html";
-
-    }, 700);
-
-  } else {
-
-    mensaje.style.color = "#ff6b6b";
-    mensaje.textContent = "✕ Código incorrecto";
-
-    input.value = "";
-    input.focus();
-
-  }
-
-}
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function() {
-
-    const inputIA =
-      document.getElementById("codigoIA");
-
-    const modalIA =
-      document.getElementById("modalAccesoIA");
-
-    inputIA.addEventListener(
-      "keydown",
-      function(event) {
-
-        if (event.key === "Enter") {
-          validarAccesoIA();
-        }
-
-      }
-    );
-
-    modalIA.addEventListener(
-      "click",
-      function(event) {
-
-        if (event.target === this) {
-          cerrarAccesoIA();
-        }
-
-      }
-    );
-
-  }
-);
   function abrirAccesoFluidos() {
     const modal = document.getElementById("modalAccesoFluidos");
     const input = document.getElementById("codigoFluidos");
@@ -1428,6 +1091,84 @@ document.addEventListener(
 
       if (event.target === this) {
         cerrarAccesoFluidos();
+      }
+
+    });
+
+  function abrirAccesoIA() {
+    const modal = document.getElementById("modalAccesoIA");
+    const input = document.getElementById("codigoIA");
+    const mensaje = document.getElementById("mensajeAccesoIA");
+
+    modal.classList.add("activo");
+    mensaje.textContent = "";
+    input.value = "";
+
+    setTimeout(() => input.focus(), 100);
+  }
+
+  function cerrarAccesoIA() {
+    document
+      .getElementById("modalAccesoIA")
+      .classList.remove("activo");
+  }
+
+  function validarAccesoIA() {
+    const codigoCorrecto = "IA2026";
+
+    const input = document.getElementById("codigoIA");
+    const mensaje = document.getElementById("mensajeAccesoIA");
+
+    const codigoIngresado =
+      input.value.trim().toUpperCase();
+
+    if (codigoIngresado === codigoCorrecto) {
+
+      mensaje.style.color = "#58d68d";
+      mensaje.textContent = "✓ Acceso autorizado";
+
+      sessionStorage.setItem(
+        "accesoIA",
+        "permitido"
+      );
+
+      sessionStorage.setItem(
+        "accesoFluidos",
+        "permitido"
+      );
+
+      setTimeout(() => {
+        window.location.href =
+          "inteligencia-artificial.html";
+      }, 700);
+
+    } else {
+
+      mensaje.style.color = "#ff6b6b";
+      mensaje.textContent =
+        "✕ Código incorrecto";
+
+      input.value = "";
+      input.focus();
+    }
+  }
+
+  document
+    .getElementById("codigoIA")
+    .addEventListener("keydown", function(event) {
+
+      if (event.key === "Enter") {
+        validarAccesoIA();
+      }
+
+    });
+
+  document
+    .getElementById("modalAccesoIA")
+    .addEventListener("click", function(event) {
+
+      if (event.target === this) {
+        cerrarAccesoIA();
       }
 
     });
