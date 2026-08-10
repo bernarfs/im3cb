@@ -672,7 +672,7 @@
   transform: translateX(101%);
 }
 
-/* BOTÓN PLAY */
+/* BOTÃ“N PLAY */
 
 .tv-play {
   position: absolute;
@@ -772,7 +772,7 @@
     0 0 24px rgba(0, 102, 255, 0.16);
 }
 
-/* Aparece después de pulsar PLAY */
+/* Aparece despuÃ©s de pulsar PLAY */
 .sopa-im3cb.activa {
   display: block;
   animation: aparecerSopa 0.7s ease;
@@ -836,7 +836,7 @@
   overflow: hidden;
   background: #050a12;
 
-  /* Evita selección normal del navegador */
+  /* Evita selecciÃ³n normal del navegador */
   user-select: none;
   -webkit-user-select: none;
   touch-action: none;
@@ -863,7 +863,7 @@
     transform 0.15s ease;
 }
 
-/* Selección temporal */
+/* SelecciÃ³n temporal */
 
 .sopa-celda.seleccionada {
   color: white;
@@ -996,7 +996,7 @@
     transform: translateY(0);
   }
 }
-    /* ===== MISIÓN IM3CB TEMA 1.2 ===== */
+    /* ===== MISIÃ“N IM3CB TEMA 1.2 ===== */
 
 .mision-fluidos {
   display: none;
@@ -1101,7 +1101,7 @@
   font-size: 0.82rem;
 }
 
-/* BOTÓN INICIAR */
+/* BOTÃ“N INICIAR */
 
 .btn-iniciar-mision {
   padding: 14px 24px;
@@ -1328,7 +1328,7 @@
   margin-top: 20px;
 }
 
-/* MÓVIL */
+/* MÃ“VIL */
 
 @media (max-width: 700px) {
   .mision-fluidos {
@@ -1493,7 +1493,7 @@
   color: #ffca4b;
 }
 
-/* MÓVIL */
+/* MÃ“VIL */
 
 @media (max-width: 700px) {
   .pistas-superior {
@@ -1537,7 +1537,7 @@
   color: #58d68d;
 }
 
-/* MÓVIL */
+/* MÃ“VIL */
 
 @media (max-width: 700px) {
   .sopa-im3cb {
@@ -1729,7 +1729,7 @@
     0 0 16px rgba(255, 159, 67, 0.85);
 }
     /* =====================================================
-   TEMA 1.3 · PROPIEDADES DE LOS FLUIDOS
+   TEMA 1.3 Â· PROPIEDADES DE LOS FLUIDOS
 ===================================================== */
 
 .propiedades-13 {
@@ -2039,7 +2039,7 @@
 }
 
 
-/* FÓRMULAS */
+/* FÃ“RMULAS */
 
 .prop13-formula {
   margin: 15px 0;
@@ -2093,7 +2093,7 @@
 }
 
 
-/* APLICACIÓN */
+/* APLICACIÃ“N */
 
 .prop13-aplicacion {
   display: flex;
@@ -2126,7 +2126,7 @@
 }
 
 
-/* COMPARACIÓN DE FLUIDOS */
+/* COMPARACIÃ“N DE FLUIDOS */
 
 .prop13-comparacion {
   display: grid;
@@ -2214,7 +2214,7 @@
 }
 
 
-/* DILATACIÓN */
+/* DILATACIÃ“N */
 
 .prop13-dilatacion {
   margin-top: 20px;
@@ -2322,7 +2322,7 @@
 
 
 /* =====================================================
-   RESPONSIVE · CELULAR
+   RESPONSIVE Â· CELULAR
 ===================================================== */
 
 @media (max-width: 820px) {
@@ -2406,7 +2406,7 @@
   }
 }
     /* =====================================================
-   LABORATORIO DE PROBLEMAS · ESTACIÓN 1
+   LABORATORIO DE PROBLEMAS Â· ESTACIÃ“N 1
 ===================================================== */
 
 .prop13-lab-problemas {
@@ -2472,7 +2472,7 @@
   line-height: 1.5;
 }
 
-/* PESTAÑAS */
+/* PESTAÃ‘AS */
 
 .prop13-lab-tabs {
   display: grid;
@@ -2662,7 +2662,7 @@
   font-size: 1.15rem;
 }
 
-/* IMÁGENES */
+/* IMÃGENES */
 
 .prop13-problema-imagen {
   padding: 10px;
@@ -2718,7 +2718,7 @@
   line-height: 1.55;
 }
 
-/* NAVEGACIÓN */
+/* NAVEGACIÃ“N */
 
 .prop13-problema-nav {
   display: grid;
@@ -2925,7 +2925,7 @@
   }
 }
     /* =====================================================
-   FRANJA VISUAL · TEMPERATURA Y VISCOSIDAD
+   FRANJA VISUAL Â· TEMPERATURA Y VISCOSIDAD
 ===================================================== */
 
 .prop13-franja-viscosidad {
@@ -3112,13 +3112,48 @@
     .curso-ia .estado-unidad {
       background: #00d4ff;
     }
+    .ia-lab { position: relative; margin-top: 30px; padding: clamp(22px, 4vw, 34px); overflow: hidden; border: 1px solid rgba(0, 212, 255, 0.28); border-radius: 24px; background: radial-gradient(circle at 12% 8%, rgba(0, 212, 255, 0.18), transparent 34rem), radial-gradient(circle at 85% 18%, rgba(0, 109, 255, 0.16), transparent 30rem), linear-gradient(145deg, rgba(9, 18, 35, 0.92), rgba(5, 9, 18, 0.96)); box-shadow: 0 22px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+    .ia-lab-fondo { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.08), transparent), repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 72px); opacity: 0.45; }
+    .ia-lab > *:not(.ia-lab-fondo) { position: relative; z-index: 1; }
+    .ia-lab-encabezado, .ia-lab-controles { border: 1px solid rgba(116, 196, 255, 0.24); border-radius: 20px; background: rgba(8, 14, 28, 0.66); box-shadow: 0 14px 34px rgba(0,0,0,0.22); backdrop-filter: blur(14px); }
+    .ia-lab-encabezado { padding: clamp(20px, 4vw, 30px); }
+    .ia-lab-etiqueta { display: inline-flex; margin-bottom: 14px; padding: 8px 12px; border: 1px solid rgba(0,212,255,0.34); border-radius: 999px; color: #93e7ff; background: rgba(0,109,255,0.16); font-size: 0.72rem; font-weight: 900; letter-spacing: 0.08em; }
+    .ia-lab-titulo-wrap { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px; align-items: end; }
+    .ia-lab h4 { margin: 0 0 12px; color: #ffffff; font-size: clamp(1.7rem, 4vw, 2.65rem); line-height: 1.08; }
+    .ia-lab-encabezado p { max-width: 850px; margin: 0; color: #c7d8ef; line-height: 1.65; }
+    .ia-lab-contador { display: inline-flex; justify-content: center; min-width: 210px; padding: 13px 16px; border: 1px solid rgba(0,212,255,0.34); border-radius: 16px; color: #ffffff; background: rgba(0,109,255,0.18); box-shadow: 0 0 24px rgba(0,212,255,0.14); white-space: nowrap; }
+    .ia-lab-controles { display: grid; grid-template-columns: minmax(240px, 0.8fr) 1.2fr; gap: 16px; align-items: end; margin: 18px 0; padding: 16px; }
+    .ia-lab-buscador span { display: block; margin-bottom: 8px; color: #9fdcff; font-size: 0.82rem; font-weight: 800; }
+    .ia-lab-buscador input { width: 100%; min-height: 48px; padding: 0 15px; border: 1px solid rgba(116,196,255,0.32); border-radius: 14px; outline: none; color: #ffffff; background: rgba(2,8,20,0.72); font: inherit; }
+    .ia-lab-buscador input:focus { border-color: #00d4ff; box-shadow: 0 0 0 3px rgba(0,212,255,0.12); }
+    .ia-lab-filtros { display: flex; flex-wrap: wrap; gap: 9px; }
+    .ia-lab-filtros button { min-height: 38px; padding: 0 12px; border: 1px solid rgba(116,196,255,0.28); border-radius: 999px; color: #c7d8ef; background: rgba(8,18,38,0.72); cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease; }
+    .ia-lab-filtros button:hover, .ia-lab-filtros button.activo { color: #ffffff; border-color: #00d4ff; background: linear-gradient(135deg, #006dff, #00d4ff); transform: translateY(-2px); }
+    .ia-lab-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .ia-lab-card { display: flex; min-height: 100%; flex-direction: column; padding: 20px; border: 1px solid rgba(116,196,255,0.24); border-radius: 20px; background: linear-gradient(145deg, rgba(14,24,46,0.82), rgba(4,10,22,0.9)); box-shadow: 0 14px 34px rgba(0,0,0,0.22); backdrop-filter: blur(14px); transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease; animation: iaLabEntrada 0.55s ease both; }
+    .ia-lab-card:hover { transform: translateY(-8px); border-color: rgba(0,212,255,0.62); box-shadow: 0 22px 48px rgba(0,0,0,0.32), 0 0 28px rgba(0,212,255,0.14); }
+    .ia-lab-card[hidden] { display: none; }
+    .ia-lab-card-top, .ia-lab-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .ia-lab-logo { display: grid; place-items: center; width: 54px; height: 54px; border: 1px solid rgba(0,212,255,0.28); border-radius: 16px; background: rgba(255,255,255,0.08); }
+    .ia-lab-logo img { width: 32px; height: 32px; object-fit: contain; border-radius: 8px; }
+    .ia-lab-categoria, .ia-lab-meta span { padding: 7px 10px; border-radius: 999px; color: #9fdcff; background: rgba(0,109,255,0.16); font-size: 0.75rem; font-weight: 800; }
+    .ia-lab-card h5 { margin: 16px 0 10px; color: #ffffff; font-size: 1.25rem; }
+    .ia-lab-card p, .ia-lab-card li { color: #c3cee0; line-height: 1.55; }
+    .ia-lab-card ul { margin: 0 0 18px; padding-left: 18px; }
+    .ia-lab-meta { margin-top: auto; }
+    .ia-lab-meta a { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 14px; border-radius: 12px; color: #ffffff; background: linear-gradient(135deg, #006dff, #00d4ff); text-decoration: none; font-weight: 900; box-shadow: 0 10px 22px rgba(0,109,255,0.22); }
+    .ia-lab-vacio { display: none; margin: 18px 0 0; padding: 16px; border: 1px solid rgba(0,212,255,0.24); border-radius: 16px; color: #c7d8ef; background: rgba(8,14,28,0.66); text-align: center; }
+    .ia-lab-vacio.activo { display: block; }
+    @keyframes iaLabEntrada { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 980px) { .ia-lab-titulo-wrap, .ia-lab-controles { grid-template-columns: 1fr; } .ia-lab-contador { width: fit-content; } .ia-lab-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 620px) { .ia-lab { padding: 16px; border-radius: 18px; } .ia-lab-grid { grid-template-columns: 1fr; } .ia-lab-card { padding: 17px; } .ia-lab-card-top, .ia-lab-meta { align-items: flex-start; flex-direction: column; } .ia-lab-contador { width: 100%; min-width: 0; } }
   </style>
 </head>
 <body class="curso-ia">
   <nav>
     <a class="marca" href="index.html">IM<span>3</span>CB</a>
     <div class="nav-acciones">
-      <a class="regresar" href="#evaluacion">Evaluación</a>
+      <a class="regresar" href="#evaluacion">EvaluaciÃ³n</a>
       <a class="regresar" href="#asistencia">Pasar lista</a>
       <a class="regresar" href="index.html#cursos">Regresar al portal</a>
     </div>
@@ -3127,12 +3162,12 @@
   <main>
     <section class="hero-curso">
       <div>
-        <span class="etiqueta">CURSO DE INGENIERÍA</span>
+        <span class="etiqueta">CURSO DE INGENIERÃA</span>
         <h1>Inteligencia <span>Artificial</span></h1>
         <p class="intro">
           Aprende a utilizar la Inteligencia Artificial para resolver problemas,
           automatizar procesos, generar contenido y desarrollar soluciones
-          aplicadas a la ingeniería.
+          aplicadas a la ingenierÃ­a.
         </p>
       </div>
 
@@ -3143,7 +3178,7 @@
 
     <div style="text-align: center; margin: 30px 0;">
       <button class="boton-accion" type="button" onclick="abrirDiagnosticoUnidad1()" style="padding: 15px 30px; font-size: 1.1rem;">
-        Evaluación diagnóstica
+        EvaluaciÃ³n diagnÃ³stica
       </button>
     </div>
 
@@ -3166,8 +3201,8 @@
           <small>UNIDAD 1</small>
           <h3>Fundamentos de Inteligencia Artificial</h3>
           <ol>
-            <li>Conceptos básicos de Inteligencia Artificial.</li>
-            <li>Tipos de IA y campos de aplicación.</li>
+            <li>Conceptos bÃ¡sicos de Inteligencia Artificial.</li>
+            <li>Tipos de IA y campos de aplicaciÃ³n.</li>
             <li>Datos, modelos y algoritmos.</li>
           </ol>
           <button class="boton-unidad" type="button" onclick="abrirCursoUnidad1()">Explorar curso</button>
@@ -3178,11 +3213,11 @@
         ==================================== -->
         <article class="unidad">
           <small>UNIDAD 2</small>
-          <h3>Ingeniería de Prompts</h3>
+          <h3>IngenierÃ­a de Prompts</h3>
           <ol>
             <li>Estructura de instrucciones efectivas.</li>
             <li>Contexto, rol, formato y restricciones.</li>
-            <li>Iteración y evaluación de respuestas.</li>
+            <li>IteraciÃ³n y evaluaciÃ³n de respuestas.</li>
           </ol>
         </article>
 
@@ -3193,9 +3228,9 @@
           <small>UNIDAD 3</small>
           <h3>IA Generativa</h3>
           <ol>
-            <li>Generación de texto, imagen y código.</li>
+            <li>GeneraciÃ³n de texto, imagen y cÃ³digo.</li>
             <li>Modelos generativos y casos de uso.</li>
-            <li>Riesgos, sesgos y verificación.</li>
+            <li>Riesgos, sesgos y verificaciÃ³n.</li>
           </ol>
         </article>
 
@@ -3204,11 +3239,11 @@
         ==================================== -->
         <article class="unidad">
           <small>UNIDAD 4</small>
-          <h3>Automatización y Productividad</h3>
+          <h3>AutomatizaciÃ³n y Productividad</h3>
           <ol>
             <li>Flujos de trabajo asistidos por IA.</li>
-            <li>Herramientas para productividad académica e industrial.</li>
-            <li>Automatización de tareas repetitivas.</li>
+            <li>Herramientas para productividad acadÃ©mica e industrial.</li>
+            <li>AutomatizaciÃ³n de tareas repetitivas.</li>
           </ol>
         </article>
 
@@ -3219,20 +3254,20 @@
           <small>UNIDAD 5</small>
           <h3>Proyecto Integrador</h3>
           <ol>
-            <li>Identificación del problema.</li>
-            <li>Diseño de solución con IA.</li>
-            <li>Implementación, evaluación y presentación.</li>
+            <li>IdentificaciÃ³n del problema.</li>
+            <li>DiseÃ±o de soluciÃ³n con IA.</li>
+            <li>ImplementaciÃ³n, evaluaciÃ³n y presentaciÃ³n.</li>
           </ol>
         </article>
       </div>
 
       <!-- ====================================
-      EVALUACIÓN
+      EVALUACIÃ“N
       ==================================== -->
       <section class="panel" id="evaluacion">
-        <h2>Evaluación <span>del curso</span></h2>
+        <h2>EvaluaciÃ³n <span>del curso</span></h2>
         <p>
-          La calificación de cada parcial se integra con examen y trabajos
+          La calificaciÃ³n de cada parcial se integra con examen y trabajos
           realizados en clase.
         </p>
 
@@ -3269,22 +3304,22 @@
       <section class="panel" id="asistencia">
         <h2>Pasar <span>lista</span></h2>
         <p>
-          Inicia una sesión de asistencia para generar un QR temporal. Los
+          Inicia una sesiÃ³n de asistencia para generar un QR temporal. Los
           primeros 15 minutos cuentan como asistencia, los siguientes 5 minutos
-          como retardo y después queda fuera de tiempo.
+          como retardo y despuÃ©s queda fuera de tiempo.
         </p>
 
         <div class="asistencia-layout">
           <article class="asistencia-card">
             <h3>Panel docente</h3>
             <div class="campo">
-              <label for="codigoDocente">Código docente</label>
-              <input id="codigoDocente" type="password" placeholder="Código para iniciar lista" autocomplete="off">
+              <label for="codigoDocente">CÃ³digo docente</label>
+              <input id="codigoDocente" type="password" placeholder="CÃ³digo para iniciar lista" autocomplete="off">
             </div>
 
             <div class="campo">
-              <label for="sesionLista">Sesión o tema</label>
-              <input id="sesionLista" type="text" placeholder="Ej. Unidad 1 - Diagnóstico">
+              <label for="sesionLista">SesiÃ³n o tema</label>
+              <input id="sesionLista" type="text" placeholder="Ej. Unidad 1 - DiagnÃ³stico">
             </div>
 
             <div class="acciones-asistencia">
@@ -3293,7 +3328,7 @@
             </div>
 
             <div id="estadoLista" class="estado-lista">
-              Lista inactiva. Ingresa el código docente para generar el QR.
+              Lista inactiva. Ingresa el cÃ³digo docente para generar el QR.
             </div>
             <div id="relojLista" class="reloj-lista">20:00</div>
           </article>
@@ -3302,7 +3337,7 @@
             <h3>QR de asistencia</h3>
             <img id="qrAsistencia" alt="QR para pase de lista" onclick="abrirEnlaceAsistencia()">
             <a id="enlaceAsistencia" class="enlace-asistencia" href="#" target="_blank" rel="noopener">
-              El enlace aparecerá al iniciar el pase de lista.
+              El enlace aparecerÃ¡ al iniciar el pase de lista.
             </a>
           </article>
         </div>
@@ -3316,7 +3351,7 @@
 <div id="tarjetaAlumnoReconocido"
      class="tarjeta-alumno-reconocido">
 
-  <div class="alumno-avatar">👤</div>
+  <div class="alumno-avatar">ðŸ‘¤</div>
 
   <div class="alumno-datos">
     <strong id="alumnoReconocidoNombre">
@@ -3324,7 +3359,7 @@
     </strong>
 
     <span id="alumnoReconocidoMatricula">
-      Matrícula:
+      MatrÃ­cula:
     </span>
 
     <span id="alumnoReconocidoGrupo">
@@ -3336,7 +3371,7 @@
     type="button"
     class="boton-cambiar-alumno"
     onclick="cambiarEstudiante()">
-    ¿No eres tú? Cambiar estudiante
+    Â¿No eres tÃº? Cambiar estudiante
   </button>
 
 </div>
@@ -3347,8 +3382,8 @@
           </div>
 
           <div class="campo">
-            <label for="matriculaAlumno">Matrícula</label>
-            <input id="matriculaAlumno" type="text" placeholder="Escribe tu matrícula">
+            <label for="matriculaAlumno">MatrÃ­cula</label>
+            <input id="matriculaAlumno" type="text" placeholder="Escribe tu matrÃ­cula">
           </div>
 
           <div class="campo">
@@ -3384,21 +3419,21 @@
             type="button"
             onclick="cerrarCursoUnidad1()"
             aria-label="Cerrar Unidad 1">
-            ×
+            Ã—
           </button>
 
           <h2>Unidad 1 <span>activa</span></h2>
           <p>
-            Después de revisar la evaluación del curso y realizar el pase de
+            DespuÃ©s de revisar la evaluaciÃ³n del curso y realizar el pase de
             lista, inicia con los fundamentos de Inteligencia Artificial.
           </p>
 
           <article class="subtema-card">
             <small>SUBTEMA 1.1</small>
-            <h3>Conceptos básicos de Inteligencia Artificial</h3>
+            <h3>Conceptos bÃ¡sicos de Inteligencia Artificial</h3>
             <p>
-              Reconoce qué es la IA, cómo utiliza datos y modelos, y de qué
-              manera puede apoyar la solución de problemas de ingeniería.
+              Reconoce quÃ© es la IA, cÃ³mo utiliza datos y modelos, y de quÃ©
+              manera puede apoyar la soluciÃ³n de problemas de ingenierÃ­a.
             </p>
             <div class="sway-contenedor">
   <iframe
@@ -3418,7 +3453,7 @@
     webkitallowfullscreen>
   </iframe>
 </div>
- <!-- ===== TV IM3CB CON TELÓN ===== -->
+ <!-- ===== TV IM3CB CON TELÃ“N ===== -->
 <div class="tv-im3cb">
 
   <div class="tv-barra">
@@ -3428,7 +3463,7 @@
       class="tv-logo">
 
     <span class="tv-estado">
-      ● VIDEO DE APOYO
+      â— VIDEO DE APOYO
     </span>
   </div>
 
@@ -3438,7 +3473,7 @@
       id="videoFluidos"
       class="tv-video"
       src=""
-      title="Video de apoyo - Conceptos básicos de Inteligencia Artificial"
+      title="Video de apoyo - Conceptos bÃ¡sicos de Inteligencia Artificial"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       allowfullscreen>
     </iframe>
@@ -3451,14 +3486,14 @@
       type="button"
       onclick="abrirTvFluidos()"
       aria-label="Reproducir video">
-      ▶
+      â–¶
     </button>
 
   </div>
 
   <div class="tv-pie">
-    <strong>Conceptos básicos de Inteligencia Artificial</strong>
-    <span>Material audiovisual de apoyo · IM3CB</span>
+    <strong>Conceptos bÃ¡sicos de Inteligencia Artificial</strong>
+    <span>Material audiovisual de apoyo Â· IM3CB</span>
   </div>
 
 </div>
@@ -3471,7 +3506,7 @@
   <div class="sopa-cabecera">
     <small>RETO IM3CB</small>
 
-    <h3>🧩 Descubre los conceptos ocultos</h3>
+    <h3>ðŸ§© Descubre los conceptos ocultos</h3>
 
     <p>
       Selecciona las palabras arrastrando sobre las letras.
@@ -3512,7 +3547,7 @@
 
   <div class="pistas-superior">
     <div>
-      <strong>💡 ¿Necesitas una pista?</strong>
+      <strong>ðŸ’¡ Â¿Necesitas una pista?</strong>
       <span id="pistasDisponiblesFluidos">
         3 ayudas disponibles
       </span>
@@ -3522,7 +3557,7 @@
       type="button"
       id="botonPistaFluidos"
       onclick="usarPistaFluidos()">
-      💡 Usar pista
+      ðŸ’¡ Usar pista
     </button>
   </div>
 
@@ -3543,8 +3578,8 @@
   </div>
 
   <p class="pista-advertencia">
-    ⚠️ Esta ayuda tiene un costo de
-    <strong>1 punto menos en tu evaluación</strong>.
+    âš ï¸ Esta ayuda tiene un costo de
+    <strong>1 punto menos en tu evaluaciÃ³n</strong>.
   </p>
 
 </div>
@@ -3553,7 +3588,7 @@
     id="sopaDesbloqueoFluidos">
 
     <strong>
-      🔒 SIGUIENTE TEMA BLOQUEADO
+      ðŸ”’ SIGUIENTE TEMA BLOQUEADO
     </strong>
 
   </div>
@@ -3571,7 +3606,7 @@
 
     <p>
       Analiza los principales enfoques de IA y relaciona sus capacidades
-      con aplicaciones académicas, creativas e industriales.
+      con aplicaciones acadÃ©micas, creativas e industriales.
     </p>
   </div>
             <div class="sway-contenedor">
@@ -3596,25 +3631,25 @@
   <div id="misionPortada" class="mision-portada">
 
     <div class="mision-etiqueta">
-      MISIÓN IM3CB
+      MISIÃ“N IM3CB
     </div>
 
     <div class="mision-icono">
-      🧪
+      ðŸ§ª
     </div>
 
-    <h3>Diagnóstico de Inteligencia Artificial</h3>
+    <h3>DiagnÃ³stico de Inteligencia Artificial</h3>
 
     <p>
-      Analiza 10 situaciones de ingeniería y selecciona
-      la clasificación más adecuada para cada caso.
+      Analiza 10 situaciones de ingenierÃ­a y selecciona
+      la clasificaciÃ³n mÃ¡s adecuada para cada caso.
     </p>
 
     <div class="mision-reglas">
 
       <div>
         <strong>10</strong>
-        <span>desafíos</span>
+        <span>desafÃ­os</span>
       </div>
 
       <div>
@@ -3633,7 +3668,7 @@
       type="button"
       class="btn-iniciar-mision"
       onclick="iniciarMisionFluidos()">
-      🚀 INICIAR MISIÓN
+      ðŸš€ INICIAR MISIÃ“N
     </button>
 
   </div>
@@ -3666,21 +3701,21 @@
       <div
         id="misionCategoria"
         class="mision-categoria">
-        SISTEMA DE INGENIERÍA
+        SISTEMA DE INGENIERÃA
       </div>
 
       <div
         id="misionIconoCaso"
         class="mision-icono-caso">
-        ⚙️
+        âš™ï¸
       </div>
 
       <h4 id="misionTitulo">
-        Caso de análisis
+        Caso de anÃ¡lisis
       </h4>
 
       <p id="misionPregunta">
-        Aquí aparecerá la situación.
+        AquÃ­ aparecerÃ¡ la situaciÃ³n.
       </p>
 
       <div
@@ -3691,7 +3726,7 @@
     </div>
 
 
-    <!-- RETROALIMENTACIÓN -->
+    <!-- RETROALIMENTACIÃ“N -->
     <div
       id="misionFeedback"
       class="mision-feedback"
@@ -3707,7 +3742,7 @@
         id="misionSiguiente"
         type="button"
         onclick="siguienteCasoFluidos()">
-        SIGUIENTE DESAFÍO →
+        SIGUIENTE DESAFÃO â†’
       </button>
 
     </div>
@@ -3722,11 +3757,11 @@
     hidden>
 
     <div class="resultado-trofeo">
-      🏆
+      ðŸ†
     </div>
 
     <span class="resultado-etiqueta">
-      MISIÓN COMPLETADA
+      MISIÃ“N COMPLETADA
     </span>
 
     <h3 id="resultadoNivel">
@@ -3775,7 +3810,7 @@
 
 </section>
             <!-- =====================================================
-     SUBTEMA 1.3 · APLICACIONES DE IA
+     SUBTEMA 1.3 Â· APLICACIONES DE IA
 ===================================================== -->
 
 <article class="subtema-card propiedades-13" id="subtema13">
@@ -3789,18 +3824,18 @@
     <h3>Aplicaciones de la Inteligencia Artificial</h3>
 
     <p>
-      Las aplicaciones de IA permiten analizar información,
+      Las aplicaciones de IA permiten analizar informaciÃ³n,
       generar contenido, automatizar procesos y apoyar la
-      toma de decisiones en problemas de ingeniería.
+      toma de decisiones en problemas de ingenierÃ­a.
     </p>
 
     <div class="prop13-mensaje">
-      <span>💡</span>
+      <span>ðŸ’¡</span>
 
       <div>
         <strong>Explora como ingeniero</strong>
         <p>
-          Selecciona cada estación para relacionar
+          Selecciona cada estaciÃ³n para relacionar
           conceptos, ecuaciones y aplicaciones reales.
         </p>
       </div>
@@ -3809,7 +3844,7 @@
   </div>
 
 
-  <!-- NAVEGACIÓN DE ESTACIONES -->
+  <!-- NAVEGACIÃ“N DE ESTACIONES -->
 
   <div class="prop13-ruta">
 
@@ -3823,7 +3858,7 @@
       <strong>Datos y modelos</strong>
 
       <small>
-        Dataset · modelo · algoritmo
+        Dataset Â· modelo Â· algoritmo
       </small>
 
     </button>
@@ -3839,7 +3874,7 @@
       <strong>Prompts y contexto</strong>
 
       <small>
-        rol · tarea · formato
+        rol Â· tarea Â· formato
       </small>
 
     </button>
@@ -3852,10 +3887,10 @@
 
       <span class="prop13-numero">3</span>
 
-      <strong>Generación y revisión</strong>
+      <strong>GeneraciÃ³n y revisiÃ³n</strong>
 
       <small>
-        salida · sesgo · verificación
+        salida Â· sesgo Â· verificaciÃ³n
       </small>
 
     </button>
@@ -3868,10 +3903,10 @@
 
       <span class="prop13-numero">4</span>
 
-      <strong>Automatización</strong>
+      <strong>AutomatizaciÃ³n</strong>
 
       <small>
-        flujo · productividad
+        flujo Â· productividad
       </small>
 
     </button>
@@ -3880,7 +3915,7 @@
 
 
   <!-- =================================================
-       ESTACIÓN 1
+       ESTACIÃ“N 1
   ================================================== -->
 
   <section
@@ -3889,10 +3924,10 @@
 
     <div class="prop13-panel-titulo">
 
-      <span class="prop13-icono">⚖️</span>
+      <span class="prop13-icono">âš–ï¸</span>
 
       <div>
-        <small>ESTACIÓN 1</small>
+        <small>ESTACIÃ“N 1</small>
         <h4>Datos, modelos y algoritmos</h4>
       </div>
 
@@ -3900,8 +3935,8 @@
 
 
     <p class="prop13-intro">
-      Estos conceptos permiten comprender cómo una IA aprende
-      patrones, procesa información y entrega resultados útiles.
+      Estos conceptos permiten comprender cÃ³mo una IA aprende
+      patrones, procesa informaciÃ³n y entrega resultados Ãºtiles.
     </p>
 
 
@@ -3920,7 +3955,7 @@
 
         <p>
           Los datos son ejemplos, registros o evidencias que
-          alimentan el entrenamiento y la evaluación de modelos.
+          alimentan el entrenamiento y la evaluaciÃ³n de modelos.
         </p>
 
         <div class="prop13-formula">
@@ -3977,7 +4012,7 @@
         </p>
 
         <div class="prop13-unidad">
-          Base: desempeño
+          Base: desempeÃ±o
         </div>
 
       </article>
@@ -4012,7 +4047,7 @@
         </p>
 
         <div class="prop13-unidad">
-          Base: lógica
+          Base: lÃ³gica
         </div>
 
       </article>
@@ -4022,15 +4057,15 @@
 
     <div class="prop13-aplicacion">
 
-      <span>🏭</span>
+      <span>ðŸ­</span>
 
       <div>
-        <strong>Aplicación en ingeniería</strong>
+        <strong>AplicaciÃ³n en ingenierÃ­a</strong>
 
         <p>
           Estos conceptos se utilizan para crear asistentes,
           clasificadores, generadores de contenido y sistemas
-          de apoyo a decisiones en ingeniería.
+          de apoyo a decisiones en ingenierÃ­a.
         </p>
       </div>
 
@@ -4051,444 +4086,110 @@
 
     <div>
       <span class="prop13-lab-etiqueta">
-        APLICA LO APRENDIDO
+        LABORATORIO DE INTELIGENCIA ARTIFICIAL
       </span>
 
       <h4>
-        Laboratorio de casos de IA
+        🧠 Explora las principales Inteligencias Artificiales
       </h4>
 
       <p>
-        Analiza ejemplos guiados y después
-        enfrenta casos propuestos.
+        Conoce las herramientas de IA más utilizadas actualmente, descubre
+        para qué sirve cada una y accede directamente a ellas para comenzar
+        a utilizarlas.
       </p>
     </div>
 
   </div>
 
+  <div class="ia-lab" id="laboratorio-ia">
+    <div class="ia-lab-fondo"></div>
 
-  <!-- PESTAÑAS -->
+    <div class="ia-lab-controles reveal-ia">
+    <strong class="ia-lab-contador" id="iaLabContador">9 herramientas disponibles</strong>
 
-  <div class="prop13-lab-tabs">
+    <label class="ia-lab-buscador">
+      <span>Buscar IA</span>
+      <input id="iaLabBusqueda" type="search" placeholder="Escribe ChatGPT, Gemini, Copilot..." autocomplete="off">
+    </label>
 
-    <button
-      type="button"
-      class="prop13-lab-tab activa"
-      onclick="cambiarLabMasa('resueltos', this)">
-
-      <span>📘</span>
-
-      <div>
-        <strong>Ejemplos resueltos</strong>
-        <small>4 casos guiados</small>
-      </div>
-
-    </button>
-
-
-    <button
-      type="button"
-      class="prop13-lab-tab"
-      onclick="cambiarLabMasa('propuestos', this)">
-
-      <span>🎯</span>
-
-      <div>
-        <strong>Ahora tú resuelve</strong>
-        <small>3 retos sin solución</small>
-      </div>
-
-    </button>
-
+    <div class="ia-lab-filtros" aria-label="Filtrar por categoría">
+      <button class="activo" type="button" data-ia-categoria="Todas">Todas</button>
+      <button type="button" data-ia-categoria="Chatbot">Chatbot</button>
+      <button type="button" data-ia-categoria="Generación de imágenes">Imágenes</button>
+      <button type="button" data-ia-categoria="Programación">Programación</button>
+      <button type="button" data-ia-categoria="Investigación">Investigación</button>
+      <button type="button" data-ia-categoria="Productividad">Productividad</button>
+      <button type="button" data-ia-categoria="Modelo local">Modelo local</button>
+    </div>
   </div>
 
-
-  <!-- =================================================
-       PANEL · EJEMPLOS RESUELTOS
-  ================================================== -->
-
-  <div
-    id="labMasa-resueltos"
-    class="prop13-lab-panel activo">
-
-
-    <!-- PROGRESO -->
-
-    <div class="prop13-problema-progreso">
-
-      <div>
-        <span>
-          EJEMPLO GUIADO
-        </span>
-
-        <strong id="contadorProblemaMasa">
-          1 de 4
-        </strong>
-      </div>
-
-      <div class="prop13-progreso-pista">
-
-        <span
-          id="barraProblemaMasa"
-          style="width: 25%;">
-        </span>
-
-      </div>
-
-    </div>
-
-
-    <!-- =============================================
-         PROBLEMA 1
-    ============================================== -->
-
-    <article
-      class="prop13-problema-slide activo"
-      data-problema-masa="0">
-
-      <div class="prop13-problema-cabecera">
-
-        <span class="prop13-problema-numero">
-          1
-        </span>
-
-        <div>
-          <small>
-            EJEMPLO RESUELTO
-          </small>
-
-          <h5>
-            Peso de un depósito de aceite
-          </h5>
-        </div>
-
-      </div>
-
-      <div class="prop13-problema-imagen">
-
-        <img
-          src="problema-resuelto-1.png"
-          alt="Problema resuelto sobre el peso de un depósito de aceite"
-          loading="lazy">
-
-      </div>
-
-      <div class="prop13-problema-clave">
-
-        <span>🔎</span>
-
-        <p>
-          <strong>Idea clave:</strong>
-          relaciona masa y peso mediante
-          <b>w = mg</b>.
-        </p>
-
-      </div>
-
+  <div class="ia-lab-grid" id="iaLabGrid">
+    <article class="ia-lab-card reveal-ia" data-nombre="ChatGPT" data-categorias="Chatbot Programación Investigación Productividad">
+      <div class="ia-lab-card-top"><div class="ia-lab-logo"><img src="https://www.google.com/s2/favicons?domain=chatgpt.com&sz=64" alt="Logo de ChatGPT"></div><span class="ia-lab-categoria">Chatbot</span></div>
+      <h5>ChatGPT</h5><p>Asistente conversacional capaz de explicar conceptos, programar, generar textos, resumir documentos y apoyar el aprendizaje.</p>
+      <ul><li>Explicación de temas</li><li>Programación y depuración</li><li>Redacción y resúmenes</li></ul>
+      <div class="ia-lab-meta"><span>Principiante</span><a href="https://chatgpt.com/" target="_blank" rel="noopener">Abrir IA</a></div>
     </article>
 
-
-    <!-- =============================================
-         PROBLEMA 2
-    ============================================== -->
-
-    <article
-      class="prop13-problema-slide"
-      data-problema-masa="1">
-
-      <div class="prop13-problema-cabecera">
-
-        <span class="prop13-problema-numero">
-          2
-        </span>
-
-        <div>
-          <small>
-            EJEMPLO RESUELTO
-          </small>
-
-          <h5>
-            Calidad de datos
-            para un modelo
-          </h5>
-        </div>
-
-      </div>
-
-      <div class="prop13-problema-imagen">
-
-        <img
-          src="problema-resuelto-2.png"
-          alt="Caso resuelto sobre calidad de datos para Inteligencia Artificial"
-          loading="lazy">
-
-      </div>
-
-      <div class="prop13-problema-clave">
-
-        <span>🔎</span>
-
-        <p>
-          <strong>Idea clave:</strong>
-          identifica datos confiables antes de
-          seleccionar una herramienta de IA.
-        </p>
-
-      </div>
-
+    <article class="ia-lab-card reveal-ia" data-nombre="Gemini" data-categorias="Chatbot Investigación Productividad Generación de imágenes">
+      <div class="ia-lab-card-top"><div class="ia-lab-logo"><img src="https://www.google.com/s2/favicons?domain=gemini.google.com&sz=64" alt="Logo de Gemini"></div><span class="ia-lab-categoria">Productividad</span></div>
+      <h5>Gemini</h5><p>IA de Google integrada con Workspace para analizar documentos, imágenes y realizar búsquedas inteligentes.</p>
+      <ul><li>Análisis de documentos</li><li>Búsqueda inteligente</li><li>Trabajo con imágenes</li></ul>
+      <div class="ia-lab-meta"><span>Principiante</span><a href="https://gemini.google.com/app" target="_blank" rel="noopener">Abrir IA</a></div>
     </article>
 
-
-    <!-- =============================================
-         PROBLEMA 3
-    ============================================== -->
-
-    <article
-      class="prop13-problema-slide"
-      data-problema-masa="2">
-
-      <div class="prop13-problema-cabecera">
-
-        <span class="prop13-problema-numero">
-          3
-        </span>
-
-        <div>
-          <small>
-            EJEMPLO RESUELTO
-          </small>
-
-          <h5>
-            Masa de un litro de agua
-          </h5>
-        </div>
-
-      </div>
-
-      <div class="prop13-problema-imagen">
-
-        <img
-          src="problema-resuelto-3.png"
-          alt="Problema resuelto para encontrar masa a partir del peso"
-          loading="lazy">
-
-      </div>
-
-      <div class="prop13-problema-clave">
-
-        <span>🔎</span>
-
-        <p>
-          <strong>Idea clave:</strong>
-          despeja la masa mediante
-          <b>m = w / g</b>
-          y conserva la consistencia de unidades.
-        </p>
-
-      </div>
-
+    <article class="ia-lab-card reveal-ia" data-nombre="Claude" data-categorias="Chatbot Investigación Productividad">
+      <div class="ia-lab-card-top"><div class="ia-lab-logo"><img src="https://www.google.com/s2/favicons?domain=claude.ai&sz=64" alt="Logo de Claude"></div><span class="ia-lab-categoria">Investigación</span></div>
+      <h5>Claude</h5><p>Excelente para escribir documentos largos, analizar textos y apoyar tareas académicas.</p>
+      <ul><li>Lectura de textos extensos</li><li>Ensayos y documentos</li><li>Apoyo académico</li></ul>
+      <div class="ia-lab-meta"><span>Intermedio</span><a href="https://claude.ai/chats" target="_blank" rel="noopener">Abrir IA</a></div>
     </article>
 
-
-    <!-- =============================================
-         PROBLEMA 4
-    ============================================== -->
-
-    <article
-      class="prop13-problema-slide"
-      data-problema-masa="3">
-
-      <div class="prop13-problema-cabecera">
-
-        <span class="prop13-problema-numero">
-          4
-        </span>
-
-        <div>
-          <small>
-            EJEMPLO RESUELTO
-          </small>
-
-          <h5>
-            Peso de un galón de mercurio
-          </h5>
-        </div>
-
-      </div>
-
-      <div class="prop13-problema-imagen">
-
-        <img
-          src="problema-resuelto-4.png"
-          alt="Problema resuelto del peso de un galón de mercurio"
-          loading="lazy">
-
-      </div>
-
-      <div class="prop13-problema-clave">
-
-        <span>🔎</span>
-
-        <p>
-          <strong>Idea clave:</strong>
-          aplica
-          <b>w = mg</b>
-          trabajando correctamente con
-          slugs y unidades inglesas.
-        </p>
-
-      </div>
-
+    <article class="ia-lab-card reveal-ia" data-nombre="Microsoft Copilot" data-categorias="Chatbot Programación Productividad">
+      <div class="ia-lab-card-top"><div class="ia-lab-logo"><img src="https://www.google.com/s2/favicons?domain=copilot.microsoft.com&sz=64" alt="Logo de Microsoft Copilot"></div><span class="ia-lab-categoria">Productividad</span></div>
+      <h5>Microsoft Copilot</h5><p>Asistente de Microsoft integrado con Office, Edge y Visual Studio.</p>
+      <ul><li>Office y documentos</li><li>Navegación con Edge</li><li>Apoyo en código</li></ul>
+      <div class="ia-lab-meta"><span>Principiante</span><a href="https://copilot.microsoft.com/" target="_blank" rel="noopener">Abrir IA</a></div>
     </article>
 
+    <article class="ia-lab-card reveal-ia" data-nombre="Meta AI" data-categorias="Chatbot Generación de imágenes Productividad">
+      <div class="ia-lab-card-top"><div class="ia-lab-logo"><img src="https://www.google.com/s2/favicons?domain=meta.ai&sz=64" alt="Logo de Meta AI"></div><span class="ia-lab-categoria">Generación de imágenes</span></div>
+      <h5>Meta AI</h5><p>Asistente de Meta con búsqueda, generación de texto e imágenes.</p>
+      <ul><li>Consultas rápidas</li><li>Texto e ideas</li><li>Creación de imágenes</li></ul>
+      <div class="ia-lab-meta"><span>Principiante</span><a href="https://www.meta.ai/" target="_blank" rel="noopener">Abrir IA</a></div>
+    </article>
 
-    <!-- NAVEGACIÓN -->
+    <article class="ia-lab-card reveal-ia" data-nombre="Mistral Chat" data-categorias="Chatbot Programación Investigación">
+      <div class="ia-lab-card-top"><div class="ia-lab-logo"><img src="https://www.google.com/s2/favicons?domain=mistral.ai&sz=64" alt="Logo de Mistral Chat"></div><span class="ia-lab-categoria">Programación</span></div>
+      <h5>Mistral Chat</h5><p>Modelo europeo de IA muy rápido y con excelentes capacidades de razonamiento.</p>
+      <ul><li>Razonamiento rápido</li><li>Programación</li><li>Análisis técnico</li></ul>
+      <div class="ia-lab-meta"><span>Intermedio</span><a href="https://chat.mistral.ai/chat" target="_blank" rel="noopener">Abrir IA</a></div>
+    </article>
 
-    <div class="prop13-problema-nav">
+    <article class="ia-lab-card reveal-ia" data-nombre="Cohere Coral" data-categorias="Chatbot Investigación Productividad">
+      <div class="ia-lab-card-top"><div class="ia-lab-logo"><img src="https://www.google.com/s2/favicons?domain=cohere.com&sz=64" alt="Logo de Cohere Coral"></div><span class="ia-lab-categoria">Productividad</span></div>
+      <h5>Cohere Coral</h5><p>Plataforma enfocada en generación de texto y aplicaciones empresariales.</p>
+      <ul><li>Texto empresarial</li><li>Consultas documentales</li><li>Automatización</li></ul>
+      <div class="ia-lab-meta"><span>Intermedio</span><a href="https://coral.cohere.com/" target="_blank" rel="noopener">Abrir IA</a></div>
+    </article>
 
-      <button
-        type="button"
-        id="btnProblemaMasaAnterior"
-        onclick="moverProblemaMasa(-1)"
-        disabled>
+    <article class="ia-lab-card reveal-ia" data-nombre="NVIDIA Llama Nemotron" data-categorias="Programación Investigación">
+      <div class="ia-lab-card-top"><div class="ia-lab-logo"><img src="https://www.google.com/s2/favicons?domain=nvidia.com&sz=64" alt="Logo de NVIDIA"></div><span class="ia-lab-categoria">Programación</span></div>
+      <h5>NVIDIA Llama Nemotron</h5><p>Modelo abierto de NVIDIA optimizado para razonamiento y programación.</p>
+      <ul><li>Razonamiento avanzado</li><li>Pruebas de modelos</li><li>Desarrollo técnico</li></ul>
+      <div class="ia-lab-meta"><span>Avanzado</span><a href="https://build.nvidia.com/nvidia/llama-3_1-nemotron-70b-instruct" target="_blank" rel="noopener">Abrir IA</a></div>
+    </article>
 
-        ← Anterior
-
-      </button>
-
-
-      <div class="prop13-problema-puntos">
-
-        <button
-          type="button"
-          class="activo"
-          onclick="irProblemaMasa(0)"
-          aria-label="Ir al problema 1">
-        </button>
-
-        <button
-          type="button"
-          onclick="irProblemaMasa(1)"
-          aria-label="Ir al problema 2">
-        </button>
-
-        <button
-          type="button"
-          onclick="irProblemaMasa(2)"
-          aria-label="Ir al problema 3">
-        </button>
-
-        <button
-          type="button"
-          onclick="irProblemaMasa(3)"
-          aria-label="Ir al problema 4">
-        </button>
-
-      </div>
-
-
-      <button
-        type="button"
-        id="btnProblemaMasaSiguiente"
-        onclick="moverProblemaMasa(1)">
-
-        Siguiente →
-
-      </button>
-
-    </div>
-
+    <article class="ia-lab-card reveal-ia" data-nombre="LM Studio" data-categorias="Modelo local Programación Investigación">
+      <div class="ia-lab-card-top"><div class="ia-lab-logo"><img src="https://www.google.com/s2/favicons?domain=lmstudio.ai&sz=64" alt="Logo de LM Studio"></div><span class="ia-lab-categoria">Modelo local</span></div>
+      <h5>LM Studio</h5><p>Permite ejecutar modelos de IA localmente sin depender de Internet.</p>
+      <ul><li>Modelos locales</li><li>Privacidad de datos</li><li>Pruebas sin nube</li></ul>
+      <div class="ia-lab-meta"><span>Avanzado</span><a href="https://lmstudio.ai/" target="_blank" rel="noopener">Abrir IA</a></div>
+    </article>
   </div>
 
-
-  <!-- =================================================
-       PANEL · PROBLEMAS PROPUESTOS
-  ================================================== -->
-
-  <div
-    id="labMasa-propuestos"
-    class="prop13-lab-panel">
-
-    <div class="prop13-reto-header">
-
-      <span class="prop13-reto-icono">
-        🎯
-      </span>
-
-      <div>
-        <small>
-          RETO DEL ESTUDIANTE
-        </small>
-
-        <h5>
-          Ahora tú resuelve
-        </h5>
-
-        <p>
-          Analiza los tres problemas.
-          Identifica los datos, selecciona
-          las ecuaciones y desarrolla tu procedimiento.
-        </p>
-      </div>
-
-    </div>
-
-
-    <div class="prop13-problema-imagen prop13-imagen-retos">
-
-      <img
-        src="problemas-propuestos.png"
-        alt="Tres casos propuestos sin solución sobre aplicaciones de Inteligencia Artificial"
-        loading="lazy">
-
-    </div>
-
-
-    <div class="prop13-reto-pasos">
-
-      <div>
-        <span>1</span>
-
-        <p>
-          <strong>Identifica</strong>
-          los datos y las incógnitas.
-        </p>
-      </div>
-
-
-      <div>
-        <span>2</span>
-
-        <p>
-          <strong>Selecciona</strong>
-          la ecuación apropiada.
-        </p>
-      </div>
-
-
-      <div>
-        <span>3</span>
-
-        <p>
-          <strong>Resuelve</strong>
-          justificando el criterio.
-        </p>
-      </div>
-
-    </div>
-
-
-    <div class="prop13-reto-aviso">
-
-      <span>💡</span>
-
-      <p>
-        <strong>Consejo de ingeniería:</strong>
-        define primero el problema, identifica los datos
-        disponibles y después elige la herramienta de IA.
-      </p>
-
-    </div>
+  <p class="ia-lab-vacio" id="iaLabVacio">No se encontraron herramientas con ese filtro.</p>
 
   </div>
 
@@ -4496,12 +4197,11 @@
 
 <!-- =====================================================
      FIN LABORATORIO DE PROBLEMAS
-===================================================== -->
-  </section>
+===================================================== -->  </section>
 
 
   <!-- =================================================
-       ESTACIÓN 2
+       ESTACIÃ“N 2
   ================================================== -->
 
   <section
@@ -4510,10 +4210,10 @@
 
     <div class="prop13-panel-titulo">
 
-      <span class="prop13-icono">🧪</span>
+      <span class="prop13-icono">ðŸ§ª</span>
 
       <div>
-        <small>ESTACIÓN 2</small>
+        <small>ESTACIÃ“N 2</small>
         <h4>Prompts y contexto</h4>
       </div>
 
@@ -4521,7 +4221,7 @@
 
 
     <p class="prop13-intro">
-      Un prompt bien diseñado guía al sistema de IA mediante
+      Un prompt bien diseÃ±ado guÃ­a al sistema de IA mediante
       objetivo, contexto, rol, formato y restricciones.
     </p>
 
@@ -4529,27 +4229,27 @@
     <div class="prop13-comparacion">
 
       <div class="prop13-fluido">
-        <span>💧</span>
+        <span>ðŸ’§</span>
         <strong>Prompt breve</strong>
         <small>Poco contexto</small>
       </div>
 
       <div class="prop13-flecha">
-        →
+        â†’
       </div>
 
       <div class="prop13-fluido">
-        <span>🛢️</span>
+        <span>ðŸ›¢ï¸</span>
         <strong>Prompt guiado</strong>
         <small>Contexto suficiente</small>
       </div>
 
       <div class="prop13-flecha">
-        →
+        â†’
       </div>
 
       <div class="prop13-fluido">
-        <span>🍯</span>
+        <span>ðŸ¯</span>
         <strong>Prompt experto</strong>
         <small>Rol, formato y criterios</small>
       </div>
@@ -4571,7 +4271,7 @@
         <h5>Prompt</h5>
 
         <p>
-          Define la instrucción que recibe la IA para
+          Define la instrucciÃ³n que recibe la IA para
           producir una respuesta alineada con la tarea.
         </p>
 
@@ -4585,11 +4285,11 @@
           </li>
 
           <li>
-            contexto = información relevante
+            contexto = informaciÃ³n relevante
           </li>
 
           <li>
-            formato = cómo debe responder
+            formato = cÃ³mo debe responder
           </li>
         </ul>
 
@@ -4612,15 +4312,15 @@
 
         <p>
           Aporta datos, restricciones y criterios para
-          que la respuesta sea más precisa y útil.
+          que la respuesta sea mÃ¡s precisa y Ãºtil.
         </p>
 
         <div class="prop13-formula">
-          contexto = antecedentes + límites
+          contexto = antecedentes + lÃ­mites
         </div>
 
         <p class="prop13-nota">
-          Permite reducir ambigüedades y adaptar la
+          Permite reducir ambigÃ¼edades y adaptar la
           respuesta al problema real.
         </p>
 
@@ -4636,16 +4336,16 @@
     <div class="prop13-temperatura">
 
       <h5>
-        🔁 Iteración del prompt
+        ðŸ” IteraciÃ³n del prompt
       </h5>
 
       <div class="prop13-temp-grid">
 
         <div>
-  <strong>📝 Primer intento</strong>
+  <strong>ðŸ“ Primer intento</strong>
 
   <p>
-    Una instrucción general puede producir
+    Una instrucciÃ³n general puede producir
     <strong>respuestas incompletas</strong>,
     porque no define criterios ni formato.
   </p>
@@ -4653,49 +4353,49 @@
 
 
 <div>
-  <strong>🎯 Prompt refinado</strong>
+  <strong>ðŸŽ¯ Prompt refinado</strong>
 
   <p>
     Al agregar contexto, ejemplos y restricciones,
     <strong>mejora la utilidad de la respuesta</strong>
-    y se facilita la verificación.
+    y se facilita la verificaciÃ³n.
   </p>
 </div>
         </div>
-        <!-- FRANJA VISUAL · ITERACIÓN DE PROMPTS -->
+        <!-- FRANJA VISUAL Â· ITERACIÃ“N DE PROMPTS -->
 
 <div class="prop13-franja-viscosidad">
 
   <div class="prop13-franja-caso liquido">
-    <span class="prop13-franja-icono">🌡️</span>
+    <span class="prop13-franja-icono">ðŸŒ¡ï¸</span>
 
     <div>
       <small>PROMPT GENERAL</small>
       <strong>
-        Menos contexto → Más ambigüedad
+        Menos contexto â†’ MÃ¡s ambigÃ¼edad
       </strong>
     </div>
 
-    <span class="prop13-franja-fluido">📝</span>
+    <span class="prop13-franja-fluido">ðŸ“</span>
   </div>
 
 
   <div class="prop13-franja-vs">
-    ≠
+    â‰ 
   </div>
 
 
   <div class="prop13-franja-caso gas">
-    <span class="prop13-franja-icono">🌡️</span>
+    <span class="prop13-franja-icono">ðŸŒ¡ï¸</span>
 
     <div>
       <small>PROMPT REFINADO</small>
       <strong>
-        Más contexto → Mejor respuesta
+        MÃ¡s contexto â†’ Mejor respuesta
       </strong>
     </div>
 
-    <span class="prop13-franja-fluido">🎯</span>
+    <span class="prop13-franja-fluido">ðŸŽ¯</span>
   </div>
 
 </div>
@@ -4703,7 +4403,7 @@
 <p class="prop13-franja-conclusion">
   <strong>Idea clave:</strong>
   iterar el prompt mejora la calidad de la salida, pero
-  siempre requiere revisión humana y fuentes confiables.
+  siempre requiere revisiÃ³n humana y fuentes confiables.
 </p>
 
     </div>
@@ -4712,7 +4412,7 @@
 
 
   <!-- =================================================
-       ESTACIÓN 3
+       ESTACIÃ“N 3
   ================================================== -->
 
   <section
@@ -4721,20 +4421,20 @@
 
     <div class="prop13-panel-titulo">
 
-      <span class="prop13-icono">🗜️</span>
+      <span class="prop13-icono">ðŸ—œï¸</span>
 
       <div>
-        <small>ESTACIÓN 3</small>
-        <h4>Generación, sesgos y verificación</h4>
+        <small>ESTACIÃ“N 3</small>
+        <h4>GeneraciÃ³n, sesgos y verificaciÃ³n</h4>
       </div>
 
     </div>
 
 
     <p class="prop13-intro">
-      Las respuestas generadas por IA pueden ser útiles,
+      Las respuestas generadas por IA pueden ser Ãºtiles,
       pero deben revisarse para detectar errores, sesgos
-      o información inventada.
+      o informaciÃ³n inventada.
     </p>
 
 
@@ -4752,7 +4452,7 @@
         <h5>Salida</h5>
 
         <p>
-          Es el texto, imagen, código o recomendación
+          Es el texto, imagen, cÃ³digo o recomendaciÃ³n
           que genera la herramienta de IA.
         </p>
 
@@ -4783,18 +4483,18 @@
         </p>
 
         <div class="prop13-formula">
-          sesgo = datos + diseño + contexto
+          sesgo = datos + diseÃ±o + contexto
         </div>
 
         <p class="prop13-nota">
-          Puede reducirse con revisión, datos diversos
-          y evaluación responsable.
+          Puede reducirse con revisiÃ³n, datos diversos
+          y evaluaciÃ³n responsable.
         </p>
 
       </article>
 
 
-      <!-- VERIFICACIÓN -->
+      <!-- VERIFICACIÃ“N -->
 
       <article class="prop13-concepto">
 
@@ -4802,15 +4502,15 @@
           V
         </span>
 
-        <h5>Verificación</h5>
+        <h5>VerificaciÃ³n</h5>
 
         <p>
-          Evalúa si la salida es correcta,
-          útil y consistente con fuentes confiables.
+          EvalÃºa si la salida es correcta,
+          Ãºtil y consistente con fuentes confiables.
         </p>
 
         <div class="prop13-formula">
-          verificación = fuentes + criterio
+          verificaciÃ³n = fuentes + criterio
         </div>
 
         <p class="prop13-nota">
@@ -4832,36 +4532,36 @@
       <div class="prop13-panel-titulo">
 
         <span class="prop13-icono">
-          🌡️
+          ðŸŒ¡ï¸
         </span>
 
         <div>
-          <small>REVISIÓN</small>
+          <small>REVISIÃ“N</small>
           <h4>Mejora iterativa de respuestas</h4>
         </div>
 
       </div>
 
       <p>
-        Cuando cambia el contexto, la instrucción o los datos,
-        la respuesta de la IA puede mejorar. La revisión permite
+        Cuando cambia el contexto, la instrucciÃ³n o los datos,
+        la respuesta de la IA puede mejorar. La revisiÃ³n permite
         corregir errores y afinar el resultado.
       </p>
 
       <div class="prop13-formula grande">
-        mejora = respuesta + retroalimentación
+        mejora = respuesta + retroalimentaciÃ³n
       </div>
 
       <div class="prop13-aplicacion">
-        <span>⚙️</span>
+        <span>âš™ï¸</span>
 
         <div>
-          <strong>¿Dónde importa?</strong>
+          <strong>Â¿DÃ³nde importa?</strong>
 
           <p>
-            Reportes técnicos, planeación de clase, análisis
-            de datos, generación de contenido y automatización
-            de procesos académicos o industriales.
+            Reportes tÃ©cnicos, planeaciÃ³n de clase, anÃ¡lisis
+            de datos, generaciÃ³n de contenido y automatizaciÃ³n
+            de procesos acadÃ©micos o industriales.
           </p>
         </div>
       </div>
@@ -4872,7 +4572,7 @@
 
 
   <!-- =================================================
-       ESTACIÓN 4
+       ESTACIÃ“N 4
   ================================================== -->
 
   <section
@@ -4881,11 +4581,11 @@
 
     <div class="prop13-panel-titulo">
 
-      <span class="prop13-icono">⚙️</span>
+      <span class="prop13-icono">âš™ï¸</span>
 
       <div>
-        <small>ESTACIÓN 4</small>
-        <h4>Automatización y productividad</h4>
+        <small>ESTACIÃ“N 4</small>
+        <h4>AutomatizaciÃ³n y productividad</h4>
       </div>
 
     </div>
@@ -4893,7 +4593,7 @@
 
     <p class="prop13-intro">
       La IA puede integrarse en flujos de trabajo para reducir
-      tareas repetitivas, organizar información y apoyar la
+      tareas repetitivas, organizar informaciÃ³n y apoyar la
       toma de decisiones.
     </p>
 
@@ -4901,7 +4601,7 @@
     <div class="prop13-grid dos">
 
 
-      <!-- AUTOMATIZACIÓN -->
+      <!-- AUTOMATIZACIÃ“N -->
 
       <article class="prop13-concepto">
 
@@ -4913,11 +4613,11 @@
 
         <p>
           Es la secuencia de pasos que conecta entradas,
-          herramientas de IA, revisión humana y resultados.
+          herramientas de IA, revisiÃ³n humana y resultados.
         </p>
 
         <div class="prop13-formula">
-          flujo = entrada + IA + revisión
+          flujo = entrada + IA + revisiÃ³n
         </div>
 
         <p class="prop13-nota">
@@ -4926,7 +4626,7 @@
         </p>
 
         <div class="prop13-unidad">
-          Base: organización
+          Base: organizaciÃ³n
         </div>
 
       </article>
@@ -4944,7 +4644,7 @@
 
         <p>
           Es la capacidad de producir mejores entregables
-          en menos tiempo sin perder revisión ni calidad.
+          en menos tiempo sin perder revisiÃ³n ni calidad.
         </p>
 
         <div class="prop13-formula">
@@ -4957,11 +4657,11 @@
           </li>
 
           <li>
-            calidad = revisión y mejora
+            calidad = revisiÃ³n y mejora
           </li>
 
           <li>
-            criterio = decisión humana
+            criterio = decisiÃ³n humana
           </li>
         </ul>
 
@@ -4973,26 +4673,26 @@
     <div class="prop13-ejemplos">
 
       <div>
-        <span>🌱</span>
+        <span>ðŸŒ±</span>
         <strong>Clases</strong>
         <p>
-          Planeación, rúbricas y material de apoyo.
+          PlaneaciÃ³n, rÃºbricas y material de apoyo.
         </p>
       </div>
 
       <div>
-        <span>🧪</span>
+        <span>ðŸ§ª</span>
         <strong>Reportes</strong>
         <p>
-          Resumen, clasificación y corrección de borradores.
+          Resumen, clasificaciÃ³n y correcciÃ³n de borradores.
         </p>
       </div>
 
       <div>
-        <span>🎨</span>
+        <span>ðŸŽ¨</span>
         <strong>Proyectos</strong>
         <p>
-          Prototipos, documentación y validación de ideas.
+          Prototipos, documentaciÃ³n y validaciÃ³n de ideas.
         </p>
       </div>
 
@@ -5007,17 +4707,17 @@
 
   <div class="prop13-cierre">
 
-    <span>🎯</span>
+    <span>ðŸŽ¯</span>
 
     <div>
       <strong>
-        Del concepto a la solución
+        Del concepto a la soluciÃ³n
       </strong>
 
       <p>
         Ya conoces las propiedades fundamentales.
-        El siguiente paso será utilizarlas para
-        resolver problemas de ingeniería.
+        El siguiente paso serÃ¡ utilizarlas para
+        resolver problemas de ingenierÃ­a.
       </p>
     </div>
 
@@ -5026,8 +4726,8 @@
       class="prop13-boton-problemas"
       disabled>
 
-      🔒 Problemas
-      <small>Próximamente</small>
+      ðŸ”’ Problemas
+      <small>PrÃ³ximamente</small>
 
     </button>
 
@@ -5044,46 +4744,46 @@
             class="cerrar-diagnostico"
             type="button"
             onclick="cerrarDiagnosticoUnidad1()"
-            aria-label="Cerrar evaluación diagnóstica">
-            ×
+            aria-label="Cerrar evaluaciÃ³n diagnÃ³stica">
+            Ã—
           </button>
 
-          <h2>Evaluación diagnóstica</h2>
+          <h2>EvaluaciÃ³n diagnÃ³stica</h2>
 
           <div class="pregunta-diagnostico">
-            <p>1. ¿Cuál de las siguientes opciones define mejor a la Inteligencia Artificial?</p>
+            <p>1. Â¿CuÃ¡l de las siguientes opciones define mejor a la Inteligencia Artificial?</p>
             <ol type="a">
               <li>Sistemas capaces de realizar tareas que normalmente requieren inteligencia humana.</li>
-              <li>Una hoja de cálculo con fórmulas básicas.</li>
+              <li>Una hoja de cÃ¡lculo con fÃ³rmulas bÃ¡sicas.</li>
               <li>Un dispositivo que solo almacena archivos.</li>
               <li>Un programa que no utiliza datos ni reglas.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>2. ¿Qué elemento es fundamental para entrenar o ajustar muchos sistemas de IA?</p>
+            <p>2. Â¿QuÃ© elemento es fundamental para entrenar o ajustar muchos sistemas de IA?</p>
             <ol type="a">
               <li>Datos</li>
               <li>Pintura</li>
-              <li>Voltaje doméstico</li>
+              <li>Voltaje domÃ©stico</li>
               <li>Velocidad del viento</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>3. El aprendizaje automático se refiere principalmente a:</p>
+            <p>3. El aprendizaje automÃ¡tico se refiere principalmente a:</p>
             <ol type="a">
-              <li>Sistemas que mejoran su desempeño a partir de datos.</li>
+              <li>Sistemas que mejoran su desempeÃ±o a partir de datos.</li>
               <li>Copiar texto sin analizarlo.</li>
-              <li>Apagar una computadora automáticamente.</li>
-              <li>Diseñar únicamente piezas mecánicas.</li>
+              <li>Apagar una computadora automÃ¡ticamente.</li>
+              <li>DiseÃ±ar Ãºnicamente piezas mecÃ¡nicas.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>4. ¿Cuál es un ejemplo de IA generativa?</p>
+            <p>4. Â¿CuÃ¡l es un ejemplo de IA generativa?</p>
             <ol type="a">
-              <li>Crear texto, imágenes o código a partir de instrucciones.</li>
+              <li>Crear texto, imÃ¡genes o cÃ³digo a partir de instrucciones.</li>
               <li>Medir una distancia con una regla.</li>
               <li>Guardar archivos en una carpeta.</li>
               <li>Imprimir un documento sin cambios.</li>
@@ -5093,30 +4793,30 @@
           <div class="pregunta-diagnostico">
             <p>5. Un prompt es:</p>
             <ol type="a">
-              <li>La instrucción o entrada que se entrega a un sistema de IA.</li>
-              <li>Un componente físico de una computadora.</li>
-              <li>Un error de conexión a internet.</li>
-              <li>Un tipo de cable eléctrico.</li>
+              <li>La instrucciÃ³n o entrada que se entrega a un sistema de IA.</li>
+              <li>Un componente fÃ­sico de una computadora.</li>
+              <li>Un error de conexiÃ³n a internet.</li>
+              <li>Un tipo de cable elÃ©ctrico.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>6. La ingeniería de prompts busca principalmente:</p>
+            <p>6. La ingenierÃ­a de prompts busca principalmente:</p>
             <ol type="a">
-              <li>Diseñar instrucciones claras para obtener mejores respuestas.</li>
+              <li>DiseÃ±ar instrucciones claras para obtener mejores respuestas.</li>
               <li>Aumentar el brillo de la pantalla.</li>
               <li>Reemplazar todas las evaluaciones humanas.</li>
-              <li>Eliminar la necesidad de verificar información.</li>
+              <li>Eliminar la necesidad de verificar informaciÃ³n.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>7. ¿Qué significa que una IA pueda presentar una “alucinación”?</p>
+            <p>7. Â¿QuÃ© significa que una IA pueda presentar una â€œalucinaciÃ³nâ€?</p>
             <ol type="a">
-              <li>Que genere información incorrecta o inventada con apariencia convincente.</li>
-              <li>Que deje de consumir energía.</li>
+              <li>Que genere informaciÃ³n incorrecta o inventada con apariencia convincente.</li>
+              <li>Que deje de consumir energÃ­a.</li>
               <li>Que funcione sin datos.</li>
-              <li>Que solo responda con números.</li>
+              <li>Que solo responda con nÃºmeros.</li>
             </ol>
           </div>
 
@@ -5125,15 +4825,15 @@
             <ol type="a">
               <li>Procesar y generar lenguaje natural.</li>
               <li>Medir temperatura ambiente.</li>
-              <li>Soldar componentes electrónicos.</li>
-              <li>Controlar directamente una válvula hidráulica.</li>
+              <li>Soldar componentes electrÃ³nicos.</li>
+              <li>Controlar directamente una vÃ¡lvula hidrÃ¡ulica.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>9. ¿Cuál es una buena práctica al usar IA en trabajos académicos?</p>
+            <p>9. Â¿CuÃ¡l es una buena prÃ¡ctica al usar IA en trabajos acadÃ©micos?</p>
             <ol type="a">
-              <li>Verificar la información y citar las fuentes utilizadas.</li>
+              <li>Verificar la informaciÃ³n y citar las fuentes utilizadas.</li>
               <li>Copiar todo sin revisar.</li>
               <li>Ocultar el uso de herramientas cuando se exige transparencia.</li>
               <li>Aceptar cualquier respuesta como verdadera.</li>
@@ -5141,12 +4841,12 @@
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>10. ¿Qué es un sesgo en IA?</p>
+            <p>10. Â¿QuÃ© es un sesgo en IA?</p>
             <ol type="a">
               <li>Una tendencia del sistema a favorecer ciertos patrones o resultados.</li>
-              <li>Una mejora automática garantizada.</li>
+              <li>Una mejora automÃ¡tica garantizada.</li>
               <li>Un formato de imagen.</li>
-              <li>Una contraseña del sistema.</li>
+              <li>Una contraseÃ±a del sistema.</li>
             </ol>
           </div>
 
@@ -5161,47 +4861,47 @@
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>12. ¿Cuál es una tarea común de clasificación con IA?</p>
+            <p>12. Â¿CuÃ¡l es una tarea comÃºn de clasificaciÃ³n con IA?</p>
             <ol type="a">
               <li>Separar correos en deseados y no deseados.</li>
-              <li>Calcular el área de un círculo sin datos.</li>
+              <li>Calcular el Ã¡rea de un cÃ­rculo sin datos.</li>
               <li>Apretar un tornillo manualmente.</li>
-              <li>Encender una lámpara con un interruptor simple.</li>
+              <li>Encender una lÃ¡mpara con un interruptor simple.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>13. La automatización con IA puede ayudar a:</p>
+            <p>13. La automatizaciÃ³n con IA puede ayudar a:</p>
             <ol type="a">
               <li>Reducir tareas repetitivas y apoyar decisiones.</li>
               <li>Eliminar todas las responsabilidades profesionales.</li>
-              <li>Garantizar resultados perfectos sin revisión.</li>
+              <li>Garantizar resultados perfectos sin revisiÃ³n.</li>
               <li>Evitar el uso de datos.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>14. ¿Qué opción describe mejor el uso responsable de IA?</p>
+            <p>14. Â¿QuÃ© opciÃ³n describe mejor el uso responsable de IA?</p>
             <ol type="a">
-              <li>Usarla con verificación, privacidad, transparencia y criterio humano.</li>
-              <li>Usarla para sustituir toda revisión.</li>
+              <li>Usarla con verificaciÃ³n, privacidad, transparencia y criterio humano.</li>
+              <li>Usarla para sustituir toda revisiÃ³n.</li>
               <li>Compartir datos sensibles sin permiso.</li>
-              <li>Aceptar cualquier salida sin análisis.</li>
+              <li>Aceptar cualquier salida sin anÃ¡lisis.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>15. ¿Qué es una API en el contexto de herramientas de IA?</p>
+            <p>15. Â¿QuÃ© es una API en el contexto de herramientas de IA?</p>
             <ol type="a">
               <li>Una interfaz para conectar aplicaciones con servicios de IA.</li>
-              <li>Un archivo de imagen sin compresión.</li>
+              <li>Un archivo de imagen sin compresiÃ³n.</li>
               <li>Un tipo de examen presencial.</li>
-              <li>Una unidad de memoria física.</li>
+              <li>Una unidad de memoria fÃ­sica.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>16. ¿Qué conviene incluir en un buen prompt?</p>
+            <p>16. Â¿QuÃ© conviene incluir en un buen prompt?</p>
             <ol type="a">
               <li>Objetivo, contexto, formato esperado y restricciones.</li>
               <li>Solo una palabra aislada.</li>
@@ -5214,8 +4914,8 @@
             <p>17. Un chatbot con IA se caracteriza por:</p>
             <ol type="a">
               <li>Interactuar mediante lenguaje natural con el usuario.</li>
-              <li>Funcionar únicamente como calculadora básica.</li>
-              <li>Requerir siempre impresión en papel.</li>
+              <li>Funcionar Ãºnicamente como calculadora bÃ¡sica.</li>
+              <li>Requerir siempre impresiÃ³n en papel.</li>
               <li>No poder procesar texto.</li>
             </ol>
           </div>
@@ -5223,28 +4923,28 @@
           <div class="pregunta-diagnostico">
             <p>18. La privacidad de datos en IA es importante porque:</p>
             <ol type="a">
-              <li>Evita exponer información personal o sensible sin autorización.</li>
-              <li>Impide aprender cualquier concepto técnico.</li>
-              <li>Solo aplica a imágenes decorativas.</li>
-              <li>No tiene relación con herramientas digitales.</li>
+              <li>Evita exponer informaciÃ³n personal o sensible sin autorizaciÃ³n.</li>
+              <li>Impide aprender cualquier concepto tÃ©cnico.</li>
+              <li>Solo aplica a imÃ¡genes decorativas.</li>
+              <li>No tiene relaciÃ³n con herramientas digitales.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>19. ¿Qué resultado se espera de un proyecto integrador con IA?</p>
+            <p>19. Â¿QuÃ© resultado se espera de un proyecto integrador con IA?</p>
             <ol type="a">
-              <li>Una solución aplicada que resuelva o mejore un proceso real.</li>
-              <li>Una lista sin propósito de herramientas populares.</li>
-              <li>Una copia exacta de un ejemplo sin adaptación.</li>
+              <li>Una soluciÃ³n aplicada que resuelva o mejore un proceso real.</li>
+              <li>Una lista sin propÃ³sito de herramientas populares.</li>
+              <li>Una copia exacta de un ejemplo sin adaptaciÃ³n.</li>
               <li>Un documento sin evidencia ni prueba.</li>
             </ol>
           </div>
 
           <div class="pregunta-diagnostico">
-            <p>20. ¿Cuál es una limitación de las herramientas de IA actuales?</p>
+            <p>20. Â¿CuÃ¡l es una limitaciÃ³n de las herramientas de IA actuales?</p>
             <ol type="a">
-              <li>Pueden equivocarse y requieren supervisión humana.</li>
-              <li>Siempre conocen información actualizada sin conexión.</li>
+              <li>Pueden equivocarse y requieren supervisiÃ³n humana.</li>
+              <li>Siempre conocen informaciÃ³n actualizada sin conexiÃ³n.</li>
               <li>Nunca presentan sesgos.</li>
               <li>No necesitan instrucciones claras.</li>
             </ol>
@@ -5253,15 +4953,15 @@
       </div>
 
       <p class="aviso">
-        Nota: el acceso con código se valida en el navegador con sessionStorage.
-        Esto solo controla la navegación en el cliente y no debe considerarse
-        autenticación segura.
+        Nota: el acceso con cÃ³digo se valida en el navegador con sessionStorage.
+        Esto solo controla la navegaciÃ³n en el cliente y no debe considerarse
+        autenticaciÃ³n segura.
       </p>
     </section>
   </main>
 
   <footer>
-    <p>© 2026 <strong>IM3CB</strong> · Ingeniería • Creación • Diseño • Innovación</p>
+    <p>Â© 2026 <strong>IM3CB</strong> Â· IngenierÃ­a â€¢ CreaciÃ³n â€¢ DiseÃ±o â€¢ InnovaciÃ³n</p>
   </footer>
 
   <script>
@@ -5330,7 +5030,7 @@
       const enlace = document.getElementById("enlaceAsistencia");
 
       if (codigo !== asistenciaConfig.codigoDocente) {
-        estadoLista.textContent = "Código docente incorrecto.";
+        estadoLista.textContent = "CÃ³digo docente incorrecto.";
         return;
       }
 
@@ -5378,7 +5078,7 @@
       qr.removeAttribute("src");
       qr.removeAttribute("data-url");
       qr.classList.remove("activo");
-      enlace.textContent = "El enlace aparecerá al iniciar el pase de lista.";
+      enlace.textContent = "El enlace aparecerÃ¡ al iniciar el pase de lista.";
       enlace.href = "#";
     }
 
@@ -5417,7 +5117,7 @@
       document.getElementById("asistencia").scrollIntoView({ behavior: "smooth" });
 
       if (!inicio || Number.isNaN(inicio)) {
-        estadoAlumno.textContent = "El enlace de asistencia no es válido.";
+        estadoAlumno.textContent = "El enlace de asistencia no es vÃ¡lido.";
         return;
       }
 
@@ -5503,12 +5203,12 @@ if (
   mensaje.style.color = "#ffb86b";
 
   mensaje.textContent =
-    "Completa nombre, matrícula y grupo.";
+    "Completa nombre, matrÃ­cula y grupo.";
 
   return;
 }
 
-// 2. Después verificar asistencia duplicada
+// 2. DespuÃ©s verificar asistencia duplicada
 if (
   idSesion &&
   asistenciaYaRegistrada(
@@ -5519,7 +5219,7 @@ if (
   mensaje.style.color = "#ffb86b";
 
   mensaje.textContent =
-    "Esta asistencia ya fue registrada para esta sesión.";
+    "Esta asistencia ya fue registrada para esta sesiÃ³n.";
 actualizarIndicadorAsistencia(
   "ya-registrado"
 );
@@ -5540,7 +5240,7 @@ actualizarIndicadorAsistencia(
 
       if (!inicio || Number.isNaN(inicio)) {
         mensaje.style.color = "#ff6b6b";
-        mensaje.textContent = "El enlace de asistencia no es válido.";
+        mensaje.textContent = "El enlace de asistencia no es vÃ¡lido.";
         return;
       }
 
@@ -5576,8 +5276,8 @@ guardarAlumnoLocal(
       actualizarIndicadorAsistencia(
   "registrado"
 );
-      // Recordar que este alumno ya registró
-// esta sesión en este dispositivo
+      // Recordar que este alumno ya registrÃ³
+// esta sesiÃ³n en este dispositivo
 if (idSesion) {
   guardarAsistenciaRegistrada(
     idSesion,
@@ -5743,7 +5443,7 @@ function crearSopaFluidos() {
   });
 
   const letras =
-    "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+    "ABCDEFGHIJKLMNÃ‘OPQRSTUVWXYZ";
 
   for (let f = 0; f < TAM_SOPA; f++) {
     for (let c = 0; c < TAM_SOPA; c++) {
@@ -6036,7 +5736,7 @@ if (
 
   desbloqueo.innerHTML = `
     <strong>
-      🔓 TEMA 1.2 DESBLOQUEADO
+      ðŸ”“ TEMA 1.2 DESBLOQUEADO
     </strong>
   `;
 
@@ -6161,9 +5861,9 @@ function actualizarInterfazPistasFluidos() {
       estado.usadas >= MAX_PISTAS_FLUIDOS;
 
     if (estado.usadas >= MAX_PISTAS_FLUIDOS) {
-      boton.textContent = "🔒 Ayudas agotadas";
+      boton.textContent = "ðŸ”’ Ayudas agotadas";
     } else {
-      boton.textContent = "💡 Usar pista";
+      boton.textContent = "ðŸ’¡ Usar pista";
     }
   }
 
@@ -6240,7 +5940,7 @@ if (mision12) {
 
       desbloqueo.innerHTML = `
         <strong>
-          🔓 TEMA 1.2 DESBLOQUEADO
+          ðŸ”“ TEMA 1.2 DESBLOQUEADO
         </strong>
       `;
     }
@@ -6265,7 +5965,7 @@ if (sopa) {
    }
 }
     /* =====================================================
-   MISIÓN IM3CB — DIAGNÓSTICO DE IA
+   MISIÃ“N IM3CB â€” DIAGNÃ“STICO DE IA
    TEMA 1.2
 ===================================================== */
 
@@ -6274,18 +5974,18 @@ const preguntasMisionFluidos = [
   {
     categoria: "Datos",
     etiqueta: "DATOS",
-    icono: "🧠",
+    icono: "ðŸ§ ",
     titulo: "Conjunto de entrenamiento",
     pregunta:
       "Un equipo quiere entrenar un modelo para detectar fallas " +
-      "en reportes técnicos. Antes de elegir la herramienta, " +
+      "en reportes tÃ©cnicos. Antes de elegir la herramienta, " +
       "necesita reunir ejemplos confiables y organizados. " +
-      "¿Qué elemento debe priorizar?",
+      "Â¿QuÃ© elemento debe priorizar?",
     opciones: [
       "Datos de calidad",
       "Un color de interfaz",
       "Un nombre llamativo",
-      "Una contraseña compartida"
+      "Una contraseÃ±a compartida"
     ],
     correcta: "Datos de calidad",
     explicacion:
@@ -6296,16 +5996,16 @@ const preguntasMisionFluidos = [
   {
     categoria: "Prompts",
     etiqueta: "PROMPT",
-    icono: "⌨️",
-    titulo: "Instrucción clara",
+    icono: "âŒ¨ï¸",
+    titulo: "InstrucciÃ³n clara",
     pregunta:
-      "Un estudiante pide a una IA que genere una rúbrica, " +
+      "Un estudiante pide a una IA que genere una rÃºbrica, " +
       "pero no indica nivel, criterios ni formato. " +
-      "¿Qué debe mejorar para obtener una respuesta útil?",
+      "Â¿QuÃ© debe mejorar para obtener una respuesta Ãºtil?",
     opciones: [
       "El prompt",
-      "El tamaño del monitor",
-      "El color del botón",
+      "El tamaÃ±o del monitor",
+      "El color del botÃ³n",
       "El volumen del equipo"
     ],
     correcta: "El prompt",
@@ -6317,16 +6017,16 @@ const preguntasMisionFluidos = [
   {
     categoria: "Generativa",
     etiqueta: "IA GENERATIVA",
-    icono: "✨",
+    icono: "âœ¨",
     titulo: "Contenido asistido",
     pregunta:
-      "Una herramienta produce borradores de texto, imágenes " +
-      "y código a partir de instrucciones del usuario. " +
-      "¿Qué tipo de IA representa?",
+      "Una herramienta produce borradores de texto, imÃ¡genes " +
+      "y cÃ³digo a partir de instrucciones del usuario. " +
+      "Â¿QuÃ© tipo de IA representa?",
     opciones: [
       "IA generativa",
       "Archivo comprimido",
-      "Sensor analógico",
+      "Sensor analÃ³gico",
       "Registro manual"
     ],
     correcta: "IA generativa",
@@ -6337,20 +6037,20 @@ const preguntasMisionFluidos = [
 
   {
     categoria: "Responsabilidad",
-    etiqueta: "ÉTICA",
-    icono: "🛡️",
-    titulo: "Verificación",
+    etiqueta: "Ã‰TICA",
+    icono: "ðŸ›¡ï¸",
+    titulo: "VerificaciÃ³n",
     pregunta:
       "Una IA entrega una respuesta convincente, pero no cita " +
-      "fuentes y podría contener errores. " +
-      "¿Qué acción responsable corresponde?",
+      "fuentes y podrÃ­a contener errores. " +
+      "Â¿QuÃ© acciÃ³n responsable corresponde?",
     opciones: [
-      "Verificar la información",
+      "Verificar la informaciÃ³n",
       "Publicarla sin revisar",
       "Ignorar el contexto",
       "Eliminar la pregunta"
     ],
-    correcta: "Verificar la información",
+    correcta: "Verificar la informaciÃ³n",
     explicacion:
       "Las respuestas de IA deben revisarse con criterio, " +
       "fuentes y evidencia antes de usarse."
@@ -6359,82 +6059,82 @@ const preguntasMisionFluidos = [
   {
     categoria: "Datos",
     etiqueta: "MODELO",
-    icono: "📊",
-    titulo: "Predicción",
+    icono: "ðŸ“Š",
+    titulo: "PredicciÃ³n",
     pregunta:
-      "Un sistema revisa datos históricos de mantenimiento " +
-      "para anticipar posibles fallas en una máquina. " +
-      "¿Qué está realizando?",
+      "Un sistema revisa datos histÃ³ricos de mantenimiento " +
+      "para anticipar posibles fallas en una mÃ¡quina. " +
+      "Â¿QuÃ© estÃ¡ realizando?",
     opciones: [
-      "Predicción con IA",
-      "Decoración visual",
+      "PredicciÃ³n con IA",
+      "DecoraciÃ³n visual",
       "Borrado de datos",
-      "Impresión mecánica"
+      "ImpresiÃ³n mecÃ¡nica"
     ],
-    correcta: "Predicción con IA",
+    correcta: "PredicciÃ³n con IA",
     explicacion:
-      "Los modelos pueden analizar patrones históricos para " +
+      "Los modelos pueden analizar patrones histÃ³ricos para " +
       "estimar resultados o comportamientos futuros."
   },
 
   {
     categoria: "Prompts",
     etiqueta: "ROL Y FORMATO",
-    icono: "🧩",
+    icono: "ðŸ§©",
     titulo: "Respuesta estructurada",
     pregunta:
-      "Para obtener una explicación con tabla y pasos, el usuario " +
-      "indica a la IA que actúe como tutor y entregue el resultado " +
-      "en columnas. ¿Qué técnica está aplicando?",
+      "Para obtener una explicaciÃ³n con tabla y pasos, el usuario " +
+      "indica a la IA que actÃºe como tutor y entregue el resultado " +
+      "en columnas. Â¿QuÃ© tÃ©cnica estÃ¡ aplicando?",
     opciones: [
-      "Diseño de prompt",
+      "DiseÃ±o de prompt",
       "Borrado de memoria",
-      "Compresión de archivos",
+      "CompresiÃ³n de archivos",
       "Cambio de voltaje"
     ],
-    correcta: "Diseño de prompt",
+    correcta: "DiseÃ±o de prompt",
     explicacion:
       "Asignar rol, formato y restricciones ayuda a obtener " +
-      "respuestas más útiles y consistentes."
+      "respuestas mÃ¡s Ãºtiles y consistentes."
   },
 
   {
-    categoria: "Automatización",
+    categoria: "AutomatizaciÃ³n",
     etiqueta: "PRODUCTIVIDAD",
-    icono: "⚙️",
+    icono: "âš™ï¸",
     titulo: "Flujo de trabajo",
     pregunta:
       "Un docente quiere resumir respuestas, generar reportes " +
       "y clasificar evidencias de manera repetible. " +
-      "¿Qué enfoque puede apoyarlo?",
+      "Â¿QuÃ© enfoque puede apoyarlo?",
     opciones: [
-      "Automatización con IA",
+      "AutomatizaciÃ³n con IA",
       "Duplicar archivos manualmente",
       "Apagar el sistema",
       "Cambiar el escritorio"
     ],
-    correcta: "Automatización con IA",
+    correcta: "AutomatizaciÃ³n con IA",
     explicacion:
       "La IA puede integrarse en flujos de trabajo para " +
-      "reducir tareas repetitivas y organizar información."
+      "reducir tareas repetitivas y organizar informaciÃ³n."
   },
 
   {
     categoria: "Responsabilidad",
     etiqueta: "PRIVACIDAD",
-    icono: "🔒",
+    icono: "ðŸ”’",
     titulo: "Datos sensibles",
     pregunta:
       "Antes de usar una herramienta de IA, una persona piensa " +
-      "pegar nombres, matrículas y datos privados de estudiantes. " +
-      "¿Qué debe considerar?",
+      "pegar nombres, matrÃ­culas y datos privados de estudiantes. " +
+      "Â¿QuÃ© debe considerar?",
     opciones: [
-      "Privacidad y autorización",
+      "Privacidad y autorizaciÃ³n",
       "Solo el color del documento",
-      "El tamaño de la ventana",
+      "El tamaÃ±o de la ventana",
       "La marca del teclado"
     ],
-    correcta: "Privacidad y autorización",
+    correcta: "Privacidad y autorizaciÃ³n",
     explicacion:
       "Los datos sensibles deben protegerse y usarse solo con " +
       "permiso y medidas adecuadas."
@@ -6442,43 +6142,43 @@ const preguntasMisionFluidos = [
 
   {
     categoria: "Generativa",
-    etiqueta: "ALUCINACIÓN",
-    icono: "🔎",
+    etiqueta: "ALUCINACIÃ“N",
+    icono: "ðŸ”Ž",
     titulo: "Respuesta incorrecta",
     pregunta:
-      "Una IA inventa una referencia bibliográfica que parece " +
-      "real, pero no existe. ¿Cómo se llama este riesgo?",
+      "Una IA inventa una referencia bibliogrÃ¡fica que parece " +
+      "real, pero no existe. Â¿CÃ³mo se llama este riesgo?",
     opciones: [
-      "Alucinación",
-      "Compilación",
-      "Indexación perfecta",
-      "Conversión analógica"
+      "AlucinaciÃ³n",
+      "CompilaciÃ³n",
+      "IndexaciÃ³n perfecta",
+      "ConversiÃ³n analÃ³gica"
     ],
-    correcta: "Alucinación",
+    correcta: "AlucinaciÃ³n",
     explicacion:
-      "Una alucinación ocurre cuando la IA genera contenido " +
+      "Una alucinaciÃ³n ocurre cuando la IA genera contenido " +
       "falso o no verificable con apariencia confiable."
   },
 
   {
-    categoria: "Automatización",
+    categoria: "AutomatizaciÃ³n",
     etiqueta: "PROYECTO",
-    icono: "🚀",
-    titulo: "Solución aplicada",
+    icono: "ðŸš€",
+    titulo: "SoluciÃ³n aplicada",
     pregunta:
       "Un equipo desarrolla un asistente que clasifica solicitudes, " +
       "genera respuestas iniciales y registra resultados para mejorar " +
-      "un proceso real. ¿Qué tipo de resultado representa?",
+      "un proceso real. Â¿QuÃ© tipo de resultado representa?",
     opciones: [
       "Proyecto integrador con IA",
       "Cambio de fondo",
-      "Lista sin propósito",
-      "Registro sin análisis"
+      "Lista sin propÃ³sito",
+      "Registro sin anÃ¡lisis"
     ],
     correcta: "Proyecto integrador con IA",
     explicacion:
       "Un proyecto integrador aplica IA a un problema concreto, " +
-      "con diseño, prueba y evaluación de resultados."
+      "con diseÃ±o, prueba y evaluaciÃ³n de resultados."
   }
 
 ];
@@ -6508,7 +6208,7 @@ let resultadosCategoriasFluidos = {
     correctas: 0,
     total: 0
   },
-  "Automatización": {
+  "AutomatizaciÃ³n": {
     correctas: 0,
     total: 0
   }
@@ -6533,7 +6233,7 @@ function mezclarMisionFluidos(arreglo) {
 }
 
 
-/* ===== INICIAR MISIÓN ===== */
+/* ===== INICIAR MISIÃ“N ===== */
 
 function iniciarMisionFluidos() {
 
@@ -6559,7 +6259,7 @@ function iniciarMisionFluidos() {
       correctas: 0,
       total: 0
     },
-    "Automatización": {
+    "AutomatizaciÃ³n": {
       correctas: 0,
       total: 0
     }
@@ -6699,7 +6399,7 @@ function mostrarCasoMisionFluidos() {
         String.fromCharCode(65 + indice);
 
       boton.textContent =
-        letra + " · " + textoOpcion;
+        letra + " Â· " + textoOpcion;
 
       boton.dataset.valor =
         textoOpcion;
@@ -6774,8 +6474,8 @@ function responderCasoMisionFluidos(
     if (feedbackTitulo) {
       feedbackTitulo.textContent =
         intentosCasoFluidos === 1
-          ? "✅ CORRECTO · +10 PUNTOS"
-          : "✅ CORRECTO EN SEGUNDO INTENTO";
+          ? "âœ… CORRECTO Â· +10 PUNTOS"
+          : "âœ… CORRECTO EN SEGUNDO INTENTO";
     }
 
     if (feedbackTexto) {
@@ -6809,7 +6509,7 @@ function responderCasoMisionFluidos(
 
     if (feedbackTitulo) {
       feedbackTitulo.textContent =
-        "⚠️ PRIMER INTENTO INCORRECTO";
+        "âš ï¸ PRIMER INTENTO INCORRECTO";
     }
 
     if (feedbackTexto) {
@@ -6848,7 +6548,7 @@ function responderCasoMisionFluidos(
 
   if (feedbackTitulo) {
     feedbackTitulo.textContent =
-      "❌ CASO NO RESUELTO";
+      "âŒ CASO NO RESUELTO";
   }
 
   if (feedbackTexto) {
@@ -6876,22 +6576,22 @@ function obtenerPistaMisionFluidos(categoria) {
   const pistas = {
 
     "Datos":
-      "Pista: revisa si el caso depende de información " +
+      "Pista: revisa si el caso depende de informaciÃ³n " +
       "confiable, organizada y representativa.",
 
     "Prompts":
-      "Pista: observa si la instrucción incluye objetivo, " +
+      "Pista: observa si la instrucciÃ³n incluye objetivo, " +
       "contexto, formato y restricciones.",
 
     "Generativa":
       "Pista: identifica si la herramienta crea texto, " +
-      "imagen, código u otro contenido nuevo.",
+      "imagen, cÃ³digo u otro contenido nuevo.",
 
     "Responsabilidad":
-      "Pista: piensa en privacidad, verificación, sesgos " +
+      "Pista: piensa en privacidad, verificaciÃ³n, sesgos " +
       "y uso transparente de la IA.",
 
-    "Automatización":
+    "AutomatizaciÃ³n":
       "Pista: revisa si el caso integra IA para reducir " +
       "tareas repetitivas o mejorar un proceso."
 
@@ -6902,7 +6602,7 @@ function obtenerPistaMisionFluidos(categoria) {
 }
 
 
-/* ===== REGISTRAR CATEGORÍA ===== */
+/* ===== REGISTRAR CATEGORÃA ===== */
 
 function registrarCategoriaMisionFluidos(
   categoria,
@@ -7024,7 +6724,7 @@ function porcentajeCategoriaMisionFluidos(
 }
 
 
-/* ===== FINALIZAR MISIÓN ===== */
+/* ===== FINALIZAR MISIÃ“N ===== */
 
 function finalizarMisionFluidos() {
 
@@ -7065,7 +6765,7 @@ function finalizarMisionFluidos() {
     aciertosMisionFluidos >= 8;
 
 
-  /* ===== RESULTADOS POR CATEGORÍA ===== */
+  /* ===== RESULTADOS POR CATEGORÃA ===== */
 
   const estado =
     porcentajeCategoriaMisionFluidos(
@@ -7122,7 +6822,7 @@ function finalizarMisionFluidos() {
   }
 
 
-  /* ===== PUNTUACIÓN ===== */
+  /* ===== PUNTUACIÃ“N ===== */
 
   if (puntuacion) {
     puntuacion.textContent =
@@ -7166,7 +6866,7 @@ function finalizarMisionFluidos() {
           type="button"
           class="btn-iniciar-mision"
           onclick="continuarTema13Fluidos()">
-          🔓 CONTINUAR AL TEMA 1.3
+          ðŸ”“ CONTINUAR AL TEMA 1.3
         </button>
       `;
     }
@@ -7180,7 +6880,7 @@ function finalizarMisionFluidos() {
 
     if (nivel) {
       nivel.textContent =
-        "Misión de refuerzo";
+        "MisiÃ³n de refuerzo";
     }
 
     const categoriaReforzar =
@@ -7191,7 +6891,7 @@ function finalizarMisionFluidos() {
         "Obtuviste " +
         aciertosMisionFluidos +
         "/10. Para avanzar necesitas al menos 8/10. " +
-        "Área recomendada de refuerzo: " +
+        "Ãrea recomendada de refuerzo: " +
         categoriaReforzar +
         ".";
     }
@@ -7202,7 +6902,7 @@ function finalizarMisionFluidos() {
           type="button"
           class="btn-iniciar-mision"
           onclick="reiniciarMisionFluidos()">
-          🔄 REPASAR Y REINTENTAR
+          ðŸ”„ REPASAR Y REINTENTAR
         </button>
       `;
     }
@@ -7210,7 +6910,7 @@ function finalizarMisionFluidos() {
 }
 
 
-/* ===== DETECTAR ÁREA MÁS DÉBIL ===== */
+/* ===== DETECTAR ÃREA MÃS DÃ‰BIL ===== */
 
 function obtenerCategoriaMasDebilFluidos() {
 
@@ -7219,7 +6919,7 @@ function obtenerCategoriaMasDebilFluidos() {
     "Prompts",
     "Generativa",
     "Responsabilidad",
-    "Automatización"
+    "AutomatizaciÃ³n"
   ];
 
   let masDebil =
@@ -7250,7 +6950,7 @@ function obtenerCategoriaMasDebilFluidos() {
 }
 
 
-/* ===== REINICIAR MISIÓN ===== */
+/* ===== REINICIAR MISIÃ“N ===== */
 
 function reiniciarMisionFluidos() {
 
@@ -7297,7 +6997,7 @@ function continuarTema13Fluidos() {
   );
 
   alert(
-    "🔓 Tema 1.3 desbloqueado.\n\n" +
+    "ðŸ”“ Tema 1.3 desbloqueado.\n\n" +
     "Ya puedes continuar con Aplicaciones " +
     "de la Inteligencia Artificial."
   );
@@ -7313,7 +7013,7 @@ if (tema13) {
 }
 }
     /* =====================================================
-   NAVEGACIÓN INTERACTIVA · TEMA 1.3
+   NAVEGACIÃ“N INTERACTIVA Â· TEMA 1.3
 ===================================================== */
 
 function abrirPropiedad13(nombre, boton) {
@@ -7334,7 +7034,7 @@ function abrirPropiedad13(nombre, boton) {
     tab.classList.remove("activa");
   });
 
-  // Mostrar la estación seleccionada
+  // Mostrar la estaciÃ³n seleccionada
   const panelSeleccionado =
     document.getElementById(
       "prop13-" + nombre
@@ -7344,20 +7044,20 @@ function abrirPropiedad13(nombre, boton) {
     panelSeleccionado.classList.add("activo");
   }
 
-  // Activar visualmente el botón pulsado
+  // Activar visualmente el botÃ³n pulsado
   if (boton) {
     boton.classList.add("activa");
   }
 }
 /* =====================================================
-   LABORATORIO DE PROBLEMAS · ESTACIÓN 1
+   LABORATORIO DE PROBLEMAS Â· ESTACIÃ“N 1
 ===================================================== */
 
 let problemaMasaActual = 0;
 
 
 /* =====================================================
-   CAMBIAR PESTAÑA DEL LABORATORIO
+   CAMBIAR PESTAÃ‘A DEL LABORATORIO
 ===================================================== */
 
 function cambiarLabMasa(panel, boton) {
@@ -7577,10 +7277,53 @@ function actualizarProblemaMasa() {
    FIN LABORATORIO DE PROBLEMAS
 ===================================================== */
 /* =====================================================
-   FIN NAVEGACIÓN TEMA 1.3
+   FIN NAVEGACIÃ“N TEMA 1.3
 ===================================================== */
     // =====================================
-// REGISTRO ÚNICO DEL ESTUDIANTE
+function iniciarLaboratorioIA() {
+  const tarjetas = Array.from(document.querySelectorAll(".ia-lab-card"));
+  const busqueda = document.getElementById("iaLabBusqueda");
+  const filtros = Array.from(document.querySelectorAll("[data-ia-categoria]"));
+  const contador = document.getElementById("iaLabContador");
+  const vacio = document.getElementById("iaLabVacio");
+
+  if (!tarjetas.length || !busqueda || !contador) {
+    return;
+  }
+
+  let categoriaActiva = "Todas";
+
+  function actualizarLaboratorio() {
+    const texto = busqueda.value.trim().toLowerCase();
+    let visibles = 0;
+
+    tarjetas.forEach((tarjeta) => {
+      const nombre = (tarjeta.dataset.nombre || "").toLowerCase();
+      const categorias = tarjeta.dataset.categorias || "";
+      const coincideNombre = !texto || nombre.includes(texto);
+      const coincideCategoria = categoriaActiva === "Todas" || categorias.includes(categoriaActiva);
+      const visible = coincideNombre && coincideCategoria;
+      tarjeta.hidden = !visible;
+      if (visible) visibles += 1;
+    });
+
+    contador.textContent = visibles === 1 ? "1 herramienta disponible" : `${visibles} herramientas disponibles`;
+    if (vacio) vacio.classList.toggle("activo", visibles === 0);
+  }
+
+  busqueda.addEventListener("input", actualizarLaboratorio);
+  filtros.forEach((boton) => {
+    boton.addEventListener("click", () => {
+      categoriaActiva = boton.dataset.iaCategoria || "Todas";
+      filtros.forEach((elemento) => elemento.classList.toggle("activo", elemento === boton));
+      actualizarLaboratorio();
+    });
+  });
+  actualizarLaboratorio();
+}
+
+document.addEventListener("DOMContentLoaded", iniciarLaboratorioIA);
+// REGISTRO ÃšNICO DEL ESTUDIANTE
 // =====================================
 
 const CLAVE_ALUMNO = "im3cbAlumno";
@@ -7757,7 +7500,7 @@ function cargarAlumnoGuardado() {
 
   if (matriculaTarjeta) {
     matriculaTarjeta.textContent =
-      `Matrícula: ${alumno.matricula || ""}`;
+      `MatrÃ­cula: ${alumno.matricula || ""}`;
   }
 
   if (grupoTarjeta) {
@@ -7796,7 +7539,7 @@ function cargarAlumnoGuardado() {
 function cambiarEstudiante() {
 
   const confirmar = window.confirm(
-    "¿Deseas cambiar el estudiante registrado en este dispositivo?"
+    "Â¿Deseas cambiar el estudiante registrado en este dispositivo?"
   );
 
   if (!confirmar) {
@@ -7876,3 +7619,5 @@ function cambiarEstudiante() {
   </script>
 </body>
 </html>
+
+
