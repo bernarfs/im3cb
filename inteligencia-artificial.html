@@ -1457,15 +1457,44 @@
   border-radius: 8px;
   color: #ffffff;
   background: rgba(255, 193, 7, 0.08);
-  font-size: 1.05rem;
-  font-weight: 900;
-  letter-spacing: 3px;
-  text-align: center;
+  font-size: 0.96rem;
+  font-weight: 800;
+  line-height: 1.45;
+  text-align: left;
 }
 
 .pista-revelada.activa {
   display: block;
   animation: aparecerPista 0.4s ease;
+}
+
+.pista-revelada > div {
+  display: grid;
+  gap: 7px;
+  padding: 10px 0;
+}
+
+.pista-revelada > div + div {
+  border-top: 1px solid rgba(255, 193, 7, 0.18);
+}
+
+.pista-concepto {
+  display: block;
+  color: #dce8ff;
+  font-weight: 750;
+  letter-spacing: 0;
+}
+
+.pista-patron {
+  display: inline-flex;
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #061320;
+  background: linear-gradient(135deg, #ffd45a, #6be7ff);
+  font-size: 0.92rem;
+  font-weight: 950;
+  letter-spacing: 2px;
 }
 
 @keyframes aparecerPista {
@@ -5761,8 +5790,27 @@ if (mision12) {
 }
     /* ===== SISTEMA DE PISTAS PERSISTENTES IM3CB ===== */
 
-const CLAVE_PISTAS_FLUIDOS = "im3cb_pistas_fluidos_tema1";
+const CLAVE_PISTAS_FLUIDOS = "im3cb_pistas_ia_tema1";
 const MAX_PISTAS_FLUIDOS = 3;
+
+const pistasSopaIA = {
+  CHATBOT:
+    "Asistente que conversa con el usuario mediante lenguaje natural.",
+  PROMPT:
+    "Instruccion que se escribe para pedirle algo a una inteligencia artificial.",
+  DATOS:
+    "Informacion usada para entrenar, probar o mejorar modelos de IA.",
+  MODELO:
+    "Sistema entrenado que reconoce patrones y genera respuestas o predicciones.",
+  ALGORITMO:
+    "Conjunto de pasos o reglas que una computadora sigue para resolver una tarea.",
+  MACHINE:
+    "Parte del termino Machine Learning, aprendizaje automatico basado en datos.",
+  DEEP:
+    "Parte del termino Deep Learning, aprendizaje profundo con redes neuronales.",
+  ETICA:
+    "Uso responsable de la IA considerando privacidad, sesgos y consecuencias."
+};
 
 function obtenerEstadoPistasFluidos() {
   try {
@@ -5801,7 +5849,7 @@ function guardarEstadoPistasFluidos(estado) {
 function convertirPalabraEnPista(palabra) {
   if (!palabra) return "";
 
-  return palabra
+  const patron = palabra
     .split("")
     .map((letra, indice) => {
       const esPrimera = indice === 0;
@@ -5816,6 +5864,15 @@ function convertirPalabraEnPista(palabra) {
         : "_";
     })
     .join(" ");
+
+  const descripcion =
+    pistasSopaIA[palabra] ||
+    "Concepto importante relacionado con la inteligencia artificial.";
+
+  return `
+    <span class="pista-concepto">${descripcion}</span>
+    <span class="pista-patron">${patron}</span>
+  `;
 }
 
 function actualizarInterfazPistasFluidos() {
