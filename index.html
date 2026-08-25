@@ -6,7 +6,292 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
  <title>IM3CB | Ingeniería • Creación • Diseño • Innovación</title>
+/* =================================
+   FRASE MOTIVADORA IM3CB
+================================= */
 
+.modal-im3cb {
+  display: none;
+
+  position: fixed;
+  inset: 0;
+
+  z-index: 6000;
+
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+
+  background: rgba(2, 6, 14, 0.86);
+
+  backdrop-filter: blur(12px);
+}
+
+.modal-im3cb.activo {
+  display: flex;
+}
+
+.modal-im3cb-contenido {
+  position: relative;
+
+  width: min(520px, 100%);
+
+  padding: 45px 35px;
+
+  text-align: center;
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(0, 119, 255, 0.20),
+      transparent 45%
+    ),
+    linear-gradient(
+      145deg,
+      #151b27,
+      #090d15
+    );
+
+  border:
+    1px solid rgba(42, 145, 255, 0.45);
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.7),
+    0 0 40px rgba(0, 102, 255, 0.20);
+
+  animation:
+    aparecerIM3CB 0.35s ease;
+}
+
+@keyframes aparecerIM3CB {
+
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+}
+
+.cerrar-im3cb {
+  position: absolute;
+
+  top: 14px;
+  right: 18px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #aeb7c7;
+
+  font-size: 1.8rem;
+
+  cursor: pointer;
+}
+
+.im3cb-icono {
+  font-size: 3rem;
+
+  margin-bottom: 12px;
+}
+
+.im3cb-marca {
+  color: #3b9cff;
+
+  font-size: 0.78rem;
+
+  font-weight: 800;
+
+  letter-spacing: 3px;
+
+  margin-bottom: 10px;
+}
+
+.im3cb-frase {
+  font-size: 1.45rem;
+
+  line-height: 1.55;
+
+  color: white;
+
+  margin: 20px auto 25px;
+
+  max-width: 420px;
+}
+
+.im3cb-contador {
+  color: #8fc7ff;
+
+  font-size: 0.85rem;
+
+  margin-bottom: 22px;
+}
+
+.boton-nueva-frase {
+  border: none;
+
+  padding: 13px 25px;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #0066ff,
+      #00a2ff
+    );
+
+  color: white;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.boton-nueva-frase:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 30px rgba(0, 102, 255, 0.35);
+}
+  /* =================================
+   MODAL FRASE MOTIVADORA IM3CB
+================================= */
+
+.modal-frase-im3cb {
+  display: none;
+  position: fixed;
+  inset: 0;
+
+  z-index: 6000;
+
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+
+  background: rgba(2, 6, 14, 0.86);
+  backdrop-filter: blur(10px);
+}
+
+.modal-frase-im3cb.activo {
+  display: flex;
+}
+
+.modal-frase-contenido {
+  position: relative;
+
+  width: min(520px, 100%);
+
+  padding: 45px 35px;
+
+  text-align: center;
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(0, 119, 255, 0.20),
+      transparent 45%
+    ),
+    linear-gradient(
+      145deg,
+      #151b27,
+      #090d15
+    );
+
+  border:
+    1px solid rgba(42, 145, 255, 0.45);
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.7),
+    0 0 40px rgba(0, 102, 255, 0.20);
+
+  animation: aparecerFrase 0.35s ease;
+}
+
+@keyframes aparecerFrase {
+
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+}
+
+.cerrar-frase {
+  position: absolute;
+
+  top: 14px;
+  right: 18px;
+
+  border: none;
+  background: transparent;
+
+  color: #aeb7c7;
+
+  font-size: 1.8rem;
+
+  cursor: pointer;
+}
+
+.icono-frase {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.marca-frase {
+  color: #3b9cff;
+
+  font-size: 0.78rem;
+
+  font-weight: 800;
+
+  letter-spacing: 3px;
+
+  margin-bottom: 10px;
+}
+
+.titulo-frase {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.texto-frase {
+  color: #ffffff;
+
+  font-size: 1.35rem;
+
+  line-height: 1.6;
+
+  max-width: 430px;
+
+  margin: 0 auto 20px;
+}
+
+.numero-frase {
+  color: #8fc7ff;
+
+  font-size: 0.85rem;
+
+  margin-top: 15px;
+}
   <style>
     * {
       margin: 0;
@@ -121,7 +406,13 @@
 .logo-container:hover {
   transform: scale(1.04);
 }
+.logo-container {
+  cursor: pointer;
+}
 
+.logo-container:active {
+  transform: scale(0.97);
+}
 .logo-container img {
   width: 100%;
   height: 100%;
@@ -730,7 +1021,11 @@
     <ul>
       <li><a href="#inicio">Inicio</a></li>
       <li><a href="#cursos">Cursos</a></li>
-      <li><a href="#acerca">IM3CB</a></li>
+      <li>
+  <a href="#" onclick="abrirFraseIM3CB(event)">
+    IM3CB
+  </a>
+</li>
     </ul>
 
   </nav>
@@ -741,10 +1036,19 @@
 
     <div class="hero-contenido">
 
-      <div class="logo-container">
-        <img src="logo-im3cb.jpeg?v=20260705" alt="Logo oficial IM3CB">
-      </div>
+<div
+  class="logo-container"
+  onclick="abrirFraseIM3CB()"
+  role="button"
+  tabindex="0"
+  aria-label="Abrir frase motivadora IM3CB"
+  onkeydown="if(event.key === 'Enter' || event.key === ' ') abrirFraseIM3CB()">
 
+  <img
+    src="logo-im3cb.jpeg?v=20260705"
+    alt="Logo oficial IM3CB">
+
+</div>
       <h1>
         IM<span>3</span>CB
       </h1>
@@ -928,6 +1232,94 @@
 
   </footer>
 <!-- =================================
+     FRASE MOTIVADORA IM3CB
+================================= -->
+
+<div id="modalIM3CB" class="modal-im3cb">
+
+  <div class="modal-im3cb-contenido">
+
+    <button
+      class="cerrar-im3cb"
+      onclick="cerrarFraseIM3CB()"
+      aria-label="Cerrar">
+      ×
+    </button>
+
+    <div class="im3cb-icono">
+      ✨
+    </div>
+
+    <p class="im3cb-marca">
+      IM3CB
+    </p>
+
+    <h2>
+      Una frase para ti
+    </h2>
+
+    <p
+      id="fraseIM3CB"
+      class="im3cb-frase">
+    </p>
+
+    <p
+      id="contadorIM3CB"
+      class="im3cb-contador">
+    </p>
+
+    <button
+      class="boton-nueva-frase"
+      onclick="mostrarNuevaFrase()">
+      ✦ Nueva frase
+    </button>
+
+  </div>
+
+</div>
+  <!-- =================================
+     VENTANA FRASE MOTIVADORA IM3CB
+================================= -->
+
+<div
+  id="modalFraseIM3CB"
+  class="modal-frase-im3cb">
+
+  <div class="modal-frase-contenido">
+
+    <button
+      class="cerrar-frase"
+      onclick="cerrarFraseIM3CB()"
+      aria-label="Cerrar">
+      ×
+    </button>
+
+    <div class="icono-frase">
+      ✨
+    </div>
+
+    <p class="marca-frase">
+      IM3CB
+    </p>
+
+    <h2 class="titulo-frase">
+      Una frase para ti
+    </h2>
+
+    <p
+      id="textoFraseIM3CB"
+      class="texto-frase">
+    </p>
+
+    <p
+      id="numeroFraseIM3CB"
+      class="numero-frase">
+    </p>
+
+  </div>
+
+</div>
+  <!-- =================================
      VENTANA DE ACCESO - FLUIDOS
 ================================= -->
 
@@ -1020,7 +1412,201 @@
   </div>
 
 </div>
+/* =================================
+   SISTEMA DE FRASES IM3CB
+================================= */
 
+let frasesDisponiblesIM3CB = [];
+let frasesUsadasIM3CB = [];
+
+
+/* Cargar progreso */
+
+function cargarProgresoIM3CB() {
+
+  try {
+
+    frasesUsadasIM3CB =
+      JSON.parse(
+        localStorage.getItem(
+          "frasesUsadasIM3CB"
+        )
+      ) || [];
+
+  } catch (error) {
+
+    frasesUsadasIM3CB = [];
+
+  }
+
+}
+
+
+/* Guardar progreso */
+
+function guardarProgresoIM3CB() {
+
+  localStorage.setItem(
+    "frasesUsadasIM3CB",
+    JSON.stringify(
+      frasesUsadasIM3CB
+    )
+  );
+
+}
+
+
+/* Preparar frases */
+
+function prepararFrasesIM3CB() {
+
+  cargarProgresoIM3CB();
+
+  frasesDisponiblesIM3CB =
+    frasesIM3CB
+      .map((frase, indice) => ({
+        frase: frase,
+        indice: indice
+      }))
+      .filter(
+        elemento =>
+          !frasesUsadasIM3CB.includes(
+            elemento.indice
+          )
+      );
+
+  /*
+     Si ya se utilizaron todas,
+     comienza nuevamente el ciclo.
+  */
+
+  if (
+    frasesDisponiblesIM3CB.length === 0
+  ) {
+
+    frasesUsadasIM3CB = [];
+
+    guardarProgresoIM3CB();
+
+    frasesDisponiblesIM3CB =
+      frasesIM3CB
+        .map((frase, indice) => ({
+          frase: frase,
+          indice: indice
+        }));
+
+  }
+
+}
+
+
+/* Mostrar frase */
+
+function mostrarNuevaFrase() {
+
+  prepararFrasesIM3CB();
+
+  const posicion =
+    Math.floor(
+      Math.random() *
+      frasesDisponiblesIM3CB.length
+    );
+
+  const seleccion =
+    frasesDisponiblesIM3CB[posicion];
+
+  document.getElementById(
+    "fraseIM3CB"
+  ).textContent =
+    `"${seleccion.frase}"`;
+
+  frasesUsadasIM3CB.push(
+    seleccion.indice
+  );
+
+  guardarProgresoIM3CB();
+
+  const total =
+    frasesIM3CB.length;
+
+  const utilizadas =
+    frasesUsadasIM3CB.length;
+
+  document.getElementById(
+    "contadorIM3CB"
+  ).textContent =
+    `Frase ${utilizadas} de ${total}`;
+
+}
+
+
+/* Abrir ventana */
+
+function abrirFraseIM3CB(event) {
+
+  if (event) {
+    event.preventDefault();
+  }
+
+  const modal =
+    document.getElementById(
+      "modalIM3CB"
+    );
+
+  modal.classList.add("activo");
+
+  mostrarNuevaFrase();
+
+}
+
+
+/* Cerrar ventana */
+
+function cerrarFraseIM3CB() {
+
+  document
+    .getElementById("modalIM3CB")
+    .classList.remove("activo");
+
+}
+
+
+/* Cerrar haciendo clic fuera */
+
+document
+  .getElementById("modalIM3CB")
+  .addEventListener(
+    "click",
+    function(event) {
+
+      if (
+        event.target === this
+      ) {
+
+        cerrarFraseIM3CB();
+
+      }
+
+    }
+  );
+
+
+/* Tecla ESC */
+
+document.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (
+      event.key === "Escape"
+    ) {
+
+      cerrarFraseIM3CB();
+
+    }
+
+  }
+);
 <script>
   function abrirAccesoFluidos() {
     const modal = document.getElementById("modalAccesoFluidos");
@@ -1172,6 +1758,92 @@
       }
 
     });
+  /* =================================
+   FRASES MOTIVADORAS IM3CB
+================================= */
+
+const frasesIM3CB = [
+  "Cada gran proyecto comienza con una pequeña idea.",
+  "La ingeniería transforma ideas en soluciones.",
+  "Diseña lo que imaginas y construye lo que sueñas."
+];
+
+
+/* =================================
+   ABRIR FRASE
+================================= */
+
+function abrirFraseIM3CB() {
+
+  const modal =
+    document.getElementById("modalFraseIM3CB");
+
+  const texto =
+    document.getElementById("textoFraseIM3CB");
+
+  const numero =
+    document.getElementById("numeroFraseIM3CB");
+
+  const indice =
+    Math.floor(
+      Math.random() * frasesIM3CB.length
+    );
+
+  texto.textContent =
+    `"${frasesIM3CB[indice]}"`;
+
+  numero.textContent =
+    `Frase ${indice + 1} de ${frasesIM3CB.length}`;
+
+  modal.classList.add("activo");
+}
+
+
+/* =================================
+   CERRAR FRASE
+================================= */
+
+function cerrarFraseIM3CB() {
+
+  document
+    .getElementById("modalFraseIM3CB")
+    .classList.remove("activo");
+
+}
+
+
+/* =================================
+   CERRAR AL PRESIONAR FUERA
+================================= */
+
+document
+  .getElementById("modalFraseIM3CB")
+  .addEventListener(
+    "click",
+    function(event) {
+
+      if (event.target === this) {
+        cerrarFraseIM3CB();
+      }
+
+    }
+  );
+
+
+/* =================================
+   CERRAR CON ESC
+================================= */
+
+document.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (event.key === "Escape") {
+      cerrarFraseIM3CB();
+    }
+
+  }
+);
 </script>
 </body>
 </html>
