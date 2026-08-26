@@ -7,14 +7,6 @@
 
  <title>IM3CB | Ingeniería • Creación • Diseño • Innovación</title>
   <style>
-
-  /* =================================
-   MODAL FRASE MOTIVADORA IM3CB
-================================= */
-
-/* =================================
-   VISOR DE FRASE IM3CB
-================================= */
 /* =================================
    VISOR DE FRASE IM3CB
 ================================= */
@@ -1142,10 +1134,6 @@
   </footer>
 
   <!-- =================================
-     VENTANA FRASE MOTIVADORA IM3CB
-================================= -->
-
-<!-- =================================
      VISOR DE FRASE IM3CB
 ================================= -->
 
@@ -1160,46 +1148,6 @@
       class="imagen-frase-im3cb"
       src=""
       alt="Frase motivadora IM3CB">
-
-  </div>
-
-</div>
-  <div class="modal-frase-contenido">
-
-    <button
-      class="cerrar-frase"
-      onclick="cerrarFraseIM3CB()"
-      aria-label="Cerrar">
-      ×
-    </button>
-
-  <div class="icono-frase">
-  ✨
-</div>
-
-<img
-  id="imagenFraseIM3CB"
-  class="imagen-frase-im3cb"
-  src=""
-  alt="Imagen motivadora IM3CB">
-
-<p class="marca-frase">
-  IM3CB
-</p>
-
-    <h2 class="titulo-frase">
-      Una frase para ti
-    </h2>
-
-    <p
-      id="textoFraseIM3CB"
-      class="texto-frase">
-    </p>
-
-    <p
-      id="numeroFraseIM3CB"
-      class="numero-frase">
-    </p>
 
   </div>
 
@@ -1629,8 +1577,8 @@ function abrirFraseIM3CB() {
   const numeroFormateado =
     String(numero).padStart(3, "0");
 
-  imagen.src =
-    `frase-${numeroFormateado}.png`;
+imagen.src =
+  `frases/frase-${numeroFormateado}.png`;
 
   modal.classList.add("activo");
 }
