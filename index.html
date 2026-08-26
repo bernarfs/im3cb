@@ -1085,26 +1085,7 @@
 </button>
   
 </article>
-      <!-- IA -->
-      <article class="tarjeta">
-
-        <div class="icono">🤖</div>
-
-        <h3>Inteligencia Artificial</h3>
-
-        <p>
-          Herramientas de IA aplicadas al aprendizaje,
-          diseño y solución de problemas.
-        </p>
-
-        <button
-          class="boton-curso boton-acceso"
-          onclick="abrirAccesoIA()">
-          🔐 Explorar curso →
-        </button>
-
-      </article>
-
+      
     </div>
 
   </section>
@@ -1201,52 +1182,6 @@
 
 </div>
 
-<!-- =================================
-     VENTANA DE ACCESO - IA
-================================= -->
-
-<div id="modalAccesoIA" class="modal-acceso">
-
-  <div class="modal-contenido">
-
-    <button
-      class="cerrar-modal"
-      onclick="cerrarAccesoIA()"
-      aria-label="Cerrar">
-      ×
-    </button>
-
-    <div class="candado-modal">🔐</div>
-
-    <p class="modal-marca">IM3CB</p>
-
-    <h2>Acceso al curso</h2>
-
-    <h3>Inteligencia Artificial</h3>
-
-    <p class="modal-texto">
-      Ingresa el código proporcionado por el docente.
-    </p>
-
-    <input
-      type="password"
-      id="codigoIA"
-      class="input-codigo"
-      placeholder="Código de acceso"
-      autocomplete="off"
-    >
-
-    <button
-      class="boton-ingresar"
-      onclick="validarAccesoIA()">
-      Ingresar al curso
-    </button>
-
-    <p id="mensajeAccesoIA" class="mensaje-acceso"></p>
-
-  </div>
-
-</div>
   <!-- =================================
      VENTANA DE ACCESO - DIBUJO ASISTIDO POR COMPUTADORA
 ================================= -->
@@ -1370,83 +1305,6 @@
 
     });
 
-  function abrirAccesoIA() {
-    const modal = document.getElementById("modalAccesoIA");
-    const input = document.getElementById("codigoIA");
-    const mensaje = document.getElementById("mensajeAccesoIA");
-
-    modal.classList.add("activo");
-    mensaje.textContent = "";
-    input.value = "";
-
-    setTimeout(() => input.focus(), 100);
-  }
-
-  function cerrarAccesoIA() {
-    document
-      .getElementById("modalAccesoIA")
-      .classList.remove("activo");
-  }
-
-  function validarAccesoIA() {
-    const codigoCorrecto = "IA2026";
-
-    const input = document.getElementById("codigoIA");
-    const mensaje = document.getElementById("mensajeAccesoIA");
-
-    const codigoIngresado =
-      input.value.trim().toUpperCase();
-
-    if (codigoIngresado === codigoCorrecto) {
-
-      mensaje.style.color = "#58d68d";
-      mensaje.textContent = "✓ Acceso autorizado";
-
-      sessionStorage.setItem(
-        "accesoIA",
-        "permitido"
-      );
-
-      sessionStorage.setItem(
-        "accesoFluidos",
-        "permitido"
-      );
-
-      setTimeout(() => {
-        window.location.href =
-          "inteligencia-artificial.html";
-      }, 700);
-
-    } else {
-
-      mensaje.style.color = "#ff6b6b";
-      mensaje.textContent =
-        "✕ Código incorrecto";
-
-      input.value = "";
-      input.focus();
-    }
-  }
-
-  document
-    .getElementById("codigoIA")
-    .addEventListener("keydown", function(event) {
-
-      if (event.key === "Enter") {
-        validarAccesoIA();
-      }
-
-    });
-
-  document
-    .getElementById("modalAccesoIA")
-    .addEventListener("click", function(event) {
-
-      if (event.target === this) {
-        cerrarAccesoIA();
-      }
-
-    });
   /* =================================
    ACCESO DIBUJO ASISTIDO POR COMPUTADORA
 ================================= */
