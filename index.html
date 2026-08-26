@@ -12,8 +12,16 @@
    MODAL FRASE MOTIVADORA IM3CB
 ================================= */
 
+/* =================================
+   VISOR DE FRASE IM3CB
+================================= */
+/* =================================
+   VISOR DE FRASE IM3CB
+================================= */
+
 .modal-frase-im3cb {
   display: none;
+
   position: fixed;
   inset: 0;
 
@@ -24,8 +32,9 @@
 
   padding: 20px;
 
-  background: rgba(2, 6, 14, 0.86);
-  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.45);
+
+  backdrop-filter: blur(5px);
 }
 
 .modal-frase-im3cb.activo {
@@ -35,37 +44,73 @@
 .modal-frase-contenido {
   position: relative;
 
-  width: min(520px, 100%);
+  width: min(590px, 88vw);
+  height: min(590px, 88vw);
 
-  padding: 45px 35px;
+  padding: 0;
 
-  text-align: center;
+  background: transparent;
 
-  background:
-    radial-gradient(
-      circle at top,
-      rgba(0, 119, 255, 0.20),
-      transparent 45%
-    ),
-    linear-gradient(
-      145deg,
-      #151b27,
-      #090d15
-    );
+  border: none;
 
-  border:
-    1px solid rgba(42, 145, 255, 0.45);
+  border-radius: 50%;
 
-  border-radius: 22px;
-
-  box-shadow:
-    0 25px 80px rgba(0, 0, 0, 0.7),
-    0 0 40px rgba(0, 102, 255, 0.20);
+  overflow: hidden;
 
   animation: aparecerFrase 0.35s ease;
 }
 
+/* =================================
+   IMAGEN MOTIVADORA
+================================= */
+
+.imagen-frase-im3cb {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: contain;
+
+  border-radius: 50%;
+}
+
+/* =================================
+   ANIMACIÓN
+================================= */
+
 @keyframes aparecerFrase {
+
+  from {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+}
+
+/* =================================
+   ANIMACIÓN
+================================= */
+
+@keyframes aparecerFrase {
+
+  from {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+}
+    @keyframes aparecerFrase {
 
   from {
     opacity: 0;
@@ -1100,10 +1145,25 @@
      VENTANA FRASE MOTIVADORA IM3CB
 ================================= -->
 
+<!-- =================================
+     VISOR DE FRASE IM3CB
+================================= -->
+
 <div
   id="modalFraseIM3CB"
   class="modal-frase-im3cb">
 
+  <div class="modal-frase-contenido">
+
+    <img
+      id="imagenFraseIM3CB"
+      class="imagen-frase-im3cb"
+      src=""
+      alt="Frase motivadora IM3CB">
+
+  </div>
+
+</div>
   <div class="modal-frase-contenido">
 
     <button
@@ -1559,45 +1619,20 @@ function abrirFraseIM3CB() {
   const imagen =
     document.getElementById("imagenFraseIM3CB");
 
-  const texto =
-    document.getElementById("textoFraseIM3CB");
+  /*
+     Elegir una imagen aleatoria
+  */
 
   const numero =
-    document.getElementById("numeroFraseIM3CB");
+    Math.floor(Math.random() * 30) + 1;
 
-
-  const indice =
-    Math.floor(
-      Math.random() * frasesIM3CB.length
-    );
-
-
-  const frase =
-    frasesIM3CB[indice];
-
-
-  /* IMAGEN */
+  const numeroFormateado =
+    String(numero).padStart(3, "0");
 
   imagen.src =
-    frase.imagen;
-
-
-  /* FRASE */
-
-  texto.textContent =
-    `"${frase.texto}"`;
-
-
-  /* NUMERO */
-
-  numero.textContent =
-    `Frase ${indice + 1} de ${frasesIM3CB.length}`;
-
-
-  /* MOSTRAR MODAL */
+    `frase-${numeroFormateado}.png`;
 
   modal.classList.add("activo");
-
 }
 /* =================================
    CERRAR FRASE
