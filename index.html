@@ -99,7 +99,27 @@
   font-size: 3rem;
   margin-bottom: 12px;
 }
+.imagen-frase-im3cb {
+  display: block;
+  width: min(320px, 80vw);
+  max-height: 320px;
+  height: auto;
 
+  margin: 0 auto 20px;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(
+      0 10px 30px rgba(0, 102, 255, 0.30)
+    );
+
+  transition: transform 0.3s ease;
+}
+
+.imagen-frase-im3cb:hover {
+  transform: scale(1.03);
+}
 .marca-frase {
   color: #3b9cff;
 
@@ -1093,13 +1113,19 @@
       ×
     </button>
 
-    <div class="icono-frase">
-      ✨
-    </div>
+  <div class="icono-frase">
+  ✨
+</div>
 
-    <p class="marca-frase">
-      IM3CB
-    </p>
+<img
+  id="imagenFraseIM3CB"
+  class="imagen-frase-im3cb"
+  src=""
+  alt="Imagen motivadora IM3CB">
+
+<p class="marca-frase">
+  IM3CB
+</p>
 
     <h2 class="titulo-frase">
       Una frase para ti
@@ -1362,14 +1388,163 @@
       }
 
     });
-  /* =================================
+ /* =================================
    FRASES MOTIVADORAS IM3CB
+   30 IMÁGENES DISPONIBLES
 ================================= */
 
 const frasesIM3CB = [
-  "Cada gran proyecto comienza con una pequeña idea.",
-  "La ingeniería transforma ideas en soluciones.",
-  "Diseña lo que imaginas y construye lo que sueñas."
+
+  {
+    texto: "Cada gran proyecto comienza con una pequeña idea.",
+    imagen: "frases/frase-001.png"
+  },
+
+  {
+    texto: "La ingeniería transforma ideas en soluciones.",
+    imagen: "frases/frase-002.png"
+  },
+
+  {
+    texto: "Diseña lo que imaginas y construye lo que sueñas.",
+    imagen: "frases/frase-003.png"
+  },
+
+  {
+    texto: "El éxito es la suma de pequeños esfuerzos repetidos cada día.",
+    imagen: "frases/frase-004.png"
+  },
+
+  {
+    texto: "No necesitas saberlo todo, solo tener ganas de aprender.",
+    imagen: "frases/frase-005.png"
+  },
+
+  {
+    texto: "Cada error es una oportunidad para mejorar.",
+    imagen: "frases/frase-006.png"
+  },
+
+  {
+    texto: "La creatividad convierte los problemas en posibilidades.",
+    imagen: "frases/frase-007.png"
+  },
+
+  {
+    texto: "Atrévete a crear algo que todavía no existe.",
+    imagen: "frases/frase-008.png"
+  },
+
+  {
+    texto: "Tu curiosidad puede llevarte más lejos de lo que imaginas.",
+    imagen: "frases/frase-009.png"
+  },
+
+  {
+    texto: "Aprender también es una forma de avanzar.",
+    imagen: "frases/frase-010.png"
+  },
+
+  {
+    texto: "Los límites solo existen en tu mente.",
+    imagen: "frases/frase-011.png"
+  },
+
+  {
+    texto: "Haz hoy lo que otros no quieren, para lograr mañana lo que otros no pueden.",
+    imagen: "frases/frase-012.png"
+  },
+
+  {
+    texto: "La creatividad es inteligencia divirtiéndose.",
+    imagen: "frases/frase-013.png"
+  },
+
+  {
+    texto: "La mejor idea es la que se hace realidad.",
+    imagen: "frases/frase-014.png"
+  },
+
+  {
+    texto: "No esperes la oportunidad, créala.",
+    imagen: "frases/frase-015.png"
+  },
+
+  {
+    texto: "Cada paso hacia adelante cuenta, aunque parezca pequeño.",
+    imagen: "frases/frase-016.png"
+  },
+
+  {
+    texto: "La perseverancia convierte los sueños en proyectos.",
+    imagen: "frases/frase-017.png"
+  },
+
+  {
+    texto: "Una buena pregunta puede ser el comienzo de una gran solución.",
+    imagen: "frases/frase-018.png"
+  },
+
+  {
+    texto: "La innovación comienza cuando decides hacer las cosas diferente.",
+    imagen: "frases/frase-019.png"
+  },
+
+  {
+    texto: "El conocimiento crece cuando lo compartes.",
+    imagen: "frases/frase-020.png"
+  },
+
+  {
+    texto: "No se trata de ser el mejor, sino de ser mejor que ayer.",
+    imagen: "frases/frase-021.png"
+  },
+
+  {
+    texto: "El conocimiento sin acción es solo información.",
+    imagen: "frases/frase-022.png"
+  },
+
+  {
+    texto: "Trabaja en silencio y deja que tus logros hagan el ruido.",
+    imagen: "frases/frase-023.png"
+  },
+
+  {
+    texto: "La tecnología avanza, pero la curiosidad la impulsa.",
+    imagen: "frases/frase-024.png"
+  },
+
+  {
+    texto: "Cada problema tiene una solución esperando ser encontrada.",
+    imagen: "frases/frase-025.png"
+  },
+
+  {
+    texto: "No importa qué tan lento avances, mientras no te detengas.",
+    imagen: "frases/frase-026.png"
+  },
+
+  {
+    texto: "La disciplina te lleva donde la motivación no siempre puede.",
+    imagen: "frases/frase-027.png"
+  },
+
+  {
+    texto: "Las grandes soluciones nacen de la combinación de conocimiento y creatividad.",
+    imagen: "frases/frase-028.png"
+  },
+
+  {
+    texto: "Nunca subestimes el poder de una idea bien desarrollada.",
+    imagen: "frases/frase-029.png"
+  },
+
+  {
+    texto: "Sigue aprendiendo: el futuro pertenece a quienes se preparan para crearlo.",
+    imagen: "frases/frase-030.png"
+  }
+
 ];
 
 
@@ -1382,27 +1557,49 @@ function abrirFraseIM3CB() {
   const modal =
     document.getElementById("modalFraseIM3CB");
 
+  const imagen =
+    document.getElementById("imagenFraseIM3CB");
+
   const texto =
     document.getElementById("textoFraseIM3CB");
 
   const numero =
     document.getElementById("numeroFraseIM3CB");
 
+
   const indice =
     Math.floor(
       Math.random() * frasesIM3CB.length
     );
 
+
+  const frase =
+    frasesIM3CB[indice];
+
+
+  /* IMAGEN */
+
+  imagen.src =
+    frase.imagen;
+
+
+  /* FRASE */
+
   texto.textContent =
-    `"${frasesIM3CB[indice]}"`;
+    `"${frase.texto}"`;
+
+
+  /* NUMERO */
 
   numero.textContent =
     `Frase ${indice + 1} de ${frasesIM3CB.length}`;
 
+
+  /* MOSTRAR MODAL */
+
   modal.classList.add("activo");
+
 }
-
-
 /* =================================
    CERRAR FRASE
 ================================= */
