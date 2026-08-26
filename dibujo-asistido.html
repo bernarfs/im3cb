@@ -2,15 +2,173 @@
 <html lang="es">
 
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
   <title>Dibujo Asistido por Computadora | IM3CB</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f0f1a;
+      color: white;
+    }
+
+    header {
+      padding: 30px 20px;
+      text-align: center;
+      background: #151525;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    header p {
+      margin-top: 10px;
+      opacity: 0.8;
+    }
+
+    .contenedor {
+      width: min(1100px, 92%);
+      margin: 30px auto;
+    }
+
+    .tarjeta {
+      background: #181827;
+      border-radius: 18px;
+      padding: 25px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .tarjeta h2 {
+      margin-top: 0;
+    }
+
+    .boton {
+      display: inline-block;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 18px;
+      background: #2979ff;
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .boton:hover {
+      opacity: 0.9;
+    }
+
+  </style>
+
 </head>
+
 
 <body>
 
-  <h1>Dibujo Asistido por Computadora</h1>
+
+  <header>
+
+    <h1>📐 ✏️ 🖥️</h1>
+
+    <h1>
+      Dibujo Asistido por Computadora
+    </h1>
+
+    <p>
+      IM3CB · Ingeniería · Creación · Diseño · Innovación
+    </p>
+
+  </header>
+
+
+  <main class="contenedor">
+
+
+    <!-- =================================
+         PASE DE LISTA
+    ================================= -->
+
+    <section class="tarjeta">
+
+      <h2>📋 Pase de lista</h2>
+
+      <p>
+        Registro de asistencia del curso.
+      </p>
+
+      <button
+        class="boton"
+        onclick="abrirPaseLista()">
+
+        📋 Pasar lista
+
+      </button>
+
+    </section>
+
+
+    <!-- =================================
+         CONTENIDO DEL CURSO
+    ================================= -->
+
+    <section class="tarjeta">
+
+      <h2>📚 Contenido del curso</h2>
+
+      <p>
+        En este espacio colocaremos posteriormente
+        las unidades, actividades y recursos de
+        Dibujo Asistido por Computadora.
+      </p>
+
+    </section>
+
+
+    <!-- =================================
+         RECURSOS
+    ================================= -->
+
+    <section class="tarjeta">
+
+      <h2>🖥️ Recursos CAD</h2>
+
+      <p>
+        SolidWorks, Onshape y otros recursos
+        de diseño asistido por computadora.
+      </p>
+
+    </section>
+
+
+  </main>
+
+
+  <script>
+
+    function abrirPaseLista() {
+
+      alert(
+        "Aquí colocaremos el sistema de pase de lista."
+      );
+
+    }
+
+  </script>
+
 
 </body>
 
