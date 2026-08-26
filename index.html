@@ -1078,13 +1078,12 @@
     
   </p>
 
-  <a
-    href="https://app.saeko.io/v2/courses/2237599"
-    target="_blank"
-    rel="noopener noreferrer">
-    Entrar al curso →
-  </a>
-
+<button
+  class="boton-curso boton-acceso"
+  onclick="abrirAccesoCAD()">
+  🔐 Explorar curso →
+</button>
+  
 </article>
       <!-- IA -->
       <article class="tarjeta">
@@ -1248,6 +1247,55 @@
   </div>
 
 </div>
+  <!-- =================================
+     VENTANA DE ACCESO - DIBUJO ASISTIDO POR COMPUTADORA
+================================= -->
+
+<div id="modalAccesoCAD" class="modal-acceso">
+
+  <div class="modal-contenido">
+
+    <button
+      class="cerrar-modal"
+      onclick="cerrarAccesoCAD()"
+      aria-label="Cerrar">
+      ×
+    </button>
+
+    <div class="candado-modal">🔐</div>
+
+    <p class="modal-marca">IM3CB</p>
+
+    <h2>Acceso al curso</h2>
+
+    <h3>Dibujo Asistido por Computadora</h3>
+
+    <p class="modal-texto">
+      Ingresa el código proporcionado por el docente.
+    </p>
+
+    <input
+      type="password"
+      id="codigoCAD"
+      class="input-codigo"
+      placeholder="Código de acceso"
+      autocomplete="off"
+    >
+
+    <button
+      class="boton-ingresar"
+      onclick="validarAccesoCAD()">
+      Ingresar al curso
+    </button>
+
+    <p
+      id="mensajeAccesoCAD"
+      class="mensaje-acceso">
+    </p>
+
+  </div>
+
+</div>
 <script>
   function abrirAccesoFluidos() {
     const modal = document.getElementById("modalAccesoFluidos");
@@ -1399,6 +1447,106 @@
       }
 
     });
+  /* =================================
+   ACCESO DIBUJO ASISTIDO POR COMPUTADORA
+================================= */
+
+function abrirAccesoCAD() {
+
+  const modal =
+    document.getElementById("modalAccesoCAD");
+
+  const input =
+    document.getElementById("codigoCAD");
+
+  const mensaje =
+    document.getElementById("mensajeAccesoCAD");
+
+  modal.classList.add("activo");
+
+  mensaje.textContent = "";
+
+  input.value = "";
+
+  setTimeout(() => input.focus(), 100);
+}
+
+
+function cerrarAccesoCAD() {
+
+  document
+    .getElementById("modalAccesoCAD")
+    .classList.remove("activo");
+
+}
+
+
+function validarAccesoCAD() {
+
+  const codigoCorrecto = "CAD2026";
+
+  const input =
+    document.getElementById("codigoCAD");
+
+  const mensaje =
+    document.getElementById("mensajeAccesoCAD");
+
+  const codigoIngresado =
+    input.value.trim().toUpperCase();
+
+  if (codigoIngresado === codigoCorrecto) {
+
+    mensaje.style.color = "#58d68d";
+
+    mensaje.textContent =
+      "✓ Acceso autorizado";
+
+    sessionStorage.setItem(
+      "accesoCAD",
+      "permitido"
+    );
+
+    setTimeout(() => {
+
+      window.location.href =
+        "dibujo-asistido.html";
+
+    }, 700);
+
+  } else {
+
+    mensaje.style.color = "#ff6b6b";
+
+    mensaje.textContent =
+      "✕ Código incorrecto";
+
+    input.value = "";
+
+    input.focus();
+  }
+}
+
+
+document
+  .getElementById("codigoCAD")
+  .addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+      validarAccesoCAD();
+    }
+
+  });
+
+
+document
+  .getElementById("modalAccesoCAD")
+  .addEventListener("click", function(event) {
+
+    if (event.target === this) {
+      cerrarAccesoCAD();
+    }
+
+  });
  /* =================================
    FRASES MOTIVADORAS IM3CB
    30 IMÁGENES DISPONIBLES
