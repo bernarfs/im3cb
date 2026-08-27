@@ -3,579 +3,574 @@
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-  <title>Panel Docente | IM3CB</title>
+<title>Panel Docente | IM3CB</title>
 
-  <style>
+<style>
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    body {
+body {
 
-      min-height: 100vh;
+  min-height: 100vh;
 
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
 
-      color: #ffffff;
+  color: #fff;
 
-      background:
-        radial-gradient(
-          circle at 50% -10%,
-          rgba(41,121,255,.25),
-          transparent 40%
-        ),
-        #050711;
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(41,121,255,.28),
+      transparent 40%
+    ),
+    #050711;
 
-      overflow-x: hidden;
+  overflow-x: hidden;
 
-    }
+}
 
-    body::before {
+body::before {
 
-      content: "";
+  content: "";
 
-      position: fixed;
+  position: fixed;
 
-      inset: 0;
+  inset: 0;
 
-      pointer-events: none;
+  pointer-events: none;
 
-      opacity: .12;
+  opacity: .12;
 
-      background-image:
+  background-image:
 
-        linear-gradient(
-          rgba(41,121,255,.25) 1px,
-          transparent 1px
-        ),
+    linear-gradient(
+      rgba(41,121,255,.25) 1px,
+      transparent 1px
+    ),
 
-        linear-gradient(
-          90deg,
-          rgba(41,121,255,.25) 1px,
-          transparent 1px
-        );
+    linear-gradient(
+      90deg,
+      rgba(41,121,255,.25) 1px,
+      transparent 1px
+    );
 
-      background-size: 45px 45px;
+  background-size: 45px 45px;
 
-      z-index: -1;
+  z-index: -1;
 
-    }
+}
 
 
-    /* =========================
-       ENCABEZADO
-    ========================= */
+/* ==============================
+   ENCABEZADO
+============================== */
 
-    header {
+header {
 
-      text-align: center;
+  text-align: center;
 
-      padding: 45px 20px 25px;
+  padding: 45px 20px 25px;
 
-    }
+}
 
-    .logo {
+.logo {
 
-      font-size: 30px;
+  font-size: 30px;
 
-      font-weight: 900;
+  font-weight: 900;
 
-      letter-spacing: 3px;
+  letter-spacing: 3px;
 
-    }
+}
 
-    .logo span {
+.logo span {
 
-      color: #2979ff;
+  color: #2979ff;
 
-    }
+}
 
-    header h1 {
+header h1 {
 
-      margin-top: 25px;
+  margin-top: 22px;
 
-      font-size:
-        clamp(2rem, 5vw, 3.5rem);
+  font-size:
+    clamp(2rem, 5vw, 3.4rem);
 
-    }
+}
 
-    header h1 span {
+header h1 span {
 
-      color: #2979ff;
+  color: #2979ff;
 
-    }
+}
 
-    header p {
+header p {
 
-      margin-top: 12px;
+  margin-top: 10px;
 
-      color: #9eabc0;
+  color: #9da9bd;
 
-    }
+}
 
 
-    /* =========================
-       CONTENEDOR
-    ========================= */
+/* ==============================
+   CONTENEDOR
+============================== */
 
-    .contenedor {
+.contenedor {
 
-      width:
-        min(1050px, 92%);
+  width:
+    min(1050px, 92%);
 
-      margin:
-        25px auto 70px;
+  margin:
+    25px auto 70px;
 
-    }
+}
 
 
-    /* =========================
-       TARJETA PRINCIPAL
-    ========================= */
+/* ==============================
+   PANEL
+============================== */
 
-    .panel {
+.panel {
 
-      padding: 35px;
+  padding: 35px;
 
-      border-radius: 25px;
+  border-radius: 25px;
 
-      background:
-        rgba(12,18,34,.88);
+  background:
+    rgba(12,18,34,.9);
 
-      border:
-        1px solid
-        rgba(41,121,255,.25);
+  border:
+    1px solid
+    rgba(41,121,255,.25);
 
-      box-shadow:
-        0 25px 70px
-        rgba(0,0,0,.45);
+  box-shadow:
+    0 25px 70px
+    rgba(0,0,0,.5);
 
-      backdrop-filter:
-        blur(12px);
+  backdrop-filter:
+    blur(14px);
 
-    }
+}
 
-    .panel h2 {
+.panel h2 {
 
-      margin-bottom: 25px;
+  margin-bottom: 25px;
 
-      font-size: 25px;
+}
 
-    }
 
+/* ==============================
+   CAMPOS
+============================== */
 
-    /* =========================
-       CÓDIGO DOCENTE
-    ========================= */
+.campo {
 
-    .campo {
+  margin-bottom: 22px;
 
-      margin-bottom: 22px;
+}
 
-    }
+.campo label {
 
-    .campo label {
+  display: block;
 
-      display: block;
+  margin-bottom: 8px;
 
-      margin-bottom: 8px;
+  color: #b8c4d7;
 
-      color: #b9c5d8;
+  font-size: 14px;
 
-      font-size: 14px;
+}
 
-    }
+input,
+select {
 
-    input,
-    select {
+  width: 100%;
 
-      width: 100%;
+  padding: 15px;
 
-      padding: 15px;
+  border-radius: 12px;
 
-      border-radius: 12px;
+  border:
+    1px solid
+    rgba(255,255,255,.12);
 
-      border:
-        1px solid
-        rgba(255,255,255,.12);
+  background:
+    rgba(255,255,255,.04);
 
-      background:
-        rgba(255,255,255,.04);
+  color: #fff;
 
-      color: white;
+  outline: none;
 
-      outline: none;
+  font-size: 15px;
 
-      font-size: 15px;
+}
 
-    }
+input:focus,
+select:focus {
 
-    input:focus,
-    select:focus {
+  border-color:
+    #2979ff;
 
-      border-color:
-        #2979ff;
+  box-shadow:
+    0 0 20px
+    rgba(41,121,255,.15);
 
-      box-shadow:
-        0 0 20px
-        rgba(41,121,255,.15);
+}
 
-    }
+option {
 
-    option {
+  background: #101522;
 
-      background:
-        #111827;
+  color: #fff;
 
-      color:
-        white;
+}
 
-    }
 
+/* ==============================
+   CURSOS
+============================== */
 
-    /* =========================
-       CURSOS
-    ========================= */
+.titulo {
 
-    .titulo-seccion {
+  margin:
+    30px 0 15px;
 
-      margin:
-        30px 0 15px;
+  color:
+    #aebbd0;
 
-      color:
-        #b9c5d8;
+  font-size:
+    13px;
 
-      font-size:
-        14px;
+  letter-spacing:
+    1.5px;
 
-      text-transform:
-        uppercase;
+  text-transform:
+    uppercase;
 
-      letter-spacing:
-        1px;
+}
 
-    }
+.cursos {
 
-    .cursos {
+  display:
+    grid;
 
-      display:
-        grid;
+  grid-template-columns:
+    repeat(3, 1fr);
 
-      grid-template-columns:
-        repeat(3, 1fr);
+  gap:
+    15px;
 
-      gap:
-        15px;
+}
 
-    }
+.curso {
 
-    .curso {
+  padding:
+    20px 12px;
 
-      padding:
-        20px;
+  border-radius:
+    17px;
 
-      border-radius:
-        17px;
+  border:
+    1px solid
+    rgba(255,255,255,.1);
 
-      border:
-        1px solid
-        rgba(255,255,255,.1);
+  background:
+    rgba(255,255,255,.035);
 
-      background:
-        rgba(255,255,255,.035);
+  color:
+    white;
 
-      color:
-        white;
+  cursor:
+    pointer;
 
-      cursor:
-        pointer;
+  transition:
+    .25s ease;
 
-      text-align:
-        center;
+  font-size:
+    14px;
 
-      transition:
-        .25s ease;
+  font-weight:
+    700;
 
-    }
+}
 
-    .curso:hover {
+.curso:hover {
 
-      transform:
-        translateY(-4px);
+  transform:
+    translateY(-4px);
 
-      border-color:
-        rgba(41,121,255,.5);
+  border-color:
+    rgba(41,121,255,.5);
 
-    }
+}
 
-    .curso.activo {
+.curso.activo {
 
-      border-color:
-        #2979ff;
+  border-color:
+    #2979ff;
 
-      background:
-        rgba(41,121,255,.13);
+  background:
+    rgba(41,121,255,.14);
 
-      box-shadow:
-        0 0 25px
-        rgba(41,121,255,.15);
+  box-shadow:
+    0 0 25px
+    rgba(41,121,255,.16);
 
-    }
+}
 
-    .curso .icono {
+.icono {
 
-      display:
-        block;
+  display:
+    block;
 
-      font-size:
-        32px;
+  font-size:
+    32px;
 
-      margin-bottom:
-        8px;
+  margin-bottom:
+    8px;
 
-    }
+}
 
 
-    /* =========================
-       BOTONES
-    ========================= */
+/* ==============================
+   BOTONES
+============================== */
 
-    .acciones {
+.acciones {
 
-      display:
-        flex;
+  display:
+    flex;
 
-      gap:
-        12px;
+  gap:
+    12px;
 
-      margin-top:
-        30px;
+  margin-top:
+    30px;
 
-      flex-wrap:
-        wrap;
+  flex-wrap:
+    wrap;
 
-    }
+}
 
-    button {
+button {
 
-      border:
-        none;
+  border:
+    none;
 
-      border-radius:
-        12px;
+  border-radius:
+    12px;
 
-      padding:
-        14px 22px;
+  padding:
+    14px 22px;
 
-      color:
-        white;
+  color:
+    white;
 
-      font-weight:
-        700;
+  font-weight:
+    700;
 
-      cursor:
-        pointer;
+  cursor:
+    pointer;
 
-      background:
-        linear-gradient(
-          135deg,
-          #2979ff,
-          #1265e8
-        );
+  background:
+    linear-gradient(
+      135deg,
+      #2979ff,
+      #1265e8
+    );
 
-      box-shadow:
-        0 8px 25px
-        rgba(41,121,255,.25);
+  box-shadow:
+    0 8px 25px
+    rgba(41,121,255,.25);
 
-    }
+}
 
-    button:hover {
+button:hover {
 
-      transform:
-        translateY(-2px);
+  transform:
+    translateY(-2px);
 
-    }
+}
 
-    .secundario {
+.secundario {
 
-      background:
-        rgba(255,255,255,.06);
+  background:
+    rgba(255,255,255,.06);
 
-      border:
-        1px solid
-        rgba(255,255,255,.12);
+  border:
+    1px solid
+    rgba(255,255,255,.12);
 
-      box-shadow:
-        none;
+  box-shadow:
+    none;
 
-    }
+}
 
 
-    /* =========================
-       ESTADO
-    ========================= */
+/* ==============================
+   ESTADO
+============================== */
 
-    #estado {
+#estado {
 
-      margin-top:
-        25px;
+  margin-top:
+    25px;
 
-      padding:
-        17px;
+  padding:
+    17px;
 
-      border-radius:
-        13px;
+  border-radius:
+    13px;
 
-      background:
-        rgba(255,255,255,.04);
+  background:
+    rgba(255,255,255,.04);
 
-      color:
-        #aebbd0;
+  color:
+    #aebbd0;
 
-      line-height:
-        1.5;
+  line-height:
+    1.6;
 
-    }
+}
 
-    .estado-ok {
 
-      color:
-        #58d68d !important;
+/* ==============================
+   QR
+============================== */
 
-      border:
-        1px solid
-        rgba(88,214,141,.25);
+#zonaQR {
 
-    }
+  display:
+    none;
 
+  margin-top:
+    30px;
 
-    /* =========================
-       QR
-    ========================= */
+  padding:
+    30px;
 
-    #zonaQR {
+  border-radius:
+    22px;
 
-      display:
-        none;
+  text-align:
+    center;
 
-      margin-top:
-        30px;
+  background:
+    rgba(255,255,255,.035);
 
-      padding:
-        25px;
+  border:
+    1px solid
+    rgba(41,121,255,.22);
 
-      border-radius:
-        20px;
+}
 
-      text-align:
-        center;
+#zonaQR.activa {
 
-      background:
-        rgba(255,255,255,.035);
+  display:
+    block;
 
-      border:
-        1px solid
-        rgba(41,121,255,.2);
+}
 
-    }
+#qr {
 
-    #zonaQR.activa {
+  width:
+    270px;
 
-      display:
-        block;
+  max-width:
+    80vw;
 
-    }
+  margin:
+    20px auto;
 
-    #qr {
+  display:
+    block;
 
-      width:
-        260px;
+  background:
+    white;
 
-      max-width:
-        80vw;
+  padding:
+    10px;
 
-      margin:
-        20px auto;
+  border-radius:
+    16px;
 
-      display:
-        block;
+}
 
-      background:
-        white;
+#reloj {
 
-      padding:
-        10px;
+  font-size:
+    2.8rem;
 
-      border-radius:
-        15px;
+  font-weight:
+    900;
 
-    }
+  color:
+    #2979ff;
 
-    #reloj {
+  margin:
+    10px 0;
 
-      font-size:
-        2.5rem;
+}
 
-      font-weight:
-        900;
+.info-sesion {
 
-      color:
-        #2979ff;
+  color:
+    #aebbd0;
 
-      margin:
-        10px 0;
+  line-height:
+    1.7;
 
-    }
+}
 
 
-    /* =========================
-       RESPONSIVO
-    ========================= */
+/* ==============================
+   RESPONSIVO
+============================== */
 
-    @media
-    (max-width: 700px) {
+@media(max-width:700px) {
 
-      .panel {
+  .panel {
 
-        padding:
-          22px;
+    padding:
+      22px;
 
-      }
+  }
 
-      .cursos {
+  .cursos {
 
-        grid-template-columns:
-          repeat(2, 1fr);
+    grid-template-columns:
+      repeat(2,1fr);
 
-      }
+  }
 
-    }
+}
 
-    @media
-    (max-width: 450px) {
+@media(max-width:450px) {
 
-      .cursos {
+  .cursos {
 
-        grid-template-columns:
-          1fr;
+    grid-template-columns:
+      1fr;
 
-      }
+  }
 
-    }
+}
 
-  </style>
+</style>
 
 </head>
 
@@ -594,7 +589,7 @@
   </h1>
 
   <p>
-    Administración de sesiones y pase de lista
+    Control de sesiones y acceso a plataformas
   </p>
 
 </header>
@@ -603,211 +598,235 @@
 <main class="contenedor">
 
 
-  <section class="panel">
+<section class="panel">
 
 
-    <h2>
-      🔐 Iniciar sesión docente
-    </h2>
+<h2>
+  🔐 Iniciar sesión docente
+</h2>
 
 
-    <div class="campo">
+<!-- ==========================
+     CÓDIGO DOCENTE
+========================== -->
 
-      <label>
-        Código docente
-      </label>
+<div class="campo">
 
-      <input
-        id="codigoDocente"
-        type="password"
-        placeholder="Ingresa tu código"
-        autocomplete="off">
+<label>
+  Código docente
+</label>
 
-    </div>
+<input
+  id="codigoDocente"
+  type="password"
+  placeholder="Ingresa tu código"
+  autocomplete="off">
 
+</div>
 
-    <div class="titulo-seccion">
-      Selecciona el curso
-    </div>
 
+<!-- ==========================
+     CURSOS
+========================== -->
 
-    <div class="cursos">
+<div class="titulo">
+  Selecciona el curso
+</div>
 
 
-      <button
-        type="button"
-        class="curso activo"
-        data-curso="CAD"
-        onclick="seleccionarCurso(this)">
+<div class="cursos">
 
-        <span class="icono">
-          📐
-        </span>
 
-        Dibujo Asistido por Computadora
+<button
+  type="button"
+  class="curso activo"
+  data-curso="CAD"
+  onclick="seleccionarCurso(this)">
 
-      </button>
+<span class="icono">📐</span>
 
+Dibujo Asistido por Computadora
 
-      <button
-        type="button"
-        class="curso"
-        data-curso="TERMODINAMICA"
-        onclick="seleccionarCurso(this)">
+</button>
 
-        <span class="icono">
-          🌡️
-        </span>
 
-        Termodinámica
+<button
+  type="button"
+  class="curso"
+  data-curso="TERMODINAMICA"
+  onclick="seleccionarCurso(this)">
 
-      </button>
+<span class="icono">🌡️</span>
 
+Termodinámica
 
-      <button
-        type="button"
-        class="curso"
-        data-curso="INSTRUMENTACION"
-        onclick="seleccionarCurso(this)">
+</button>
 
-        <span class="icono">
-          ⚙️
-        </span>
 
-        Instrumentación
+<button
+  type="button"
+  class="curso"
+  data-curso="INSTRUMENTACION"
+  onclick="seleccionarCurso(this)">
 
-      </button>
+<span class="icono">⚙️</span>
 
+Instrumentación
 
-      <button
-        type="button"
-        class="curso"
-        data-curso="VIBRACIONES"
-        onclick="seleccionarCurso(this)">
+</button>
 
-        <span class="icono">
-          📊
-        </span>
 
-        Vibraciones Mecánicas
+<button
+  type="button"
+  class="curso"
+  data-curso="VIBRACIONES"
+  onclick="seleccionarCurso(this)">
 
-      </button>
+<span class="icono">📊</span>
 
+Vibraciones Mecánicas
 
-      <button
-        type="button"
-        class="curso"
-        data-curso="CIRCUITOS"
-        onclick="seleccionarCurso(this)">
+</button>
 
-        <span class="icono">
-          🔌
-        </span>
 
-        Circuitos
+<button
+  type="button"
+  class="curso"
+  data-curso="CIRCUITOS"
+  onclick="seleccionarCurso(this)">
 
-      </button>
+<span class="icono">🔌</span>
 
+Circuitos
 
-      <button
-        type="button"
-        class="curso"
-        data-curso="PRODUCCION"
-        onclick="seleccionarCurso(this)">
+</button>
 
-        <span class="icono">
-          🏭
-        </span>
 
-        Producción
+<button
+  type="button"
+  class="curso"
+  data-curso="PRODUCCION"
+  onclick="seleccionarCurso(this)">
 
-      </button>
+<span class="icono">🏭</span>
 
+Producción
 
-    </div>
+</button>
 
 
-    <div class="campo" style="margin-top:30px;">
+</div>
 
-      <label>
-        Grupo
-      </label>
 
-      <input
-        id="grupo"
-        type="text"
-        placeholder="Ej. IM3">
+<!-- ==========================
+     SESIÓN
+========================== -->
 
-    </div>
+<div
+  class="campo"
+  style="margin-top:30px;">
 
+<label>
+  Sesión o tema
+</label>
 
-    <div class="campo">
+<input
+  id="sesion"
+  type="text"
+  placeholder="Ej. Unidad 1 - Introducción">
 
-      <label>
-        Sesión o tema
-      </label>
+</div>
 
-      <input
-        id="sesion"
-        type="text"
-        placeholder="Ej. Unidad 1 - Introducción">
 
-    </div>
+<!-- ==========================
+     ACCIONES
+========================== -->
 
+<div class="acciones">
 
-    <div class="acciones">
 
-      <button
-        type="button"
-        onclick="iniciarPaseLista()">
+<button
+  type="button"
+  onclick="iniciarPaseLista()">
 
-        ▶ Iniciar pase de lista
+▶ Iniciar pase de lista
 
-      </button>
+</button>
 
 
-      <button
-        type="button"
-        class="secundario"
-        onclick="cerrarLista()">
+<button
+  type="button"
+  class="secundario"
+  onclick="cerrarLista()">
 
-        ■ Cerrar lista
+■ Cerrar sesión
 
-      </button>
+</button>
 
-    </div>
 
+</div>
 
-    <div id="estado">
 
-      Lista inactiva.
-      Selecciona el curso e ingresa los datos de la sesión.
+<div id="estado">
 
-    </div>
+Lista inactiva.
+Selecciona el curso y escribe la sesión.
 
+</div>
 
-    <div id="zonaQR">
 
-      <h2>
-        📱 QR de asistencia
-      </h2>
+<!-- ==========================
+     QR
+========================== -->
 
-      <div id="reloj">
-        20:00
-      </div>
+<div id="zonaQR">
 
-      <img
-        id="qr"
-        alt="QR de asistencia">
 
-      <p>
-        Escanea este código para registrar asistencia.
-      </p>
+<h2>
+  📱 Pase de lista activo
+</h2>
 
-    </div>
 
+<div id="reloj">
+  20:00
+</div>
 
-  </section>
+
+<div class="info-sesion">
+
+<div id="infoCurso">
+  Curso: CAD
+</div>
+
+<div id="infoSesion">
+  Sesión:
+</div>
+
+</div>
+
+
+<img
+  id="qr"
+  alt="Código QR de asistencia">
+
+
+<p>
+
+Escanea este código para registrar tu asistencia.
+
+<br>
+
+<strong>
+15 minutos de asistencia · 5 minutos de retardo
+</strong>
+
+</p>
+
+
+</div>
+
+
+</section>
 
 
 </main>
@@ -817,29 +836,32 @@
 
 
 /* =================================
-   CONFIGURACIÓN
+   CONFIGURACIÓN GENERAL
 ================================= */
 
 const CONFIG = {
 
-  codigoDocente: "LISTA2026",
+  codigoDocente:
+    "LISTA2026",
 
   appsScriptUrl:
     "https://script.google.com/macros/s/AKfycbwBK5q5_be0am3KBBqP5ZCse2c6sjT0ovFVGS1jnQyMKcZPoPeKGRjym8AE8wK69WtgBg/exec",
 
-  minutosAsistencia: 15,
+  minutosAsistencia:
+    15,
 
-  minutosRetardo: 5,
+  minutosRetardo:
+    5,
 
-  cursoSeleccionado: "CAD",
-
-  paginaCAD:
-    "dibujo-asistido.html"
+  cursoSeleccionado:
+    "CAD"
 
 };
 
 
 let inicioLista = null;
+
+let idSesionActual = null;
 
 let temporizador = null;
 
@@ -850,13 +872,13 @@ let temporizador = null;
 
 function seleccionarCurso(boton) {
 
+
   document
     .querySelectorAll(".curso")
-    .forEach((elemento) => {
-
-      elemento.classList.remove("activo");
-
-    });
+    .forEach(
+      elemento =>
+        elemento.classList.remove("activo")
+    );
 
 
   boton.classList.add("activo");
@@ -866,114 +888,26 @@ function seleccionarCurso(boton) {
     boton.dataset.curso;
 
 
-  document.getElementById("estado").textContent =
-    `Curso seleccionado: ${boton.textContent.trim()}`;
-
-}
-
-
-/* =================================
-   INICIAR PASE
-================================= */
-
-function iniciarPaseLista() {
-
-  const codigo =
-    document
-      .getElementById("codigoDocente")
-      .value
-      .trim();
-
-  const grupo =
-    document
-      .getElementById("grupo")
-      .value
-      .trim();
-
-  const sesion =
-    document
-      .getElementById("sesion")
-      .value
-      .trim();
-
-
-  if (codigo !== CONFIG.codigoDocente) {
-
-    document.getElementById("estado").textContent =
-      "❌ Código docente incorrecto.";
-
-    return;
-
-  }
-
-
-  if (!grupo || !sesion) {
-
-    document.getElementById("estado").textContent =
-      "⚠️ Escribe el grupo y la sesión o tema.";
-
-    return;
-
-  }
-
-
-  inicioLista =
-    Date.now();
-
-
-  const idSesion =
-    CONFIG.cursoSeleccionado +
-    "-" +
-    Date.now();
-
-
-  const urlCurso =
-    obtenerUrlCurso();
-
-
-  const urlAsistencia =
-    `${urlCurso}?asistencia=1` +
-    `&inicio=${inicioLista}` +
-    `&sesion=${encodeURIComponent(sesion)}` +
-    `&id=${encodeURIComponent(idSesion)}` +
-    `&grupo=${encodeURIComponent(grupo)}`;
-
-
-  const qrURL =
-    "https://api.qrserver.com/v1/create-qr-code/" +
-    `?size=500x500&data=${encodeURIComponent(urlAsistencia)}`;
-
-
-  document.getElementById("qr").src =
-    qrURL;
-
-
   document
-    .getElementById("zonaQR")
-    .classList.add("activa");
-
-
-  document.getElementById("estado").textContent =
-    `✅ Pase de lista activo para ${CONFIG.cursoSeleccionado}.`;
-
-
-  iniciarReloj();
+    .getElementById("estado")
+    .textContent =
+      `Curso seleccionado: ${boton.textContent.trim()}`;
 
 }
 
 
 /* =================================
-   URL DEL CURSO
+   OBTENER URL DEL CURSO
 ================================= */
 
 function obtenerUrlCurso() {
 
+
   const base =
-    window.location.href
-      .substring(
-        0,
-        window.location.href.lastIndexOf("/") + 1
-      );
+    window.location.href.substring(
+      0,
+      window.location.href.lastIndexOf("/") + 1
+    );
 
 
   const cursos = {
@@ -1000,8 +934,183 @@ function obtenerUrlCurso() {
 
 
   return base +
-    (cursos[CONFIG.cursoSeleccionado] ||
-     cursos.CAD);
+    (
+      cursos[
+        CONFIG.cursoSeleccionado
+      ] ||
+      cursos.CAD
+    );
+
+}
+
+
+/* =================================
+   GENERAR ID ÚNICO
+================================= */
+
+function generarIdSesion() {
+
+
+  const caracteres =
+    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+
+  let resultado = "";
+
+
+  for(let i = 0; i < 10; i++) {
+
+    resultado +=
+      caracteres[
+        Math.floor(
+          Math.random() *
+          caracteres.length
+        )
+      ];
+
+  }
+
+
+  return (
+    CONFIG.cursoSeleccionado +
+    "-" +
+    resultado
+  );
+
+}
+
+
+/* =================================
+   INICIAR PASE DE LISTA
+================================= */
+
+function iniciarPaseLista() {
+
+
+  const codigo =
+    document
+      .getElementById("codigoDocente")
+      .value
+      .trim();
+
+
+  const sesion =
+    document
+      .getElementById("sesion")
+      .value
+      .trim();
+
+
+  if(
+    codigo !==
+    CONFIG.codigoDocente
+  ) {
+
+    document
+      .getElementById("estado")
+      .textContent =
+        "❌ Código docente incorrecto.";
+
+    return;
+
+  }
+
+
+  if(!sesion) {
+
+    document
+      .getElementById("estado")
+      .textContent =
+        "⚠️ Escribe la sesión o tema.";
+
+    return;
+
+  }
+
+
+  inicioLista =
+    Date.now();
+
+
+  idSesionActual =
+    generarIdSesion();
+
+
+  const cursoURL =
+    obtenerUrlCurso();
+
+
+  const urlAsistencia =
+
+    cursoURL +
+
+    "?asistencia=1" +
+
+    "&inicio=" +
+    encodeURIComponent(
+      inicioLista
+    ) +
+
+    "&sesion=" +
+    encodeURIComponent(
+      sesion
+    ) +
+
+    "&id=" +
+    encodeURIComponent(
+      idSesionActual
+    ) +
+
+    "&curso=" +
+    encodeURIComponent(
+      CONFIG.cursoSeleccionado
+    );
+
+
+  const qrURL =
+
+    "https://api.qrserver.com/v1/create-qr-code/" +
+
+    "?size=600x600&data=" +
+
+    encodeURIComponent(
+      urlAsistencia
+    );
+
+
+  document
+    .getElementById("qr")
+    .src =
+      qrURL;
+
+
+  document
+    .getElementById("infoCurso")
+    .textContent =
+      "Curso: " +
+      CONFIG.cursoSeleccionado;
+
+
+  document
+    .getElementById("infoSesion")
+    .textContent =
+      "Sesión: " +
+      sesion;
+
+
+  document
+    .getElementById("zonaQR")
+    .classList
+    .add("activa");
+
+
+  document
+    .getElementById("estado")
+    .textContent =
+      "✅ Pase de lista iniciado correctamente.";
+
+
+  iniciarReloj();
 
 }
 
@@ -1012,9 +1121,12 @@ function obtenerUrlCurso() {
 
 function iniciarReloj() {
 
-  if (temporizador) {
 
-    clearInterval(temporizador);
+  if(temporizador) {
+
+    clearInterval(
+      temporizador
+    );
 
   }
 
@@ -1033,10 +1145,13 @@ function iniciarReloj() {
 
 function actualizarReloj() {
 
-  if (!inicioLista) return;
+
+  if(!inicioLista)
+    return;
 
 
   const duracion =
+
     (
       CONFIG.minutosAsistencia +
       CONFIG.minutosRetardo
@@ -1044,6 +1159,7 @@ function actualizarReloj() {
 
 
   const restante =
+
     Math.max(
       0,
       inicioLista +
@@ -1053,32 +1169,50 @@ function actualizarReloj() {
 
 
   const minutos =
+
     Math.floor(
       restante / 60000
     );
 
 
   const segundos =
+
     Math.floor(
-      (restante % 60000) / 1000
+      (
+        restante % 60000
+      ) / 1000
     );
 
 
-  document.getElementById("reloj")
+  document
+    .getElementById("reloj")
     .textContent =
-      `${String(minutos).padStart(2,"0")}:` +
-      `${String(segundos).padStart(2,"0")}`;
+
+      String(minutos)
+        .padStart(2,"0") +
+
+      ":" +
+
+      String(segundos)
+        .padStart(2,"0");
 
 
-  if (restante <= 0) {
+  if(restante <= 0) {
 
-    clearInterval(temporizador);
 
-    temporizador = null;
+    clearInterval(
+      temporizador
+    );
 
-    document.getElementById("estado")
+
+    temporizador =
+      null;
+
+
+    document
+      .getElementById("estado")
       .textContent =
-        "⏰ Lista cerrada automáticamente.";
+        "⏰ La sesión de asistencia ha terminado.";
 
   }
 
@@ -1091,24 +1225,32 @@ function actualizarReloj() {
 
 function cerrarLista() {
 
+
   inicioLista = null;
 
+  idSesionActual = null;
 
-  if (temporizador) {
 
-    clearInterval(temporizador);
+  if(temporizador) {
 
-    temporizador = null;
+    clearInterval(
+      temporizador
+    );
+
+    temporizador =
+      null;
 
   }
 
 
   document
     .getElementById("zonaQR")
-    .classList.remove("activa");
+    .classList
+    .remove("activa");
 
 
-  document.getElementById("estado")
+  document
+    .getElementById("estado")
     .textContent =
       "Lista cerrada.";
 
