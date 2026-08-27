@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Registro de asistencia | IM3CB</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+
+  min-height: 100vh;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color: white;
+
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(41,121,255,.28),
+      transparent 40%
+    ),
+    #050711;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+
+}
+
+body::before {
+
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  opacity: .12;
+
+  background-image:
+
+    linear-gradient(
+      rgba(41,121,255,.25) 1px,
+      transparent 1px
+    ),
+
+    linear-gradient(
+      90deg,
+      rgba(41,121,255,.25) 1px,
+      transparent 1px
+    );
+
+  background-size: 45px 45px;
+
+  z-index: -1;
+
+}
+
+.contenedor {
+
+  width:
+    min(520px, 94vw);
+
+}
+
+.logo {
+
+  text-align: center;
+
+  font-size: 28px;
+
+  font-weight: 900;
+
+  letter-spacing: 3px;
+
+  margin-bottom: 25px;
+
+}
+
+.logo span {
+
+  color: #2979ff;
+
+}
+
+.panel {
+
+  padding: 30px;
+
+  border-radius: 24px;
+
+  background:
+    rgba(12,18,34,.92);
+
+  border:
+    1px solid
+    rgba(41,121,255,.28);
+
+  box-shadow:
+    0 25px 70px
+    rgba(0,0,0,.5);
+
+  backdrop-filter:
+    blur(14px);
+
+}
+
+.icono {
+
+  text-align: center;
+
+  font-size: 48px;
+
+  margin-bottom: 10px;
+
+}
+
+h1 {
+
+  text-align: center;
+
+  font-size: 27px;
+
+  margin-bottom: 8px;
+
+}
+
+.subtitulo {
+
+  text-align: center;
+
+  color: #9eabc0;
+
+  margin-bottom: 25px;
+
+  line-height: 1.5;
+
+}
+
+.info {
+
+  padding: 17px;
+
+  margin-bottom: 25px;
+
+  border-radius: 15px;
+
+  background:
+    rgba(41,121,255,.08);
+
+  border:
+    1px solid
+    rgba(41,121,255,.2);
+
+}
+
+.info div {
+
+  margin-bottom: 7px;
+
+  color: #b8c5d9;
+
+}
+
+.info div:last-child {
+
+  margin-bottom: 0;
+
+}
+
+.info strong {
+
+  color: white;
+
+}
+
+.campo {
+
+  margin-bottom: 18px;
+
+}
+
+label {
+
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #b9c5d8;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+}
+
+input {
+
+  width: 100%;
+
+  padding: 14px;
+
+  border-radius: 11px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.13);
+
+  background:
+    rgba(255,255,255,.04);
+
+  color: white;
+
+  font-size: 15px;
+
+  outline: none;
+
+}
+
+input:focus {
+
+  border-color:
+    #2979ff;
+
+  box-shadow:
+    0 0 20px
+    rgba(41,121,255,.15);
+
+}
+
+button {
+
+  width: 100%;
+
+  padding: 15px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2979ff,
+      #1265e8
+    );
+
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  margin-top: 5px;
+
+  box-shadow:
+    0 8px 25px
+    rgba(41,121,255,.25);
+
+}
+
+button:disabled {
+
+  opacity: .55;
+
+  cursor: not-allowed;
+
+}
+
+#mensaje {
+
+  display: none;
+
+  margin-top: 20px;
+
+  padding: 17px;
+
+  border-radius: 13px;
+
+  text-align: center;
+
+  line-height: 1.6;
+
+}
+
+#mensaje.visible {
+
+  display: block;
+
+}
+
+.exito {
+
+  color: #71e6a3;
+
+  background:
+    rgba(50,205,120,.08);
+
+  border:
+    1px solid
+    rgba(50,205,120,.25);
+
+}
+
+.error {
+
+  color: #ff8792;
+
+  background:
+    rgba(255,60,80,.08);
+
+  border:
+    1px solid
+    rgba(255,60,80,.25);
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="contenedor">
+
+
+<div class="logo">
+  IM<span>3</span>CB
+</div>
+
+
+<section class="panel">
+
+
+<div class="icono">
+  📋
+</div>
+
+
+<h1>
+  Registro de asistencia
+</h1>
+
+
+<p class="subtitulo">
+  Identifícate para registrar tu asistencia
+  y obtener acceso a la plataforma.
+</p>
+
+
+<div class="info">
+
+  <div>
+    Curso:
+    <strong id="curso">
+      Verificando...
+    </strong>
+  </div>
+
+  <div>
+    Sesión:
+    <strong id="sesion">
+      Verificando...
+    </strong>
+  </div>
+
+</div>
+
+
+<form
+  id="formulario"
+  onsubmit="registrar(event)">
+
+
+<div class="campo">
+
+<label>
+  Nombre completo
+</label>
+
+<input
+  id="nombre"
+  type="text"
+  placeholder="Escribe tu nombre completo"
+  required>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+  Matrícula
+</label>
+
+<input
+  id="matricula"
+  type="text"
+  placeholder="Escribe tu matrícula"
+  required>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+  Grupo
+</label>
+
+<input
+  id="grupo"
+  type="text"
+  placeholder="Ej. IM3"
+  required>
+
+</div>
+
+
+<button
+  id="boton"
+  type="submit">
+
+  ✅ Registrar asistencia
+
+</button>
+
+
+</form>
+
+
+<div id="mensaje"></div>
+
+
+</section>
+
+
+</div>
+
+
+<script>
+
+
+/* =================================
+   CONFIGURACIÓN
+================================= */
+
+const APPS_SCRIPT_URL =
+
+  "https://script.google.com/macros/s/AKfycbwBK5q5_be0am3KBBqP5ZCse2c6sjT0ovFVGS1jnQyMKcZPoPeKGRjym8AE8wK69WtgBg/exec";
+
+
+/* =================================
+   LEER DATOS DEL QR
+================================= */
+
+const parametros =
+  new URLSearchParams(
+    window.location.search
+  );
+
+
+const curso =
+  parametros.get("curso") || "";
+
+
+const sesion =
+  parametros.get("sesion") || "";
+
+
+const inicio =
+  parametros.get("inicio") || "";
+
+
+const id =
+  parametros.get("id") || "";
+
+
+/* =================================
+   MOSTRAR INFORMACIÓN
+================================= */
+
+document
+  .getElementById("curso")
+  .textContent =
+    curso || "No identificado";
+
+
+document
+  .getElementById("sesion")
+  .textContent =
+    sesion || "No identificada";
+
+
+/* =================================
+   COMPROBAR QR
+================================= */
+
+if (
+  !curso ||
+  !sesion ||
+  !inicio ||
+  !id
+) {
+
+  mostrarMensaje(
+    "🔒 Código de acceso incompleto.<br><br>" +
+    "Solicita el QR de la sesión actual.",
+    "error"
+  );
+
+  document
+    .getElementById("formulario")
+    .style.display =
+      "none";
+
+}
+
+
+/* =================================
+   REGISTRAR
+================================= */
+
+async function registrar(event) {
+
+  event.preventDefault();
+
+
+  const boton =
+    document.getElementById("boton");
+
+
+  const nombre =
+    document
+      .getElementById("nombre")
+      .value
+      .trim();
+
+
+  const matricula =
+    document
+      .getElementById("matricula")
+      .value
+      .trim();
+
+
+  const grupo =
+    document
+      .getElementById("grupo")
+      .value
+      .trim()
+      .toUpperCase();
+
+
+  if (
+    !nombre ||
+    !matricula ||
+    !grupo
+  ) {
+
+    mostrarMensaje(
+      "⚠️ Completa todos los campos.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  boton.disabled = true;
+
+  boton.textContent =
+    "Registrando...";
+
+
+  const datos = {
+
+    accion:
+      "registrarAsistencia",
+
+    curso:
+      curso,
+
+    sesion:
+      sesion,
+
+    inicio:
+      inicio,
+
+    id:
+      id,
+
+    nombre:
+      nombre,
+
+    matricula:
+      matricula,
+
+    grupo:
+      grupo
+
+  };
+
+
+  try {
+
+
+    const respuesta =
+      await fetch(
+        APPS_SCRIPT_URL,
+        {
+
+          method: "POST",
+
+          body:
+            JSON.stringify(datos)
+
+        }
+      );
+
+
+    const resultado =
+      await respuesta.json();
+
+
+    if (
+      resultado.ok
+    ) {
+
+      mostrarMensaje(
+
+        "✅ <strong>Asistencia registrada.</strong><br><br>" +
+
+        "Tu acceso a la plataforma ha sido autorizado.",
+
+        "exito"
+
+      );
+
+
+      document
+        .getElementById("formulario")
+        .style.display =
+          "none";
+
+
+      /*
+       * AQUÍ AGREGAREMOS LA LLAVE
+       * Y EL BOTÓN PARA ENTRAR
+       * AL CURSO.
+       */
+
+    }
+    else {
+
+      mostrarMensaje(
+
+        "🔒 " +
+        (
+          resultado.mensaje ||
+          "No fue posible registrar la asistencia."
+        ),
+
+        "error"
+
+      );
+
+      boton.disabled = false;
+
+      boton.textContent =
+        "✅ Registrar asistencia";
+
+    }
+
+
+  }
+  catch(error) {
+
+    console.error(error);
+
+    mostrarMensaje(
+
+      "❌ No se pudo comunicar con el sistema de asistencia.",
+
+      "error"
+
+    );
+
+    boton.disabled = false;
+
+    boton.textContent =
+      "✅ Registrar asistencia";
+
+  }
+
+}
+
+
+/* =================================
+   MENSAJE
+================================= */
+
+function mostrarMensaje(
+  texto,
+  tipo
+) {
+
+  const elemento =
+    document.getElementById(
+      "mensaje"
+    );
+
+
+  elemento.innerHTML =
+    texto;
+
+
+  elemento.className =
+    "visible " + tipo;
+
+}
+
+</script>
+
+
+</body>
+
+</html>
