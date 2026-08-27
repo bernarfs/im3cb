@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>Panel Docente | IM3CB</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+
+      min-height: 100vh;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      color: #ffffff;
+
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(41,121,255,.25),
+          transparent 40%
+        ),
+        #050711;
+
+      overflow-x: hidden;
+
+    }
+
+    body::before {
+
+      content: "";
+
+      position: fixed;
+
+      inset: 0;
+
+      pointer-events: none;
+
+      opacity: .12;
+
+      background-image:
+
+        linear-gradient(
+          rgba(41,121,255,.25) 1px,
+          transparent 1px
+        ),
+
+        linear-gradient(
+          90deg,
+          rgba(41,121,255,.25) 1px,
+          transparent 1px
+        );
+
+      background-size: 45px 45px;
+
+      z-index: -1;
+
+    }
+
+
+    /* =========================
+       ENCABEZADO
+    ========================= */
+
+    header {
+
+      text-align: center;
+
+      padding: 45px 20px 25px;
+
+    }
+
+    .logo {
+
+      font-size: 30px;
+
+      font-weight: 900;
+
+      letter-spacing: 3px;
+
+    }
+
+    .logo span {
+
+      color: #2979ff;
+
+    }
+
+    header h1 {
+
+      margin-top: 25px;
+
+      font-size:
+        clamp(2rem, 5vw, 3.5rem);
+
+    }
+
+    header h1 span {
+
+      color: #2979ff;
+
+    }
+
+    header p {
+
+      margin-top: 12px;
+
+      color: #9eabc0;
+
+    }
+
+
+    /* =========================
+       CONTENEDOR
+    ========================= */
+
+    .contenedor {
+
+      width:
+        min(1050px, 92%);
+
+      margin:
+        25px auto 70px;
+
+    }
+
+
+    /* =========================
+       TARJETA PRINCIPAL
+    ========================= */
+
+    .panel {
+
+      padding: 35px;
+
+      border-radius: 25px;
+
+      background:
+        rgba(12,18,34,.88);
+
+      border:
+        1px solid
+        rgba(41,121,255,.25);
+
+      box-shadow:
+        0 25px 70px
+        rgba(0,0,0,.45);
+
+      backdrop-filter:
+        blur(12px);
+
+    }
+
+    .panel h2 {
+
+      margin-bottom: 25px;
+
+      font-size: 25px;
+
+    }
+
+
+    /* =========================
+       CÓDIGO DOCENTE
+    ========================= */
+
+    .campo {
+
+      margin-bottom: 22px;
+
+    }
+
+    .campo label {
+
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: #b9c5d8;
+
+      font-size: 14px;
+
+    }
+
+    input,
+    select {
+
+      width: 100%;
+
+      padding: 15px;
+
+      border-radius: 12px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.12);
+
+      background:
+        rgba(255,255,255,.04);
+
+      color: white;
+
+      outline: none;
+
+      font-size: 15px;
+
+    }
+
+    input:focus,
+    select:focus {
+
+      border-color:
+        #2979ff;
+
+      box-shadow:
+        0 0 20px
+        rgba(41,121,255,.15);
+
+    }
+
+    option {
+
+      background:
+        #111827;
+
+      color:
+        white;
+
+    }
+
+
+    /* =========================
+       CURSOS
+    ========================= */
+
+    .titulo-seccion {
+
+      margin:
+        30px 0 15px;
+
+      color:
+        #b9c5d8;
+
+      font-size:
+        14px;
+
+      text-transform:
+        uppercase;
+
+      letter-spacing:
+        1px;
+
+    }
+
+    .cursos {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap:
+        15px;
+
+    }
+
+    .curso {
+
+      padding:
+        20px;
+
+      border-radius:
+        17px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.1);
+
+      background:
+        rgba(255,255,255,.035);
+
+      color:
+        white;
+
+      cursor:
+        pointer;
+
+      text-align:
+        center;
+
+      transition:
+        .25s ease;
+
+    }
+
+    .curso:hover {
+
+      transform:
+        translateY(-4px);
+
+      border-color:
+        rgba(41,121,255,.5);
+
+    }
+
+    .curso.activo {
+
+      border-color:
+        #2979ff;
+
+      background:
+        rgba(41,121,255,.13);
+
+      box-shadow:
+        0 0 25px
+        rgba(41,121,255,.15);
+
+    }
+
+    .curso .icono {
+
+      display:
+        block;
+
+      font-size:
+        32px;
+
+      margin-bottom:
+        8px;
+
+    }
+
+
+    /* =========================
+       BOTONES
+    ========================= */
+
+    .acciones {
+
+      display:
+        flex;
+
+      gap:
+        12px;
+
+      margin-top:
+        30px;
+
+      flex-wrap:
+        wrap;
+
+    }
+
+    button {
+
+      border:
+        none;
+
+      border-radius:
+        12px;
+
+      padding:
+        14px 22px;
+
+      color:
+        white;
+
+      font-weight:
+        700;
+
+      cursor:
+        pointer;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2979ff,
+          #1265e8
+        );
+
+      box-shadow:
+        0 8px 25px
+        rgba(41,121,255,.25);
+
+    }
+
+    button:hover {
+
+      transform:
+        translateY(-2px);
+
+    }
+
+    .secundario {
+
+      background:
+        rgba(255,255,255,.06);
+
+      border:
+        1px solid
+        rgba(255,255,255,.12);
+
+      box-shadow:
+        none;
+
+    }
+
+
+    /* =========================
+       ESTADO
+    ========================= */
+
+    #estado {
+
+      margin-top:
+        25px;
+
+      padding:
+        17px;
+
+      border-radius:
+        13px;
+
+      background:
+        rgba(255,255,255,.04);
+
+      color:
+        #aebbd0;
+
+      line-height:
+        1.5;
+
+    }
+
+    .estado-ok {
+
+      color:
+        #58d68d !important;
+
+      border:
+        1px solid
+        rgba(88,214,141,.25);
+
+    }
+
+
+    /* =========================
+       QR
+    ========================= */
+
+    #zonaQR {
+
+      display:
+        none;
+
+      margin-top:
+        30px;
+
+      padding:
+        25px;
+
+      border-radius:
+        20px;
+
+      text-align:
+        center;
+
+      background:
+        rgba(255,255,255,.035);
+
+      border:
+        1px solid
+        rgba(41,121,255,.2);
+
+    }
+
+    #zonaQR.activa {
+
+      display:
+        block;
+
+    }
+
+    #qr {
+
+      width:
+        260px;
+
+      max-width:
+        80vw;
+
+      margin:
+        20px auto;
+
+      display:
+        block;
+
+      background:
+        white;
+
+      padding:
+        10px;
+
+      border-radius:
+        15px;
+
+    }
+
+    #reloj {
+
+      font-size:
+        2.5rem;
+
+      font-weight:
+        900;
+
+      color:
+        #2979ff;
+
+      margin:
+        10px 0;
+
+    }
+
+
+    /* =========================
+       RESPONSIVO
+    ========================= */
+
+    @media
+    (max-width: 700px) {
+
+      .panel {
+
+        padding:
+          22px;
+
+      }
+
+      .cursos {
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
+      }
+
+    }
+
+    @media
+    (max-width: 450px) {
+
+      .cursos {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+  <div class="logo">
+    IM<span>3</span>CB
+  </div>
+
+  <h1>
+    Panel <span>Docente</span>
+  </h1>
+
+  <p>
+    Administración de sesiones y pase de lista
+  </p>
+
+</header>
+
+
+<main class="contenedor">
+
+
+  <section class="panel">
+
+
+    <h2>
+      🔐 Iniciar sesión docente
+    </h2>
+
+
+    <div class="campo">
+
+      <label>
+        Código docente
+      </label>
+
+      <input
+        id="codigoDocente"
+        type="password"
+        placeholder="Ingresa tu código"
+        autocomplete="off">
+
+    </div>
+
+
+    <div class="titulo-seccion">
+      Selecciona el curso
+    </div>
+
+
+    <div class="cursos">
+
+
+      <button
+        type="button"
+        class="curso activo"
+        data-curso="CAD"
+        onclick="seleccionarCurso(this)">
+
+        <span class="icono">
+          📐
+        </span>
+
+        Dibujo Asistido por Computadora
+
+      </button>
+
+
+      <button
+        type="button"
+        class="curso"
+        data-curso="TERMODINAMICA"
+        onclick="seleccionarCurso(this)">
+
+        <span class="icono">
+          🌡️
+        </span>
+
+        Termodinámica
+
+      </button>
+
+
+      <button
+        type="button"
+        class="curso"
+        data-curso="INSTRUMENTACION"
+        onclick="seleccionarCurso(this)">
+
+        <span class="icono">
+          ⚙️
+        </span>
+
+        Instrumentación
+
+      </button>
+
+
+      <button
+        type="button"
+        class="curso"
+        data-curso="VIBRACIONES"
+        onclick="seleccionarCurso(this)">
+
+        <span class="icono">
+          📊
+        </span>
+
+        Vibraciones Mecánicas
+
+      </button>
+
+
+      <button
+        type="button"
+        class="curso"
+        data-curso="CIRCUITOS"
+        onclick="seleccionarCurso(this)">
+
+        <span class="icono">
+          🔌
+        </span>
+
+        Circuitos
+
+      </button>
+
+
+      <button
+        type="button"
+        class="curso"
+        data-curso="PRODUCCION"
+        onclick="seleccionarCurso(this)">
+
+        <span class="icono">
+          🏭
+        </span>
+
+        Producción
+
+      </button>
+
+
+    </div>
+
+
+    <div class="campo" style="margin-top:30px;">
+
+      <label>
+        Grupo
+      </label>
+
+      <input
+        id="grupo"
+        type="text"
+        placeholder="Ej. IM3">
+
+    </div>
+
+
+    <div class="campo">
+
+      <label>
+        Sesión o tema
+      </label>
+
+      <input
+        id="sesion"
+        type="text"
+        placeholder="Ej. Unidad 1 - Introducción">
+
+    </div>
+
+
+    <div class="acciones">
+
+      <button
+        type="button"
+        onclick="iniciarPaseLista()">
+
+        ▶ Iniciar pase de lista
+
+      </button>
+
+
+      <button
+        type="button"
+        class="secundario"
+        onclick="cerrarLista()">
+
+        ■ Cerrar lista
+
+      </button>
+
+    </div>
+
+
+    <div id="estado">
+
+      Lista inactiva.
+      Selecciona el curso e ingresa los datos de la sesión.
+
+    </div>
+
+
+    <div id="zonaQR">
+
+      <h2>
+        📱 QR de asistencia
+      </h2>
+
+      <div id="reloj">
+        20:00
+      </div>
+
+      <img
+        id="qr"
+        alt="QR de asistencia">
+
+      <p>
+        Escanea este código para registrar asistencia.
+      </p>
+
+    </div>
+
+
+  </section>
+
+
+</main>
+
+
+<script>
+
+
+/* =================================
+   CONFIGURACIÓN
+================================= */
+
+const CONFIG = {
+
+  codigoDocente: "LISTA2026",
+
+  appsScriptUrl:
+    "https://script.google.com/macros/s/AKfycbwBK5q5_be0am3KBBqP5ZCse2c6sjT0ovFVGS1jnQyMKcZPoPeKGRjym8AE8wK69WtgBg/exec",
+
+  minutosAsistencia: 15,
+
+  minutosRetardo: 5,
+
+  cursoSeleccionado: "CAD",
+
+  paginaCAD:
+    "dibujo-asistido.html"
+
+};
+
+
+let inicioLista = null;
+
+let temporizador = null;
+
+
+/* =================================
+   SELECCIONAR CURSO
+================================= */
+
+function seleccionarCurso(boton) {
+
+  document
+    .querySelectorAll(".curso")
+    .forEach((elemento) => {
+
+      elemento.classList.remove("activo");
+
+    });
+
+
+  boton.classList.add("activo");
+
+
+  CONFIG.cursoSeleccionado =
+    boton.dataset.curso;
+
+
+  document.getElementById("estado").textContent =
+    `Curso seleccionado: ${boton.textContent.trim()}`;
+
+}
+
+
+/* =================================
+   INICIAR PASE
+================================= */
+
+function iniciarPaseLista() {
+
+  const codigo =
+    document
+      .getElementById("codigoDocente")
+      .value
+      .trim();
+
+  const grupo =
+    document
+      .getElementById("grupo")
+      .value
+      .trim();
+
+  const sesion =
+    document
+      .getElementById("sesion")
+      .value
+      .trim();
+
+
+  if (codigo !== CONFIG.codigoDocente) {
+
+    document.getElementById("estado").textContent =
+      "❌ Código docente incorrecto.";
+
+    return;
+
+  }
+
+
+  if (!grupo || !sesion) {
+
+    document.getElementById("estado").textContent =
+      "⚠️ Escribe el grupo y la sesión o tema.";
+
+    return;
+
+  }
+
+
+  inicioLista =
+    Date.now();
+
+
+  const idSesion =
+    CONFIG.cursoSeleccionado +
+    "-" +
+    Date.now();
+
+
+  const urlCurso =
+    obtenerUrlCurso();
+
+
+  const urlAsistencia =
+    `${urlCurso}?asistencia=1` +
+    `&inicio=${inicioLista}` +
+    `&sesion=${encodeURIComponent(sesion)}` +
+    `&id=${encodeURIComponent(idSesion)}` +
+    `&grupo=${encodeURIComponent(grupo)}`;
+
+
+  const qrURL =
+    "https://api.qrserver.com/v1/create-qr-code/" +
+    `?size=500x500&data=${encodeURIComponent(urlAsistencia)}`;
+
+
+  document.getElementById("qr").src =
+    qrURL;
+
+
+  document
+    .getElementById("zonaQR")
+    .classList.add("activa");
+
+
+  document.getElementById("estado").textContent =
+    `✅ Pase de lista activo para ${CONFIG.cursoSeleccionado}.`;
+
+
+  iniciarReloj();
+
+}
+
+
+/* =================================
+   URL DEL CURSO
+================================= */
+
+function obtenerUrlCurso() {
+
+  const base =
+    window.location.href
+      .substring(
+        0,
+        window.location.href.lastIndexOf("/") + 1
+      );
+
+
+  const cursos = {
+
+    CAD:
+      "dibujo-asistido.html",
+
+    TERMODINAMICA:
+      "termodinamica.html",
+
+    INSTRUMENTACION:
+      "instrumentacion.html",
+
+    VIBRACIONES:
+      "vibraciones.html",
+
+    CIRCUITOS:
+      "circuitos.html",
+
+    PRODUCCION:
+      "produccion.html"
+
+  };
+
+
+  return base +
+    (cursos[CONFIG.cursoSeleccionado] ||
+     cursos.CAD);
+
+}
+
+
+/* =================================
+   RELOJ
+================================= */
+
+function iniciarReloj() {
+
+  if (temporizador) {
+
+    clearInterval(temporizador);
+
+  }
+
+
+  actualizarReloj();
+
+
+  temporizador =
+    setInterval(
+      actualizarReloj,
+      1000
+    );
+
+}
+
+
+function actualizarReloj() {
+
+  if (!inicioLista) return;
+
+
+  const duracion =
+    (
+      CONFIG.minutosAsistencia +
+      CONFIG.minutosRetardo
+    ) * 60000;
+
+
+  const restante =
+    Math.max(
+      0,
+      inicioLista +
+      duracion -
+      Date.now()
+    );
+
+
+  const minutos =
+    Math.floor(
+      restante / 60000
+    );
+
+
+  const segundos =
+    Math.floor(
+      (restante % 60000) / 1000
+    );
+
+
+  document.getElementById("reloj")
+    .textContent =
+      `${String(minutos).padStart(2,"0")}:` +
+      `${String(segundos).padStart(2,"0")}`;
+
+
+  if (restante <= 0) {
+
+    clearInterval(temporizador);
+
+    temporizador = null;
+
+    document.getElementById("estado")
+      .textContent =
+        "⏰ Lista cerrada automáticamente.";
+
+  }
+
+}
+
+
+/* =================================
+   CERRAR LISTA
+================================= */
+
+function cerrarLista() {
+
+  inicioLista = null;
+
+
+  if (temporizador) {
+
+    clearInterval(temporizador);
+
+    temporizador = null;
+
+  }
+
+
+  document
+    .getElementById("zonaQR")
+    .classList.remove("activa");
+
+
+  document.getElementById("estado")
+    .textContent =
+      "Lista cerrada.";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
