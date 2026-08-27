@@ -787,6 +787,16 @@ function entrarAlCurso(
     destino;
 
 }
+      window.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("nombre").value =
+    localStorage.getItem("im3cb_nombre") || "";
+
+  document.getElementById("matricula").value =
+    localStorage.getItem("im3cb_matricula") || "";
+
+  document.getElementById("grupo").value =
+    localStorage.getItem("im3cb_grupo") || "";
+});
 </script>
 
 
