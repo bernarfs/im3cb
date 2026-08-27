@@ -688,16 +688,15 @@ Vibraciones Mecánicas
 
 </button>
 
-
 <button
   type="button"
   class="curso"
-  data-curso="CIRCUITOS"
+  data-curso="PROBABILIDAD"
   onclick="seleccionarCurso(this)">
 
-<span class="icono">🔌</span>
+  <span class="icono">📊</span>
 
-Circuitos
+  Probabilidad y Estadística
 
 </button>
 
@@ -705,16 +704,118 @@ Circuitos
 <button
   type="button"
   class="curso"
-  data-curso="PRODUCCION"
+  data-curso="HIDRAULICA"
   onclick="seleccionarCurso(this)">
 
-<span class="icono">🏭</span>
+  <span class="icono">💨</span>
 
-Producción
+  Circuitos Hidráulicos y Neumáticos
 
 </button>
 
 
+<button
+  type="button"
+  class="curso"
+  data-curso="DISENO1"
+  onclick="seleccionarCurso(this)">
+
+  <span class="icono">✏️</span>
+
+  Diseño 1
+
+</button>
+
+
+<button
+  type="button"
+  class="curso"
+  data-curso="DISENO2"
+  onclick="seleccionarCurso(this)">
+
+  <span class="icono">📐</span>
+
+  Diseño 2
+
+</button>
+
+
+<button
+  type="button"
+  class="curso"
+  data-curso="MANUFACTURA"
+  onclick="seleccionarCurso(this)">
+
+  <span class="icono">🏭</span>
+
+  Manufactura Automatizada
+
+</button>
+
+
+<button
+  type="button"
+  class="curso"
+  data-curso="CALIDAD"
+  onclick="seleccionarCurso(this)">
+
+  <span class="icono">📋</span>
+
+  Estadística y Control de la Calidad
+
+</button>
+
+
+<button
+  type="button"
+  class="curso"
+  data-curso="FUNDAMENTOS_TERMO"
+  onclick="seleccionarCurso(this)">
+
+  <span class="icono">🔥</span>
+
+  Fundamentos de Termodinámica
+
+</button>
+
+
+<button
+  type="button"
+  class="curso"
+  data-curso="PLANTAS_TERMICAS"
+  onclick="seleccionarCurso(this)">
+
+  <span class="icono">♨️</span>
+
+  Plantas Térmicas
+
+</button>
+
+
+<button
+  type="button"
+  class="curso"
+  data-curso="MANIPULADORES"
+  onclick="seleccionarCurso(this)">
+
+  <span class="icono">🤖</span>
+
+  Manipuladores Industriales
+
+</button>
+
+
+<button
+  type="button"
+  class="curso"
+  data-curso="INSTRUMENTACION_CONTROL"
+  onclick="seleccionarCurso(this)">
+
+  <span class="icono">🎛️</span>
+
+  Instrumentación y Control
+
+</button>
 </div>
 
 
@@ -831,37 +932,41 @@ Escanea este código para registrar tu asistencia.
 
 </main>
 
-
 <script>
 
-
 /* =================================
-   CONFIGURACIÓN GENERAL
+   CONFIGURACIÓN
 ================================= */
+
+const APPS_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbwBK5q5_be0am3KBBqP5ZCse2c6sjT0ovFVGS1jnQyMKcZPoPeKGRjym8AE8wK69WtgBg/exec";
+
 
 const CONFIG = {
 
   codigoDocente:
     "LISTA2026",
 
-  appsScriptUrl:
-    "https://script.google.com/macros/s/AKfycbwBK5q5_be0am3KBBqP5ZCse2c6sjT0ovFVGS1jnQyMKcZPoPeKGRjym8AE8wK69WtgBg/exec",
-
   minutosAsistencia:
     15,
 
   minutosRetardo:
-    5,
-
-  cursoSeleccionado:
-    "CAD"
+    5
 
 };
 
 
-let inicioLista = null;
+/* =================================
+   VARIABLES DE SESIÓN
+================================= */
+
+let cursoSeleccionado = "CAD";
 
 let idSesionActual = null;
+
+let inicioLista = null;
+
+let finLista = null;
 
 let temporizador = null;
 
@@ -871,7 +976,6 @@ let temporizador = null;
 ================================= */
 
 function seleccionarCurso(boton) {
-
 
   document
     .querySelectorAll(".curso")
@@ -884,98 +988,15 @@ function seleccionarCurso(boton) {
   boton.classList.add("activo");
 
 
-  CONFIG.cursoSeleccionado =
+  cursoSeleccionado =
     boton.dataset.curso;
 
 
   document
     .getElementById("estado")
     .textContent =
-      `Curso seleccionado: ${boton.textContent.trim()}`;
-
-}
-
-
-/* =================================
-   OBTENER URL DEL CURSO
-================================= */
-
-function obtenerUrlCurso() {
-
-
-  const base =
-    window.location.href.substring(
-      0,
-      window.location.href.lastIndexOf("/") + 1
-    );
-
-
-  const cursos = {
-
-    CAD:
-      "dibujo-asistido.html",
-
-    TERMODINAMICA:
-      "termodinamica.html",
-
-    INSTRUMENTACION:
-      "instrumentacion.html",
-
-    VIBRACIONES:
-      "vibraciones.html",
-
-    CIRCUITOS:
-      "circuitos.html",
-
-    PRODUCCION:
-      "produccion.html"
-
-  };
-
-
-  return base +
-    (
-      cursos[
-        CONFIG.cursoSeleccionado
-      ] ||
-      cursos.CAD
-    );
-
-}
-
-
-/* =================================
-   GENERAR ID ÚNICO
-================================= */
-
-function generarIdSesion() {
-
-
-  const caracteres =
-    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-
-  let resultado = "";
-
-
-  for(let i = 0; i < 10; i++) {
-
-    resultado +=
-      caracteres[
-        Math.floor(
-          Math.random() *
-          caracteres.length
-        )
-      ];
-
-  }
-
-
-  return (
-    CONFIG.cursoSeleccionado +
-    "-" +
-    resultado
-  );
+      "Curso seleccionado: " +
+      boton.textContent.trim();
 
 }
 
@@ -984,7 +1005,7 @@ function generarIdSesion() {
    INICIAR PASE DE LISTA
 ================================= */
 
-function iniciarPaseLista() {
+async function iniciarPaseLista() {
 
 
   const codigo =
@@ -1001,7 +1022,11 @@ function iniciarPaseLista() {
       .trim();
 
 
-  if(
+  /* ===============================
+     VALIDAR DOCENTE
+  =============================== */
+
+  if (
     codigo !==
     CONFIG.codigoDocente
   ) {
@@ -1016,7 +1041,11 @@ function iniciarPaseLista() {
   }
 
 
-  if(!sesion) {
+  /* ===============================
+     VALIDAR SESIÓN
+  =============================== */
+
+  if (!sesion) {
 
     document
       .getElementById("estado")
@@ -1028,89 +1057,209 @@ function iniciarPaseLista() {
   }
 
 
-  inicioLista =
-    Date.now();
-
-
-  idSesionActual =
-    generarIdSesion();
-
-
-  const cursoURL =
-    obtenerUrlCurso();
-
-
-  const urlAsistencia =
-
-    cursoURL +
-
-    "?asistencia=1" +
-
-    "&inicio=" +
-    encodeURIComponent(
-      inicioLista
-    ) +
-
-    "&sesion=" +
-    encodeURIComponent(
-      sesion
-    ) +
-
-    "&id=" +
-    encodeURIComponent(
-      idSesionActual
-    ) +
-
-    "&curso=" +
-    encodeURIComponent(
-      CONFIG.cursoSeleccionado
+  const boton =
+    document.querySelector(
+      ".acciones button"
     );
 
 
-  const qrURL =
+  boton.disabled = true;
 
-    "https://api.qrserver.com/v1/create-qr-code/" +
-
-    "?size=600x600&data=" +
-
-    encodeURIComponent(
-      urlAsistencia
-    );
+  boton.textContent =
+    "⏳ Creando sesión...";
 
 
-  document
-    .getElementById("qr")
-    .src =
-      qrURL;
+  try {
 
 
-  document
-    .getElementById("infoCurso")
-    .textContent =
-      "Curso: " +
-      CONFIG.cursoSeleccionado;
+    /* =============================
+       PEDIR SESIÓN A APPS SCRIPT
+    ============================= */
+
+    const respuesta =
+      await fetch(
+        APPS_SCRIPT_URL,
+        {
+
+          method: "POST",
+
+          body:
+            JSON.stringify({
+
+              accion:
+                "iniciar_sesion",
+
+              curso:
+                cursoSeleccionado,
+
+              sesion:
+                sesion
+
+            })
+
+        }
+      );
 
 
-  document
-    .getElementById("infoSesion")
-    .textContent =
-      "Sesión: " +
-      sesion;
+    const resultado =
+      await respuesta.json();
 
 
-  document
-    .getElementById("zonaQR")
-    .classList
-    .add("activa");
+    /* =============================
+       COMPROBAR RESPUESTA
+    ============================= */
+
+    if (
+      !resultado.ok
+    ) {
+
+      throw new Error(
+        resultado.error ||
+        "No se pudo iniciar la sesión."
+      );
+
+    }
 
 
-  document
-    .getElementById("estado")
-    .textContent =
-      "✅ Pase de lista iniciado correctamente.";
+    /* =============================
+       GUARDAR DATOS
+    ============================= */
+
+    idSesionActual =
+      resultado.id;
 
 
-  iniciarReloj();
+    inicioLista =
+      Number(
+        resultado.inicio
+      );
+
+
+    finLista =
+      Number(
+        resultado.fin
+      );
+
+
+    /* =============================
+       CREAR URL DE ASISTENCIA
+    ============================= */
+
+    const base =
+      window.location.href.substring(
+        0,
+        window.location.href.lastIndexOf("/") + 1
+      );
+
+
+    const urlAsistencia =
+
+      base +
+
+      "registro-asistencia.html" +
+
+      "?asistencia=1" +
+
+      "&curso=" +
+      encodeURIComponent(
+        cursoSeleccionado
+      ) +
+
+      "&sesion=" +
+      encodeURIComponent(
+        sesion
+      ) +
+
+      "&inicio=" +
+      encodeURIComponent(
+        inicioLista
+      ) +
+
+      "&id=" +
+      encodeURIComponent(
+        idSesionActual
+      );
+
+
+    /* =============================
+       GENERAR QR
+    ============================= */
+
+    const qrURL =
+
+      "https://api.qrserver.com/v1/create-qr-code/" +
+
+      "?size=600x600&data=" +
+
+      encodeURIComponent(
+        urlAsistencia
+      );
+
+
+    document
+      .getElementById("qr")
+      .src =
+        qrURL;
+
+
+    /* =============================
+       MOSTRAR INFORMACIÓN
+    ============================= */
+
+    document
+      .getElementById("infoCurso")
+      .textContent =
+        "Curso: " +
+        cursoSeleccionado;
+
+
+    document
+      .getElementById("infoSesion")
+      .textContent =
+        "Sesión: " +
+        sesion;
+
+
+    document
+      .getElementById("zonaQR")
+      .classList
+      .add("activa");
+
+
+    document
+      .getElementById("estado")
+      .textContent =
+        "✅ Sesión creada correctamente. QR activo.";
+
+
+    boton.textContent =
+      "🔄 Sesión activa";
+
+
+    iniciarReloj();
+
+
+  }
+  catch(error) {
+
+
+    console.error(error);
+
+
+    document
+      .getElementById("estado")
+      .textContent =
+        "❌ " +
+        error.message;
+
+
+    boton.disabled = false;
+
+
+    boton.textContent =
+      "▶ Iniciar pase de lista";
+
+  }
 
 }
 
@@ -1122,7 +1271,9 @@ function iniciarPaseLista() {
 function iniciarReloj() {
 
 
-  if(temporizador) {
+  if (
+    temporizador
+  ) {
 
     clearInterval(
       temporizador
@@ -1146,24 +1297,20 @@ function iniciarReloj() {
 function actualizarReloj() {
 
 
-  if(!inicioLista)
+  if (
+    !finLista
+  ) {
+
     return;
 
-
-  const duracion =
-
-    (
-      CONFIG.minutosAsistencia +
-      CONFIG.minutosRetardo
-    ) * 60000;
+  }
 
 
   const restante =
 
     Math.max(
       0,
-      inicioLista +
-      duracion -
+      finLista -
       Date.now()
     );
 
@@ -1189,32 +1336,59 @@ function actualizarReloj() {
     .textContent =
 
       String(minutos)
-        .padStart(2,"0") +
+        .padStart(2, "0") +
 
       ":" +
 
       String(segundos)
-        .padStart(2,"0");
+        .padStart(2, "0");
 
 
-  if(restante <= 0) {
+  if (
+    restante <= 0
+  ) {
 
+    finalizarSesionVisual();
+
+  }
+
+}
+
+
+/* =================================
+   FINALIZAR SESIÓN
+================================= */
+
+function finalizarSesionVisual() {
+
+
+  if (
+    temporizador
+  ) {
 
     clearInterval(
       temporizador
     );
 
-
     temporizador =
       null;
 
-
-    document
-      .getElementById("estado")
-      .textContent =
-        "⏰ La sesión de asistencia ha terminado.";
-
   }
+
+
+  finLista = null;
+
+
+  document
+    .getElementById("reloj")
+    .textContent =
+      "00:00";
+
+
+  document
+    .getElementById("estado")
+    .textContent =
+      "⏰ La sesión terminó. Este QR ya no debe utilizarse.";
 
 }
 
@@ -1223,42 +1397,161 @@ function actualizarReloj() {
    CERRAR LISTA
 ================================= */
 
-function cerrarLista() {
+async function cerrarLista() {
+
+  try {
+
+    /* =============================
+       COMPROBAR QUE EXISTE CURSO
+    ============================= */
+
+    if (!cursoSeleccionado) {
+
+      return;
+
+    }
 
 
-  inicioLista = null;
+    /* =============================
+       AVISAR AL SERVIDOR
+    ============================= */
 
-  idSesionActual = null;
+    const respuesta =
+      await fetch(
+        APPS_SCRIPT_URL,
+        {
+
+          method: "POST",
+
+          body:
+            JSON.stringify({
+
+              accion:
+                "cerrar_sesion",
+
+              curso:
+                cursoSeleccionado
+
+            })
+
+        }
+      );
 
 
-  if(temporizador) {
+    const resultado =
+      await respuesta.json();
 
-    clearInterval(
+
+    if (!resultado.ok) {
+
+      throw new Error(
+        resultado.error ||
+        resultado.mensaje ||
+        "No se pudo cerrar la sesión."
+      );
+
+    }
+
+
+    /* =============================
+       DETENER RELOJ
+    ============================= */
+
+    if (
       temporizador
+    ) {
+
+      clearInterval(
+        temporizador
+      );
+
+      temporizador =
+        null;
+
+    }
+
+
+    /* =============================
+       BORRAR VARIABLES
+    ============================= */
+
+    idSesionActual =
+      null;
+
+    inicioLista =
+      null;
+
+    finLista =
+      null;
+
+
+    /* =============================
+       OCULTAR QR
+    ============================= */
+
+    document
+      .getElementById("zonaQR")
+      .classList
+      .remove("activa");
+
+
+    /* =============================
+       RESTABLECER RELOJ
+    ============================= */
+
+    document
+      .getElementById("reloj")
+      .textContent =
+        "20:00";
+
+
+    /* =============================
+       MENSAJE
+    ============================= */
+
+    document
+      .getElementById("estado")
+      .textContent =
+        "🔒 Sesión cerrada. El QR anterior ya no es válido.";
+
+
+    /* =============================
+       RESTABLECER BOTÓN
+    ============================= */
+
+    const boton =
+      document.querySelector(
+        ".acciones button"
+      );
+
+
+    boton.disabled =
+      false;
+
+
+    boton.textContent =
+      "▶ Iniciar pase de lista";
+
+
+  }
+  catch(error) {
+
+    console.error(
+      error
     );
 
-    temporizador =
-      null;
+
+    document
+      .getElementById("estado")
+      .textContent =
+        "❌ " +
+        error.message;
 
   }
 
-
-  document
-    .getElementById("zonaQR")
-    .classList
-    .remove("activa");
-
-
-  document
-    .getElementById("estado")
-    .textContent =
-      "Lista cerrada.";
-
 }
 
-
 </script>
-
 
 </body>
 
