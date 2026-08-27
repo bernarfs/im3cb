@@ -1000,13 +1000,123 @@ function seleccionarCurso(boton) {
 
 }
 
+/* =================================
+   INICIAR SESIÓN MEDIANTE GET + JSONP
+================================= */
 
+function iniciarSesionGET(
+  curso,
+  sesion
+) {
+
+  return new Promise(
+    function(resolve) {
+
+      const callback =
+        "respuestaSesion_" +
+        Date.now();
+
+
+      const script =
+        document.createElement(
+          "script"
+        );
+
+
+      window[callback] =
+        function(resultado) {
+
+          delete window[callback];
+
+
+          if (
+            script.parentNode
+          ) {
+
+            script.parentNode
+              .removeChild(
+                script
+              );
+
+          }
+
+
+          resolve(
+            resultado
+          );
+
+        };
+
+
+      const parametros =
+        new URLSearchParams({
+
+          accion:
+            "iniciar_sesion",
+
+          curso:
+            curso,
+
+          sesion:
+            sesion,
+
+          callback:
+            callback
+
+        });
+
+
+      script.src =
+        APPS_SCRIPT_URL +
+        "?" +
+        parametros.toString();
+
+
+      script.onerror =
+        function() {
+
+          delete window[callback];
+
+
+          if (
+            script.parentNode
+          ) {
+
+            script.parentNode
+              .removeChild(
+                script
+              );
+
+          }
+
+
+          resolve({
+
+            ok: false,
+
+            error:
+              "No se pudo comunicar con Apps Script."
+
+          });
+
+        };
+
+
+      document
+        .head
+        .appendChild(
+          script
+        );
+
+    }
+  );
+
+}
 /* =================================
    INICIAR PASE DE LISTA
 ================================= */
 
 async function iniciarPaseLista() {
-
 
   const codigo =
     document
@@ -1057,6 +1167,18 @@ async function iniciarPaseLista() {
   }
 
 
+  if (!cursoSeleccionado) {
+
+    document
+      .getElementById("estado")
+      .textContent =
+        "⚠️ Selecciona un curso.";
+
+    return;
+
+  }
+
+
   const boton =
     document.querySelector(
       ".acciones button"
@@ -1074,35 +1196,14 @@ async function iniciarPaseLista() {
 
     /* =============================
        PEDIR SESIÓN A APPS SCRIPT
+       MEDIANTE GET + JSONP
     ============================= */
 
-    const respuesta =
-      await fetch(
-        APPS_SCRIPT_URL,
-        {
-
-          method: "POST",
-
-          body:
-            JSON.stringify({
-
-              accion:
-                "iniciar_sesion",
-
-              curso:
-                cursoSeleccionado,
-
-              sesion:
-                sesion
-
-            })
-
-        }
-      );
-
-
     const resultado =
-      await respuesta.json();
+      await iniciarSesionGET(
+        cursoSeleccionado,
+        sesion
+      );
 
 
     /* =============================
@@ -1110,12 +1211,16 @@ async function iniciarPaseLista() {
     ============================= */
 
     if (
+      !resultado ||
       !resultado.ok
     ) {
 
       throw new Error(
-        resultado.error ||
+
+        resultado?.error ||
+        resultado?.mensaje ||
         "No se pudo iniciar la sesión."
+
       );
 
     }
@@ -1210,14 +1315,20 @@ async function iniciarPaseLista() {
       .getElementById("infoCurso")
       .textContent =
         "Curso: " +
-        cursoSeleccionado;
+        (
+          resultado.nombreCurso ||
+          cursoSeleccionado
+        );
 
 
     document
       .getElementById("infoSesion")
       .textContent =
         "Sesión: " +
-        sesion;
+        (
+          resultado.sesion ||
+          sesion
+        );
 
 
     document
@@ -1243,14 +1354,20 @@ async function iniciarPaseLista() {
   catch(error) {
 
 
-    console.error(error);
+    console.error(
+      "Error al iniciar sesión:",
+      error
+    );
 
 
     document
       .getElementById("estado")
       .textContent =
         "❌ " +
-        error.message;
+        (
+          error.message ||
+          "No se pudo iniciar la sesión."
+        );
 
 
     boton.disabled = false;
@@ -1262,7 +1379,6 @@ async function iniciarPaseLista() {
   }
 
 }
-
 
 /* =================================
    RELOJ
