@@ -654,29 +654,84 @@ const datos = {
       resultado.ok
     ) {
 
-      mostrarMensaje(
+     /* =================================
+   ASISTENCIA REGISTRADA
+   MOSTRAR LLAVE DE ACCESO
+================================= */
 
-        "✅ <strong>Asistencia registrada.</strong><br><br>" +
+if (resultado.ok) {
 
-        "Tu acceso a la plataforma ha sido autorizado.",
-
-        "exito"
-
-      );
-
-
-      document
-        .getElementById("formulario")
-        .style.display =
-          "none";
+  document
+    .getElementById("formulario")
+    .style.display =
+      "none";
 
 
-      /*
-       * AQUÍ AGREGAREMOS LA LLAVE
-       * Y EL BOTÓN PARA ENTRAR
-       * AL CURSO.
-       */
+  const llave =
+    resultado.llave || "";
 
+
+  if (!llave) {
+
+    mostrarMensaje(
+
+      "⚠️ La asistencia fue registrada, " +
+      "pero no se recibió la llave de acceso.",
+
+      "error"
+
+    );
+
+    return;
+
+  }
+
+
+  const paginaCurso =
+    resultado.pagina || "";
+
+
+  mostrarMensaje(
+
+    "🟢 <strong>Asistencia registrada.</strong><br><br>" +
+
+    "Tu acceso a la plataforma ha sido autorizado.<br><br>" +
+
+    "🔑 <strong>Llave de acceso:</strong><br>" +
+
+    "<span style=\"" +
+    "display:inline-block;" +
+    "margin:12px 0;" +
+    "padding:12px 18px;" +
+    "border-radius:10px;" +
+    "background:rgba(41,121,255,.12);" +
+    "border:1px solid rgba(41,121,255,.3);" +
+    "font-size:18px;" +
+    "font-weight:800;" +
+    "letter-spacing:2px;" +
+    "\">" +
+
+    llave +
+
+    "</span><br><br>" +
+
+    "<button " +
+    "type=\"button\" " +
+    "onclick=\"entrarAlCurso('" +
+    encodeURIComponent(llave) +
+    "','" +
+    encodeURIComponent(paginaCurso) +
+    "')\">" +
+
+    "🚀 Entrar al curso" +
+
+    "</button>",
+
+    "exito"
+
+  );
+
+}
     }
     else {
 
@@ -746,7 +801,57 @@ function mostrarMensaje(
     "visible " + tipo;
 
 }
+/* =================================
+   ENTRAR AL CURSO
+================================= */
 
+function entrarAlCurso(
+  llave,
+  pagina
+) {
+
+  llave =
+    decodeURIComponent(
+      llave
+    );
+
+
+  pagina =
+    decodeURIComponent(
+      pagina
+    );
+
+
+  if (
+    !llave ||
+    !pagina
+  ) {
+
+    mostrarMensaje(
+
+      "❌ No se pudo generar el acceso al curso.",
+
+      "error"
+
+    );
+
+    return;
+
+  }
+
+
+  const destino =
+    pagina +
+    "?llave=" +
+    encodeURIComponent(
+      llave
+    );
+
+
+  window.location.href =
+    destino;
+
+}
 </script>
 
 
