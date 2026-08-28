@@ -1322,96 +1322,6 @@
 
     });
 
-  /* =================================
-   ACCESO DIBUJO ASISTIDO POR COMPUTADORA
-================================= */
-
-function abrirAccesoCAD() {
-
-  const modal =
-    document.getElementById("modalAccesoCAD");
-
-  const input =
-    document.getElementById("codigoCAD");
-
-  const mensaje =
-    document.getElementById("mensajeAccesoCAD");
-
-  modal.classList.add("activo");
-
-  mensaje.textContent = "";
-
-  input.value = "";
-
-  setTimeout(() => input.focus(), 100);
-}
-
-
-function cerrarAccesoCAD() {
-
-  document
-    .getElementById("modalAccesoCAD")
-    .classList.remove("activo");
-
-}
-
-
-function validarAccesoCAD() {
-
-  const codigoCorrecto = "CAD2026";
-
-  const input =
-    document.getElementById("codigoCAD");
-
-  const mensaje =
-    document.getElementById("mensajeAccesoCAD");
-
-  const codigoIngresado =
-    input.value.trim().toUpperCase();
-
-  if (codigoIngresado === codigoCorrecto) {
-
-    mensaje.style.color = "#58d68d";
-
-    mensaje.textContent =
-      "✓ Acceso autorizado";
-
-    sessionStorage.setItem(
-      "accesoCAD",
-      "permitido"
-    );
-
-    setTimeout(() => {
-
-      window.location.href =
-        "dibujo-asistido.html";
-
-    }, 700);
-
-  } else {
-
-    mensaje.style.color = "#ff6b6b";
-
-    mensaje.textContent =
-      "✕ Código incorrecto";
-
-    input.value = "";
-
-    input.focus();
-  }
-}
-
-
-document
-  .getElementById("codigoCAD")
-  .addEventListener("keydown", function(event) {
-
-    if (event.key === "Enter") {
-      validarAccesoCAD();
-    }
-
-  });
-
 
 document
   .getElementById("modalAccesoCAD")
@@ -1653,6 +1563,45 @@ document.addEventListener(
 
   }
 );
+  const APPS_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbwBK5q5_be0am3KBBqP5ZCse2c6sjT0ovFVGS1jnQyMKcZPoPeKGRjym8AE8wK69WtgBg/exec";
+
+async function validarLlavePortal() {
+  const llave = new URLSearchParams(window.location.search).get("llave");
+
+  if (!llave) return;
+
+  const respuesta = await fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      accion: "validar_acceso",
+      llave: llave
+    })
+  });
+
+  const resultado = await respuesta.json();
+
+  if (resultado.ok && resultado.autorizado) {
+    sessionStorage.setItem("im3cb_llave", llave);
+    sessionStorage.setItem("im3cb_curso", resultado.curso);
+  }
+}
+
+async function abrirAccesoCAD() {
+  const llave = sessionStorage.getItem("im3cb_llave");
+  const curso = sessionStorage.getItem("im3cb_curso");
+
+  if (!llave || curso !== "CAD") {
+    alert("Acceso restringido. Registra tu asistencia con el QR.");
+    return;
+  }
+
+  window.location.href =
+    "dibujo-asistido.html?llave=" +
+    encodeURIComponent(llave);
+}
+
+validarLlavePortal();
 </script>
 </body>
 </html>
