@@ -653,7 +653,8 @@ const datos = {
   localStorage.setItem("im3cb_nombre", nombre);
   localStorage.setItem("im3cb_matricula", matricula);
   localStorage.setItem("im3cb_grupo", grupo);
-
+localStorage.setItem("im3cb_llave", resultado.llave || "");
+localStorage.setItem("im3cb_curso", resultado.curso || curso);
   window.location.href =
     "index.html?llave=" +
     encodeURIComponent(resultado.llave || "") +
