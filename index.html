@@ -1563,35 +1563,60 @@ document.addEventListener(
 
   }
 );
-  const APPS_SCRIPT_URL =
+const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwBK5q5_be0am3KBBqP5ZCse2c6sjT0ovFVGS1jnQyMKcZPoPeKGRjym8AE8wK69WtgBg/exec";
 
 async function validarLlavePortal() {
-  const llave = new URLSearchParams(window.location.search).get("llave");
+  const parametros = new URLSearchParams(window.location.search);
+  const llaveDesdeURL = parametros.get("llave");
+  const llave =
+    llaveDesdeURL ||
+    localStorage.getItem("im3cb_llave") ||
+    "";
 
-  if (!llave) return;
+  if (!llave) return false;
 
-  const respuesta = await fetch(APPS_SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      accion: "validar_acceso",
-      llave: llave
-    })
-  });
+  try {
+    const respuesta = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        accion: "validar_acceso",
+        llave: llave
+      })
+    });
 
-  const resultado = await respuesta.json();
+    const resultado = await respuesta.json();
 
-  if (resultado.ok && resultado.autorizado) {
-    sessionStorage.setItem("im3cb_llave", llave);
-    sessionStorage.setItem("im3cb_curso", resultado.curso);
+    if (!resultado.ok || !resultado.autorizado) {
+      localStorage.removeItem("im3cb_llave");
+      localStorage.removeItem("im3cb_curso");
+      return false;
+    }
+
+    localStorage.setItem("im3cb_llave", llave);
+    localStorage.setItem("im3cb_curso", resultado.curso);
+
+    if (llaveDesdeURL) {
+      history.replaceState(
+        {},
+        document.title,
+        window.location.pathname
+      );
+    }
+
+    return true;
+  } catch (error) {
+    console.warn("No se pudo validar la llave.", error);
+    return false;
   }
 }
 
 async function abrirAccesoCAD() {
-  const llave = sessionStorage.getItem("im3cb_llave");
-  const curso = sessionStorage.getItem("im3cb_curso");
+  const autorizado = await validarLlavePortal();
+  const llave = localStorage.getItem("im3cb_llave") || "";
+  const curso = localStorage.getItem("im3cb_curso") || "";
 
-  if (!llave || curso !== "CAD") {
+  if (!autorizado || curso !== "CAD") {
     alert("Acceso restringido. Registra tu asistencia con el QR.");
     return;
   }
