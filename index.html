@@ -1495,17 +1495,33 @@ const frasesIM3CB = [
    ABRIR FRASE
 ================================= */
 
-function abrirFraseIM3CB() {
+function registrarInteraccionFrase() {
+  const nombre = localStorage.getItem("im3cb_nombre") || "";
+  const curso = localStorage.getItem("im3cb_curso") || "";
 
+  if (!nombre || !curso) return;
+
+  fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      accion: "registrar_interaccion",
+      nombre: nombre,
+      curso: curso
+    })
+  }).catch(function(error) {
+    console.warn(
+      "No se pudo registrar la interacción.",
+      error
+    );
+  });
+}
+
+function abrirFraseIM3CB() {
   const modal =
     document.getElementById("modalFraseIM3CB");
 
   const imagen =
     document.getElementById("imagenFraseIM3CB");
-
-  /*
-     Elegir una imagen aleatoria
-  */
 
   const numero =
     Math.floor(Math.random() * 30) + 1;
@@ -1513,10 +1529,12 @@ function abrirFraseIM3CB() {
   const numeroFormateado =
     String(numero).padStart(3, "0");
 
-imagen.src =
-  `frases/frase-${numeroFormateado}.png`;
+  imagen.src =
+    `frases/frase-${numeroFormateado}.png`;
 
   modal.classList.add("activo");
+
+  registrarInteraccionFrase();
 }
 /* =================================
    CERRAR FRASE
