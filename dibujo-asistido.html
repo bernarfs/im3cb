@@ -1357,7 +1357,21 @@
 
     const calificacion =
       Math.round((aciertosCAD / preguntasCAD.length) * 100);
+    let retroalimentacionCAD = "";
 
+    if (calificacion === 100) {
+      retroalimentacionCAD =
+        "¡Excelente! Dominas los fundamentos iniciales de CAD. Estás listo para avanzar.";
+    } else if (calificacion >= 80) {
+      retroalimentacionCAD =
+        "Muy buen resultado. Repasa los temas donde fallaste para consolidar tu base.";
+    } else if (calificacion >= 60) {
+      retroalimentacionCAD =
+        "Tienes bases suficientes, pero conviene reforzar escalas, vistas, cotas y coordenadas.";
+    } else {
+      retroalimentacionCAD =
+        "Esta evaluación muestra los temas que trabajaremos desde el inicio. Úsala como punto de partida.";
+    }
     diagnosticoEnCurso = false;
 
     const contenido =
@@ -1379,6 +1393,7 @@
             <div style="font-size:58px">🏆</div>
             <h2>¡Felicitaciones!</h2>
             <p>Respondiste correctamente las 20 preguntas.</p>
+            <p>${retroalimentacionCAD}</p>
             <h1 style="margin-top:14px">100</h1>
           </div>
         `;
@@ -1388,6 +1403,7 @@
           <div class="retro-diagnostico" style="background:#102747">
             <p>Respuestas correctas: <strong>${aciertosCAD} de ${preguntasCAD.length}</strong></p>
             <p>Calificación registrada: <strong>${calificacion}</strong></p>
+         <p style="margin-top:12px">${retroalimentacionCAD}</p>
           </div>
         `;
       }
