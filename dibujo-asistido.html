@@ -1017,7 +1017,415 @@
    
   </script>
 
+<style>
+  .diagnostico-card {
+    margin: 34px auto;
+    max-width: 920px;
+    padding: 28px;
+    border: 1px solid #2775ff;
+    border-radius: 20px;
+    background: rgba(9, 20, 45, .88);
+    text-align: center;
+    box-shadow: 0 0 30px rgba(39, 117, 255, .16);
+  }
 
+  .diagnostico-card h2 { margin-bottom: 10px; }
+  .diagnostico-card p { color: #b7c5df; line-height: 1.55; }
+
+  .btn-diagnostico {
+    margin-top: 20px;
+    border: 0;
+    border-radius: 12px;
+    padding: 14px 22px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    background: #1f6fff;
+    cursor: pointer;
+  }
+
+  .btn-diagnostico:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+  }
+
+  #estadoDiagnostico {
+    margin-top: 14px;
+    color: #ffd36a;
+    font-weight: 600;
+  }
+
+  .modal-diagnostico {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    overflow-y: auto;
+    padding: 24px 14px;
+    background: rgba(0, 0, 0, .78);
+  }
+
+  .modal-diagnostico.activo { display: block; }
+
+  .ventana-diagnostico {
+    max-width: 760px;
+    margin: 25px auto;
+    padding: 28px;
+    border: 1px solid #337cff;
+    border-radius: 18px;
+    background: #0b1428;
+    box-shadow: 0 10px 45px rgba(0, 0, 0, .55);
+  }
+
+  .opcion-diagnostico {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 13px;
+    border: 1px solid #34496d;
+    border-radius: 10px;
+    color: #fff;
+    text-align: left;
+    background: #111e37;
+    cursor: pointer;
+  }
+
+  .opcion-diagnostico:hover { border-color: #4388ff; }
+  .opcion-diagnostico.correcta { border-color: #49d88d; background: #123c31; }
+  .opcion-diagnostico.incorrecta { border-color: #ff6b6b; background: #44252b; }
+
+  .retro-diagnostico {
+    margin: 16px 0;
+    padding: 14px;
+    border-radius: 10px;
+    line-height: 1.5;
+  }
+
+  .felicitacion-total {
+    padding: 24px;
+    border-radius: 16px;
+    color: #fff;
+    text-align: center;
+    background: linear-gradient(135deg, #155b37, #1d8d56);
+  }
+</style>
+
+<section class="diagnostico-card">
+  <h2>📝 Evaluación diagnóstica</h2>
+  <p>Conoce tu nivel inicial en Dibujo Asistido por Computadora.</p>
+  <p>Solo tienes una oportunidad. Si sales de esta página mientras respondes, se registrará calificación 0.</p>
+
+  <button
+    id="btnDiagnosticoCAD"
+    class="btn-diagnostico"
+    onclick="abrirDiagnosticoCAD()">
+    Iniciar evaluación diagnóstica
+  </button>
+
+  <p id="estadoDiagnostico"></p>
+</section>
+
+<div id="modalDiagnosticoCAD" class="modal-diagnostico">
+  <div class="ventana-diagnostico">
+    <div id="contenidoDiagnosticoCAD"></div>
+  </div>
+</div>
+
+<script>
+  const URL_CALIFICACIONES =
+    "https://script.google.com/macros/s/AKfycbx1VyNm--NRgIML-EuDog4woaoQmkJVGJPj0Xt7inWGSkSbV0kRUiLb5VEoGaUTV2Jj9Q/exec";
+
+  const preguntasCAD = [
+    ["¿Cuántos grados tiene un ángulo recto?", ["45°", "60°", "90°", "180°"], 2],
+    ["Un rectángulo mide 8 cm de largo y 5 cm de ancho. ¿Cuál es su área?", ["13 cm²", "26 cm²", "40 cm²", "80 cm²"], 2],
+    ["Si el diámetro de un círculo es de 20 mm, ¿cuánto mide su radio?", ["5 mm", "10 mm", "20 mm", "40 mm"], 1],
+    ["¿Qué unidad es apropiada para una pieza mecánica pequeña?", ["Kilómetros", "Metros", "Milímetros", "Hectáreas"], 2],
+    ["En escala 1:2, una pieza real de 100 mm se representa con:", ["25 mm", "50 mm", "100 mm", "200 mm"], 1],
+    ["Una escala 2:1 significa que el dibujo:", ["Tiene la mitad", "Tiene el mismo tamaño", "Tiene el doble", "No tiene relación"], 2],
+    ["¿Para qué sirve principalmente una cota?", ["Decorar", "Indicar una dimensión", "Cambiar color", "Identificar programa"], 1],
+    ["Un cubo visto directamente desde arriba se representa como:", ["Círculo", "Triángulo", "Cuadrado", "Elipse"], 2],
+    ["Las vistas frontal, superior y lateral sirven para:", ["Representar diferentes direcciones", "Determinar peso", "Cambiar tamaño", "Calcular volumen"], 0],
+    ["Un cilindro vertical visto desde arriba se observa como:", ["Rectángulo", "Círculo", "Triángulo", "Trapecio"], 1],
+    ["Al girar una pieza 90° alrededor de un eje puede cambiar:", ["Material", "Masa", "Forma de observarla", "Dimensiones reales"], 2],
+    ["En coordenadas cartesianas 2D los ejes principales son:", ["X y Y", "X y Z", "Y y Z", "A y B"], 0],
+    ["El punto (0,0) se conoce como:", ["Centro geométrico", "Origen", "Radio", "Vértice"], 1],
+    ["El punto (2,3) se mueve 4 unidades a la derecha. ¿Cuál es su posición?", ["(2,7)", "(6,3)", "(4,3)", "(6,7)"], 1],
+    ["¿Qué instrumento mide longitudes con mayor precisión que una regla?", ["Transportador", "Compás", "Calibrador Vernier", "Escuadra"], 2],
+    ["¿Qué línea representa contornos visibles?", ["Línea continua", "Línea de texto", "Línea de color", "Línea de relleno"], 0],
+    ["Dos líneas paralelas:", ["Se cruzan a 90°", "No se intersectan", "Forman círculo", "Tienen distinta longitud"], 1],
+    ["Ventaja principal de CAD:", ["Elimina geometría", "Crea y modifica con precisión", "Elimina dimensiones", "Solo trabaja 3D"], 1],
+    ["¿Qué combinación deshace la última acción?", ["Ctrl + C", "Ctrl + V", "Ctrl + Z", "Ctrl + P"], 2],
+    ["Un modelo 3D antes de fabricar permite בעיקר:", ["Revisar geometría", "Conocer precio", "Eliminar mediciones", "Evitar cambios"], 0]
+  ];
+
+  let preguntaActual = 0;
+  let aciertosCAD = 0;
+  let diagnosticoEnCurso = false;
+  let cerrandoDiagnostico = false;
+
+  function datosAlumnoCAD() {
+    return {
+      nombre: localStorage.getItem("im3cb_nombre") || "",
+      matricula: localStorage.getItem("im3cb_matricula") || "",
+      curso: "CAD",
+      evaluacion: "DIAGNOSTICA_CAD_2026"
+    };
+  }
+
+  async function apiCalificaciones(accion, extras = {}) {
+    const respuesta = await fetch(URL_CALIFICACIONES, {
+      method: "POST",
+      body: JSON.stringify({
+        accion: accion,
+        ...datosAlumnoCAD(),
+        ...extras
+      }),
+      keepalive: accion === "abandonar_diagnostico"
+    });
+
+    return respuesta.json();
+  }
+
+  async function consultarEstadoDiagnostico() {
+    const estado = document.getElementById("estadoDiagnostico");
+    const boton = document.getElementById("btnDiagnosticoCAD");
+    const alumno = datosAlumnoCAD();
+
+    if (!alumno.nombre) {
+      estado.textContent =
+        "Registra tu asistencia para identificarte.";
+      return;
+    }
+
+    try {
+      const resultado =
+        await apiCalificaciones("consultar_diagnostico");
+
+      if (!resultado.disponible) {
+        boton.disabled = true;
+        estado.textContent =
+          "Esta oportunidad ya fue dada.";
+      }
+    } catch (error) {
+      estado.textContent =
+        "No se pudo comprobar la evaluación. Intenta después.";
+    }
+  }
+
+  async function abrirDiagnosticoCAD() {
+    const contenido =
+      document.getElementById("contenidoDiagnosticoCAD");
+    const modal =
+      document.getElementById("modalDiagnosticoCAD");
+
+    if (!datosAlumnoCAD().nombre) {
+      alert("Registra primero tu asistencia para iniciar.");
+      return;
+    }
+
+    contenido.innerHTML = `
+      <h2>Evaluación diagnóstica CAD</h2>
+      <p style="margin:16px 0;line-height:1.6">
+        Tendrás una sola oportunidad. No salgas, cambies de pestaña
+        ni cierres el portal mientras contestas: si lo haces,
+        se registrará calificación <strong>0</strong>.
+      </p>
+      <button class="btn-diagnostico" onclick="comenzarDiagnosticoCAD()">
+        Comprendo, comenzar
+      </button>
+    `;
+
+    modal.classList.add("activo");
+  }
+
+  async function comenzarDiagnosticoCAD() {
+    const contenido =
+      document.getElementById("contenidoDiagnosticoCAD");
+
+    try {
+      const resultado =
+        await apiCalificaciones("iniciar_diagnostico");
+
+      if (!resultado.permitido) {
+        diagnosticoEnCurso = false;
+        document.getElementById("btnDiagnosticoCAD").disabled = true;
+
+        contenido.innerHTML = `
+          <h2>Evaluación no disponible</h2>
+          <p class="retro-diagnostico">
+            Esta oportunidad ya fue dada.
+          </p>
+        `;
+        return;
+      }
+
+      preguntaActual = 0;
+      aciertosCAD = 0;
+      diagnosticoEnCurso = true;
+      mostrarPreguntaCAD();
+
+    } catch (error) {
+      contenido.innerHTML = `
+        <p class="retro-diagnostico" style="background:#44252b">
+          No se pudo iniciar la evaluación. Revisa tu conexión.
+        </p>
+      `;
+    }
+  }
+
+  function mostrarPreguntaCAD() {
+    const contenido =
+      document.getElementById("contenidoDiagnosticoCAD");
+
+    const pregunta = preguntasCAD[preguntaActual];
+
+    contenido.innerHTML = `
+      <p style="color:#8db5ff;font-weight:bold">
+        Pregunta ${preguntaActual + 1} de ${preguntasCAD.length}
+      </p>
+      <h2 style="margin:14px 0">${pregunta[0]}</h2>
+      <div id="opcionesCAD"></div>
+      <div id="retroCAD"></div>
+    `;
+
+    const opciones = document.getElementById("opcionesCAD");
+
+    pregunta[1].forEach((opcion, indice) => {
+      const boton = document.createElement("button");
+      boton.className = "opcion-diagnostico";
+      boton.textContent =
+        String.fromCharCode(65 + indice) + ") " + opcion;
+      boton.onclick = () => responderCAD(indice);
+      opciones.appendChild(boton);
+    });
+  }
+
+  function responderCAD(respuesta) {
+    const pregunta = preguntasCAD[preguntaActual];
+    const esCorrecta = respuesta === pregunta[2];
+    const botones =
+      document.querySelectorAll(".opcion-diagnostico");
+    const retro = document.getElementById("retroCAD");
+
+    botones.forEach((boton, indice) => {
+      boton.disabled = true;
+
+      if (indice === pregunta[2]) {
+        boton.classList.add("correcta");
+      }
+
+      if (indice === respuesta && !esCorrecta) {
+        boton.classList.add("incorrecta");
+      }
+    });
+
+    if (esCorrecta) {
+      aciertosCAD++;
+      retro.innerHTML = `
+        <div class="retro-diagnostico" style="background:#123c31">
+          ✓ Correcto. ¡Muy bien!
+        </div>
+      `;
+    } else {
+      retro.innerHTML = `
+        <div class="retro-diagnostico" style="background:#44252b">
+          ✕ La respuesta correcta es:
+          <strong>${String.fromCharCode(65 + pregunta[2])}) ${pregunta[1][pregunta[2]]}</strong>
+        </div>
+      `;
+    }
+
+    const texto =
+      preguntaActual === preguntasCAD.length - 1
+        ? "Finalizar evaluación"
+        : "Siguiente pregunta";
+
+    retro.innerHTML += `
+      <button class="btn-diagnostico" onclick="siguientePreguntaCAD()">
+        ${texto}
+      </button>
+    `;
+  }
+
+  async function siguientePreguntaCAD() {
+    preguntaActual++;
+
+    if (preguntaActual < preguntasCAD.length) {
+      mostrarPreguntaCAD();
+      return;
+    }
+
+    const calificacion =
+      Math.round((aciertosCAD / preguntasCAD.length) * 100);
+
+    diagnosticoEnCurso = false;
+
+    const contenido =
+      document.getElementById("contenidoDiagnosticoCAD");
+
+    try {
+      await apiCalificaciones(
+        "finalizar_diagnostico",
+        { calificacion: calificacion }
+      );
+
+      document.getElementById("btnDiagnosticoCAD").disabled = true;
+      document.getElementById("estadoDiagnostico").textContent =
+        "Esta oportunidad ya fue dada.";
+
+      if (aciertosCAD === preguntasCAD.length) {
+        contenido.innerHTML = `
+          <div class="felicitacion-total">
+            <div style="font-size:58px">🏆</div>
+            <h2>¡Felicitaciones!</h2>
+            <p>Respondiste correctamente las 20 preguntas.</p>
+            <h1 style="margin-top:14px">100</h1>
+          </div>
+        `;
+      } else {
+        contenido.innerHTML = `
+          <h2>Evaluación terminada</h2>
+          <div class="retro-diagnostico" style="background:#102747">
+            <p>Respuestas correctas: <strong>${aciertosCAD} de ${preguntasCAD.length}</strong></p>
+            <p>Calificación registrada: <strong>${calificacion}</strong></p>
+          </div>
+        `;
+      }
+
+    } catch (error) {
+      contenido.innerHTML = `
+        <p class="retro-diagnostico" style="background:#44252b">
+          No se pudo guardar la calificación. No cierres esta ventana
+          y avísame.
+        </p>
+      `;
+    }
+  }
+
+  function abandonarDiagnosticoCAD() {
+    if (!diagnosticoEnCurso || cerrandoDiagnostico) return;
+
+    cerrandoDiagnostico = true;
+    diagnosticoEnCurso = false;
+
+    fetch(URL_CALIFICACIONES, {
+      method: "POST",
+      keepalive: true,
+      body: JSON.stringify({
+        accion: "abandonar_diagnostico",
+        ...datosAlumnoCAD()
+      })
+    }).catch(() => {});
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) abandonarDiagnosticoCAD();
+  });
+
+  window.addEventListener("pagehide", abandonarDiagnosticoCAD);
+
+  consultarEstadoDiagnostico();
+</script>
 </body>
 
 </html>
