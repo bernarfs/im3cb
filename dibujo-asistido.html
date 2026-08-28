@@ -1423,7 +1423,33 @@
   });
 
   window.addEventListener("pagehide", abandonarDiagnosticoCAD);
+  function colocarDiagnosticoAntesDeContenido() {
+    const tarjeta =
+      document.querySelector(".diagnostico-card");
 
+    const tituloContenido =
+      [...document.querySelectorAll("h2, h3")]
+        .find(titulo =>
+          titulo.textContent
+            .trim()
+            .toLowerCase()
+            .includes("contenido")
+        );
+
+    if (!tarjeta || !tituloContenido) return;
+
+    const seccionContenido =
+      tituloContenido.closest("section") ||
+      tituloContenido.parentElement;
+
+    seccionContenido.parentNode.insertBefore(
+      tarjeta,
+      seccionContenido
+    );
+  }
+
+  colocarDiagnosticoAntesDeContenido();
+  
   consultarEstadoDiagnostico();
 </script>
 </body>
