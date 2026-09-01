@@ -62,6 +62,14 @@
     @media(max-width:820px){.grid{grid-template-columns:1fr}.hero{min-height:520px}.particulas span{opacity:.14}.identidad{align-items:flex-start}.titulo-seccion{display:block}.titulo-seccion p{margin-top:8px}}
     @media(max-width:560px){header{padding:13px 4%}.volver{font-size:13px}.hero{padding:27px 20px;border-radius:23px}.icono-principal{width:78px;height:78px;font-size:43px}.lema{letter-spacing:2px;font-size:12px}.chips{gap:6px}.chip{font-size:12px}.identidad{padding:18px}.tarjeta{padding:21px}}
     @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+  
+    .objetivo{margin-top:22px;padding:23px;border-radius:20px;border:1px solid rgba(104,166,239,.3);background:rgba(8,21,45,.82);line-height:1.7;color:#c8d7eb}.objetivo h2{color:#fff;margin-bottom:9px}
+    .btn-eval{margin-top:15px;padding:12px 18px;border:0;border-radius:12px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;font-weight:900;cursor:pointer;transition:.25s}.btn-eval:hover{transform:translateY(-3px);filter:brightness(1.1)}.btn-eval:disabled{opacity:.45;cursor:not-allowed;transform:none}
+    .estado-eval{margin-top:10px;color:#f6cb72;line-height:1.45}
+    .modal-eval{position:fixed;inset:0;z-index:1000;display:none;place-items:center;padding:18px;background:rgba(1,5,14,.88);backdrop-filter:blur(10px)}.modal-eval.activo{display:grid}
+    .ventana-eval{width:min(720px,96vw);max-height:90vh;overflow:auto;padding:28px;border:1px solid var(--accent);border-radius:24px;background:#08172f;box-shadow:0 25px 90px rgba(0,0,0,.55)}
+    .opcion-eval{display:block;width:100%;margin:10px 0;padding:14px;text-align:left;border:1px solid #315889;border-radius:12px;background:#0d2346;color:#fff;cursor:pointer}.opcion-eval:hover{border-color:var(--accent);transform:translateX(4px)}.opcion-eval.correcta{background:#123d31;border-color:#48d597}.opcion-eval.incorrecta{background:#48232b;border-color:#ff6b78}.opcion-eval:disabled{cursor:default}
+    .retro-eval{margin:15px 0;padding:15px;border-radius:12px;line-height:1.6}.resultado-eval{text-align:center;padding:20px}.resultado-eval .trofeo{font-size:56px}
   </style>
 </head>
 <body>
@@ -83,6 +91,8 @@
     </div>
   </section>
 
+  <section class="objetivo"><h2>Objetivo general</h2><p>Seleccionar y aplicar instrumentos de medición en sistemas de medición y control de variables físicas de procesos industriales.</p></section>
+
   <section class="identidad">
     <div><strong id="nombreAlumno">Alumno identificado mediante el pase de lista</strong><p class="estado" id="estadoAcceso">Cargando información de acceso…</p></div>
     <span class="pulso-estado" aria-hidden="true"></span>
@@ -91,21 +101,21 @@
   <section class="grid">
     <article class="tarjeta"><span class="mini">📊</span><h2>Evaluación</h2><p>Los criterios y porcentajes se mostrarán al integrar el programa de la asignatura.</p></article>
     <article class="tarjeta"><span class="mini">⏳</span><h2>Trabajo pendiente</h2><div class="barra"><span></span></div><p><strong>100%</strong> del curso por completar.</p></article>
-    <article class="tarjeta"><span class="mini">📝</span><h2>Diagnóstico</h2><p>La evaluación propia de esta materia se incorporará junto con su temario.</p></article>
+    <article class="tarjeta"><span class="mini">📝</span><h2>Evaluación diagnóstica</h2><p>10 preguntas sobre conocimientos previos. Una sola oportunidad; si abandonas, se registrará 0.</p><button id="btnDiagnostico" class="btn-eval" onclick="abrirDiagnostico()">Iniciar diagnóstico</button><p id="estadoDiagnostico" class="estado-eval"></p></article>
   </section>
 
-  <section class="unidades">
-    <div class="titulo-seccion"><h2>Ruta del curso</h2><p>Selecciona una unidad para explorarla</p></div>
-    <details open><summary>Unidad 1 · Punto de partida</summary><div class="unidad">Preparada para integrar temas, recursos, actividades y evaluaciones de la primera unidad.</div></details>
-    <details class="bloqueada"><summary>🔒 Unidad 2 · Pendiente</summary><div class="unidad">Se habilitará conforme avance el curso.</div></details>
-    <details class="bloqueada"><summary>🔒 Unidad 3 · Pendiente</summary><div class="unidad">Se habilitará conforme avance el curso.</div></details>
-    <details class="bloqueada"><summary>🔒 Unidad 4 · Pendiente</summary><div class="unidad">Se habilitará conforme avance el curso.</div></details>
-    <details class="bloqueada"><summary>🔒 Unidad 5 · Pendiente</summary><div class="unidad">Se habilitará conforme avance el curso.</div></details>
-    <details class="bloqueada"><summary>🔒 Unidad 6 · Pendiente</summary><div class="unidad">Se habilitará conforme avance el curso.</div></details>
+  <section class="unidades"><div class="titulo-seccion"><h2>Temario oficial</h2><p>6 unidades del programa</p></div>
+    <details open><summary>Unidad 1 · Variables y errores de medición</summary><div class="unidad"><ul><li>1.1 Objetivos de la instrumentación</li><li>1.2 Variables de control, controladas e incontroladas</li><li>1.3 Elementos primarios, secundarios y finales</li><li>1.4 Errores de paralaje, escala, montaje y calibración</li></ul></div></details>
+    <details ><summary>Unidad 2 · Clasificación y características de instrumentos</summary><div class="unidad"><ul><li>2.1 Instrumentos neumáticos, eléctricos, hidráulicos, electromecánicos y mecatrónicos</li><li>2.2 Ciegos, indicadores, registradores, transmisores, transductores, receptores y controladores</li><li>2.3 Medición de caudal, nivel, presión, temperatura y velocidad</li></ul></div></details>
+    <details ><summary>Unidad 3 · Transmisores</summary><div class="unidad"><ul><li>3.1 Generalidades</li><li>3.2 Transmisores neumáticos y electrónicos</li><li>3.3 Transmisores uno a uno y de potencia</li><li>3.4 Transmisores de proporción</li><li>3.5 Transductores</li></ul></div></details>
+    <details ><summary>Unidad 4 · Simbología ISA e identificación</summary><div class="unidad"><ul><li>4.1 Simbología ISA</li><li>4.2 Letras de identificación</li><li>4.3 Simbología de señalización</li><li>4.4 Códigos de colores</li><li>4.5 Códigos de control neumáticos y electrónicos</li></ul></div></details>
+    <details ><summary>Unidad 5 · Elementos finales de control</summary><div class="unidad"><ul><li>5.1 Generalidades y tipos</li><li>5.2 Válvulas lineales, de apertura rápida, isoporcentuales y de solenoide</li><li>5.3 Actuadores mecánicos, neumáticos, hidráulicos y eléctricos</li></ul></div></details>
+    <details ><summary>Unidad 6 · Controladores</summary><div class="unidad"><ul><li>6.1 Generalidades</li><li>6.2 Lazo abierto y lazo cerrado</li><li>6.3 Modos On-Off, proporcional, PI y PID</li><li>6.4 Sintonización y calibración</li><li>6.5 Aplicaciones en balances de masa y energía</li></ul></div></details>
   </section>
 
-  <div class="aviso">Esta plantilla recibirá el temario, las fechas y las actividades de Instrumentación sin alterar el pase de lista ni el sistema independiente de interacciones.</div>
+  <div class="aviso">El contenido se desarrollará conforme al temario oficial de Instrumentación sin alterar el pase de lista ni el sistema independiente de interacciones.</div>
 </main>
+<div id="modalDiagnostico" class="modal-eval"><div class="ventana-eval"><div id="contenidoDiagnostico"></div></div></div>
 <footer>© 2026 IM3CB · Instrumentación</footer>
 <script>
   const nombre = localStorage.getItem("im3cb_nombre") || "";
@@ -133,6 +143,61 @@
   document.querySelectorAll(".tarjeta, details").forEach((elemento) => {
     observador.observe(elemento);
   });
+</script>
+<script>
+const URL_CALIFICACIONES = "https://script.google.com/macros/s/AKfycbx1VyNm--NRgIML-EuDog4woaoQmkJVGJPj0Xt7inWGSkSbV0kRUiLb5VEoGaUTV2Jj9Q/exec";
+const CURSO_DIAGNOSTICO = "INSTRUMENTACION";
+const EVALUACION_DIAGNOSTICA = "DIAGNOSTICA_INSTRUMENTACION_2026";
+const PREGUNTAS_DIAGNOSTICO = [["¿Qué significa medir una variable?",["Compararla con un patrón o unidad","Cambiar su valor","Eliminar el error","Controlarla automáticamente"],0],["¿Cuál es una variable típica de proceso industrial?",["Color favorito","Presión","Número de página","Nombre del operador"],1],["¿Qué instrumento mide presión?",["Termómetro","Manómetro","Tacómetro","Luxómetro"],1],["La corriente eléctrica se mide en:",["Volts","Ohms","Amperes","Watts por metro"],2],["Un sensor convierte una magnitud física en:",["Una señal utilizable","Un dibujo técnico","Una pieza mecánica","Una norma"],0],["¿Qué error ocurre al observar una escala desde un ángulo incorrecto?",["Histéresis","Paralaje","Calibración perfecta","Resolución infinita"],1],["Calibrar un instrumento consiste principalmente en:",["Pintarlo","Compararlo y ajustarlo respecto a un patrón","Cambiar su unidad sin referencia","Usarlo sin verificar"],1],["En un lazo cerrado se utiliza:",["Retroalimentación","Solo una entrada manual","Ninguna medición","Una escala sin unidades"],0],["¿Cuál dispositivo puede ser un elemento final de control?",["Válvula","Regla","Calculadora","Plano"],0],["La ley de Ohm relaciona:",["Voltaje, corriente y resistencia","Presión, caudal y nivel","Masa, volumen y densidad","Temperatura, calor y trabajo"],0]];
+let indiceDiagnostico = 0;
+let aciertosDiagnostico = 0;
+let diagnosticoActivo = false;
+let cerrandoDiagnostico = false;
+
+function alumnoDiagnostico(){
+  return {nombre:localStorage.getItem("im3cb_nombre")||"",matricula:localStorage.getItem("im3cb_matricula")||"",curso:CURSO_DIAGNOSTICO,evaluacion:EVALUACION_DIAGNOSTICA};
+}
+async function apiDiagnostico(accion,extra){
+  const respuesta=await fetch(URL_CALIFICACIONES,{method:"POST",body:JSON.stringify(Object.assign({accion:accion},alumnoDiagnostico(),extra||{})),keepalive:accion==="abandonar_diagnostico"});
+  return respuesta.json();
+}
+async function consultarDiagnostico(){
+  const estado=document.getElementById("estadoDiagnostico"),boton=document.getElementById("btnDiagnostico");
+  if(!alumnoDiagnostico().nombre){boton.disabled=true;estado.textContent="Registra primero tu asistencia para identificarte.";return;}
+  try{const r=await apiDiagnostico("consultar_diagnostico");if(!r.disponible){boton.disabled=true;estado.textContent="Esta oportunidad ya fue dada.";}}
+  catch(e){estado.textContent="No se pudo comprobar la evaluación.";}
+}
+function abrirDiagnostico(){
+  const c=document.getElementById("contenidoDiagnostico");
+  c.innerHTML="<h2>Evaluación diagnóstica de Instrumentación</h2><p style='margin:16px 0;line-height:1.7'>Esta evaluación identifica tus conocimientos previos. Tienes una sola oportunidad. No cambies de pestaña ni cierres la página; si lo haces, se registrará calificación <strong>0</strong>.</p><button class='btn-eval' onclick='comenzarDiagnostico()'>Comprendo, comenzar</button>";
+  document.getElementById("modalDiagnostico").classList.add("activo");
+}
+async function comenzarDiagnostico(){
+  const c=document.getElementById("contenidoDiagnostico");
+  try{const r=await apiDiagnostico("iniciar_diagnostico");if(!r.permitido){document.getElementById("btnDiagnostico").disabled=true;c.innerHTML="<h2>Evaluación no disponible</h2><p class='retro-eval'>Esta oportunidad ya fue dada.</p>";return;}indiceDiagnostico=0;aciertosDiagnostico=0;cerrandoDiagnostico=false;diagnosticoActivo=true;mostrarPregunta();}
+  catch(e){c.innerHTML="<p class='retro-eval' style='background:#48232b'>No se pudo iniciar. Revisa tu conexión.</p>";}
+}
+function mostrarPregunta(){
+  const p=PREGUNTAS_DIAGNOSTICO[indiceDiagnostico],c=document.getElementById("contenidoDiagnostico");
+  c.innerHTML="<p style='color:var(--accent);font-weight:bold'>Pregunta "+(indiceDiagnostico+1)+" de "+PREGUNTAS_DIAGNOSTICO.length+"</p><h2 style='margin:14px 0'>"+p[0]+"</h2><div id='opcionesDiagnostico'></div><div id='retroDiagnostico'></div>";
+  const o=document.getElementById("opcionesDiagnostico");p[1].forEach((texto,i)=>{const b=document.createElement("button");b.className="opcion-eval";b.textContent=String.fromCharCode(65+i)+") "+texto;b.onclick=()=>responderDiagnostico(i);o.appendChild(b);});
+}
+function responderDiagnostico(respuesta){
+  const p=PREGUNTAS_DIAGNOSTICO[indiceDiagnostico],correcta=respuesta===p[2],botones=document.querySelectorAll("#opcionesDiagnostico .opcion-eval"),retro=document.getElementById("retroDiagnostico");
+  botones.forEach((b,i)=>{b.disabled=true;if(i===p[2])b.classList.add("correcta");if(i===respuesta&&!correcta)b.classList.add("incorrecta");});if(correcta)aciertosDiagnostico++;
+  retro.innerHTML="<div class='retro-eval' style='background:"+(correcta?"#123d31":"#48232b")+"'>"+(correcta?"✓ Correcto.":"✕ Respuesta correcta: <strong>"+p[1][p[2]]+"</strong>")+"</div><button class='btn-eval' onclick='siguienteDiagnostico()'>"+(indiceDiagnostico===PREGUNTAS_DIAGNOSTICO.length-1?"Finalizar":"Siguiente")+"</button>";
+}
+async function siguienteDiagnostico(){
+  indiceDiagnostico++;if(indiceDiagnostico<PREGUNTAS_DIAGNOSTICO.length){mostrarPregunta();return;}diagnosticoActivo=false;const calificacion=Math.round(aciertosDiagnostico/PREGUNTAS_DIAGNOSTICO.length*100),c=document.getElementById("contenidoDiagnostico");
+  try{await apiDiagnostico("finalizar_diagnostico",{calificacion:calificacion});document.getElementById("btnDiagnostico").disabled=true;document.getElementById("estadoDiagnostico").textContent="Diagnóstico terminado. Calificación registrada: "+calificacion+".";
+    let mensaje=calificacion===100?"¡Excelente base para iniciar la asignatura!":calificacion>=80?"Muy buen punto de partida.":calificacion>=60?"Tienes bases; reforzaremos los temas necesarios.":"El diagnóstico muestra los conocimientos que conviene reforzar.";
+    c.innerHTML="<div class='resultado-eval'><div class='trofeo'>"+(calificacion===100?"🏆":"📊")+"</div><h2>Evaluación terminada</h2><p style='margin:12px'>Aciertos: <strong>"+aciertosDiagnostico+" de "+PREGUNTAS_DIAGNOSTICO.length+"</strong></p><h1>"+calificacion+"</h1><p>"+mensaje+"</p></div>";
+  }catch(e){c.innerHTML="<p class='retro-eval' style='background:#48232b'>No se pudo guardar la calificación. No cierres esta ventana y avisa al docente.</p>";}
+}
+function abandonarDiagnostico(){if(!diagnosticoActivo||cerrandoDiagnostico)return;cerrandoDiagnostico=true;diagnosticoActivo=false;fetch(URL_CALIFICACIONES,{method:"POST",keepalive:true,body:JSON.stringify(Object.assign({accion:"abandonar_diagnostico"},alumnoDiagnostico()))}).catch(()=>{});}
+document.addEventListener("visibilitychange",()=>{if(document.hidden)abandonarDiagnostico();});
+window.addEventListener("pagehide",abandonarDiagnostico);
+consultarDiagnostico();
 </script>
 </body>
 </html>
