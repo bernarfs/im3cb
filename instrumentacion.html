@@ -72,6 +72,8 @@
     .retro-eval{margin:15px 0;padding:15px;border-radius:12px;line-height:1.6}.resultado-eval{text-align:center;padding:20px}.resultado-eval .trofeo{font-size:56px}
   
     .tema-11{margin-top:20px;padding:22px;border:1px solid rgba(104,166,239,.3);border-radius:18px;background:rgba(6,18,40,.72);color:#c8d7eb;line-height:1.7}.tema-11 h3{margin-bottom:10px;color:#fff}.tema-11 h4{margin:18px 0 8px;color:#76b7ff}.tema-11 ul{margin-left:20px}.tema-11 li{margin:7px 0}.tema-11 strong{color:#fff}.tema-11 .conclusion{margin-top:18px;padding:15px;border-left:3px solid var(--accent);background:rgba(24,77,137,.2);border-radius:8px}.tema-11 .fuente{margin-top:13px;color:#8fa8c8;font-size:.88rem}
+
+    .criterios-evaluacion{grid-column:1/-1}.parciales-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}.parcial-card{padding:18px;border:1px solid rgba(104,166,239,.28);border-radius:15px;background:rgba(7,20,44,.74)}.parcial-card h3{margin-bottom:12px;color:#fff}.porcentaje{display:flex;justify-content:space-between;gap:12px;margin-top:8px;color:#c8d7eb}.porcentaje strong{color:#76b7ff}@media(max-width:760px){.parciales-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -101,7 +103,7 @@
   </section>
 
   <section class="grid">
-    <article class="tarjeta"><span class="mini">📊</span><h2>Evaluación</h2><p>Los criterios y porcentajes se mostrarán al integrar el programa de la asignatura.</p></article>
+    <article class="tarjeta criterios-evaluacion"><span class="mini">📊</span><h2>Criterios de evaluación</h2><p>Cada parcial integra evidencias de evaluación y trabajo desarrollado durante el curso.</p><div class="parciales-grid"><div class="parcial-card"><h3>Primer parcial</h3><div class="porcentaje"><span>Examen</span><strong>80%</strong></div><div class="porcentaje"><span>Actividades en clase</span><strong>20%</strong></div></div><div class="parcial-card"><h3>Segundo parcial</h3><div class="porcentaje"><span>Proyecto</span><strong>50%</strong></div><div class="porcentaje"><span>Trabajo en clase</span><strong>50%</strong></div></div><div class="parcial-card"><h3>Tercer parcial</h3><div class="porcentaje"><span>Proyecto</span><strong>80%</strong></div><div class="porcentaje"><span>Trabajo en clase</span><strong>20%</strong></div></div></div></article>
     <article class="tarjeta"><span class="mini">⏳</span><h2>Trabajo pendiente</h2><div class="barra"><span></span></div><p><strong>100%</strong> del curso por completar.</p></article>
     <article class="tarjeta"><span class="mini">📝</span><h2>Evaluación diagnóstica</h2><p>10 preguntas sobre conocimientos previos. Una sola oportunidad; si abandonas, se registrará 0.</p><button id="btnDiagnostico" class="btn-eval" onclick="abrirDiagnostico()">Iniciar diagnóstico</button><p id="estadoDiagnostico" class="estado-eval"></p></article>
   </section>
