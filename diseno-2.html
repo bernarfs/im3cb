@@ -50,6 +50,16 @@
     summary{cursor:pointer;padding:21px;display:flex;align-items:center;gap:13px;font-weight:800;list-style:none}summary:before{content:"＋";display:grid;place-items:center;width:31px;height:31px;border-radius:10px;background:rgba(107,169,246,.13);color:var(--accent);transition:.3s}details[open] summary:before{content:"−";transform:rotate(180deg)}
     details[open]{background:rgba(12,31,63,.92);box-shadow:0 14px 35px rgba(0,0,0,.22)}
     .unidad{padding:22px;color:#b9c8dc;line-height:1.7;border-top:1px solid rgba(89,150,225,.22);animation:entrada .35s ease both}
+
+    .tema-11{margin-top:24px;padding:clamp(18px,4vw,30px);border:1px solid rgba(154,108,255,.42);border-radius:20px;background:linear-gradient(145deg,rgba(20,35,72,.92),rgba(8,18,42,.95));color:#d8e3f3}
+    .tema-11 h3{font-size:clamp(24px,4vw,34px);color:#fff;margin-bottom:8px}.tema-11 h4{margin:26px 0 10px;color:#fff;font-size:20px}.tema-11 p{margin:9px 0;line-height:1.75}.tema-11 ul,.tema-11 ol{padding-left:22px;margin:12px 0}.tema-11 li{margin:7px 0}
+    .proposito-11{padding:17px 19px;border-left:4px solid var(--accent2);border-radius:12px;background:rgba(255,94,168,.08);margin:18px 0}
+    .conceptos-11{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:16px 0}.concepto-11{padding:17px;border:1px solid rgba(140,183,239,.23);border-radius:15px;background:rgba(4,14,34,.48)}.concepto-11 strong{display:block;color:#fff;margin-bottom:6px}
+    .formula-11{margin:17px 0;padding:18px;text-align:center;border-radius:14px;background:#050d20;border:1px solid rgba(154,108,255,.35);font:700 20px Georgia,serif;color:#fff}.formula-11 small{display:block;margin-top:9px;font:400 13px Arial,sans-serif;color:#aebfd7}
+    .tabla-11{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}.tabla-11 th,.tabla-11 td{padding:12px;border:1px solid rgba(140,183,239,.22);text-align:left;vertical-align:top}.tabla-11 th{background:rgba(154,108,255,.18);color:#fff}
+    .actividad-11{margin-top:24px;padding:20px;border-radius:16px;background:rgba(77,211,255,.08);border:1px solid rgba(77,211,255,.28)}.advertencia-11{padding:15px;border-radius:12px;background:rgba(255,190,80,.09);border-left:4px solid #ffbe50}
+    .fuente-11{margin-top:22px;color:#849bb9;font-size:12px}
+    @media(max-width:650px){.conceptos-11{grid-template-columns:1fr}.tabla-wrap-11{overflow-x:auto}.tema-11{padding:17px}}
     .bloqueada{opacity:.55}.aviso{margin-top:36px;padding:22px;border:1px solid rgba(95,157,234,.26);border-left:4px solid var(--accent);border-radius:14px;background:rgba(8,23,49,.78);color:#c1d1e7;line-height:1.65}
     footer{text-align:center;padding:30px;color:#7187a6;border-top:1px solid #142b4c}
     @keyframes entrada{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
@@ -107,7 +117,73 @@
   </section>
 
   <section class="unidades"><div class="titulo-seccion"><h2>Temario oficial</h2><p>8 unidades del programa</p></div>
-    <details open><summary>Unidad 1 · Uniones soldadas y remachadas</summary><div class="unidad"><ul><li>1.1 Uniones a tope y de filete</li><li>1.2 Esfuerzos y resistencias en uniones soldadas</li><li>1.3 Carga estática y fatiga en soldaduras</li><li>1.4 Uniones remachadas</li><li>1.5 Esfuerzos, resistencia y fatiga en remaches</li></ul></div></details>
+
+    <details open><summary>Unidad 1 · Uniones soldadas y remachadas</summary><div class="unidad">
+      <ul><li>1.1 Uniones a tope y de filete</li><li>1.2 Esfuerzos y resistencias en uniones soldadas</li><li>1.3 Carga estática y fatiga en soldaduras</li><li>1.4 Uniones remachadas</li><li>1.5 Esfuerzos, resistencia y fatiga en remaches</li></ul>
+      <article class="tema-11" id="tema-1-1">
+        <p class="codigo">TEMA 1.1</p>
+        <h3>Uniones a tope y de filete</h3>
+        <div class="proposito-11"><strong>Propósito:</strong> identificar la geometría, las aplicaciones y la representación de las uniones soldadas a tope y de filete, distinguiendo el área efectiva que transmite la carga.</div>
+
+        <h4>¿Qué es una unión soldada?</h4>
+        <p>Es una unión permanente producida mediante calor, presión o ambos. Según el proceso, puede emplearse material de aporte. Para seleccionarla deben considerarse la dirección de la carga, el espesor, la geometría, el acceso para soldar y la inspección requerida.</p>
+
+        <div class="conceptos-11">
+          <div class="concepto-11"><strong>🔩 Unión a tope</strong><p>Las piezas se colocan aproximadamente en el mismo plano y se unen por sus bordes. Puede utilizar ranura cuadrada, en V, doble V, bisel, U o J.</p></div>
+          <div class="concepto-11"><strong>📐 Unión de filete</strong><p>Une superficies que forman un ángulo, normalmente cercano a 90°. Es común en uniones superpuestas, en T y de esquina.</p></div>
+        </div>
+
+        <h4>Elementos de una soldadura a tope</h4>
+        <ul>
+          <li><strong>Raíz:</strong> zona más profunda de la unión.</li>
+          <li><strong>Cara:</strong> superficie exterior visible del cordón.</li>
+          <li><strong>Penetración:</strong> profundidad alcanzada por la fusión.</li>
+          <li><strong>Garganta efectiva (h):</strong> distancia mínima efectiva que resiste la carga.</li>
+          <li><strong>Longitud efectiva (L):</strong> longitud que participa en la transmisión de la carga.</li>
+          <li><strong>Refuerzo:</strong> material que sobresale de la superficie; no se incorpora automáticamente a la garganta efectiva.</li>
+        </ul>
+
+        <h4>Carga directa en una soldadura a tope</h4>
+        <div class="formula-11">σ = F ÷ (h · L)<small>Esfuerzo normal nominal bajo tensión o compresión axial.</small></div>
+        <div class="formula-11">τ = F ÷ (h · L)<small>Esfuerzo cortante nominal promedio bajo cortante directo.</small></div>
+        <p><strong>Variables:</strong> F = fuerza aplicada; h = garganta efectiva; L = longitud efectiva; h·L = área efectiva resistente.</p>
+        <div class="advertencia-11">Estas expresiones corresponden a cargas directas. No incluyen automáticamente concentración de esfuerzos, defectos, torsión, flexión ni fatiga.</div>
+
+        <h4>Geometría de la soldadura de filete</h4>
+        <p>El <strong>cateto (z)</strong> se mide desde la raíz hasta el extremo del filete sobre una pieza. La <strong>garganta (t)</strong> es la distancia mínima entre la raíz y la cara teórica.</p>
+        <div class="formula-11">t = z · sen(45°) ≈ 0.707z<small>Relación para un filete ideal de catetos iguales y ángulo de 90°.</small></div>
+        <p><strong>Ejemplo:</strong> para un cateto de 6 mm, la garganta teórica es t = 0.707(6) = <strong>4.24 mm</strong>.</p>
+
+        <h4>Comparación</h4>
+        <div class="tabla-wrap-11"><table class="tabla-11"><thead><tr><th>Característica</th><th>A tope</th><th>De filete</th></tr></thead><tbody>
+          <tr><td>Posición habitual</td><td>Piezas en el mismo plano</td><td>Piezas superpuestas, en T o esquina</td></tr>
+          <tr><td>Preparación</td><td>Puede requerir ranura o bisel</td><td>Generalmente requiere menor preparación</td></tr>
+          <tr><td>Zona resistente</td><td>Garganta por longitud efectiva</td><td>Garganta efectiva por longitud efectiva</td></tr>
+          <tr><td>Aplicaciones</td><td>Placas, tuberías y recipientes</td><td>Soportes, perfiles y estructuras</td></tr>
+        </tbody></table></div>
+
+        <h4>Representación en planos</h4>
+        <p>El símbolo de soldadura comunica el tipo, lado, tamaño, longitud, separación, contorno, acabado y proceso. La flecha identifica la unión y la línea de referencia organiza la información.</p>
+
+        <h4>Calidad y buenas prácticas</h4>
+        <ul><li>Comprobar la compatibilidad del metal base, material de aporte y proceso.</li><li>Limpiar y ajustar correctamente las superficies.</li><li>Verificar penetración, garganta, longitud y continuidad.</li><li>Evitar porosidad, inclusiones, grietas y falta de fusión.</li><li>Facilitar el acceso para soldar e inspeccionar.</li><li>Aplicar el procedimiento o norma correspondiente.</li></ul>
+
+        <div class="actividad-11">
+          <h4>Actividad de aprendizaje</h4>
+          <ol><li>Dibuja una unión a tope con ranura en V y una unión de filete en T.</li><li>Identifica raíz, cara, cateto, garganta y longitud efectiva.</li><li>Agrega los símbolos básicos de soldadura.</li><li>Calcula el área efectiva de ambas uniones.</li><li>Explica cuál utilizarías en cada aplicación y por qué.</li></ol>
+          <p><strong>Evaluación:</strong> identificación 20%, geometría 20%, simbología 20%, cálculo 25% y justificación/presentación 15%.</p>
+        </div>
+
+        <div class="actividad-11">
+          <h4>Ejercicio guiado</h4>
+          <p>Filete con z = 8 mm, L = 120 mm y F = 24 000 N.</p>
+          <p>1) t = 0.707(8) = 5.656 mm.<br>2) A = t·L = 5.656(120) = 678.72 mm².<br>3) τ = 24 000 ÷ 678.72 = <strong>35.36 MPa</strong>.</p>
+          <p>El resultado es un esfuerzo nominal bajo carga directa, no una verificación completa de resistencia.</p>
+        </div>
+
+        <p class="fuente-11">Fuentes académicas: capítulo 9, “Soldadura, adhesión y diseño de uniones permanentes”, pp. 454–458; capítulos 30 y 31, “Fundamentos y procesos de soldadura”.</p>
+      </article>
+    </div></details>
     <details ><summary>Unidad 2 · Tornillos de sujeción y potencia</summary><div class="unidad"><ul><li>2.1 Tipos de roscas</li><li>2.2 Mecánica de tornillos de transmisión</li><li>2.3 Eficiencia y esfuerzos</li><li>2.4 Materiales para tornillos</li><li>2.5 Resistencia y rigidez de la unión</li></ul></div></details>
     <details ><summary>Unidad 3 · Resortes</summary><div class="unidad"><ul><li>3.1 Clasificación y materiales</li><li>3.2 Resortes helicoidales a tensión, compresión y torsión</li><li>3.3 Fatiga en resortes</li><li>3.4 Resortes de hojas</li><li>3.5 Selección y catálogos</li></ul></div></details>
     <details ><summary>Unidad 4 · Engranajes</summary><div class="unidad"><ul><li>4.1 Clasificación y geometría</li><li>4.2 Fuerzas en engranes rectos, helicoidales, cónicos y tornillo sinfín</li><li>4.3 Trenes de engranes</li><li>4.4 Resistencia del diente: Lewis y AGMA</li></ul></div></details>
