@@ -22,7 +22,7 @@
     .volver{text-decoration:none;color:#c8d7ec;padding:9px 13px;border:1px solid rgba(128,175,239,.3);border-radius:999px;transition:.25s}
     .volver:hover{color:#fff;border-color:var(--accent);transform:translateY(-2px)}
     main{width:min(1120px,92%);margin:auto;padding:36px 0 76px}
-    .hero{position:relative;min-height:470px;display:grid;align-items:center;padding:clamp(28px,6vw,66px);border:1px solid rgba(125,177,244,.35);border-radius:30px;overflow:hidden;background:linear-gradient(135deg,rgba(16,43,83,.88),rgba(5,15,34,.9));box-shadow:0 28px 80px rgba(0,0,0,.42);isolation:isolate}
+    .hero{position:relative;min-height:470px;display:grid;align-items:center;padding:clamp(28px,6vw,66px);border:1px solid rgba(125,177,244,.35);border-radius:30px;overflow:hidden;background:linear-gradient(90deg,rgba(3,10,25,.97) 0%,rgba(5,15,34,.78) 46%,rgba(5,15,34,.18) 100%),var(--hero-image);background-size:cover;background-position:center;box-shadow:0 28px 80px rgba(0,0,0,.42);isolation:isolate}
     .hero:before{content:"";position:absolute;width:520px;height:520px;border:1px solid color-mix(in srgb,var(--accent) 55%,transparent);border-radius:50%;right:-180px;top:-220px;box-shadow:0 0 90px color-mix(in srgb,var(--accent) 22%,transparent);animation:girar 18s linear infinite}
     .hero:after{content:"";position:absolute;inset:auto -15% -60% 36%;height:320px;background:var(--accent);filter:blur(120px);opacity:.18;z-index:-1}
     .particulas span{position:absolute;font-size:clamp(23px,4vw,46px);opacity:.22;animation:particula 8s ease-in-out infinite}
@@ -79,7 +79,7 @@
   <a class="volver" href="index.html">← Volver al portal</a>
 </header>
 <main>
-  <section class="hero">
+  <section class="hero" style="--hero-image:url('assets/cursos/portada-diseno-2.png')">
     <div class="particulas"><span>✏️</span><span>💡</span><span>📐</span></div>
     <div class="hero-contenido">
       <div class="icono-principal">🧩</div>
