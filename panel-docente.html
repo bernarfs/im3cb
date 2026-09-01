@@ -570,6 +570,9 @@ button:hover {
 
 }
 
+
+/* VISTA PREVIA DOCENTE */
+.acciones-vista{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}.acciones-vista button{flex:1 1 220px}.visor-docente{display:none;position:fixed;inset:0;z-index:5000;padding:16px;background:rgba(1,5,14,.94);backdrop-filter:blur(12px)}.visor-docente.activo{display:flex;flex-direction:column}.visor-barra{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(74,145,255,.35);border-radius:15px 15px 0 0;background:#0b1730}.visor-barra strong{margin-right:auto}.visor-barra button{padding:9px 13px;border:1px solid #315889;border-radius:10px;background:#112548;color:#fff;cursor:pointer}.visor-barra button.activo{border-color:#58a8ff;background:#1b4f8d}.cerrar-visor{background:#542638!important;border-color:#9b4b67!important}.visor-aviso{padding:9px 14px;color:#f5cd75;background:#211b10;text-align:center;font-size:.9rem}.marco-vista{flex:1;display:flex;align-items:flex-start;justify-content:center;min-height:0;padding:14px;overflow:auto;background:#030813}.marco-vista iframe{width:100%;height:100%;min-height:650px;border:1px solid #2f5b91;border-radius:0 0 14px 14px;background:#fff;transition:.25s}.marco-vista.movil iframe{width:390px;max-width:100%;height:780px;min-height:780px;border-radius:28px;box-shadow:0 18px 60px rgba(0,0,0,.55)}@media(max-width:600px){.visor-docente{padding:0}.visor-barra{border-radius:0}.marco-vista{padding:8px}.marco-vista.movil iframe{height:calc(100vh - 150px);min-height:620px}}
 </style>
 
 </head>
@@ -847,6 +850,10 @@ Vibraciones Mecánicas
 
 </div>
 
+<div class="acciones-vista">
+  <button type="button" class="secundario" onclick="abrirVistaDocente('escritorio')">🖥️ Vista previa docente</button>
+  <button type="button" class="secundario" onclick="abrirVistaDocente('movil')">📱 Ver como alumno en celular</button>
+</div>
 
 <div id="estado">
 
@@ -1647,8 +1654,30 @@ async function cerrarLista() {
 
 }
 
+
+/* VISTA PREVIA DOCENTE */
+const PAGINAS_VISTA_DOCENTE={CAD:"dibujo-asistido.html",TERMODINAMICA:"termodinamica-2026.html",INSTRUMENTACION:"instrumentacion.html",DISENO2:"diseno-2.html"};
+function validarCodigoVistaDocente(){const codigo=document.getElementById("codigoDocente").value.trim();if(codigo!==CONFIG.codigoDocente){document.getElementById("estado").textContent="❌ Escribe el código docente correcto para abrir la vista previa.";return false;}return true;}
+function abrirVistaDocente(modo){if(!validarCodigoVistaDocente())return;const pagina=PAGINAS_VISTA_DOCENTE[cursoSeleccionado];if(!pagina){document.getElementById("estado").textContent="⚠️ La vista previa todavía no está configurada para este curso.";return;}const visor=document.getElementById("visorDocente");const frame=document.getElementById("iframeVistaDocente");document.getElementById("tituloVisorDocente").textContent="Vista docente · "+cursoSeleccionado;frame.onload=protegerVistaDocente;frame.src=pagina+"?vista_docente=1&v="+Date.now();visor.classList.add("activo");cambiarVistaDocente(modo||"escritorio");document.body.style.overflow="hidden";}
+function protegerVistaDocente(){const frame=document.getElementById("iframeVistaDocente");try{const doc=frame.contentDocument;if(!doc)return;doc.querySelectorAll("#btnDiagnostico,[id^='btnActividad'],.diagnostico-card button").forEach(b=>{b.disabled=true;b.title="Desactivado en vista docente";});const aviso=doc.createElement("div");aviso.textContent="VISTA DOCENTE · Las evaluaciones y registros están desactivados";aviso.style.cssText="position:sticky;top:0;z-index:99999;padding:10px;text-align:center;background:#7a4b00;color:#fff;font:700 13px Arial";doc.body.prepend(aviso);}catch(error){console.warn("No se pudo proteger la vista previa.",error);}}
+function cambiarVistaDocente(modo){const marco=document.getElementById("marcoVistaDocente");const movil=modo==="movil";marco.classList.toggle("movil",movil);document.getElementById("btnVistaMovil").classList.toggle("activo",movil);document.getElementById("btnVistaEscritorio").classList.toggle("activo",!movil);}
+function cerrarVistaDocente(){document.getElementById("visorDocente").classList.remove("activo");document.getElementById("iframeVistaDocente").src="about:blank";document.body.style.overflow="";}
+document.addEventListener("keydown",event=>{if(event.key==="Escape"&&document.getElementById("visorDocente").classList.contains("activo"))cerrarVistaDocente();});
 </script>
 
+
+<div id="visorDocente" class="visor-docente" role="dialog" aria-modal="true" aria-labelledby="tituloVisorDocente">
+  <div class="visor-barra">
+    <strong id="tituloVisorDocente">Vista docente del curso</strong>
+    <button id="btnVistaEscritorio" type="button" onclick="cambiarVistaDocente('escritorio')">🖥️ Escritorio</button>
+    <button id="btnVistaMovil" type="button" onclick="cambiarVistaDocente('movil')">📱 Celular</button>
+    <button class="cerrar-visor" type="button" onclick="cerrarVistaDocente()">✕ Cerrar</button>
+  </div>
+  <div class="visor-aviso">Vista docente: no registra asistencia y las evaluaciones o actividades calificables permanecen desactivadas.</div>
+  <div id="marcoVistaDocente" class="marco-vista">
+    <iframe id="iframeVistaDocente" title="Vista previa docente del curso"></iframe>
+  </div>
+</div>
 </body>
 
 </html>
