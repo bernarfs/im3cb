@@ -1374,6 +1374,27 @@
           </div>
 
 
+
+          <div class="material-tema">
+            <h4>Actividad evaluada 1.1 · Fundamentos de CAD y normas</h4>
+            <p>
+              Responde 10 preguntas. La actividad tiene una sola oportunidad,
+              ofrece retroalimentación inmediata y guarda tu calificación en Google Sheets.
+            </p>
+            <p style="color:#f6c768">
+              No cambies de pestaña ni cierres el portal mientras contestas:
+              si sales, se registrará calificación 0.
+            </p>
+            <button
+              id="btnActividad11CAD"
+              class="btn-diagnostico"
+              onclick="abrirActividad11CAD()">
+              Responder actividad 1.1
+            </button>
+            <p id="estadoActividad11CAD"></p>
+          </div>
+
+
           <div class="sesion-temario">
             <strong>7 de septiembre de 2026 · 2 horas</strong>
             <p>Exploración del ambiente CAD, software disponible y plantillas de dibujo.</p>
@@ -1714,6 +1735,13 @@
   </div>
 </div>
 
+
+<div id="modalActividad11CAD" class="modal-diagnostico">
+  <div class="ventana-diagnostico">
+    <div id="contenidoActividad11CAD"></div>
+  </div>
+</div>
+
 <script>
   const URL_CALIFICACIONES =
     "https://script.google.com/macros/s/AKfycbx1VyNm--NRgIML-EuDog4woaoQmkJVGJPj0Xt7inWGSkSbV0kRUiLb5VEoGaUTV2Jj9Q/exec";
@@ -2017,11 +2045,323 @@
     }).catch(() => {});
   }
 
+
+  const EVALUACION_ACTIVIDAD_11_CAD =
+    "ACTIVIDAD_1_1_NORMAS_2026";
+
+  const preguntasActividad11CAD = [
+    ["¿Cuál es el objetivo principal del Dibujo Asistido por Computadora (CAD)?", ["Realizar planos a mano con instrumentos", "Interpretar normas de dibujo sin herramientas", "Clasificar todos los tipos de escalas", "Crear dibujos 2D y 3D de forma precisa"], 3],
+    ["¿Qué norma asegura claridad en los planos en EE. UU.?", ["NOM", "ISO", "CAD", "ANSI"], 3],
+    ["¿Cuál de los siguientes tipos de líneas se usa para elementos visibles?", ["Líneas delgadas", "Líneas de construcción", "Líneas gruesas", "Líneas discontinuas"], 2],
+    ["¿Qué norma regula el diseño en México?", ["NOM", "ANSI", "ISO", "CAD"], 0],
+    ["¿Qué tipo de escala corresponde a un tamaño real de 1:1?", ["Escala ampliada", "Escala reducida", "Escala de tamaño real", "Escala variable"], 2],
+    ["¿Cuál es una función del Dibujo Asistido por Computadora?", ["Mejorar la precisión y rapidez", "Facilitar el uso de lápiz y papel", "Reducir la comunicación técnica", "Limitar la creación de dibujos"], 0],
+    ["¿Qué representan las líneas delgadas en un dibujo técnico?", ["Elementos visibles", "Cortes de materiales", "Dimensiones y ejes", "Símbolos gráficos"], 2],
+    ["¿Qué norma unifica criterios de dibujo internacionalmente?", ["ANSI", "ISO", "NOM", "CAD"], 1],
+    ["El CAD permite realizar dibujos a mano sin herramientas especiales.", ["Verdadero", "Falso"], 1],
+    ["Las normas de dibujo son importantes para la correcta interpretación de planos.", ["Falso", "Verdadero"], 1]
+  ];
+
+  let preguntaActividad11 = 0;
+  let aciertosActividad11 = 0;
+  let actividad11EnCurso = false;
+  let cerrandoActividad11 = false;
+
+  function datosActividad11CAD() {
+    return {
+      nombre: localStorage.getItem("im3cb_nombre") || "",
+      matricula: localStorage.getItem("im3cb_matricula") || "",
+      curso: "CAD",
+      evaluacion: EVALUACION_ACTIVIDAD_11_CAD
+    };
+  }
+
+  async function apiActividad11CAD(accion, extras = {}) {
+    const respuesta = await fetch(URL_CALIFICACIONES, {
+      method: "POST",
+      body: JSON.stringify({
+        accion: accion,
+        ...datosActividad11CAD(),
+        ...extras
+      }),
+      keepalive: accion === "abandonar_diagnostico"
+    });
+
+    return respuesta.json();
+  }
+
+  async function consultarEstadoActividad11CAD() {
+    const estado = document.getElementById("estadoActividad11CAD");
+    const boton = document.getElementById("btnActividad11CAD");
+    if (!estado || !boton) return;
+
+    const alumno = datosActividad11CAD();
+
+    if (!alumno.nombre) {
+      estado.textContent =
+        "Registra tu asistencia para identificarte.";
+      boton.disabled = true;
+      return;
+    }
+
+    try {
+      const resultado =
+        await apiActividad11CAD("consultar_diagnostico");
+
+      if (!resultado.disponible) {
+        boton.disabled = true;
+        estado.textContent =
+          "Esta oportunidad ya fue dada.";
+      }
+    } catch (error) {
+      estado.textContent =
+        "No se pudo comprobar la actividad. Intenta después.";
+    }
+  }
+
+  function abrirActividad11CAD() {
+    const contenido =
+      document.getElementById("contenidoActividad11CAD");
+    const modal =
+      document.getElementById("modalActividad11CAD");
+
+    if (!datosActividad11CAD().nombre) {
+      alert("Registra primero tu asistencia para iniciar.");
+      return;
+    }
+
+    contenido.innerHTML = `
+      <h2>Actividad evaluada 1.1</h2>
+      <p style="margin:16px 0;line-height:1.6">
+        Son 10 preguntas sobre fundamentos de CAD y normas de dibujo.
+        Tendrás una sola oportunidad. No salgas, cambies de pestaña
+        ni cierres el portal: si lo haces, se registrará
+        calificación <strong>0</strong>.
+      </p>
+      <button class="btn-diagnostico" onclick="comenzarActividad11CAD()">
+        Comprendo, comenzar
+      </button>
+    `;
+
+    modal.classList.add("activo");
+  }
+
+  async function comenzarActividad11CAD() {
+    const contenido =
+      document.getElementById("contenidoActividad11CAD");
+
+    try {
+      const resultado =
+        await apiActividad11CAD("iniciar_diagnostico");
+
+      if (!resultado.permitido) {
+        actividad11EnCurso = false;
+        document.getElementById("btnActividad11CAD").disabled = true;
+        contenido.innerHTML = `
+          <h2>Actividad no disponible</h2>
+          <p class="retro-diagnostico">
+            Esta oportunidad ya fue dada.
+          </p>
+        `;
+        return;
+      }
+
+      preguntaActividad11 = 0;
+      aciertosActividad11 = 0;
+      cerrandoActividad11 = false;
+      actividad11EnCurso = true;
+      mostrarPreguntaActividad11CAD();
+    } catch (error) {
+      contenido.innerHTML = `
+        <p class="retro-diagnostico" style="background:#44252b">
+          No se pudo iniciar la actividad. Revisa tu conexión.
+        </p>
+      `;
+    }
+  }
+
+  function mostrarPreguntaActividad11CAD() {
+    const contenido =
+      document.getElementById("contenidoActividad11CAD");
+    const pregunta =
+      preguntasActividad11CAD[preguntaActividad11];
+
+    contenido.innerHTML = `
+      <p style="color:#8db5ff;font-weight:bold">
+        Pregunta ${preguntaActividad11 + 1} de ${preguntasActividad11CAD.length}
+      </p>
+      <h2 style="margin:14px 0">${pregunta[0]}</h2>
+      <div id="opcionesActividad11CAD"></div>
+      <div id="retroActividad11CAD"></div>
+    `;
+
+    const opciones =
+      document.getElementById("opcionesActividad11CAD");
+
+    pregunta[1].forEach((opcion, indice) => {
+      const boton = document.createElement("button");
+      boton.className = "opcion-diagnostico";
+      boton.textContent =
+        String.fromCharCode(65 + indice) + ") " + opcion;
+      boton.onclick = () =>
+        responderActividad11CAD(indice);
+      opciones.appendChild(boton);
+    });
+  }
+
+  function responderActividad11CAD(respuesta) {
+    const pregunta =
+      preguntasActividad11CAD[preguntaActividad11];
+    const esCorrecta = respuesta === pregunta[2];
+    const botones =
+      document.querySelectorAll(
+        "#opcionesActividad11CAD .opcion-diagnostico"
+      );
+    const retro =
+      document.getElementById("retroActividad11CAD");
+
+    botones.forEach((boton, indice) => {
+      boton.disabled = true;
+
+      if (indice === pregunta[2]) {
+        boton.classList.add("correcta");
+      }
+
+      if (indice === respuesta && !esCorrecta) {
+        boton.classList.add("incorrecta");
+      }
+    });
+
+    if (esCorrecta) {
+      aciertosActividad11++;
+      retro.innerHTML = `
+        <div class="retro-diagnostico" style="background:#123c31">
+          ✓ Correcto. ¡Muy bien!
+        </div>
+      `;
+    } else {
+      retro.innerHTML = `
+        <div class="retro-diagnostico" style="background:#44252b">
+          ✕ La respuesta correcta es:
+          <strong>${String.fromCharCode(65 + pregunta[2])}) ${pregunta[1][pregunta[2]]}</strong>
+        </div>
+      `;
+    }
+
+    const texto =
+      preguntaActividad11 === preguntasActividad11CAD.length - 1
+        ? "Finalizar actividad"
+        : "Siguiente pregunta";
+
+    retro.innerHTML += `
+      <button class="btn-diagnostico" onclick="siguientePreguntaActividad11CAD()">
+        ${texto}
+      </button>
+    `;
+  }
+
+  async function siguientePreguntaActividad11CAD() {
+    preguntaActividad11++;
+
+    if (preguntaActividad11 < preguntasActividad11CAD.length) {
+      mostrarPreguntaActividad11CAD();
+      return;
+    }
+
+    const calificacion =
+      Math.round(
+        (aciertosActividad11 /
+          preguntasActividad11CAD.length) * 100
+      );
+
+    let retroalimentacion = "";
+
+    if (calificacion === 100) {
+      retroalimentacion =
+        "¡Excelente! Reconoces los fundamentos de CAD y las normas de dibujo.";
+    } else if (calificacion >= 80) {
+      retroalimentacion =
+        "Muy buen resultado. Repasa las normas o tipos de línea donde tuviste dificultad.";
+    } else if (calificacion >= 60) {
+      retroalimentacion =
+        "Tienes una base inicial. Refuerza normas, escalas y representación de líneas.";
+    } else {
+      retroalimentacion =
+        "Conviene revisar nuevamente el material 1.1 antes de continuar.";
+    }
+
+    actividad11EnCurso = false;
+    const contenido =
+      document.getElementById("contenidoActividad11CAD");
+
+    try {
+      await apiActividad11CAD(
+        "finalizar_diagnostico",
+        { calificacion: calificacion }
+      );
+
+      document.getElementById("btnActividad11CAD").disabled = true;
+      document.getElementById("estadoActividad11CAD").textContent =
+        "Actividad terminada. Calificación registrada: " +
+        calificacion + ".";
+
+      if (calificacion === 100) {
+        contenido.innerHTML = `
+          <div class="felicitacion-total">
+            <div style="font-size:58px">🏆</div>
+            <h2>¡Felicitaciones!</h2>
+            <p>Respondiste correctamente las 10 preguntas.</p>
+            <p>${retroalimentacion}</p>
+            <h1 style="margin-top:14px">100</h1>
+          </div>
+        `;
+      } else {
+        contenido.innerHTML = `
+          <h2>Actividad terminada</h2>
+          <div class="retro-diagnostico" style="background:#102747">
+            <p>Respuestas correctas:
+              <strong>${aciertosActividad11} de ${preguntasActividad11CAD.length}</strong>
+            </p>
+            <p>Calificación registrada:
+              <strong>${calificacion}</strong>
+            </p>
+            <p style="margin-top:12px">${retroalimentacion}</p>
+          </div>
+        `;
+      }
+    } catch (error) {
+      contenido.innerHTML = `
+        <p class="retro-diagnostico" style="background:#44252b">
+          No se pudo guardar la calificación. No cierres esta ventana
+          y avisa al docente.
+        </p>
+      `;
+    }
+  }
+
+  function abandonarActividad11CAD() {
+    if (!actividad11EnCurso || cerrandoActividad11) return;
+
+    cerrandoActividad11 = true;
+    actividad11EnCurso = false;
+
+    fetch(URL_CALIFICACIONES, {
+      method: "POST",
+      keepalive: true,
+      body: JSON.stringify({
+        accion: "abandonar_diagnostico",
+        ...datosActividad11CAD()
+      })
+    }).catch(() => {});
+  }
+
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) abandonarDiagnosticoCAD();
+    if (document.hidden) abandonarActividad11CAD();
   });
 
   window.addEventListener("pagehide", abandonarDiagnosticoCAD);
+  window.addEventListener("pagehide", abandonarActividad11CAD);
   function colocarDiagnosticoAntesDeContenido() {
     const tarjeta =
       document.querySelector(".diagnostico-card");
@@ -2050,6 +2390,7 @@
   colocarDiagnosticoAntesDeContenido();
   
   consultarEstadoDiagnostico();
+  consultarEstadoActividad11CAD();
 </script>
 </body>
 
