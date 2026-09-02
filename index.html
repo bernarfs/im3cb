@@ -1699,12 +1699,37 @@ async function validarLlavePortal() {
 }
 
 
+function normalizarCursoAcceso(curso) {
+  const valor = String(curso || "")
+    .trim()
+    .toUpperCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^A-Z0-9]/g, "");
+
+  const alias = {
+    PROBABILIDADYESTADISTICA: "PROBABILIDAD",
+    ESTADISTICA: "PROBABILIDAD",
+    CIRCUITOSHIDRAULICOSYNEUMATICOS: "HIDRAULICA",
+    HIDRAULICAYNEUMATICA: "HIDRAULICA",
+    DISENO2: "DISENO2",
+    DISENOII: "DISENO2",
+    DIBUJOASISTIDOPORCOMPUTADORA: "CAD"
+  };
+
+  return alias[valor] || valor;
+}
+
 async function abrirCursoConAsistencia(cursoEsperado, pagina) {
   const autorizado = await validarLlavePortal();
   const llave = localStorage.getItem("im3cb_llave") || "";
   const curso = localStorage.getItem("im3cb_curso") || "";
 
-  if (!autorizado || curso !== cursoEsperado) {
+  if (
+    !autorizado ||
+    normalizarCursoAcceso(curso) !==
+      normalizarCursoAcceso(cursoEsperado)
+  ) {
     alert("Acceso restringido. Registra tu asistencia con el QR de este curso.");
     return;
   }
@@ -1718,7 +1743,10 @@ async function abrirAccesoCAD() {
   const llave = localStorage.getItem("im3cb_llave") || "";
   const curso = localStorage.getItem("im3cb_curso") || "";
 
-  if (!autorizado || curso !== "CAD") {
+  if (
+    !autorizado ||
+    normalizarCursoAcceso(curso) !== "CAD"
+  ) {
     alert("Acceso restringido. Registra tu asistencia con el QR.");
     return;
   }
