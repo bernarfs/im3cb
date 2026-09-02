@@ -1,0 +1,42 @@
+.contador-acceso {
+  --contador-color: #59e59d;
+  --contador-progreso: 100%;
+  position: fixed;
+  z-index: 9998;
+  top: 82px;
+  right: 18px;
+  width: min(310px, calc(100vw - 28px));
+  padding: 14px 16px;
+  border: 1px solid color-mix(in srgb, var(--contador-color) 55%, transparent);
+  border-radius: 18px;
+  color: #f5fbff;
+  background: linear-gradient(145deg, rgba(4, 14, 32, .96), rgba(10, 27, 56, .94));
+  box-shadow: 0 16px 45px rgba(0, 0, 0, .36), 0 0 28px color-mix(in srgb, var(--contador-color) 16%, transparent);
+  backdrop-filter: blur(14px);
+  font-family: Arial, Helvetica, sans-serif;
+  transition: border-color .3s, box-shadow .3s, transform .3s;
+}
+.contador-acceso__cabecera { display: flex; align-items: center; gap: 9px; }
+.contador-acceso__pulso {
+  width: 10px; height: 10px; flex: 0 0 auto; border-radius: 50%;
+  background: var(--contador-color); box-shadow: 0 0 0 0 color-mix(in srgb, var(--contador-color) 55%, transparent);
+  animation: contadorPulso 1.8s infinite;
+}
+.contador-acceso__titulo { font-size: 12px; font-weight: 900; letter-spacing: 1.2px; text-transform: uppercase; }
+.contador-acceso__tiempo { margin: 8px 0 4px; font-size: clamp(25px, 5vw, 34px); font-weight: 900; letter-spacing: 2px; font-variant-numeric: tabular-nums; }
+.contador-acceso__mensaje { color: #b9c9dc; font-size: 12px; line-height: 1.45; }
+.contador-acceso__barra { height: 6px; margin-top: 11px; overflow: hidden; border-radius: 999px; background: rgba(151, 181, 218, .17); }
+.contador-acceso__barra span { display: block; width: var(--contador-progreso); height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--contador-color), #75b9ff); transition: width 1s linear, background .3s; }
+.contador-acceso.advertencia { --contador-color: #ffbd4a; }
+.contador-acceso.urgente { --contador-color: #ff5f72; animation: contadorAlerta 1.3s ease-in-out infinite; }
+.contador-acceso.inactivo { --contador-color: #8295ad; }
+.contador-acceso.vencido { --contador-color: #ff5f72; transform: scale(1.02); }
+@keyframes contadorPulso { 70% { box-shadow: 0 0 0 11px transparent; } }
+@keyframes contadorAlerta { 50% { box-shadow: 0 18px 55px rgba(255, 76, 101, .28); } }
+@media (max-width: 620px) {
+  .contador-acceso { top: auto; right: 12px; bottom: 12px; padding: 12px 14px; }
+  .contador-acceso__tiempo { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .contador-acceso, .contador-acceso__pulso { animation: none !important; }
+}
