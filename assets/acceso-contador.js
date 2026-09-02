@@ -7,7 +7,9 @@
     "dibujo-asistido.html": "CAD",
     "instrumentacion.html": "INSTRUMENTACION",
     "termodinamica-2026.html": "TERMODINAMICA",
-    "diseno-2.html": "DISENO2"
+    "diseno-2.html": "DISENO2",
+    "probabilidad-estadistica.html": "PROBABILIDAD",
+    "circuitos-hidraulicos-neumaticos.html": "HIDRAULICA"
   };
 
   const archivo = location.pathname.split("/").pop() || "";
