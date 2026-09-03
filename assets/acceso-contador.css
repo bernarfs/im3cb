@@ -16,7 +16,22 @@
   font-family: Arial, Helvetica, sans-serif;
   transition: border-color .3s, box-shadow .3s, transform .3s;
 }
-.contador-acceso__cabecera { display: flex; align-items: center; gap: 9px; }
+.contador-acceso__cabecera {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+.contador-acceso.arrastrando { transition: none; }
+.contador-acceso.arrastrando .contador-acceso__cabecera { cursor: grabbing; }
+.contador-acceso__mover {
+  margin-left: auto;
+  color: #91a9c6;
+  font-size: 20px;
+  line-height: 1;
+}
 .contador-acceso__pulso {
   width: 10px; height: 10px; flex: 0 0 auto; border-radius: 50%;
   background: var(--contador-color); box-shadow: 0 0 0 0 color-mix(in srgb, var(--contador-color) 55%, transparent);

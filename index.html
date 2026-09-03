@@ -982,9 +982,12 @@
     border-radius: 50%;
     background: #081426;
     box-shadow: 0 10px 35px rgba(30, 126, 255, .5);
-    cursor: pointer;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
     animation: pulsoIA 2.4s infinite;
   }
+  .burbuja-ia-im3cb.arrastrando { cursor: grabbing; animation: none; transform: scale(1.05); }
   .burbuja-ia-im3cb img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
   .burbuja-ia-im3cb::after {
     content: "IA";
@@ -1869,6 +1872,66 @@ function alternarAsistenteIM3CB() {
     .setAttribute("aria-expanded", String(abrir));
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  const boton = document.getElementById("botonAsistenteIM3CB");
+  const llavePosicion = "im3cb_burbuja_ia_posicion";
+  let arrastre = null;
+  let seMovio = false;
+
+  function colocar(x, y) {
+    const margen = 8;
+    const posicion = {
+      x: Math.max(margen, Math.min(x, innerWidth - boton.offsetWidth - margen)),
+      y: Math.max(margen, Math.min(y, innerHeight - boton.offsetHeight - margen))
+    };
+    boton.style.left = `${posicion.x}px`;
+    boton.style.top = `${posicion.y}px`;
+    boton.style.right = "auto";
+    boton.style.bottom = "auto";
+  }
+
+  try {
+    const posicion = JSON.parse(sessionStorage.getItem(llavePosicion));
+    if (Number.isFinite(posicion?.x) && Number.isFinite(posicion?.y)) colocar(posicion.x, posicion.y);
+  } catch (_) {}
+
+  boton.title = "Toca para abrir o arrastra para mover";
+  boton.addEventListener("pointerdown", (evento) => {
+    if (evento.button !== undefined && evento.button !== 0) return;
+    const rectangulo = boton.getBoundingClientRect();
+    arrastre = { id: evento.pointerId, inicioX: evento.clientX, inicioY: evento.clientY, dx: evento.clientX - rectangulo.left, dy: evento.clientY - rectangulo.top };
+    seMovio = false;
+    boton.setPointerCapture(evento.pointerId);
+    boton.classList.add("arrastrando");
+  });
+  boton.addEventListener("pointermove", (evento) => {
+    if (!arrastre || evento.pointerId !== arrastre.id) return;
+    if (Math.hypot(evento.clientX - arrastre.inicioX, evento.clientY - arrastre.inicioY) > 5) seMovio = true;
+    if (!seMovio) return;
+    colocar(evento.clientX - arrastre.dx, evento.clientY - arrastre.dy);
+    evento.preventDefault();
+  });
+  function terminar(evento) {
+    if (!arrastre || evento.pointerId !== arrastre.id) return;
+    if (seMovio) {
+      const rectangulo = boton.getBoundingClientRect();
+      sessionStorage.setItem(llavePosicion, JSON.stringify({ x: rectangulo.left, y: rectangulo.top }));
+    }
+    boton.classList.remove("arrastrando");
+    arrastre = null;
+  }
+  boton.addEventListener("pointerup", terminar);
+  boton.addEventListener("pointercancel", terminar);
+  boton.addEventListener("click", (evento) => {
+    if (seMovio) {
+      evento.preventDefault();
+      seMovio = false;
+      return;
+    }
+    alternarAsistenteIM3CB();
+  });
+});
+
 async function enviarSolicitudAccesoTemporal() {
   if (!solicitudAccesoActual) return;
   const estado = document.getElementById("estadoSolicitudAcceso");
@@ -1947,7 +2010,7 @@ validarLlavePortal();
     <div id="estadoSolicitudAcceso" aria-live="polite"></div>
   </div>
 </div>
-<button id="botonAsistenteIM3CB" class="burbuja-ia-im3cb" type="button" aria-label="Abrir asistente IM3CB IA" aria-expanded="false" onclick="alternarAsistenteIM3CB()">
+<button id="botonAsistenteIM3CB" class="burbuja-ia-im3cb" type="button" aria-label="Abrir asistente IM3CB IA" aria-expanded="false">
   <img src="logo-im3cb.jpeg?v=20260705" alt="">
 </button>
 <section id="ventanaAsistenteIM3CB" class="ventana-ia-im3cb" aria-label="Asistente académico IM3CB IA">

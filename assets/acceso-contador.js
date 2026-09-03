@@ -24,6 +24,7 @@
     <div class="contador-acceso__cabecera">
       <span class="contador-acceso__pulso"></span>
       <span class="contador-acceso__titulo">Acceso al curso</span>
+      <span class="contador-acceso__mover" aria-hidden="true">⠿</span>
     </div>
     <div class="contador-acceso__tiempo">--:--:--</div>
     <div class="contador-acceso__mensaje">Comprobando la vigencia de tu acceso…</div>
@@ -34,6 +35,80 @@
   const mensaje = widget.querySelector(".contador-acceso__mensaje");
   let venceEn = 0;
   let reloj = null;
+
+  const cabecera = widget.querySelector(".contador-acceso__cabecera");
+  const posicionGuardada = `im3cb_contador_posicion_${cursoEsperado}`;
+  let arrastre = null;
+
+  function limitarPosicion(x, y) {
+    const margen = 8;
+    return {
+      x: Math.max(margen, Math.min(x, innerWidth - widget.offsetWidth - margen)),
+      y: Math.max(margen, Math.min(y, innerHeight - widget.offsetHeight - margen))
+    };
+  }
+
+  function colocar(x, y) {
+    const posicion = limitarPosicion(x, y);
+    widget.style.left = `${posicion.x}px`;
+    widget.style.top = `${posicion.y}px`;
+    widget.style.right = "auto";
+    widget.style.bottom = "auto";
+    return posicion;
+  }
+
+  function restaurarPosicion() {
+    try {
+      const posicion = JSON.parse(sessionStorage.getItem(posicionGuardada));
+      if (Number.isFinite(posicion?.x) && Number.isFinite(posicion?.y)) {
+        colocar(posicion.x, posicion.y);
+      }
+    } catch (_) {}
+  }
+
+  cabecera.title = "Arrastra para mover el contador";
+  cabecera.addEventListener("pointerdown", (evento) => {
+    if (evento.button !== undefined && evento.button !== 0) return;
+    const rectangulo = widget.getBoundingClientRect();
+    arrastre = {
+      id: evento.pointerId,
+      desplazamientoX: evento.clientX - rectangulo.left,
+      desplazamientoY: evento.clientY - rectangulo.top
+    };
+    cabecera.setPointerCapture(evento.pointerId);
+    widget.classList.add("arrastrando");
+    evento.preventDefault();
+  });
+
+  cabecera.addEventListener("pointermove", (evento) => {
+    if (!arrastre || evento.pointerId !== arrastre.id) return;
+    colocar(
+      evento.clientX - arrastre.desplazamientoX,
+      evento.clientY - arrastre.desplazamientoY
+    );
+  });
+
+  function terminarArrastre(evento) {
+    if (!arrastre || evento.pointerId !== arrastre.id) return;
+    const rectangulo = widget.getBoundingClientRect();
+    sessionStorage.setItem(posicionGuardada, JSON.stringify({
+      x: rectangulo.left,
+      y: rectangulo.top
+    }));
+    widget.classList.remove("arrastrando");
+    arrastre = null;
+  }
+
+  cabecera.addEventListener("pointerup", terminarArrastre);
+  cabecera.addEventListener("pointercancel", terminarArrastre);
+  addEventListener("resize", () => {
+    if (widget.style.left) {
+      const rectangulo = widget.getBoundingClientRect();
+      const posicion = colocar(rectangulo.left, rectangulo.top);
+      sessionStorage.setItem(posicionGuardada, JSON.stringify(posicion));
+    }
+  });
+  requestAnimationFrame(restaurarPosicion);
 
   function llaveActual() {
     return new URLSearchParams(location.search).get("llave") ||
