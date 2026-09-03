@@ -573,6 +573,24 @@ button:hover {
 
 /* VISTA PREVIA DOCENTE */
 .acciones-vista{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}.acciones-vista button{flex:1 1 220px}.visor-docente{display:none;position:fixed;inset:0;z-index:5000;padding:16px;background:rgba(1,5,14,.94);backdrop-filter:blur(12px)}.visor-docente.activo{display:flex;flex-direction:column}.visor-barra{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(74,145,255,.35);border-radius:15px 15px 0 0;background:#0b1730}.visor-barra strong{margin-right:auto}.visor-barra button{padding:9px 13px;border:1px solid #315889;border-radius:10px;background:#112548;color:#fff;cursor:pointer}.visor-barra button.activo{border-color:#58a8ff;background:#1b4f8d}.cerrar-visor{background:#542638!important;border-color:#9b4b67!important}.visor-aviso{padding:9px 14px;color:#f5cd75;background:#211b10;text-align:center;font-size:.9rem}.marco-vista{flex:1;display:flex;align-items:flex-start;justify-content:center;min-height:0;padding:14px;overflow:auto;background:#030813}.marco-vista iframe{width:100%;height:100%;min-height:650px;border:1px solid #2f5b91;border-radius:0 0 14px 14px;background:#fff;transition:.25s}.marco-vista.movil iframe{width:390px;max-width:100%;height:780px;min-height:780px;border-radius:28px;box-shadow:0 18px 60px rgba(0,0,0,.55)}@media(max-width:600px){.visor-docente{padding:0}.visor-barra{border-radius:0}.marco-vista{padding:8px}.marco-vista.movil iframe{height:calc(100vh - 150px);min-height:620px}}
+.panel-accesos { margin-top: 24px; }
+.encabezado-accesos { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.controles-acceso { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.controles-acceso select, .controles-acceso button {
+  min-height:42px; border:1px solid #30415e; border-radius:10px; padding:8px 12px;
+  background:#131d2f; color:#eef5ff; font-weight:700;
+}
+.lista-accesos { display:grid; gap:12px; margin-top:16px; }
+.solicitud-acceso {
+  display:grid; gap:10px; padding:16px; border:1px solid #293a57; border-radius:14px; background:#10192a;
+}
+.solicitud-acceso .meta { color:#9fb0c9; font-size:.9rem; }
+.solicitud-acceso .botones { display:flex; gap:8px; flex-wrap:wrap; }
+.solicitud-acceso button { border:0; border-radius:9px; padding:9px 12px; font-weight:700; cursor:pointer; }
+.solicitud-acceso .aprobar { background:#2478f3; color:#fff; }
+.solicitud-acceso .rechazar { background:#40222a; color:#ffb0bd; }
+.acceso-vigente { border-left:4px solid #2ecc71; }
+.vacio-accesos { color:#95a5bd; padding:12px 0; }
 </style>
 
 </head>
@@ -916,6 +934,29 @@ Escanea este código para registrar tu asistencia.
 
 </section>
 
+<section class="panel panel-accesos">
+  <div class="encabezado-accesos">
+    <div>
+      <h2>🔑 Accesos temporales</h2>
+      <p>Autoriza entradas individuales sin modificar el pase de lista.</p>
+    </div>
+    <div class="controles-acceso">
+      <label for="duracionAcceso">Duración</label>
+      <select id="duracionAcceso">
+        <option value="30">30 minutos</option>
+        <option value="60" selected>1 hora</option>
+        <option value="120">2 horas</option>
+        <option value="300">5 horas</option>
+      </select>
+      <button type="button" onclick="cargarSolicitudesAcceso()">↻ Actualizar</button>
+    </div>
+  </div>
+  <h3>Solicitudes pendientes</h3>
+  <div id="solicitudesPendientes" class="lista-accesos"><div class="vacio-accesos">Escribe el código docente para consultar.</div></div>
+  <h3>Accesos vigentes</h3>
+  <div id="accesosVigentes" class="lista-accesos"><div class="vacio-accesos">Sin datos.</div></div>
+</section>
+
 
 </main>
 
@@ -956,6 +997,7 @@ let inicioLista = null;
 let finLista = null;
 
 let temporizador = null;
+let actualizadorSolicitudes = null;
 
 
 /* =================================
@@ -985,7 +1027,97 @@ function seleccionarCurso(boton) {
       "Curso seleccionado: " +
       boton.textContent.trim();
 
+  cargarSolicitudesAcceso();
+
 }
+
+function escaparHTML(valor) {
+  return String(valor || "").replace(/[&<>"']/g, caracter => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
+  })[caracter]);
+}
+
+async function cargarSolicitudesAcceso() {
+  const codigo = document.getElementById("codigoDocente").value.trim();
+  if (codigo !== CONFIG.codigoDocente) return;
+  try {
+    const respuesta = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        accion: "listar_solicitudes_acceso",
+        codigoDocente: codigo,
+        curso: cursoSeleccionado
+      })
+    });
+    const resultado = await respuesta.json();
+    if (!resultado.ok) throw new Error(resultado.error || "No fue posible consultar.");
+    renderizarSolicitudesAcceso(resultado.pendientes || []);
+    renderizarAccesosVigentes(resultado.vigentes || []);
+  } catch (error) {
+    document.getElementById("solicitudesPendientes").innerHTML =
+      '<div class="vacio-accesos">No se pudo consultar Apps Script.</div>';
+  }
+}
+
+function renderizarSolicitudesAcceso(solicitudes) {
+  const contenedor = document.getElementById("solicitudesPendientes");
+  if (!solicitudes.length) {
+    contenedor.innerHTML = '<div class="vacio-accesos">No hay solicitudes pendientes para este curso.</div>';
+    return;
+  }
+  contenedor.innerHTML = solicitudes.map(item => `
+    <article class="solicitud-acceso">
+      <strong>${escaparHTML(item.nombre)}</strong>
+      <div class="meta">${escaparHTML(item.matricula)} · ${escaparHTML(item.nombreCurso || item.curso)} · ${escaparHTML(item.solicitadoTexto)}</div>
+      <div class="botones">
+        <button class="aprobar" type="button" data-id="${encodeURIComponent(item.id)}" onclick="resolverSolicitudAcceso(decodeURIComponent(this.dataset.id),'aprobar')">✓ Autorizar</button>
+        <button class="rechazar" type="button" data-id="${encodeURIComponent(item.id)}" onclick="resolverSolicitudAcceso(decodeURIComponent(this.dataset.id),'rechazar')">✕ Rechazar</button>
+      </div>
+    </article>`).join("");
+}
+
+function renderizarAccesosVigentes(accesos) {
+  const contenedor = document.getElementById("accesosVigentes");
+  if (!accesos.length) {
+    contenedor.innerHTML = '<div class="vacio-accesos">No hay accesos vigentes para este curso.</div>';
+    return;
+  }
+  contenedor.innerHTML = accesos.map(item => `
+    <article class="solicitud-acceso acceso-vigente">
+      <strong>${escaparHTML(item.nombre)}</strong>
+      <div class="meta">${escaparHTML(item.matricula)} · ${escaparHTML(item.origenTexto)} · Restan ${escaparHTML(item.restanteTexto)}</div>
+    </article>`).join("");
+}
+
+async function resolverSolicitudAcceso(id, decision) {
+  const minutos = Number(document.getElementById("duracionAcceso").value || 60);
+  try {
+    const respuesta = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        accion: "resolver_solicitud_acceso",
+        codigoDocente: document.getElementById("codigoDocente").value.trim(),
+        id: id,
+        decision: decision,
+        minutos: minutos
+      })
+    });
+    const resultado = await respuesta.json();
+    if (!resultado.ok) throw new Error(resultado.error || "No se pudo resolver la solicitud.");
+    document.getElementById("estado").textContent = resultado.mensaje;
+    cargarSolicitudesAcceso();
+  } catch (error) {
+    document.getElementById("estado").textContent = "❌ " + error.message;
+  }
+}
+
+document.getElementById("codigoDocente").addEventListener("input", function() {
+  if (this.value.trim() === CONFIG.codigoDocente) {
+    cargarSolicitudesAcceso();
+    clearInterval(actualizadorSolicitudes);
+    actualizadorSolicitudes = setInterval(cargarSolicitudesAcceso, 8000);
+  }
+});
 
 /* =================================
    INICIAR SESIÓN MEDIANTE GET + JSONP

@@ -936,6 +936,40 @@
   font-size: 0.9rem;
   font-weight: bold;
 }
+  .modal-acceso-temporal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(1, 7, 18, .82);
+    backdrop-filter: blur(8px);
+  }
+  .modal-acceso-temporal.activo { display: flex; }
+  .tarjeta-acceso-temporal {
+    width: min(440px, 100%);
+    padding: 26px;
+    border: 1px solid #1f5aa6;
+    border-radius: 22px;
+    background: #0c1424;
+    box-shadow: 0 24px 70px rgba(0, 78, 180, .28);
+    color: #eef6ff;
+  }
+  .tarjeta-acceso-temporal h2 { margin: 0 0 10px; }
+  .tarjeta-acceso-temporal p { color: #b8c5d9; line-height: 1.55; }
+  .acciones-acceso-temporal { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+  .acciones-acceso-temporal button {
+    border: 0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .acciones-acceso-temporal .solicitar { background: #2478f3; color: white; }
+  .acciones-acceso-temporal .cancelar { background: #202b3d; color: #dce7f8; }
+  #estadoSolicitudAcceso { min-height: 24px; margin-top: 14px; color: #7fc4ff; }
   </style>
 </head>
 
@@ -1653,6 +1687,9 @@ document.addEventListener(
 const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwBK5q5_be0am3KBBqP5ZCse2c6sjT0ovFVGS1jnQyMKcZPoPeKGRjym8AE8wK69WtgBg/exec";
 
+let solicitudAccesoActual = null;
+let consultaSolicitudAcceso = null;
+
 async function validarLlavePortal() {
   const parametros = new URLSearchParams(window.location.search);
   const llaveDesdeURL = parametros.get("llave");
@@ -1730,7 +1767,7 @@ async function abrirCursoConAsistencia(cursoEsperado, pagina) {
     normalizarCursoAcceso(curso) !==
       normalizarCursoAcceso(cursoEsperado)
   ) {
-    alert("Acceso restringido. Registra tu asistencia con el QR de este curso.");
+    mostrarSolicitudAccesoTemporal(cursoEsperado, pagina);
     return;
   }
 
@@ -1738,25 +1775,104 @@ async function abrirCursoConAsistencia(cursoEsperado, pagina) {
     pagina + "?llave=" + encodeURIComponent(llave);
 }
 
-async function abrirAccesoCAD() {
-  const autorizado = await validarLlavePortal();
-  const llave = localStorage.getItem("im3cb_llave") || "";
-  const curso = localStorage.getItem("im3cb_curso") || "";
+function mostrarSolicitudAccesoTemporal(curso, pagina) {
+  const nombre = localStorage.getItem("im3cb_nombre") || "";
+  const matricula = localStorage.getItem("im3cb_matricula") || "";
 
-  if (
-    !autorizado ||
-    normalizarCursoAcceso(curso) !== "CAD"
-  ) {
-    alert("Acceso restringido. Registra tu asistencia con el QR.");
+  if (!nombre || !matricula) {
+    alert("Acceso restringido. Primero registra tu asistencia con el QR del curso.");
     return;
   }
 
-  window.location.href =
-    "dibujo-asistido.html?llave=" +
-    encodeURIComponent(llave);
+  solicitudAccesoActual = { curso, pagina, nombre, matricula };
+  document.getElementById("detalleSolicitudAcceso").textContent =
+    nombre + " · " + matricula + " · " + curso;
+  document.getElementById("estadoSolicitudAcceso").textContent =
+    "Tu acceso regular venció. Puedes solicitar autorización al docente.";
+  document.getElementById("modalSolicitudAcceso").classList.add("activo");
+}
+
+function cerrarSolicitudAccesoTemporal() {
+  document.getElementById("modalSolicitudAcceso").classList.remove("activo");
+}
+
+async function enviarSolicitudAccesoTemporal() {
+  if (!solicitudAccesoActual) return;
+  const estado = document.getElementById("estadoSolicitudAcceso");
+  estado.textContent = "Enviando solicitud…";
+
+  try {
+    const respuesta = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        accion: "solicitar_acceso_temporal",
+        curso: solicitudAccesoActual.curso,
+        nombre: solicitudAccesoActual.nombre,
+        matricula: solicitudAccesoActual.matricula,
+        grupo: localStorage.getItem("im3cb_grupo") || ""
+      })
+    });
+    const resultado = await respuesta.json();
+    if (!resultado.ok) throw new Error(resultado.error || "No se pudo enviar la solicitud.");
+    estado.textContent = resultado.estado === "aprobado"
+      ? "Acceso aprobado. Abriendo el curso…"
+      : "Solicitud enviada. Esperando autorización del docente…";
+    consultarEstadoAccesoTemporal();
+    clearInterval(consultaSolicitudAcceso);
+    consultaSolicitudAcceso = setInterval(consultarEstadoAccesoTemporal, 5000);
+  } catch (error) {
+    estado.textContent = "No se pudo solicitar el acceso. Intenta nuevamente.";
+  }
+}
+
+async function consultarEstadoAccesoTemporal() {
+  if (!solicitudAccesoActual) return;
+  try {
+    const respuesta = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        accion: "consultar_solicitud_acceso",
+        curso: solicitudAccesoActual.curso,
+        matricula: solicitudAccesoActual.matricula
+      })
+    });
+    const resultado = await respuesta.json();
+    const estado = document.getElementById("estadoSolicitudAcceso");
+    if (resultado.ok && resultado.estado === "aprobado" && resultado.llave) {
+      clearInterval(consultaSolicitudAcceso);
+      localStorage.setItem("im3cb_llave", resultado.llave);
+      localStorage.setItem("im3cb_curso", resultado.curso);
+      estado.textContent = "✓ Acceso autorizado. Abriendo el curso…";
+      setTimeout(() => {
+        window.location.href = solicitudAccesoActual.pagina +
+          "?llave=" + encodeURIComponent(resultado.llave);
+      }, 500);
+    } else if (resultado.estado === "rechazado") {
+      clearInterval(consultaSolicitudAcceso);
+      estado.textContent = "El docente no autorizó esta solicitud.";
+    }
+  } catch (error) {
+    console.warn("No se pudo consultar la solicitud.", error);
+  }
+}
+
+async function abrirAccesoCAD() {
+  return abrirCursoConAsistencia("CAD", "dibujo-asistido.html");
 }
 
 validarLlavePortal();
 </script>
+<div id="modalSolicitudAcceso" class="modal-acceso-temporal" role="dialog" aria-modal="true" aria-labelledby="tituloSolicitudAcceso">
+  <div class="tarjeta-acceso-temporal">
+    <h2 id="tituloSolicitudAcceso">🔑 Solicitar acceso temporal</h2>
+    <p>Esta autorización permite entrar al curso sin registrar otra asistencia.</p>
+    <p id="detalleSolicitudAcceso"></p>
+    <div class="acciones-acceso-temporal">
+      <button type="button" class="solicitar" onclick="enviarSolicitudAccesoTemporal()">Solicitar al docente</button>
+      <button type="button" class="cancelar" onclick="cerrarSolicitudAccesoTemporal()">Cancelar</button>
+    </div>
+    <div id="estadoSolicitudAcceso" aria-live="polite"></div>
+  </div>
+</div>
 </body>
 </html>
