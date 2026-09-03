@@ -1,0 +1,6 @@
+.solicitud-oportunidad-im3cb{margin-top:12px;font-family:Arial,sans-serif}
+.solicitud-oportunidad-im3cb button{border:1px solid #4098ff;border-radius:11px;padding:10px 14px;background:#0c69d4;color:#fff;font-weight:800;cursor:pointer}
+.solicitud-oportunidad-im3cb button:disabled{opacity:.55;cursor:wait}
+.solicitud-oportunidad-im3cb p{margin:7px 0 0;color:#9fb4cc;font-size:12px}
+.solicitud-oportunidad__enviada{display:inline-block;padding:10px 13px;border:1px solid #2c9a69;border-radius:10px;background:#12372b;color:#a9f2cf;font-weight:700}
+.solicitud-oportunidad__error{color:#ff9dac;font-size:12px}

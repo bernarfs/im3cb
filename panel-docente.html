@@ -958,6 +958,17 @@ Escanea este código para registrar tu asistencia.
 </section>
 
 
+<section class="panel panel-accesos">
+  <div class="encabezado-accesos">
+    <div>
+      <h2>📝 Nuevas oportunidades de evaluación</h2>
+      <p>El alumno solicita el intento y tú decides si lo autorizas. La calificación anterior se conserva.</p>
+    </div>
+    <div class="controles-acceso"><button type="button" onclick="cargarSolicitudesEvaluacion()">↻ Actualizar</button></div>
+  </div>
+  <div id="solicitudesEvaluacion" class="lista-accesos"><div class="vacio-accesos">Escribe el código docente para consultar.</div></div>
+</section>
+
 </main>
 
 <script>
@@ -968,6 +979,9 @@ Escanea este código para registrar tu asistencia.
 
 const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwBK5q5_be0am3KBBqP5ZCse2c6sjT0ovFVGS1jnQyMKcZPoPeKGRjym8AE8wK69WtgBg/exec";
+
+const URL_CALIFICACIONES =
+  "https://script.google.com/macros/s/AKfycbx1VyNm--NRgIML-EuDog4woaoQmkJVGJPj0Xt7inWGSkSbV0kRUiLb5VEoGaUTV2Jj9Q/exec";
 
 
 const CONFIG = {
@@ -1028,6 +1042,7 @@ function seleccionarCurso(boton) {
       boton.textContent.trim();
 
   cargarSolicitudesAcceso();
+  cargarSolicitudesEvaluacion();
 
 }
 
@@ -1111,11 +1126,55 @@ async function resolverSolicitudAcceso(id, decision) {
   }
 }
 
+async function cargarSolicitudesEvaluacion() {
+  const codigo = document.getElementById("codigoDocente").value.trim();
+  if (codigo !== CONFIG.codigoDocente) return;
+  const contenedor = document.getElementById("solicitudesEvaluacion");
+  try {
+    const respuesta = await fetch(URL_CALIFICACIONES, { method: "POST", body: JSON.stringify({ accion: "listar_solicitudes_oportunidad", codigoDocente: codigo, curso: cursoSeleccionado }) });
+    const resultado = await respuesta.json();
+    if (!resultado.ok) throw new Error(resultado.mensaje || "No fue posible consultar.");
+    const solicitudes = resultado.solicitudes || [];
+    if (!solicitudes.length) {
+      contenedor.innerHTML = '<div class="vacio-accesos">No hay solicitudes pendientes para este curso.</div>';
+      return;
+    }
+    contenedor.innerHTML = solicitudes.map(item => `
+      <article class="solicitud-acceso">
+        <strong>${escaparHTML(item.nombre)}</strong>
+        <div class="meta">${escaparHTML(item.matricula || "Sin matrícula")} · ${escaparHTML(item.curso)} · ${escaparHTML(item.evaluacion)}</div>
+        <div class="meta">Solicitada: ${escaparHTML(item.fechaTexto || "")}</div>
+        <div class="botones">
+          <button class="aprobar" type="button" data-id="${encodeURIComponent(item.id)}" onclick="resolverSolicitudEvaluacion(decodeURIComponent(this.dataset.id),'autorizar')">✓ Autorizar nueva oportunidad</button>
+          <button class="rechazar" type="button" data-id="${encodeURIComponent(item.id)}" onclick="resolverSolicitudEvaluacion(decodeURIComponent(this.dataset.id),'rechazar')">✕ Rechazar</button>
+        </div>
+      </article>`).join("");
+  } catch (error) {
+    contenedor.innerHTML = `<div class="vacio-accesos">${escaparHTML(error.message)}</div>`;
+  }
+}
+
+async function resolverSolicitudEvaluacion(id, decision) {
+  try {
+    const respuesta = await fetch(URL_CALIFICACIONES, { method: "POST", body: JSON.stringify({ accion: "resolver_solicitud_oportunidad", codigoDocente: document.getElementById("codigoDocente").value.trim(), id, decision }) });
+    const resultado = await respuesta.json();
+    if (!resultado.ok) throw new Error(resultado.mensaje || "No se pudo resolver la solicitud.");
+    document.getElementById("estado").textContent = resultado.mensaje;
+    cargarSolicitudesEvaluacion();
+  } catch (error) {
+    document.getElementById("estado").textContent = "❌ " + error.message;
+  }
+}
+
 document.getElementById("codigoDocente").addEventListener("input", function() {
   if (this.value.trim() === CONFIG.codigoDocente) {
     cargarSolicitudesAcceso();
+    cargarSolicitudesEvaluacion();
     clearInterval(actualizadorSolicitudes);
-    actualizadorSolicitudes = setInterval(cargarSolicitudesAcceso, 8000);
+    actualizadorSolicitudes = setInterval(() => {
+      cargarSolicitudesAcceso();
+      cargarSolicitudesEvaluacion();
+    }, 8000);
   }
 });
 
