@@ -61,7 +61,9 @@
     .figura-11{margin:22px 0;padding:12px;border-radius:16px;background:#fff;border:1px solid rgba(154,108,255,.3);overflow:hidden}.figura-11 img{display:block;width:100%;height:auto;border-radius:9px}.figura-11 figcaption{padding:12px 7px 3px;color:#53627a;font-size:13px;line-height:1.5;text-align:center}
     .actividad-11{margin-top:24px;padding:20px;border-radius:16px;background:rgba(77,211,255,.08);border:1px solid rgba(77,211,255,.28)}.advertencia-11{padding:15px;border-radius:12px;background:rgba(255,190,80,.09);border-left:4px solid #ffbe50}
     .fuente-11{margin-top:22px;color:#849bb9;font-size:12px}
+    .ruta-carga{display:grid;grid-template-columns:repeat(5,1fr);align-items:center;gap:9px;margin:20px 0}.ruta-carga div{min-height:82px;display:grid;place-items:center;padding:12px;text-align:center;border:1px solid rgba(154,108,255,.32);border-radius:14px;background:rgba(5,13,32,.72);color:#fff;font-weight:700}.ruta-carga span{text-align:center;color:var(--accent2);font-size:25px}.pasos-calculo{counter-reset:paso;display:grid;gap:12px;margin:16px 0}.pasos-calculo div{position:relative;padding:15px 15px 15px 54px;border-radius:13px;background:rgba(4,14,34,.48);border:1px solid rgba(140,183,239,.2)}.pasos-calculo div:before{counter-increment:paso;content:counter(paso);position:absolute;left:14px;top:13px;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:900}
     @media(max-width:650px){.conceptos-11{grid-template-columns:1fr}.tabla-wrap-11{overflow-x:auto}.tema-11{padding:17px}}
+    @media(max-width:700px){.ruta-carga{grid-template-columns:1fr}.ruta-carga span{transform:rotate(90deg)} }
     .bloqueada{opacity:.55}.aviso{margin-top:36px;padding:22px;border:1px solid rgba(95,157,234,.26);border-left:4px solid var(--accent);border-radius:14px;background:rgba(8,23,49,.78);color:#c1d1e7;line-height:1.65}
     footer{text-align:center;padding:30px;color:#7187a6;border-top:1px solid #142b4c}
     @keyframes entrada{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
@@ -199,6 +201,77 @@
         </div>
 
         <p class="fuente-11">Fuentes académicas: capítulo 9, “Soldadura, adhesión y diseño de uniones permanentes”, pp. 454–458; capítulos 30 y 31, “Fundamentos y procesos de soldadura”.</p>
+      </article>
+
+      <article class="tema-11" id="tema-1-2">
+        <p class="codigo">TEMA 1.2</p>
+        <h3>Esfuerzos y resistencias en uniones soldadas</h3>
+        <div class="proposito-11"><strong>Propósito:</strong> calcular los esfuerzos nominales que actúan en la garganta efectiva de una soldadura y compararlos con una resistencia de diseño, considerando geometría, material, proceso de fabricación y factor de seguridad.</div>
+
+        <h4>La unión como trayectoria de carga</h4>
+        <p>Una soldadura debe transferir la fuerza de una pieza a otra sin que falle el cordón, el metal base ni la zona afectada por el calor. Por ello, el análisis no comienza con una fórmula: primero se identifica por dónde entra la carga, qué cordones participan y si la fuerza pasa por el centroide del grupo de soldaduras.</p>
+        <div class="ruta-carga" role="img" aria-label="Ruta de transmisión de una carga a través de una unión soldada">
+          <div>Fuerza aplicada<br>F</div><span>→</span><div>Metal base</div><span>→</span><div>Garganta efectiva</div>
+        </div>
+
+        <div class="conceptos-11">
+          <div class="concepto-11"><strong>Área efectiva</strong><p>Es la sección teórica que transmite la carga. En un filete ideal de catetos iguales, la garganta es <strong>t = 0.707z</strong>. Si existen varios cordones, se suman sus áreas efectivas.</p></div>
+          <div class="concepto-11"><strong>Centroide del grupo</strong><p>Representa el punto geométrico de la longitud efectiva total. Una carga excéntrica produce fuerza directa y un momento adicional respecto de este punto.</p></div>
+          <div class="concepto-11"><strong>Esfuerzo nominal</strong><p>Es el valor promedio calculado con modelos simplificados. No describe por sí solo los máximos locales en la raíz, los extremos del cordón o los defectos.</p></div>
+          <div class="concepto-11"><strong>Resistencia de diseño</strong><p>Es el límite empleado para decidir si la unión es segura. Depende del metal base, electrodo o aporte, proceso, calidad requerida y norma aplicable.</p></div>
+        </div>
+
+        <h4>Carga directa</h4>
+        <p>Para una fuerza centrada, distribuida uniformemente sobre el área efectiva:</p>
+        <div class="formula-11">σ = P ÷ A<sub>e</sub><small>Esfuerzo normal promedio cuando la carga actúa perpendicularmente al área resistente.</small></div>
+        <div class="formula-11">τ = V ÷ A<sub>e</sub><small>Esfuerzo cortante promedio cuando la carga actúa paralelamente al área resistente.</small></div>
+        <div class="formula-11">A<sub>e</sub> = Σ(t · L) &nbsp; y &nbsp; t = 0.707z<small>Área efectiva total para filetes ideales de catetos iguales; z es el cateto y L la longitud efectiva de cada tramo.</small></div>
+
+        <h4>Carga excéntrica y momento</h4>
+        <p>Si la línea de acción no pasa por el centroide del grupo, aparece un momento <strong>M = F·e</strong>. El esfuerzo secundario aumenta con la distancia al centroide, por lo que los puntos más alejados suelen ser críticos.</p>
+        <div class="formula-11">τ<sub>m</sub> = M · r ÷ J<sub>w</sub><small>Modelo elástico del esfuerzo debido al momento: r es la distancia al centroide y J<sub>w</sub> la propiedad polar del grupo de soldaduras.</small></div>
+        <p>El cortante directo y el producido por el momento son vectores. Deben sumarse por componentes en cada punto crítico, no solamente mediante sus magnitudes.</p>
+
+        <h4>Estado combinado de esfuerzos</h4>
+        <p>Cuando en un punto existen simultáneamente esfuerzo normal y cortante, puede emplearse un esfuerzo equivalente como criterio de comparación para un material dúctil, siempre que la norma y el modelo adoptado lo permitan:</p>
+        <div class="formula-11">σ<sub>eq</sub> = √(σ² + 3τ²)<small>Forma de von Mises para un estado plano formado por un esfuerzo normal y uno cortante.</small></div>
+        <div class="advertencia-11"><strong>Importante:</strong> las reglas de diseño de soldaduras dependen del código aplicable. Los factores, resistencias permisibles y longitudes mínimas no deben mezclarse entre normas ni sustituirse por una resistencia genérica del material.</div>
+
+        <h4>Verificación de resistencia</h4>
+        <div class="pasos-calculo">
+          <div><strong>Idealizar la unión.</strong> Dibujar piezas, cordones, dimensiones, cargas y apoyos.</div>
+          <div><strong>Determinar el área efectiva.</strong> Calcular la garganta y sumar las longitudes resistentes.</div>
+          <div><strong>Calcular las acciones.</strong> Obtener fuerza directa y, cuando exista excentricidad, el momento.</div>
+          <div><strong>Localizar el punto crítico.</strong> Combinar los esfuerzos en los extremos o puntos más alejados.</div>
+          <div><strong>Comparar.</strong> Verificar esfuerzo contra resistencia de diseño y calcular el factor de seguridad.</div>
+        </div>
+        <div class="formula-11">n = S<sub>d</sub> ÷ σ<sub>demanda</sub><small>S<sub>d</sub> es la resistencia de diseño compatible con el criterio usado; la demanda debe expresarse en el mismo tipo de esfuerzo.</small></div>
+
+        <h4>Ejemplo resuelto: dos filetes bajo cortante directo</h4>
+        <p>Una placa transmite <strong>30 kN</strong> mediante dos cordones de filete iguales. Cada cordón tiene cateto <strong>z = 6 mm</strong> y longitud efectiva <strong>L = 80 mm</strong>. Para este ejercicio didáctico se adopta una resistencia de diseño al cortante de <strong>90 MPa</strong>.</p>
+        <div class="pasos-calculo">
+          <div><strong>Garganta:</strong> t = 0.707(6) = 4.242 mm.</div>
+          <div><strong>Área efectiva total:</strong> A<sub>e</sub> = 2(4.242)(80) = 678.72 mm².</div>
+          <div><strong>Esfuerzo:</strong> τ = 30 000 ÷ 678.72 = 44.20 N/mm² = 44.20 MPa.</div>
+          <div><strong>Factor de seguridad:</strong> n = 90 ÷ 44.20 = <strong>2.04</strong>.</div>
+        </div>
+        <p>Con los supuestos indicados, la demanda es menor que la resistencia adoptada. Todavía deben revisarse metal base, extremos del cordón, geometría real, proceso, defectos y norma de fabricación.</p>
+
+        <h4>La manufactura también modifica la resistencia</h4>
+        <div class="tabla-wrap-11"><table class="tabla-11"><thead><tr><th>Factor</th><th>Efecto posible</th><th>Decisión de diseño y fabricación</th></tr></thead><tbody>
+          <tr><td>Aporte térmico</td><td>Cambia la microestructura y el tamaño de la zona afectada por el calor.</td><td>Definir proceso, parámetros y secuencia compatibles con el material y espesor.</td></tr>
+          <tr><td>Contracción</td><td>Produce distorsión y esfuerzos residuales.</td><td>Diseñar una secuencia equilibrada, sujetar adecuadamente y evitar cordones innecesarios.</td></tr>
+          <tr><td>Discontinuidades</td><td>Porosidad, socavado, inclusiones, grietas o falta de fusión reducen la confiabilidad.</td><td>Preparar y limpiar la junta; especificar inspección proporcional al riesgo.</td></tr>
+          <tr><td>Accesibilidad</td><td>Una geometría difícil impide mantener ángulo, recorrido y calidad uniforme.</td><td>Diseñar para soldar, limpiar e inspeccionar sin obstáculos.</td></tr>
+        </tbody></table></div>
+
+        <div class="actividad-11">
+          <h4>Actividad de aprendizaje</h4>
+          <p>Una ménsula está unida mediante dos filetes de 100 mm, cateto de 5 mm, y recibe una carga centrada de 22 kN.</p>
+          <ol><li>Dibuja la trayectoria de carga.</li><li>Calcula garganta, área efectiva y esfuerzo cortante nominal.</li><li>Evalúa la unión con una resistencia de diseño de 75 MPa.</li><li>Calcula el factor de seguridad.</li><li>Explica qué cambiaría si la carga actuara con una excentricidad de 60 mm.</li><li>Propón dos medidas de manufactura para reducir defectos o distorsión.</li></ol>
+        </div>
+
+        <p class="fuente-11"><strong>Referencias de estudio:</strong> Budynas y Nisbett, <em>Diseño en ingeniería mecánica de Shigley</em>, apartado de uniones permanentes; Robert L. Mott, <em>Diseño de elementos de máquinas</em>, análisis de conexiones soldadas; Robert L. Norton, <em>Diseño de máquinas: un enfoque integrado</em>, criterios de esfuerzo, resistencia y seguridad; Mikell P. Groover, <em>Fundamentos de manufactura moderna</em>, procesos de soldadura, calidad, distorsión y diseño para manufactura. La numeración de capítulos y páginas varía según la edición.</p>
       </article>
     </div></details>
     <details ><summary>Unidad 2 · Tornillos de sujeción y potencia</summary><div class="unidad"><ul><li>2.1 Tipos de roscas</li><li>2.2 Mecánica de tornillos de transmisión</li><li>2.3 Eficiencia y esfuerzos</li><li>2.4 Materiales para tornillos</li><li>2.5 Resistencia y rigidez de la unión</li></ul></div></details>
