@@ -258,6 +258,23 @@
       color: #1683ff;
     }
 
+    .enlace-docente-nav {
+      padding: 9px 14px;
+      border: 1px solid rgba(75, 156, 255, .55);
+      border-radius: 999px;
+      background: rgba(22, 131, 255, .12);
+      font-weight: 700;
+    }
+
+    .acciones-portada { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+    .boton-docente {
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:13px 22px; border:1px solid rgba(120,178,255,.52); border-radius:10px;
+      color:#dcecff; background:rgba(7,20,43,.72); text-decoration:none; font-weight:800;
+      transition:.3s;
+    }
+    .boton-docente:hover { transform:translateY(-3px); border-color:#1683ff; background:#10274a; }
+
     /* PORTADA */
     .hero {
       min-height: 100vh;
@@ -1049,6 +1066,7 @@
     <ul>
       <li><a href="#inicio">Inicio</a></li>
       <li><a href="#cursos">Cursos</a></li>
+      <li><a class="enlace-docente-nav" href="panel-docente.html">👨‍🏫 Panel docente</a></li>
       <li>
   <a href="#acerca">
     IM3CB
@@ -1095,9 +1113,10 @@
           y proyectos aplicados a la ingeniería y la tecnología.
       </p>
 
-      <a class="boton" href="#cursos">
-        Explorar cursos
-      </a>
+      <div class="acciones-portada">
+        <a class="boton" href="#cursos">Explorar cursos</a>
+        <a class="boton-docente" href="panel-docente.html">👨‍🏫 Abrir panel docente</a>
+      </div>
 
     </div>
 

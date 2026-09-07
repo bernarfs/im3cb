@@ -591,6 +591,8 @@ button:hover {
 .solicitud-acceso .rechazar { background:#40222a; color:#ffb0bd; }
 .acceso-vigente { border-left:4px solid #2ecc71; }
 .vacio-accesos { color:#95a5bd; padding:12px 0; }
+.contador-solicitudes{display:inline-grid;place-items:center;min-width:31px;height:31px;margin-left:8px;padding:0 9px;border-radius:999px;background:#e24c67;color:#fff;font-size:.88rem;box-shadow:0 0 0 5px rgba(226,76,103,.12)}
+.contador-solicitudes.vacio{background:#263850;color:#9fb3cf;box-shadow:none}
 </style>
 
 </head>
@@ -961,8 +963,8 @@ Escanea este código para registrar tu asistencia.
 <section class="panel panel-accesos">
   <div class="encabezado-accesos">
     <div>
-      <h2>📝 Nuevas oportunidades de evaluación</h2>
-      <p>El alumno solicita el intento y tú decides si lo autorizas. La calificación anterior se conserva.</p>
+      <h2>📝 Solicitudes de evaluación <span id="contadorSolicitudesEvaluacion" class="contador-solicitudes vacio">0</span></h2>
+      <p>Bandeja general de todos los cursos y evaluaciones. El alumno solicita el intento y tú decides si lo autorizas; la calificación anterior se conserva.</p>
     </div>
     <div class="controles-acceso"><button type="button" onclick="cargarSolicitudesEvaluacion()">↻ Actualizar</button></div>
   </div>
@@ -1131,12 +1133,15 @@ async function cargarSolicitudesEvaluacion() {
   if (codigo !== CONFIG.codigoDocente) return;
   const contenedor = document.getElementById("solicitudesEvaluacion");
   try {
-    const respuesta = await fetch(URL_CALIFICACIONES, { method: "POST", body: JSON.stringify({ accion: "listar_solicitudes_oportunidad", codigoDocente: codigo, curso: cursoSeleccionado }) });
+    const respuesta = await fetch(URL_CALIFICACIONES, { method: "POST", body: JSON.stringify({ accion: "listar_solicitudes_oportunidad", codigoDocente: codigo }) });
     const resultado = await respuesta.json();
     if (!resultado.ok) throw new Error(resultado.mensaje || "No fue posible consultar.");
     const solicitudes = resultado.solicitudes || [];
+    const contador = document.getElementById("contadorSolicitudesEvaluacion");
+    contador.textContent = solicitudes.length;
+    contador.classList.toggle("vacio", solicitudes.length === 0);
     if (!solicitudes.length) {
-      contenedor.innerHTML = '<div class="vacio-accesos">No hay solicitudes pendientes para este curso.</div>';
+      contenedor.innerHTML = '<div class="vacio-accesos">No hay solicitudes pendientes de evaluación.</div>';
       return;
     }
     contenedor.innerHTML = solicitudes.map(item => `
@@ -1150,6 +1155,9 @@ async function cargarSolicitudesEvaluacion() {
         </div>
       </article>`).join("");
   } catch (error) {
+    const contador = document.getElementById("contadorSolicitudesEvaluacion");
+    contador.textContent = "!";
+    contador.classList.remove("vacio");
     contenedor.innerHTML = `<div class="vacio-accesos">${escaparHTML(error.message)}</div>`;
   }
 }

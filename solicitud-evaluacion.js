@@ -6,6 +6,22 @@
   const evaluacion = script.dataset.evaluacion;
   const estado = document.getElementById(script.dataset.estado || "estadoDiagnostico");
   if (!api || !curso || !evaluacion || !estado) return;
+
+  window.IM3CBEvaluaciones = window.IM3CBEvaluaciones || {};
+  window.IM3CBEvaluaciones.solicitar = async function (datos) {
+    const solicitud = {
+      accion: "solicitar_nueva_oportunidad",
+      nombre: localStorage.getItem("im3cb_nombre") || "",
+      matricula: localStorage.getItem("im3cb_matricula") || "",
+      curso: String(datos && datos.curso || curso),
+      evaluacion: String(datos && datos.evaluacion || evaluacion)
+    };
+    if (!solicitud.nombre) throw new Error("Registra primero tu asistencia para identificarte.");
+    const respuesta = await fetch(api, { method: "POST", body: JSON.stringify(solicitud) });
+    const resultado = await respuesta.json();
+    if (!resultado.ok) throw new Error(resultado.mensaje || "No se pudo enviar la solicitud.");
+    return resultado;
+  };
   const zona = document.createElement("div");
   zona.className = "solicitud-oportunidad-im3cb";
   estado.insertAdjacentElement("afterend", zona);
@@ -16,9 +32,7 @@
     const boton = zona.querySelector("button");
     if (boton) boton.disabled = true;
     try {
-      const respuesta = await fetch(api, { method: "POST", body: JSON.stringify({ accion: "solicitar_nueva_oportunidad", ...alumno }) });
-      const resultado = await respuesta.json();
-      if (!resultado.ok) throw new Error(resultado.mensaje || "No se pudo enviar la solicitud.");
+      const resultado = await window.IM3CBEvaluaciones.solicitar(alumno);
       zona.innerHTML = '<span class="solicitud-oportunidad__enviada">✓ Solicitud enviada al panel docente.</span>';
     } catch (error) {
       zona.innerHTML = `<button type="button">Solicitar nueva oportunidad</button><span class="solicitud-oportunidad__error"> ${error.message}</span>`;
