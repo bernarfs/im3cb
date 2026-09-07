@@ -339,6 +339,8 @@ button:disabled {
 
 }
 
+.acceso-duplicado{display:none;margin-top:18px;padding:18px;border:1px solid rgba(255,190,70,.3);border-radius:14px;background:rgba(255,190,70,.08);text-align:center}.acceso-duplicado.visible{display:block}.acceso-duplicado h2{font-size:19px;color:#ffd77e;margin-bottom:8px}.acceso-duplicado p{color:#c4cede;line-height:1.55}.acceso-duplicado button{background:linear-gradient(135deg,#ff9f2f,#e97619);box-shadow:0 8px 25px rgba(255,140,30,.2)}
+
 </style>
 
 </head>
@@ -456,6 +458,13 @@ button:disabled {
 
 
 <div id="mensaje"></div>
+
+<section id="zonaAccesoDuplicado" class="acceso-duplicado" aria-live="polite">
+  <h2>✅ El pase de lista ya fue realizado</h2>
+  <p>Tu matrícula ya aparece registrada en esta sesión. No vuelvas a registrar asistencia; solicita al docente acceso temporal al curso.</p>
+  <button id="botonSolicitarAcceso" type="button" onclick="solicitarAccesoCurso()">🔑 Solicitar acceso al curso</button>
+  <p id="estadoSolicitudAcceso"></p>
+</section>
 
 
 </section>
@@ -617,6 +626,9 @@ const datos = {
     id:
       id,
 
+    idSesion:
+      id,
+
     nombre:
       nombre,
 
@@ -649,6 +661,19 @@ const datos = {
     const resultado =
       await respuesta.json();
 
+    const mensajeServidor = resultado.mensaje || resultado.error || "No fue posible registrar la asistencia.";
+    const esDuplicado = resultado.duplicado === true || /ya\s+(fue|est[aá]|tienes)?\s*registrad|asistencia\s+registrad|duplicad/i.test(mensajeServidor);
+
+    if (esDuplicado) {
+      localStorage.setItem("im3cb_nombre", nombre);
+      localStorage.setItem("im3cb_matricula", matricula);
+      localStorage.setItem("im3cb_grupo", grupo);
+      document.getElementById("formulario").style.display = "none";
+      document.getElementById("zonaAccesoDuplicado").classList.add("visible");
+      mostrarMensaje("✅ El pase de lista ya fue realizado para esta matrícula.", "exito");
+      return;
+    }
+
         if (resultado.ok) {
   localStorage.setItem("im3cb_nombre", nombre);
   localStorage.setItem("im3cb_matricula", matricula);
@@ -675,8 +700,7 @@ else {
 
         "🔒 " +
         (
-          resultado.mensaje ||
-          "No fue posible registrar la asistencia."
+          mensajeServidor
         ),
 
         "error"
@@ -711,6 +735,28 @@ else {
 
   }
 
+}
+
+async function solicitarAccesoCurso() {
+  const boton = document.getElementById("botonSolicitarAcceso");
+  const estado = document.getElementById("estadoSolicitudAcceso");
+  const nombre = document.getElementById("nombre").value.trim() || localStorage.getItem("im3cb_nombre") || "";
+  const matricula = document.getElementById("matricula").value.trim() || localStorage.getItem("im3cb_matricula") || "";
+  const grupo = document.getElementById("grupo").value.trim().toUpperCase() || localStorage.getItem("im3cb_grupo") || "";
+  if (!nombre || !matricula || !curso) { estado.textContent = "No fue posible identificar tus datos."; return; }
+  boton.disabled = true;
+  boton.textContent = "Enviando solicitud…";
+  try {
+    const respuesta = await fetch(APPS_SCRIPT_URL, { method:"POST", body:JSON.stringify({ accion:"solicitar_acceso_temporal", curso, nombre, matricula, grupo }) });
+    const resultado = await respuesta.json();
+    if (!resultado.ok) throw new Error(resultado.error || resultado.mensaje || "No se pudo enviar la solicitud.");
+    estado.textContent = "✓ Solicitud enviada. El docente podrá autorizarla desde el panel.";
+    boton.textContent = "Solicitud enviada";
+  } catch (error) {
+    estado.textContent = error.message;
+    boton.disabled = false;
+    boton.textContent = "🔑 Solicitar acceso al curso";
+  }
 }
 
 

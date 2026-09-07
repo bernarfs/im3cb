@@ -593,12 +593,26 @@ button:hover {
 .vacio-accesos { color:#95a5bd; padding:12px 0; }
 .contador-solicitudes{display:inline-grid;place-items:center;min-width:31px;height:31px;margin-left:8px;padding:0 9px;border-radius:999px;background:#e24c67;color:#fff;font-size:.88rem;box-shadow:0 0 0 5px rgba(226,76,103,.12)}
 .contador-solicitudes.vacio{background:#263850;color:#9fb3cf;box-shadow:none}
+.panel-bloqueado>header,.panel-bloqueado>main,.panel-bloqueado>#visorDocente{filter:blur(8px);pointer-events:none;user-select:none}
+.acceso-panel{position:fixed;inset:0;z-index:9000;display:grid;place-items:center;padding:20px;background:rgba(2,6,16,.94);backdrop-filter:blur(14px)}
+.acceso-panel.oculto{display:none}.acceso-panel__caja{width:min(440px,94vw);padding:30px;border:1px solid rgba(69,143,255,.48);border-radius:24px;background:linear-gradient(145deg,#101d35,#081122);box-shadow:0 28px 90px rgba(0,0,0,.58);text-align:center}.acceso-panel__icono{font-size:48px}.acceso-panel__caja h2{margin:12px 0 8px}.acceso-panel__caja p{color:#9fb0c9;line-height:1.55}.acceso-panel__caja input{width:100%;margin-top:20px;padding:14px;border:1px solid #304b73;border-radius:11px;background:#071329;color:#fff;text-align:center;font-size:18px;letter-spacing:2px}.acceso-panel__caja button{width:100%;margin-top:12px;padding:13px;border:0;border-radius:11px;background:#2478f3;color:#fff;font-weight:800;cursor:pointer}.error-panel{min-height:22px;margin-top:10px!important;color:#ff8997!important}.sesion-docente-activa{padding:12px 14px;border:1px solid rgba(46,204,113,.28);border-radius:11px;background:rgba(46,204,113,.08);color:#8ce9b4}
 </style>
 
 </head>
 
 
-<body>
+<body class="panel-bloqueado">
+
+<section id="accesoPanel" class="acceso-panel" role="dialog" aria-modal="true" aria-labelledby="tituloAccesoPanel">
+  <form class="acceso-panel__caja" onsubmit="desbloquearPanel(event)">
+    <div class="acceso-panel__icono">🔐</div>
+    <h2 id="tituloAccesoPanel">Acceso exclusivo para el docente</h2>
+    <p>Introduce la clave para abrir el control de asistencia, cursos y evaluaciones.</p>
+    <input id="claveAccesoPanel" type="password" placeholder="Clave docente" autocomplete="current-password" autofocus>
+    <button type="submit">Ingresar al panel</button>
+    <p id="errorAccesoPanel" class="error-panel" aria-live="polite"></p>
+  </form>
+</section>
 
 
 <header>
@@ -624,28 +638,15 @@ button:hover {
 <section class="panel">
 
 
-<h2>
-  🔐 Iniciar sesión docente
-</h2>
+<h2>🔐 Sesión docente</h2>
 
 
 <!-- ==========================
      CÓDIGO DOCENTE
 ========================== -->
 
-<div class="campo">
-
-<label>
-  Código docente
-</label>
-
-<input
-  id="codigoDocente"
-  type="password"
-  placeholder="Ingresa tu código"
-  autocomplete="off">
-
-</div>
+<input id="codigoDocente" type="hidden" value="LISTA2026">
+<div class="sesion-docente-activa">✅ Panel autenticado. Las herramientas docentes están disponibles.</div>
 
 
 <!-- ==========================
@@ -1862,6 +1863,27 @@ function protegerVistaDocente(){const frame=document.getElementById("iframeVista
 function cambiarVistaDocente(modo){const marco=document.getElementById("marcoVistaDocente");const movil=modo==="movil";marco.classList.toggle("movil",movil);document.getElementById("btnVistaMovil").classList.toggle("activo",movil);document.getElementById("btnVistaEscritorio").classList.toggle("activo",!movil);}
 function cerrarVistaDocente(){document.getElementById("visorDocente").classList.remove("activo");document.getElementById("iframeVistaDocente").src="about:blank";document.body.style.overflow="";}
 document.addEventListener("keydown",event=>{if(event.key==="Escape"&&document.getElementById("visorDocente").classList.contains("activo"))cerrarVistaDocente();});
+
+const CLAVE_ACCESO_PANEL="berna2882";
+function activarPanelDocente(){
+  document.body.classList.remove("panel-bloqueado");
+  document.getElementById("accesoPanel").classList.add("oculto");
+  document.getElementById("codigoDocente").value=CONFIG.codigoDocente;
+  cargarSolicitudesAcceso();
+  cargarSolicitudesEvaluacion();
+  clearInterval(actualizadorSolicitudes);
+  actualizadorSolicitudes=setInterval(()=>{cargarSolicitudesAcceso();cargarSolicitudesEvaluacion();},15000);
+}
+function desbloquearPanel(event){
+  if(event)event.preventDefault();
+  const entrada=document.getElementById("claveAccesoPanel");
+  if(entrada.value!==CLAVE_ACCESO_PANEL){document.getElementById("errorAccesoPanel").textContent="Clave incorrecta.";entrada.select();return;}
+  sessionStorage.setItem("im3cb_panel_docente","autorizado");
+  activarPanelDocente();
+}
+if(sessionStorage.getItem("im3cb_panel_docente")==="autorizado"){
+  activarPanelDocente();
+}
 </script>
 
 
