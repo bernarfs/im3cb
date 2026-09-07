@@ -645,8 +645,11 @@ button:hover {
      CÓDIGO DOCENTE
 ========================== -->
 
-<input id="codigoDocente" type="hidden" value="LISTA2026">
-<div class="sesion-docente-activa">✅ Panel autenticado. Las herramientas docentes están disponibles.</div>
+<div class="campo">
+  <label for="codigoDocente">Código para pase de lista y cursos</label>
+  <input id="codigoDocente" type="password" placeholder="Ingresa el código del curso" autocomplete="off">
+</div>
+<div class="sesion-docente-activa">✅ Acceso al panel autorizado. Introduce el código operativo para utilizar los cursos.</div>
 
 
 <!-- ==========================
@@ -1868,7 +1871,6 @@ const CLAVE_ACCESO_PANEL="berna2882";
 function activarPanelDocente(){
   document.body.classList.remove("panel-bloqueado");
   document.getElementById("accesoPanel").classList.add("oculto");
-  document.getElementById("codigoDocente").value=CONFIG.codigoDocente;
   cargarSolicitudesAcceso();
   cargarSolicitudesEvaluacion();
   clearInterval(actualizadorSolicitudes);
