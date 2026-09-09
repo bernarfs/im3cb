@@ -1794,7 +1794,9 @@ async function validarLlavePortal() {
 
     const resultado = await respuesta.json();
 
-    if (!resultado.ok || !resultado.autorizado) {
+    const estadoLlave = String(resultado.estado || "").trim().toLowerCase();
+    const accesoValido = resultado.autorizado === true || ["aprobado", "autorizado", "vigente"].includes(estadoLlave);
+    if (!resultado.ok || !accesoValido) {
       localStorage.removeItem("im3cb_llave");
       localStorage.removeItem("im3cb_curso");
       return false;
@@ -1831,6 +1833,10 @@ function normalizarCursoAcceso(curso) {
     PROBABILIDADYESTADISTICA: "PROBABILIDAD",
     ESTADISTICA: "PROBABILIDAD",
     CIRCUITOSHIDRAULICOSYNEUMATICOS: "HIDRAULICA",
+    CIRCUITOSHIDRAULICOSNEUMATICOS: "HIDRAULICA",
+    CIRCUITOSHIDRAULICOS: "HIDRAULICA",
+    HIDRAULICA: "HIDRAULICA",
+    NEUMATICA: "HIDRAULICA",
     HIDRAULICAYNEUMATICA: "HIDRAULICA",
     DISENO2: "DISENO2",
     DISENOII: "DISENO2",
@@ -1969,7 +1975,8 @@ async function enviarSolicitudAccesoTemporal() {
     });
     const resultado = await respuesta.json();
     if (!resultado.ok) throw new Error(resultado.error || "No se pudo enviar la solicitud.");
-    estado.textContent = resultado.estado === "aprobado"
+    const estadoRecibido = String(resultado.estado || "").toLowerCase();
+    estado.textContent = ["aprobado", "autorizado", "vigente"].includes(estadoRecibido)
       ? "Acceso aprobado. Abriendo el curso…"
       : "Solicitud enviada. Esperando autorización del docente…";
     consultarEstadoAccesoTemporal();
@@ -1993,14 +2000,17 @@ async function consultarEstadoAccesoTemporal() {
     });
     const resultado = await respuesta.json();
     const estado = document.getElementById("estadoSolicitudAcceso");
-    if (resultado.ok && resultado.estado === "aprobado" && resultado.llave) {
+    const estadoRecibido = String(resultado.estado || "").trim().toLowerCase();
+    const llaveAutorizada = resultado.llave || resultado.token || resultado.clave || "";
+    const cursoAutorizado = normalizarCursoAcceso(resultado.curso || solicitudAccesoActual.curso);
+    if (resultado.ok && ["aprobado", "autorizado", "vigente"].includes(estadoRecibido) && llaveAutorizada && cursoAutorizado === normalizarCursoAcceso(solicitudAccesoActual.curso)) {
       clearInterval(consultaSolicitudAcceso);
-      localStorage.setItem("im3cb_llave", resultado.llave);
-      localStorage.setItem("im3cb_curso", resultado.curso);
+      localStorage.setItem("im3cb_llave", llaveAutorizada);
+      localStorage.setItem("im3cb_curso", cursoAutorizado);
       estado.textContent = "✓ Acceso autorizado. Abriendo el curso…";
       setTimeout(() => {
         window.location.href = solicitudAccesoActual.pagina +
-          "?llave=" + encodeURIComponent(resultado.llave);
+          "?llave=" + encodeURIComponent(llaveAutorizada);
       }, 500);
     } else if (resultado.estado === "rechazado") {
       clearInterval(consultaSolicitudAcceso);

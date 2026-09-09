@@ -16,6 +16,23 @@
   const cursoEsperado = CURSOS[archivo];
   if (!cursoEsperado) return;
 
+  function normalizarCurso(valor) {
+    const limpio = String(valor || "").trim().toUpperCase().normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "").replace(/[^A-Z0-9]/g, "");
+    const alias = {
+      CIRCUITOSHIDRAULICOSYNEUMATICOS: "HIDRAULICA",
+      CIRCUITOSHIDRAULICOSNEUMATICOS: "HIDRAULICA",
+      CIRCUITOSHIDRAULICOS: "HIDRAULICA",
+      HIDRAULICAYNEUMATICA: "HIDRAULICA",
+      NEUMATICA: "HIDRAULICA",
+      PROBABILIDADYESTADISTICA: "PROBABILIDAD",
+      ESTADISTICA: "PROBABILIDAD",
+      DISENOII: "DISENO2",
+      DIBUJOASISTIDOPORCOMPUTADORA: "CAD"
+    };
+    return alias[limpio] || limpio;
+  }
+
   const widget = document.createElement("aside");
   widget.className = "contador-acceso inactivo";
   widget.setAttribute("role", "status");
@@ -168,7 +185,8 @@
       });
       const resultado = await respuesta.json();
 
-      if (!resultado.ok || !resultado.autorizado || resultado.curso !== cursoEsperado) {
+      const estadoValido = resultado.autorizado === true || ["aprobado", "autorizado", "vigente"].includes(String(resultado.estado || "").toLowerCase());
+      if (!resultado.ok || !estadoValido || normalizarCurso(resultado.curso) !== normalizarCurso(cursoEsperado)) {
         tiempo.textContent = "NO AUTORIZADO";
         mensaje.textContent = "La asistencia registrada no corresponde a este curso o ya venció.";
         return;
