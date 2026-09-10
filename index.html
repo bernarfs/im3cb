@@ -1773,6 +1773,11 @@ const APPS_SCRIPT_URL =
 let solicitudAccesoActual = null;
 let consultaSolicitudAcceso = null;
 
+function esEstadoAccesoAutorizado(valor) {
+  const estado = String(valor || "").trim().toLowerCase();
+  return /^(aprobad[oa]?|autorizad[oa]?|vigente|activ[oa]?)$/.test(estado);
+}
+
 async function validarLlavePortal() {
   const parametros = new URLSearchParams(window.location.search);
   const llaveDesdeURL = parametros.get("llave");
@@ -1795,7 +1800,7 @@ async function validarLlavePortal() {
     const resultado = await respuesta.json();
 
     const estadoLlave = String(resultado.estado || "").trim().toLowerCase();
-    const accesoValido = resultado.autorizado === true || ["aprobado", "autorizado", "vigente"].includes(estadoLlave);
+    const accesoValido = resultado.autorizado === true || resultado.valido === true || esEstadoAccesoAutorizado(estadoLlave);
     if (!resultado.ok || !accesoValido) {
       localStorage.removeItem("im3cb_llave");
       localStorage.removeItem("im3cb_curso");
@@ -1976,7 +1981,7 @@ async function enviarSolicitudAccesoTemporal() {
     const resultado = await respuesta.json();
     if (!resultado.ok) throw new Error(resultado.error || "No se pudo enviar la solicitud.");
     const estadoRecibido = String(resultado.estado || "").toLowerCase();
-    estado.textContent = ["aprobado", "autorizado", "vigente"].includes(estadoRecibido)
+    estado.textContent = esEstadoAccesoAutorizado(estadoRecibido)
       ? "Acceso aprobado. Abriendo el curso…"
       : "Solicitud enviada. Esperando autorización del docente…";
     consultarEstadoAccesoTemporal();
@@ -2001,9 +2006,9 @@ async function consultarEstadoAccesoTemporal() {
     const resultado = await respuesta.json();
     const estado = document.getElementById("estadoSolicitudAcceso");
     const estadoRecibido = String(resultado.estado || "").trim().toLowerCase();
-    const llaveAutorizada = resultado.llave || resultado.token || resultado.clave || "";
+    const llaveAutorizada = resultado.llave || resultado.llaveAcceso || resultado.token || resultado.clave || resultado.accessKey || "";
     const cursoAutorizado = normalizarCursoAcceso(resultado.curso || solicitudAccesoActual.curso);
-    if (resultado.ok && ["aprobado", "autorizado", "vigente"].includes(estadoRecibido) && llaveAutorizada && cursoAutorizado === normalizarCursoAcceso(solicitudAccesoActual.curso)) {
+    if (resultado.ok && (resultado.autorizado === true || esEstadoAccesoAutorizado(estadoRecibido)) && llaveAutorizada && cursoAutorizado === normalizarCursoAcceso(solicitudAccesoActual.curso)) {
       clearInterval(consultaSolicitudAcceso);
       localStorage.setItem("im3cb_llave", llaveAutorizada);
       localStorage.setItem("im3cb_curso", cursoAutorizado);
@@ -2012,7 +2017,7 @@ async function consultarEstadoAccesoTemporal() {
         window.location.href = solicitudAccesoActual.pagina +
           "?llave=" + encodeURIComponent(llaveAutorizada);
       }, 500);
-    } else if (resultado.estado === "rechazado") {
+    } else if (/^rechazad[oa]$/.test(estadoRecibido)) {
       clearInterval(consultaSolicitudAcceso);
       estado.textContent = "El docente no autorizó esta solicitud.";
     }

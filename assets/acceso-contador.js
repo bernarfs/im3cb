@@ -33,6 +33,10 @@
     return alias[limpio] || limpio;
   }
 
+  function esEstadoAutorizado(valor) {
+    return /^(aprobad[oa]?|autorizad[oa]?|vigente|activ[oa]?)$/.test(String(valor || "").trim().toLowerCase());
+  }
+
   const widget = document.createElement("aside");
   widget.className = "contador-acceso inactivo";
   widget.setAttribute("role", "status");
@@ -185,14 +189,14 @@
       });
       const resultado = await respuesta.json();
 
-      const estadoValido = resultado.autorizado === true || ["aprobado", "autorizado", "vigente"].includes(String(resultado.estado || "").toLowerCase());
+      const estadoValido = resultado.autorizado === true || resultado.valido === true || esEstadoAutorizado(resultado.estado);
       if (!resultado.ok || !estadoValido || normalizarCurso(resultado.curso) !== normalizarCurso(cursoEsperado)) {
         tiempo.textContent = "NO AUTORIZADO";
         mensaje.textContent = "La asistencia registrada no corresponde a este curso o ya venció.";
         return;
       }
 
-      venceEn = Number(resultado.venceEn || 0);
+      venceEn = Number(resultado.venceEn || resultado.vence || resultado.expiraEn || resultado.fechaVencimiento || 0);
       if (!venceEn) {
         tiempo.textContent = "SIN VIGENCIA";
         mensaje.textContent = "No fue posible obtener la hora de cierre. Actualiza la página.";

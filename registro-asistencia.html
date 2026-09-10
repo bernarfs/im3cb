@@ -662,9 +662,10 @@ const datos = {
       await respuesta.json();
 
     const mensajeServidor = resultado.mensaje || resultado.error || "No fue posible registrar la asistencia.";
+    const llaveRecibida = resultado.llave || resultado.llaveAcceso || resultado.token || resultado.clave || resultado.accessKey || "";
     const esDuplicado = resultado.duplicado === true || /ya\s+(fue|est[aá]|tienes)?\s*registrad|asistencia\s+registrad|duplicad/i.test(mensajeServidor);
 
-    if (esDuplicado) {
+    if (esDuplicado && !llaveRecibida) {
       localStorage.setItem("im3cb_nombre", nombre);
       localStorage.setItem("im3cb_matricula", matricula);
       localStorage.setItem("im3cb_grupo", grupo);
@@ -678,11 +679,11 @@ const datos = {
   localStorage.setItem("im3cb_nombre", nombre);
   localStorage.setItem("im3cb_matricula", matricula);
   localStorage.setItem("im3cb_grupo", grupo);
-localStorage.setItem("im3cb_llave", resultado.llave || "");
+localStorage.setItem("im3cb_llave", llaveRecibida);
 localStorage.setItem("im3cb_curso", resultado.curso || curso);
   window.location.href =
     "index.html?llave=" +
-    encodeURIComponent(resultado.llave || "") +
+    encodeURIComponent(llaveRecibida) +
     "&curso=" +
     encodeURIComponent(resultado.curso || "");
 
