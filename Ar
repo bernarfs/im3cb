@@ -1,1 +1,14 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IM3CB AR</title>
+</head>
+<body>
 
+  <h1>IM3CB - Realidad Aumentada</h1>
+  <p>Prueba de visor AR.</p>
+
+</body>
+</html>
