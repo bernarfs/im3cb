@@ -878,6 +878,7 @@ Vibraciones Mecánicas
 <div class="acciones-vista">
   <button type="button" class="secundario" onclick="abrirVistaDocente('escritorio')">🖥️ Vista previa docente</button>
   <button type="button" class="secundario" onclick="abrirVistaDocente('movil')">📱 Ver como alumno en celular</button>
+  <button type="button" class="secundario" onclick="abrirControlEntregasManufactura()">📷 Habilitar entrega de Manufactura</button>
 </div>
 
 <div id="estado">
@@ -1194,6 +1195,13 @@ async function configurarEntregaManufactura(abierta) {
     const respuesta=await fetch(URL_CALIFICACIONES,{method:"POST",body:JSON.stringify({accion:"configurar_entrega_manufactura",codigoDocente:document.getElementById("codigoDocente").value.trim(),abierta:abierta,actividad:document.getElementById("idActividadManufactura").value.trim(),titulo:document.getElementById("tituloActividadManufactura").value.trim()})});
     const resultado=await respuesta.json();if(!resultado.ok)throw new Error(resultado.mensaje||"No fue posible configurar la entrega.");estado.textContent=resultado.mensaje;cargarPanelEntregasManufactura();
   }catch(error){estado.textContent="❌ "+error.message;}
+}
+
+function abrirControlEntregasManufactura(){
+  const boton=document.querySelector('.curso[data-curso="MANUFACTURA"]');
+  if(boton)seleccionarCurso(boton);
+  document.getElementById("panelEntregasManufactura").scrollIntoView({behavior:"smooth",block:"start"});
+  document.getElementById("estadoEntregaDocente").textContent="Escribe el identificador y el título de la actividad; después pulsa Habilitar entrega.";
 }
 
 async function cargarPanelEntregasManufactura(){
