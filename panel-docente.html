@@ -596,6 +596,7 @@ button:hover {
 .panel-bloqueado>header,.panel-bloqueado>main,.panel-bloqueado>#visorDocente{filter:blur(8px);pointer-events:none;user-select:none}
 .acceso-panel{position:fixed;inset:0;z-index:9000;display:grid;place-items:center;padding:20px;background:rgba(2,6,16,.94);backdrop-filter:blur(14px)}
 .acceso-panel.oculto{display:none}.acceso-panel__caja{width:min(440px,94vw);padding:30px;border:1px solid rgba(69,143,255,.48);border-radius:24px;background:linear-gradient(145deg,#101d35,#081122);box-shadow:0 28px 90px rgba(0,0,0,.58);text-align:center}.acceso-panel__icono{font-size:48px}.acceso-panel__caja h2{margin:12px 0 8px}.acceso-panel__caja p{color:#9fb0c9;line-height:1.55}.acceso-panel__caja input{width:100%;margin-top:20px;padding:14px;border:1px solid #304b73;border-radius:11px;background:#071329;color:#fff;text-align:center;font-size:18px;letter-spacing:2px}.acceso-panel__caja button{width:100%;margin-top:12px;padding:13px;border:0;border-radius:11px;background:#2478f3;color:#fff;font-weight:800;cursor:pointer}.error-panel{min-height:22px;margin-top:10px!important;color:#ff8997!important}.sesion-docente-activa{padding:12px 14px;border:1px solid rgba(46,204,113,.28);border-radius:11px;background:rgba(46,204,113,.08);color:#8ce9b4}
+.control-entregas{display:grid;grid-template-columns:1fr 1fr auto auto;gap:10px;margin-top:16px}.control-entregas input{padding:12px;border:1px solid #315079;border-radius:10px;background:#071329;color:#fff}.entrega-docente{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start}.entrega-docente .capturas-comparadas{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.entrega-docente a{display:inline-block;padding:7px 10px;border:1px solid #37628e;border-radius:8px;color:#8fd5ff;text-decoration:none}.alerta-similitud{color:#ffb37b;font-weight:800}.estado-original{color:#73dfa9;font-weight:800}@media(max-width:760px){.control-entregas{grid-template-columns:1fr}.entrega-docente{grid-template-columns:1fr}}
 </style>
 
 </head>
@@ -975,6 +976,13 @@ Escanea este código para registrar tu asistencia.
   <div id="solicitudesEvaluacion" class="lista-accesos"><div class="vacio-accesos">Escribe el código docente para consultar.</div></div>
 </section>
 
+<section class="panel panel-accesos" id="panelEntregasManufactura">
+  <div class="encabezado-accesos"><div><h2>📷 Entregas · Manufactura Automatizada</h2><p>Habilita una actividad y revisa las coincidencias visuales antes de confirmar la calificación.</p></div><div class="controles-acceso"><button type="button" onclick="cargarPanelEntregasManufactura()">↻ Actualizar</button></div></div>
+  <div class="control-entregas"><input id="idActividadManufactura" value="ACTIVIDAD_1" placeholder="Identificador: ACTIVIDAD_1"><input id="tituloActividadManufactura" value="Actividad 1" placeholder="Título visible para el alumno"><button type="button" class="aprobar" onclick="configurarEntregaManufactura(true)">▶ Habilitar entrega</button><button type="button" class="rechazar" onclick="configurarEntregaManufactura(false)">■ Cerrar entrega</button></div>
+  <p id="estadoEntregaDocente" class="meta" style="margin:12px 0">Selecciona Manufactura y escribe el código docente.</p>
+  <div id="listaEntregasManufactura" class="lista-accesos"><div class="vacio-accesos">Sin datos.</div></div>
+</section>
+
 </main>
 
 <script>
@@ -1049,6 +1057,7 @@ function seleccionarCurso(boton) {
 
   cargarSolicitudesAcceso();
   cargarSolicitudesEvaluacion();
+  cargarPanelEntregasManufactura();
 
 }
 
@@ -1178,6 +1187,38 @@ async function resolverSolicitudEvaluacion(id, decision) {
   }
 }
 
+async function configurarEntregaManufactura(abierta) {
+  const estado=document.getElementById("estadoEntregaDocente");
+  if(cursoSeleccionado!=="MANUFACTURA"){estado.textContent="⚠️ Selecciona Manufactura Automatizada en la lista de cursos.";return;}
+  try{
+    const respuesta=await fetch(URL_CALIFICACIONES,{method:"POST",body:JSON.stringify({accion:"configurar_entrega_manufactura",codigoDocente:document.getElementById("codigoDocente").value.trim(),abierta:abierta,actividad:document.getElementById("idActividadManufactura").value.trim(),titulo:document.getElementById("tituloActividadManufactura").value.trim()})});
+    const resultado=await respuesta.json();if(!resultado.ok)throw new Error(resultado.mensaje||"No fue posible configurar la entrega.");estado.textContent=resultado.mensaje;cargarPanelEntregasManufactura();
+  }catch(error){estado.textContent="❌ "+error.message;}
+}
+
+async function cargarPanelEntregasManufactura(){
+  const estado=document.getElementById("estadoEntregaDocente"),contenedor=document.getElementById("listaEntregasManufactura"),codigo=document.getElementById("codigoDocente").value.trim();
+  if(codigo!==CONFIG.codigoDocente)return;
+  if(cursoSeleccionado!=="MANUFACTURA"){estado.textContent="Selecciona Manufactura Automatizada para administrar sus entregas.";contenedor.innerHTML='<div class="vacio-accesos">Panel disponible al seleccionar Manufactura.</div>';return;}
+  try{
+    const [configRespuesta,listaRespuesta]=await Promise.all([
+      fetch(URL_CALIFICACIONES,{method:"POST",body:JSON.stringify({accion:"consultar_entrega_manufactura"})}),
+      fetch(URL_CALIFICACIONES,{method:"POST",body:JSON.stringify({accion:"listar_entregas_manufactura",codigoDocente:codigo})})
+    ]);
+    const config=await configRespuesta.json(),lista=await listaRespuesta.json();if(!config.ok||!lista.ok)throw new Error(config.mensaje||lista.mensaje||"No fue posible consultar.");
+    document.getElementById("idActividadManufactura").value=config.actividad||"ACTIVIDAD_1";document.getElementById("tituloActividadManufactura").value=config.titulo||"Actividad 1";estado.textContent=config.abierta?"🟢 Entrega abierta para alumnos.":"🔒 Entrega cerrada.";renderizarEntregasManufactura(lista.entregas||[]);
+  }catch(error){estado.textContent="❌ "+error.message;contenedor.innerHTML='<div class="vacio-accesos">No fue posible consultar las entregas.</div>';}
+}
+
+function renderizarEntregasManufactura(entregas){
+  const contenedor=document.getElementById("listaEntregasManufactura");if(!entregas.length){contenedor.innerHTML='<div class="vacio-accesos">Todavía no hay entregas.</div>';return;}
+  contenedor.innerHTML=entregas.map(item=>{const pendiente=item.estado==="REVISION_SIMILITUD";return `<article class="solicitud-acceso entrega-docente"><div><strong>${escaparHTML(item.nombre)}</strong><div class="meta">${escaparHTML(item.matricula||"Sin matrícula")} · ${escaparHTML(item.actividad)} · ${escaparHTML(item.fechaTexto)}</div><div class="${pendiente?'alerta-similitud':'estado-original'}">${pendiente?'⚠️ '+item.similitud+'% de similitud con '+escaparHTML(item.coincideCon||'otra entrega'):'Calificación: '+escaparHTML(item.calificacion||'pendiente')+' · '+escaparHTML(item.estado)}</div><div class="capturas-comparadas"><a href="${escaparHTML(item.archivo)}" target="_blank" rel="noopener">Ver entrega</a>${item.archivoCoincidente?`<a href="${escaparHTML(item.archivoCoincidente)}" target="_blank" rel="noopener">Ver posible coincidencia</a>`:''}</div></div>${pendiente?`<div class="botones"><button class="rechazar" type="button" data-id="${encodeURIComponent(item.id)}" onclick="resolverEntregaManufactura(decodeURIComponent(this.dataset.id),'confirmar_copia')">Confirmar copia · 0</button><button class="aprobar" type="button" data-id="${encodeURIComponent(item.id)}" onclick="resolverEntregaManufactura(decodeURIComponent(this.dataset.id),'descartar_copia')">Es original · 1</button></div>`:''}</article>`}).join("");
+}
+
+async function resolverEntregaManufactura(id,decision){
+  try{const respuesta=await fetch(URL_CALIFICACIONES,{method:"POST",body:JSON.stringify({accion:"resolver_entrega_manufactura",codigoDocente:document.getElementById("codigoDocente").value.trim(),id:id,decision:decision})});const resultado=await respuesta.json();if(!resultado.ok)throw new Error(resultado.mensaje||"No se pudo resolver.");document.getElementById("estadoEntregaDocente").textContent=resultado.mensaje;cargarPanelEntregasManufactura();}catch(error){document.getElementById("estadoEntregaDocente").textContent="❌ "+error.message;}
+}
+
 document.getElementById("codigoDocente").addEventListener("input", function() {
   if (this.value.trim() === CONFIG.codigoDocente) {
     cargarSolicitudesAcceso();
@@ -1186,6 +1227,7 @@ document.getElementById("codigoDocente").addEventListener("input", function() {
     actualizadorSolicitudes = setInterval(() => {
       cargarSolicitudesAcceso();
       cargarSolicitudesEvaluacion();
+      cargarPanelEntregasManufactura();
     }, 8000);
   }
 });
