@@ -675,7 +675,7 @@ const datos = {
       return;
     }
 
-        if (resultado.ok) {
+        if (resultado.ok && llaveRecibida) {
   localStorage.setItem("im3cb_nombre", nombre);
   localStorage.setItem("im3cb_matricula", matricula);
   localStorage.setItem("im3cb_grupo", grupo);
@@ -687,6 +687,20 @@ localStorage.setItem("im3cb_curso", resultado.curso || curso);
     "&curso=" +
     encodeURIComponent(resultado.curso || "");
 
+  return;
+}
+
+if (resultado.ok && !llaveRecibida) {
+  localStorage.setItem("im3cb_nombre", nombre);
+  localStorage.setItem("im3cb_matricula", matricula);
+  localStorage.setItem("im3cb_grupo", grupo);
+  localStorage.setItem("im3cb_curso", resultado.curso || curso);
+  document.getElementById("formulario").style.display = "none";
+  document.getElementById("zonaAccesoDuplicado").classList.add("visible");
+  mostrarMensaje(
+    "✅ La asistencia quedó registrada, pero el acceso requiere autorización del docente.",
+    "exito"
+  );
   return;
 }
 
@@ -753,11 +767,92 @@ async function solicitarAccesoCurso() {
     if (!resultado.ok) throw new Error(resultado.error || resultado.mensaje || "No se pudo enviar la solicitud.");
     estado.textContent = "✓ Solicitud enviada. El docente podrá autorizarla desde el panel.";
     boton.textContent = "Solicitud enviada";
+    esperarAutorizacionAcceso();
   } catch (error) {
     estado.textContent = error.message;
     boton.disabled = false;
     boton.textContent = "🔑 Solicitar acceso al curso";
   }
+}
+
+let consultaAccesoTemporal = null;
+
+function normalizarCursoTemporal(valor) {
+  return String(valor || "").trim().toUpperCase().normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "").replace(/[^A-Z0-9]/g, "");
+}
+
+function paginaCursoTemporal(valor) {
+  const cursoNormalizado = normalizarCursoTemporal(valor);
+  const paginas = {
+    CAD: "dibujo-asistido.html",
+    DIBUJOASISTIDOPORCOMPUTADORA: "dibujo-asistido.html",
+    INSTRUMENTACION: "instrumentacion.html",
+    TERMODINAMICA: "termodinamica-2026.html",
+    DISENO2: "diseno-2.html",
+    DISENOII: "diseno-2.html",
+    PROBABILIDAD: "probabilidad-estadistica.html",
+    PROBABILIDADYESTADISTICA: "probabilidad-estadistica.html",
+    ESTADISTICA: "probabilidad-estadistica.html",
+    HIDRAULICA: "circuitos-hidraulicos-neumaticos.html",
+    NEUMATICA: "circuitos-hidraulicos-neumaticos.html",
+    CIRCUITOSHIDRAULICOSYNEUMATICOS: "circuitos-hidraulicos-neumaticos.html",
+    CIRCUITOSHIDRAULICOSNEUMATICOS: "circuitos-hidraulicos-neumaticos.html",
+    MANUFACTURA: "manufactura-automatizada.html",
+    MANUFACTURAAUTOMATIZADA: "manufactura-automatizada.html"
+  };
+  return paginas[cursoNormalizado] || "";
+}
+
+function accesoTemporalAutorizado(resultado) {
+  const estado = String(resultado.estado || "").trim().toLowerCase();
+  return resultado.autorizado === true || resultado.valido === true ||
+    /^(aprobad[oa]?|autorizad[oa]?|vigente|activ[oa]?)$/.test(estado);
+}
+
+async function consultarAutorizacionAcceso() {
+  const estado = document.getElementById("estadoSolicitudAcceso");
+  try {
+    const respuesta = await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({ accion: "consultar_solicitud_acceso", curso, matricula })
+    });
+    const resultado = await respuesta.json();
+    const llave = resultado.llave || resultado.llaveAcceso || resultado.token ||
+      resultado.clave || resultado.accessKey || "";
+
+    if (resultado.ok && accesoTemporalAutorizado(resultado) && llave) {
+      clearInterval(consultaAccesoTemporal);
+      localStorage.setItem("im3cb_llave", llave);
+      localStorage.setItem("im3cb_curso", resultado.curso || curso);
+      estado.textContent = "✓ Acceso autorizado. Abriendo el curso…";
+      const pagina = paginaCursoTemporal(resultado.curso || curso);
+      if (!pagina) {
+        estado.textContent = "✓ Acceso autorizado. Regresa al portal para abrir el curso.";
+        return;
+      }
+      setTimeout(() => {
+        window.location.href = pagina + "?llave=" + encodeURIComponent(llave);
+      }, 600);
+      return;
+    }
+
+    if (/^rechazad[oa]$/.test(String(resultado.estado || "").trim().toLowerCase())) {
+      clearInterval(consultaAccesoTemporal);
+      estado.textContent = "El docente no autorizó esta solicitud.";
+      const boton = document.getElementById("botonSolicitarAcceso");
+      boton.disabled = false;
+      boton.textContent = "🔑 Solicitar acceso al curso";
+    }
+  } catch (error) {
+    estado.textContent = "Solicitud enviada. Esperando respuesta del docente…";
+  }
+}
+
+function esperarAutorizacionAcceso() {
+  clearInterval(consultaAccesoTemporal);
+  consultarAutorizacionAcceso();
+  consultaAccesoTemporal = setInterval(consultarAutorizacionAcceso, 4000);
 }
 
 
