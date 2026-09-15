@@ -590,6 +590,7 @@ button:hover {
 .solicitud-acceso .aprobar { background:#2478f3; color:#fff; }
 .solicitud-acceso .rechazar { background:#40222a; color:#ffb0bd; }
 .acceso-vigente { border-left:4px solid #2ecc71; }
+.ubicacion-acceso{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:2px}.distancia-acceso{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid #315079;border-radius:999px;background:#0a1730;color:#b9d8ff;font-size:.86rem;font-weight:750}.mapa-acceso{display:inline-block;padding:6px 10px;border:1px solid #2478f3;border-radius:9px;color:#8fc5ff;text-decoration:none;font-size:.86rem;font-weight:750}.ubicacion-sin-dato{color:#e8b96d;font-size:.86rem}
 .vacio-accesos { color:#95a5bd; padding:12px 0; }
 .contador-solicitudes{display:inline-grid;place-items:center;min-width:31px;height:31px;margin-left:8px;padding:0 9px;border-radius:999px;background:#e24c67;color:#fff;font-size:.88rem;box-shadow:0 0 0 5px rgba(226,76,103,.12)}
 .contador-solicitudes.vacio{background:#263850;color:#9fb3cf;box-shadow:none}
@@ -1113,11 +1114,26 @@ function renderizarAccesosVigentes(accesos) {
     contenedor.innerHTML = '<div class="vacio-accesos">No hay accesos vigentes para este curso.</div>';
     return;
   }
-  contenedor.innerHTML = accesos.map(item => `
+  contenedor.innerHTML = accesos.map(item => {
+    const latitud = Number(item.latitud || item.latitude || item.lat);
+    const longitud = Number(item.longitud || item.longitude || item.lon || item.lng);
+    const distancia = Number(item.distanciaMetros || item.distancia || item.distancia_m);
+    const precision = Number(item.precision || item.precisionGps || item.accuracy);
+    const tieneCoordenadas = Number.isFinite(latitud) && Number.isFinite(longitud) &&
+      Math.abs(latitud) <= 90 && Math.abs(longitud) <= 180;
+    const textoDistancia = Number.isFinite(distancia)
+      ? (distancia < 1000 ? Math.round(distancia) + " m del origen" : (distancia / 1000).toFixed(2) + " km del origen")
+      : "Distancia no disponible";
+    const ubicacion = tieneCoordenadas
+      ? `<div class="ubicacion-acceso"><span class="distancia-acceso">📍 ${escaparHTML(textoDistancia)}${Number.isFinite(precision) ? " · precisión ±" + Math.round(precision) + " m" : ""}</span><a class="mapa-acceso" href="https://www.google.com/maps?q=${encodeURIComponent(latitud + "," + longitud)}" target="_blank" rel="noopener noreferrer">Ver en mapa ↗</a></div>`
+      : `<div class="ubicacion-sin-dato">📍 Este registro no contiene ubicación GPS.</div>`;
+    return `
     <article class="solicitud-acceso acceso-vigente">
       <strong>${escaparHTML(item.nombre)}</strong>
       <div class="meta">${escaparHTML(item.matricula)} · ${escaparHTML(item.origenTexto)} · Restan ${escaparHTML(item.restanteTexto)}</div>
-    </article>`).join("");
+      ${ubicacion}
+    </article>`;
+  }).join("");
 }
 
 async function resolverSolicitudAcceso(id, decision) {
@@ -1243,6 +1259,21 @@ document.getElementById("codigoDocente").addEventListener("input", function() {
 /* =================================
    INICIAR SESIÓN MEDIANTE GET + JSONP
 ================================= */
+
+function obtenerUbicacionDocente() {
+  return new Promise(resolve => {
+    if (!navigator.geolocation) return resolve(null);
+    navigator.geolocation.getCurrentPosition(
+      posicion => resolve({
+        latitud: posicion.coords.latitude,
+        longitud: posicion.coords.longitude,
+        precision: posicion.coords.accuracy
+      }),
+      () => resolve(null),
+      { enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 }
+    );
+  });
+}
 
 function iniciarSesionGET(
   curso,
@@ -1433,6 +1464,10 @@ async function iniciarPaseLista() {
 
   try {
 
+    document.getElementById("estado").textContent =
+      "📍 Obteniendo el punto de origen del pase de lista…";
+    const ubicacionDocente = await obtenerUbicacionDocente();
+
 
     /* =============================
        PEDIR SESIÓN A APPS SCRIPT
@@ -1523,7 +1558,12 @@ async function iniciarPaseLista() {
       "&id=" +
       encodeURIComponent(
         idSesionActual
-      );
+      ) +
+      (ubicacionDocente
+        ? "&origenLat=" + encodeURIComponent(ubicacionDocente.latitud) +
+          "&origenLon=" + encodeURIComponent(ubicacionDocente.longitud) +
+          "&origenPrecision=" + encodeURIComponent(Math.round(ubicacionDocente.precision))
+        : "");
 
 
     /* =============================
@@ -1580,7 +1620,9 @@ async function iniciarPaseLista() {
     document
       .getElementById("estado")
       .textContent =
-        "✅ Sesión creada correctamente. QR activo.";
+        ubicacionDocente
+          ? "✅ Sesión creada correctamente. QR activo con origen GPS."
+          : "✅ Sesión creada. QR activo sin origen GPS; no podrá calcularse la distancia.";
 
 
     boton.textContent =

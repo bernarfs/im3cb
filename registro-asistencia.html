@@ -399,6 +399,10 @@ button:disabled {
   id="formulario"
   onsubmit="registrar(event)">
 
+<p style="margin:0 0 18px;padding:12px;border:1px solid rgba(70,145,255,.25);border-radius:12px;background:rgba(38,121,255,.08);color:#b9c9df;line-height:1.5;font-size:.9rem">
+  📍 Al registrar la asistencia se solicitará tu ubicación para calcular la distancia respecto al punto donde el docente inició la sesión.
+</p>
+
 
 <div class="campo">
 
@@ -510,6 +514,51 @@ const inicio =
 const id =
   parametros.get("id") || "";
 
+function numeroParametro(nombre) {
+  const valor = parametros.get(nombre);
+  return valor === null || valor === "" ? NaN : Number(valor);
+}
+
+const origenLat = numeroParametro("origenLat");
+const origenLon = numeroParametro("origenLon");
+const origenPrecision = numeroParametro("origenPrecision");
+
+function obtenerUbicacionAlumno() {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error("Este dispositivo no permite obtener la ubicación."));
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      posicion => resolve({
+        latitud: posicion.coords.latitude,
+        longitud: posicion.coords.longitude,
+        precision: posicion.coords.accuracy,
+        fechaUbicacion: new Date(posicion.timestamp).toISOString()
+      }),
+      error => {
+        const mensajes = {
+          1: "Debes permitir la ubicación para registrar la asistencia.",
+          2: "No fue posible determinar tu ubicación. Activa el GPS e intenta nuevamente.",
+          3: "El GPS tardó demasiado. Acércate a una ventana e intenta nuevamente."
+        };
+        reject(new Error(mensajes[error.code] || "No fue posible obtener la ubicación."));
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+    );
+  });
+}
+
+function distanciaEntrePuntos(lat1, lon1, lat2, lon2) {
+  if (![lat1, lon1, lat2, lon2].every(Number.isFinite)) return null;
+  const rad = valor => valor * Math.PI / 180;
+  const dLat = rad(lat2 - lat1);
+  const dLon = rad(lon2 - lon1);
+  const a = Math.sin(dLat / 2) ** 2 +
+    Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLon / 2) ** 2;
+  return 6371000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
 
 /* =================================
    MOSTRAR INFORMACIÓN
@@ -602,6 +651,19 @@ async function registrar(event) {
 
   }
 
+  mostrarMensaje("📍 Obteniendo tu ubicación…", "exito");
+  let ubicacionAlumno;
+  try {
+    ubicacionAlumno = await obtenerUbicacionAlumno();
+  } catch (error) {
+    mostrarMensaje("⚠️ " + error.message, "error");
+    return;
+  }
+
+  const distanciaMetros = distanciaEntrePuntos(
+    origenLat, origenLon, ubicacionAlumno.latitud, ubicacionAlumno.longitud
+  );
+
 
   boton.disabled = true;
 
@@ -636,7 +698,16 @@ const datos = {
       matricula,
 
     grupo:
-      grupo
+      grupo,
+
+    latitud: ubicacionAlumno.latitud,
+    longitud: ubicacionAlumno.longitud,
+    precision: Math.round(ubicacionAlumno.precision),
+    fechaUbicacion: ubicacionAlumno.fechaUbicacion,
+    origenLatitud: Number.isFinite(origenLat) ? origenLat : "",
+    origenLongitud: Number.isFinite(origenLon) ? origenLon : "",
+    origenPrecision: Number.isFinite(origenPrecision) ? origenPrecision : "",
+    distanciaMetros: Number.isFinite(distanciaMetros) ? Math.round(distanciaMetros) : ""
 
   };
 
