@@ -966,6 +966,7 @@ Escanea este código para registrar tu asistencia.
   <h3>Solicitudes pendientes</h3>
   <div id="solicitudesPendientes" class="lista-accesos"><div class="vacio-accesos">Escribe el código docente para consultar.</div></div>
   <h3>Accesos vigentes</h3>
+  <div class="controles-acceso" style="margin:10px 0 14px"><button type="button" onclick="mostrarMapaGeneralAlumnos()">🗺️ Ver todos en el mapa</button></div>
   <div id="accesosVigentes" class="lista-accesos"><div class="vacio-accesos">Sin datos.</div></div>
   <section id="mapaUbicacion" class="mapa-panel" aria-live="polite">
     <div class="mapa-panel__cabecera">
@@ -1125,7 +1126,9 @@ function renderizarSolicitudesAcceso(solicitudes) {
     </article>`).join("");
 }
 
+let ultimosAccesosVigentes=[];
 function renderizarAccesosVigentes(accesos) {
+  ultimosAccesosVigentes=Array.isArray(accesos)?accesos:[];
   const contenedor = document.getElementById("accesosVigentes");
   if (!accesos.length) {
     contenedor.innerHTML = '<div class="vacio-accesos">No hay accesos vigentes para este curso.</div>';
@@ -1165,9 +1168,22 @@ function mostrarMapaUbicacion(latitud, longitud, nombre, detalle) {
   panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
+function mostrarMapaGeneralAlumnos(){
+  const puntos=ultimosAccesosVigentes.map(item=>({nombre:String(item.nombre||"Alumno"),matricula:String(item.matricula||""),lat:Number(item.latitud||item.latitude||item.lat),lon:Number(item.longitud||item.longitude||item.lon||item.lng),distancia:Number(item.distanciaMetros||item.distancia||item.distancia_m),hora:String(item.fechaTexto||item.horaTexto||item.registroTexto||"")})).filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon)&&Math.abs(p.lat)<=90&&Math.abs(p.lon)<=180);
+  const panel=document.getElementById("mapaUbicacion"),iframe=document.getElementById("iframeMapaUbicacion");
+  document.getElementById("tituloMapaUbicacion").textContent="🗺️ Mapa general de alumnos";
+  document.getElementById("detalleMapaUbicacion").textContent=puntos.length?puntos.length+" alumno(s) con ubicación GPS en los accesos vigentes.":"No hay alumnos con ubicación GPS disponible.";
+  if(!puntos.length){iframe.removeAttribute("src");iframe.srcdoc='<div style="font:16px Segoe UI;padding:30px;text-align:center">No hay ubicaciones disponibles para mostrar.</div>';panel.classList.add("activo");panel.scrollIntoView({behavior:"smooth",block:"nearest"});return;}
+  const datos=JSON.stringify(puntos).replace(/</g,"\\u003c");
+  iframe.removeAttribute("src");
+  iframe.srcdoc=`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><style>html,body,#map{height:100%;margin:0}.leaflet-popup-content{font:14px Segoe UI,Arial;line-height:1.45}.alumno{font-weight:800;color:#123}</style></head><body><div id="map"></div><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"><\/script><script>const puntos=${datos};const mapa=L.map('map');L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(mapa);const limites=[];puntos.forEach(p=>{const distancia=Number.isFinite(p.distancia)?(p.distancia<1000?Math.round(p.distancia)+' m':(p.distancia/1000).toFixed(2)+' km'):'No disponible';const texto='<span class="alumno">'+p.nombre.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))+'</span><br>'+p.matricula+'<br>Distancia: '+distancia+(p.hora?'<br>Registro: '+p.hora:'');L.marker([p.lat,p.lon]).addTo(mapa).bindPopup(texto);limites.push([p.lat,p.lon]);});mapa.fitBounds(limites,{padding:[35,35],maxZoom:17});<\/script></body></html>`;
+  panel.classList.add("activo");panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
 function cerrarMapaUbicacion() {
   document.getElementById("mapaUbicacion").classList.remove("activo");
   document.getElementById("iframeMapaUbicacion").src = "";
+  document.getElementById("iframeMapaUbicacion").srcdoc = "";
 }
 
 async function resolverSolicitudAcceso(id, decision) {
