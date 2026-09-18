@@ -1581,10 +1581,25 @@
 
 
   <script>
+    function integrarUnidad2EnTemario() {
+      const modulo = document.getElementById("unidad-2-cad");
+      const unidad2 = [...document.querySelectorAll(".unidad-temario")]
+        .find(details => details.querySelector("summary")?.textContent.includes("Unidad 2"));
+      const destino = unidad2?.querySelector(".unidad-contenido");
+      if (!modulo || !unidad2 || !destino) return;
+      if (modulo.parentElement !== destino) destino.appendChild(modulo);
+      modulo.style.marginTop = "24px";
+    }
+
     function abrirTemarioCAD() {
+      integrarUnidad2EnTemario();
+      const unidad2 = [...document.querySelectorAll(".unidad-temario")]
+        .find(details => details.querySelector("summary")?.textContent.includes("Unidad 2"));
+      if (unidad2) unidad2.open = true;
       const modal = document.getElementById("modalTemarioCAD");
       modal.classList.add("activo");
       document.body.style.overflow = "hidden";
+      if (unidad2) setTimeout(() => unidad2.scrollIntoView({ behavior:"smooth", block:"start" }), 80);
     }
 
     function cerrarTemarioCAD() {
@@ -1605,6 +1620,8 @@
           cerrarTemarioCAD();
         }
       });
+
+    integrarUnidad2EnTemario();
   </script>
 
 
