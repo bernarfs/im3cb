@@ -33,6 +33,12 @@ function doPost(e) {
       case "registrar_entrega_cad": resultado = registrarEntregaCAD_(data); break;
       case "listar_entregas_cad": resultado = listarEntregasCAD_(data); break;
       case "resolver_entrega_cad": resultado = resolverEntregaCAD_(data); break;
+      case "consultar_actividades_cad": resultado = consultarActividadesEntrega_("CAD"); break;
+      case "consultar_actividades_manufactura": resultado = consultarActividadesEntrega_("MANUFACTURA"); break;
+      case "configurar_actividad_cad": resultado = configurarActividadEntrega_("CAD",data); break;
+      case "configurar_actividad_manufactura": resultado = configurarActividadEntrega_("MANUFACTURA",data); break;
+      case "registrar_actividad_cad": resultado = registrarActividadEntrega_("CAD",data); break;
+      case "registrar_actividad_manufactura": resultado = registrarActividadEntrega_("MANUFACTURA",data); break;
       case "consultar_problema_tuberias": resultado = consultarProblemaTuberias_(data); break;
       case "configurar_problema_tuberias": resultado = configurarProblemaTuberias_(data); break;
       default: throw new Error("Acción no reconocida.");
@@ -374,4 +380,65 @@ function crearClaveDiagnostico_(alumno) {
 
 function respuestaJSON_(datos) {
   return ContentService.createTextOutput(JSON.stringify(datos)).setMimeType(ContentService.MimeType.JSON);
+}
+
+/* Actividades independientes: CAD y Manufactura pueden tener varias entregas abiertas. */
+function actividadesEntrega_(curso) {
+  const propiedades = PropertiesService.getScriptProperties();
+  const clave = "ENTREGA_ACTIVIDADES_V2|" + curso;
+  const guardadas = propiedades.getProperty(clave);
+  if (guardadas) return JSON.parse(guardadas);
+  const anterior = propiedades.getProperty("ENTREGA_CONFIG|" + curso);
+  if (!anterior) return {};
+  const config = JSON.parse(anterior);
+  return config.actividad ? { [config.actividad]: { actividad:config.actividad, titulo:config.titulo, abierta:Boolean(config.abierta), formatos:["imagen"] } } : {};
+}
+function consultarActividadesEntrega_(curso) {
+  const actividades = Object.keys(actividadesEntrega_(curso)).map(function(id){ return actividadesEntrega_(curso)[id]; });
+  return { ok:true, actividades:actividades, abiertas:actividades.filter(function(a){return a.abierta;}) };
+}
+function configurarActividadEntrega_(curso, data) {
+  validarDocente_(data);
+  const id = String(data.actividad || "").trim().toUpperCase().replace(/[^A-Z0-9_-]/g,"_");
+  if (!id) return {ok:false,mensaje:"Escribe un identificador para la actividad."};
+  const formatos = Array.isArray(data.formatos) ? data.formatos.filter(function(x){return x === "imagen" || x === "pdf";}) : ["imagen"];
+  if (!formatos.length) return {ok:false,mensaje:"Selecciona imagen, PDF o ambos."};
+  const mapa = actividadesEntrega_(curso);
+  mapa[id] = {actividad:id,titulo:String(data.titulo || mapa[id] && mapa[id].titulo || id).trim().slice(0,120),abierta:Boolean(data.abierta),formatos:formatos,actualizada:new Date().toISOString()};
+  PropertiesService.getScriptProperties().setProperty("ENTREGA_ACTIVIDADES_V2|"+curso,JSON.stringify(mapa));
+  return {ok:true,config:mapa[id],mensaje:mapa[id].abierta?"✅ Actividad habilitada.":"🔒 Actividad cerrada."};
+}
+function hashBytesEntrega_(bytes) {
+  return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256,bytes).map(function(x){return (x<0?x+256:x).toString(16).padStart(2,"0");}).join("");
+}
+function registrarActividadEntrega_(curso,data) {
+  return conBloqueo_(function(){
+    const mapa=actividadesEntrega_(curso),id=String(data.actividad||"").trim().toUpperCase(),config=mapa[id];
+    if (!config || !config.abierta) return {ok:false,mensaje:"Esta actividad no está habilitada."};
+    const alumno=obtenerAlumno_(Object.assign({},data,{curso:curso,evaluacion:id}));
+    const contenido=String(data.archivoBase64||data.imagenBase64||"");
+    const match=contenido.match(/^data:(image\/(?:png|jpeg|webp)|application\/pdf);base64,([A-Za-z0-9+/=]+)$/);
+    if (!match || match[2].length>2700000) return {ok:false,mensaje:"Archivo inválido o mayor de 2 MB."};
+    const mime=match[1],formato=mime==="application/pdf"?"pdf":"imagen";
+    if (config.formatos.indexOf(formato)<0) return {ok:false,mensaje:"El docente no habilitó este tipo de archivo."};
+    const bytes=Utilities.base64Decode(match[2]);
+    if (bytes.length>2000000) return {ok:false,mensaje:"El archivo supera 2 MB."};
+    if (formato==="pdf" && !(bytes[0]===37&&bytes[1]===80&&bytes[2]===68&&bytes[3]===70)) return {ok:false,mensaje:"El archivo no es un PDF válido."};
+    const hoja=curso==="CAD"?hojaEntregasCAD_():hojaEntregasManufactura_(),carpeta=curso==="CAD"?carpetaEntregasCAD_():carpetaEntregasManufactura_();
+    const filas=hoja.getLastRow()>1?hoja.getRange(2,1,hoja.getLastRow()-1,13).getValues():[];
+    if (filas.some(function(f){return String(f[3]).trim()===alumno.matricula&&String(f[4])===id;})) return {ok:false,mensaje:"Ya entregaste esta actividad. Cada actividad admite una entrega por alumno."};
+    const hashExacto=hashBytesEntrega_(bytes),hashVisual=formato==="imagen"?String(data.hashVisual||"").toLowerCase():"";
+    let mejor=null;
+    filas.forEach(function(f){
+      if (String(f[4])!==id || String(f[3]).trim()===alumno.matricula) return;
+      const exacta=hashExacto===String(f[6]).toLowerCase(),distancia=distanciaHammingHex_(hashVisual,f[7]);
+      const porcentaje=exacta?100:(hashVisual&&distancia!==9999?Math.max(0,Math.round((1-distancia/(hashVisual.length*4))*100)):0);
+      if (!mejor||porcentaje>mejor.porcentaje) mejor={porcentaje:porcentaje,id:String(f[0])};
+    });
+    const sospechosa=Boolean(mejor&&mejor.porcentaje>=88),extension=mime==="application/pdf"?"pdf":mime.split("/")[1],nombreSeguro=(alumno.matricula||alumno.nombre).replace(/[^a-zA-Z0-9_-]/g,"_");
+    const archivo=carpeta.createFile(Utilities.newBlob(bytes,mime,id+"_"+nombreSeguro+"."+extension));
+    hoja.appendRow([Utilities.getUuid(),new Date(),alumno.nombre,alumno.matricula,id,archivo.getUrl(),hashExacto,hashVisual,mejor?mejor.porcentaje:0,mejor?mejor.id:"",sospechosa?"REVISION_SIMILITUD":"CALIFICADA",sospechosa?"":1,sospechosa?"Posible coincidencia; requiere revisión docente.":"Sin coincidencia detectada automáticamente."]);
+    if (!sospechosa) guardarCalificacion_({nombre:alumno.nombre,matricula:alumno.matricula,curso:curso,evaluacion:id,numero:1},1);
+    return {ok:true,sospechosa:sospechosa,similitud:mejor?mejor.porcentaje:0,mensaje:sospechosa?"Entrega recibida. Coincidencia pendiente de revisión docente; no se asignó 0 automáticamente.":"Entrega recibida. Calificación registrada: 1."};
+  });
 }
