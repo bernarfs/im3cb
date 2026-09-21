@@ -442,3 +442,8 @@ function registrarActividadEntrega_(curso,data) {
     return {ok:true,sospechosa:sospechosa,similitud:mejor?mejor.porcentaje:0,mensaje:sospechosa?"Entrega recibida. Coincidencia pendiente de revisión docente; no se asignó 0 automáticamente.":"Entrega recibida. Calificación registrada: 1."};
   });
 }
+
+/** Prueba manual de autorización para el sistema de entregas. No crea ni modifica archivos. */
+function autorizarDriveEntregas() {
+  ScriptApp.requireScopes(ScriptApp.AuthMode.FULL, ["https://www.googleapis.com/auth/drive"]);
+}
