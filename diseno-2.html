@@ -64,6 +64,15 @@
     .ruta-carga{display:grid;grid-template-columns:repeat(5,1fr);align-items:center;gap:9px;margin:20px 0}.ruta-carga div{min-height:82px;display:grid;place-items:center;padding:12px;text-align:center;border:1px solid rgba(154,108,255,.32);border-radius:14px;background:rgba(5,13,32,.72);color:#fff;font-weight:700}.ruta-carga span{text-align:center;color:var(--accent2);font-size:25px}.pasos-calculo{counter-reset:paso;display:grid;gap:12px;margin:16px 0}.pasos-calculo div{position:relative;padding:15px 15px 15px 54px;border-radius:13px;background:rgba(4,14,34,.48);border:1px solid rgba(140,183,239,.2)}.pasos-calculo div:before{counter-increment:paso;content:counter(paso);position:absolute;left:14px;top:13px;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:900}
     @media(max-width:650px){.conceptos-11{grid-template-columns:1fr}.tabla-wrap-11{overflow-x:auto}.tema-11{padding:17px}}
     @media(max-width:700px){.ruta-carga{grid-template-columns:1fr}.ruta-carga span{transform:rotate(90deg)} }
+    .tema-tornillos{margin-top:24px;padding:clamp(18px,4vw,30px);border:1px solid rgba(99,220,255,.35);border-radius:20px;background:linear-gradient(145deg,rgba(8,35,63,.96),rgba(12,18,45,.96));color:#d8e3f3}
+    .tema-tornillos h3{font-size:clamp(25px,4vw,36px);color:#fff;margin-bottom:9px}.tema-tornillos h4{margin:27px 0 11px;color:#fff;font-size:21px}.tema-tornillos p{margin:9px 0;line-height:1.72}.tema-tornillos ul,.tema-tornillos ol{padding-left:22px;margin:12px 0}.tema-tornillos li{margin:7px 0}
+    .mapa-tornillos{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}.mapa-tornillos div{padding:15px;border-radius:14px;text-align:center;background:rgba(6,15,35,.7);border:1px solid rgba(99,220,255,.24)}.mapa-tornillos b{display:block;color:#fff;margin-bottom:5px}
+    .rosca-demo{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.rosca-card{padding:16px;border:1px solid rgba(145,182,237,.24);border-radius:14px;background:rgba(4,14,34,.55)}.rosca-card b{color:#fff}.perfil-rosca{height:45px;margin:13px 0 8px;background:linear-gradient(135deg,transparent 35%,#67d9ff 36% 48%,transparent 49%) 0 0/28px 45px repeat-x;opacity:.8}.perfil-rosca.cuadrada{background:repeating-linear-gradient(90deg,#67d9ff 0 13px,transparent 13px 25px);height:23px}.perfil-rosca.acme{clip-path:polygon(0 100%,9% 0,38% 0,48% 100%,59% 0,88% 0,98% 100%);background:#67d9ff}.perfil-rosca.bolas{border-radius:999px;background:radial-gradient(circle,#67d9ff 0 5px,transparent 6px) 0 0/18px 18px repeat-x}
+    .simulador-tornillo{margin:22px 0;padding:20px;border-radius:18px;background:rgba(2,12,30,.75);border:1px solid rgba(99,220,255,.32)}.simulador-tornillo h4{margin-top:0}.controles-tornillo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.campo-tornillo label{display:block;margin-bottom:6px;color:#a9bdd8;font-size:13px}.campo-tornillo input,.campo-tornillo select{width:100%;padding:11px;border:1px solid #315b83;border-radius:10px;background:#07172d;color:#fff;font:inherit}.resultado-tornillo{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}.resultado-tornillo div{padding:14px;border-radius:12px;background:rgba(103,217,255,.08);border:1px solid rgba(103,217,255,.2)}.resultado-tornillo span{display:block;color:#8fa8c7;font-size:12px}.resultado-tornillo strong{display:block;margin-top:6px;color:#fff;font-size:19px}
+    .casos-tornillo{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:17px 0}.caso-tornillo{padding:18px;border:1px solid rgba(154,108,255,.3);border-radius:15px;background:rgba(12,20,48,.75)}.caso-tornillo h5{font-size:17px;color:#fff;margin-bottom:9px}.caso-tornillo details{margin:12px 0 0;background:rgba(4,12,29,.75)}.caso-tornillo summary{padding:13px;font-size:14px}.caso-tornillo details div{padding:0 15px 15px;line-height:1.65}
+    .decision-tornillo{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}.decision-tornillo div{padding:16px;border-radius:14px;background:rgba(255,255,255,.035);border-top:3px solid var(--accent)}.decision-tornillo b{display:block;color:#fff;margin-bottom:6px}
+    @media(max-width:850px){.mapa-tornillos,.rosca-demo,.controles-tornillo,.resultado-tornillo{grid-template-columns:repeat(2,1fr)}.decision-tornillo{grid-template-columns:1fr}}
+    @media(max-width:600px){.mapa-tornillos,.rosca-demo,.controles-tornillo,.resultado-tornillo,.casos-tornillo{grid-template-columns:1fr}}
     .bloqueada{opacity:.55}.aviso{margin-top:36px;padding:22px;border:1px solid rgba(95,157,234,.26);border-left:4px solid var(--accent);border-radius:14px;background:rgba(8,23,49,.78);color:#c1d1e7;line-height:1.65}
     footer{text-align:center;padding:30px;color:#7187a6;border-top:1px solid #142b4c}
     @keyframes entrada{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
@@ -274,7 +283,106 @@
         <p class="fuente-11"><strong>Referencias de estudio:</strong> Budynas y Nisbett, <em>Diseño en ingeniería mecánica de Shigley</em>, apartado de uniones permanentes; Robert L. Mott, <em>Diseño de elementos de máquinas</em>, análisis de conexiones soldadas; Robert L. Norton, <em>Diseño de máquinas: un enfoque integrado</em>, criterios de esfuerzo, resistencia y seguridad; Mikell P. Groover, <em>Fundamentos de manufactura moderna</em>, procesos de soldadura, calidad, distorsión y diseño para manufactura. La numeración de capítulos y páginas varía según la edición.</p>
       </article>
     </div></details>
-    <details ><summary>Unidad 2 · Tornillos de sujeción y potencia</summary><div class="unidad"><ul><li>2.1 Tipos de roscas</li><li>2.2 Mecánica de tornillos de transmisión</li><li>2.3 Eficiencia y esfuerzos</li><li>2.4 Materiales para tornillos</li><li>2.5 Resistencia y rigidez de la unión</li></ul></div></details>
+    <details id="unidad-2"><summary>Unidad 2 · Tornillos de sujeción y potencia</summary><div class="unidad">
+      <ul><li>2.1 Tipos de roscas</li><li>2.2 Mecánica de tornillos de transmisión</li><li>2.3 Eficiencia y esfuerzos</li><li>2.4 Materiales para tornillos</li><li>2.5 Resistencia y rigidez de la unión</li></ul>
+      <article class="tema-tornillos" id="tema-tornillos">
+        <p class="codigo">UNIDAD 2 · CONTENIDO INTEGRADO</p>
+        <h3>Tornillos de sujeción y mecanismos de potencia</h3>
+        <div class="proposito-11"><strong>Propósito:</strong> distinguir una unión atornillada de un mecanismo de tornillo, interpretar la geometría de la rosca y resolver problemas de esfuerzo, precarga, desplazamiento, torque, autobloqueo y eficiencia.</div>
+
+        <div class="mapa-tornillos">
+          <div><b>1 · Identificar</b>Tipo, diámetro, paso y número de entradas.</div>
+          <div><b>2 · Modelar</b>Carga, movimiento, fricción y apoyos.</div>
+          <div><b>3 · Calcular</b>Esfuerzo, avance, torque o rigidez.</div>
+          <div><b>4 · Verificar</b>Resistencia, separación, autobloqueo y seguridad.</div>
+        </div>
+
+        <h4>2.1 Geometría y tipos de rosca</h4>
+        <p>Una rosca se describe mediante el diámetro nominal, el paso <strong>p</strong>, el diámetro medio <strong>d<sub>m</sub></strong>, el diámetro menor y el ángulo del perfil. El <strong>avance L</strong> es la distancia axial recorrida en una vuelta: si hay una entrada, L = p; si hay N entradas, L = N·p.</p>
+        <div class="formula-11">L = N · p &nbsp;&nbsp; | &nbsp;&nbsp; tan λ = L ÷ (πd<sub>m</sub>)<small>L = avance por revolución; N = número de entradas; p = paso; λ = ángulo de avance; d<sub>m</sub> = diámetro medio.</small></div>
+        <p>Ejemplo de designación métrica: <strong>M12 × 1.75</strong> indica un diámetro nominal de 12 mm y un paso de 1.75 mm.</p>
+        <div class="rosca-demo">
+          <div class="rosca-card"><b>Métrica / unificada</b><div class="perfil-rosca"></div><p>Sujeción general. Perfil triangular de 60°.</p></div>
+          <div class="rosca-card"><b>Cuadrada</b><div class="perfil-rosca cuadrada"></div><p>Buena transmisión de potencia, pero fabricación difícil.</p></div>
+          <div class="rosca-card"><b>ACME</b><div class="perfil-rosca acme"></div><p>Robusta y manufacturable; común en husillos y prensas.</p></div>
+          <div class="rosca-card"><b>Tornillo de bolas</b><div class="perfil-rosca bolas"></div><p>Alta eficiencia y baja fricción; requiere freno si la carga no debe retroceder.</p></div>
+        </div>
+
+        <h4>Área resistente de una rosca métrica</h4>
+        <p>En un tornillo sometido a tensión no se usa el área del diámetro exterior. Se emplea el <strong>área de esfuerzo a tensión A<sub>t</sub></strong>, tomada de tablas normalizadas.</p>
+        <div class="tabla-wrap-11"><table class="tabla-11"><thead><tr><th>Rosca gruesa</th><th>Paso p (mm)</th><th>A<sub>t</sub> (mm²)</th><th>Uso del dato</th></tr></thead><tbody>
+          <tr><td>M6</td><td>1.00</td><td>20.1</td><td>σ = F/A<sub>t</sub></td></tr><tr><td>M8</td><td>1.25</td><td>36.6</td><td>σ = F/A<sub>t</sub></td></tr><tr><td>M10</td><td>1.50</td><td>58.0</td><td>σ = F/A<sub>t</sub></td></tr><tr><td>M12</td><td>1.75</td><td>84.3</td><td>σ = F/A<sub>t</sub></td></tr><tr><td>M16</td><td>2.00</td><td>157</td><td>σ = F/A<sub>t</sub></td></tr><tr><td>M20</td><td>2.50</td><td>245</td><td>σ = F/A<sub>t</sub></td></tr>
+        </tbody></table></div>
+
+        <h4>2.2 Movimiento y cinemática del tornillo</h4>
+        <div class="formula-11">x = L · θ &nbsp;&nbsp; | &nbsp;&nbsp; v = L · n<small>x = desplazamiento lineal cuando θ se expresa en revoluciones; v = velocidad lineal; n = revoluciones por unidad de tiempo.</small></div>
+        <p><strong>Ejemplo guiado:</strong> un husillo ACME de una entrada y 6 hilos/pulg tiene p = 1/6 = 0.1667 in/rev. A 80 rpm, la tuerca avanza v = 0.1667(80) = <strong>13.34 in/min</strong>. Para recorrer 3.5 in requiere 3.5/0.1667 ≈ <strong>21 vueltas</strong>.</p>
+
+        <h4>Simulador A · movimiento lineal</h4>
+        <div class="simulador-tornillo">
+          <div class="controles-tornillo">
+            <div class="campo-tornillo"><label for="movPaso">Paso p (mm)</label><input id="movPaso" type="number" value="2" min="0.1" step="0.1"></div>
+            <div class="campo-tornillo"><label for="movEntradas">Entradas N</label><input id="movEntradas" type="number" value="1" min="1" step="1"></div>
+            <div class="campo-tornillo"><label for="movRpm">Velocidad (rpm)</label><input id="movRpm" type="number" value="120" min="0" step="1"></div>
+            <div class="campo-tornillo"><label for="movVueltas">Número de vueltas</label><input id="movVueltas" type="number" value="15" min="0" step="0.5"></div>
+          </div>
+          <div class="resultado-tornillo"><div><span>Avance L</span><strong id="rAvance">—</strong></div><div><span>Desplazamiento x</span><strong id="rDesplazamiento">—</strong></div><div><span>Velocidad lineal</span><strong id="rVelocidad">—</strong></div><div><span>Tiempo del recorrido</span><strong id="rTiempo">—</strong></div></div>
+        </div>
+
+        <h4>2.3 Torque, eficiencia y autobloqueo</h4>
+        <p>Para una rosca cuadrada, el torque para elevar una carga se obtiene desenrollando geométricamente la hélice. La fricción aumenta el torque y reduce la eficiencia.</p>
+        <div class="formula-11">T<sub>R</sub> = (F d<sub>m</sub>/2) · [(L + π μ d<sub>m</sub>)/(π d<sub>m</sub> − μL)]<small>F = carga axial; d<sub>m</sub> = diámetro medio; L = avance; μ = coeficiente de fricción; T<sub>R</sub> = torque para elevar.</small></div>
+        <div class="formula-11">T<sub>L</sub> = (F d<sub>m</sub>/2) · [(π μ d<sub>m</sub> − L)/(π d<sub>m</sub> + μL)]<small>T<sub>L</sub> = torque para descender. Si es positivo, el tornillo necesita torque para bajar y se considera autobloqueante.</small></div>
+        <div class="formula-11">η = F·L ÷ (2πT<sub>R</sub>) &nbsp;&nbsp; | &nbsp;&nbsp; autobloqueo si μ ≥ tan λ<small>η = eficiencia mecánica idealizada de la rosca.</small></div>
+
+        <div class="simulador-tornillo">
+          <h4>Simulador B · tornillo de potencia</h4>
+          <div class="controles-tornillo">
+            <div class="campo-tornillo"><label for="potCarga">Carga F (N)</label><input id="potCarga" type="number" value="20000" min="1" step="100"></div>
+            <div class="campo-tornillo"><label for="potDm">Diámetro medio dₘ (mm)</label><input id="potDm" type="number" value="28" min="1" step="0.1"></div>
+            <div class="campo-tornillo"><label for="potAvance">Avance L (mm/rev)</label><input id="potAvance" type="number" value="4" min="0.1" step="0.1"></div>
+            <div class="campo-tornillo"><label for="potFriccion">Fricción μ</label><input id="potFriccion" type="number" value="0.15" min="0" max="1" step="0.01"></div>
+          </div>
+          <div class="resultado-tornillo"><div><span>Ángulo de avance λ</span><strong id="rLambda">—</strong></div><div><span>Torque al elevar</span><strong id="rTorqueElevar">—</strong></div><div><span>Eficiencia</span><strong id="rEficiencia">—</strong></div><div><span>Comportamiento</span><strong id="rAutobloqueo">—</strong></div></div>
+        </div>
+
+        <h4>2.4 y 2.5 Tornillos de sujeción: resistencia, precarga y rigidez</h4>
+        <p>Una unión atornillada bien precargada mantiene comprimidas las piezas. Al aplicar una carga externa P, sólo una fracción incrementa la carga del perno; el resto reduce la compresión de los miembros.</p>
+        <div class="formula-11">C = k<sub>b</sub> ÷ (k<sub>b</sub> + k<sub>m</sub>)<small>C = constante de rigidez; k<sub>b</sub> = rigidez del perno; k<sub>m</sub> = rigidez de los miembros.</small></div>
+        <div class="formula-11">F<sub>b</sub> = F<sub>i</sub> + C·P &nbsp;&nbsp; | &nbsp;&nbsp; F<sub>m</sub> = F<sub>i</sub> − (1−C)P<small>F<sub>i</sub> = precarga; F<sub>b</sub> = carga resultante en el perno; F<sub>m</sub> = compresión restante entre miembros.</small></div>
+        <div class="formula-11">T ≈ K·F<sub>i</sub>·d<small>Estimación torque–precarga: K = factor de torque que depende principalmente de fricción y lubricación; d = diámetro nominal. Debe validarse con el procedimiento de montaje.</small></div>
+
+        <div class="simulador-tornillo">
+          <h4>Simulador C · unión precargada</h4>
+          <div class="controles-tornillo">
+            <div class="campo-tornillo"><label for="uniPrecarga">Precarga Fᵢ (kN)</label><input id="uniPrecarga" type="number" value="35" min="0" step="1"></div>
+            <div class="campo-tornillo"><label for="uniCarga">Carga externa P (kN)</label><input id="uniCarga" type="number" value="20" min="0" step="1"></div>
+            <div class="campo-tornillo"><label for="uniC">Constante C</label><input id="uniC" type="number" value="0.25" min="0.01" max="0.99" step="0.01"></div>
+            <div class="campo-tornillo"><label for="uniArea">Área Aₜ (mm²)</label><input id="uniArea" type="number" value="84.3" min="1" step="0.1"></div>
+          </div>
+          <div class="resultado-tornillo"><div><span>Carga del perno Fᵦ</span><strong id="rCargaPerno">—</strong></div><div><span>Compresión restante</span><strong id="rCompresion">—</strong></div><div><span>Esfuerzo del perno</span><strong id="rEsfuerzoPerno">—</strong></div><div><span>Estado de la unión</span><strong id="rSeparacion">—</strong></div></div>
+        </div>
+
+        <h4>Casos prácticos y didácticos resueltos</h4>
+        <div class="casos-tornillo">
+          <section class="caso-tornillo"><h5>Caso 1 · Perno M12 a tensión</h5><p>Un M12×1.75 recibe 25 kN. De la tabla, A<sub>t</sub> = 84.3 mm².</p><details><summary>Ver resolución paso a paso</summary><div>σ = F/A<sub>t</sub> = 25 000/84.3 = <strong>296.6 MPa</strong>. Este valor debe compararse con la resistencia de prueba de la clase seleccionada y con el factor de seguridad requerido.</div></details></section>
+          <section class="caso-tornillo"><h5>Caso 2 · Ajuste por torque</h5><p>Para una precarga de 35 kN en un M12 se estima K = 0.20.</p><details><summary>Ver resolución paso a paso</summary><div>T ≈ K F<sub>i</sub>d = 0.20(35 000)(0.012) = <strong>84 N·m</strong>. Es una estimación; lubricación, acabado y método de apriete pueden modificar mucho la relación.</div></details></section>
+          <section class="caso-tornillo"><h5>Caso 3 · Husillo de elevación</h5><p>F = 20 kN, d<sub>m</sub> = 28 mm, L = 4 mm/rev y μ = 0.15.</p><details><summary>Ver resolución paso a paso</summary><div>λ = arctan[4/(π·28)] = <strong>2.60°</strong>. Como μ = 0.15 &gt; tan λ = 0.0455, el modelo predice <strong>autobloqueo</strong>. El simulador permite obtener torque y eficiencia.</div></details></section>
+          <section class="caso-tornillo"><h5>Caso 4 · Pernos en cortante</h5><p>Cuatro pernos M10 comparten 24 kN en cortante simple; placa de 8 mm.</p><details><summary>Ver resolución paso a paso</summary><div>V por perno = 6 000 N. Área del vástago = π(10²)/4 = 78.54 mm²; τ = <strong>76.4 MPa</strong>. Aplastamiento: σ<sub>b</sub> = 6 000/(10·8) = <strong>75 MPa</strong>. Deben revisarse además desgarre de borde, sección neta y distribución real.</div></details></section>
+        </div>
+
+        <h4>Selección orientada a la aplicación</h4>
+        <div class="decision-tornillo">
+          <div><b>Unión desmontable</b>Métrica o unificada; verificar tensión, cortante, aplastamiento, precarga y fatiga.</div>
+          <div><b>Movimiento robusto</b>ACME; evaluar avance, torque, eficiencia, desgaste y autobloqueo.</div>
+          <div><b>Movimiento preciso y eficiente</b>Tornillo de bolas; prever freno, soporte axial, precarga y contaminación.</div>
+        </div>
+
+        <div class="actividad-11"><h4>Estación de ejercicios</h4><ol><li>Calcula avance, ángulo de avance y desplazamiento de una rosca M16×2 de dos entradas después de 18 vueltas.</li><li>Modifica el simulador B hasta encontrar dos combinaciones: una autobloqueante y otra reversible. Explica el cambio.</li><li>Para un M10 con A<sub>t</sub> = 58 mm² y carga de 18 kN, calcula el esfuerzo y propone qué dato de material falta para decidir si es seguro.</li><li>En el simulador C aumenta P hasta que ocurra separación. Registra el valor crítico y compruébalo con P<sub>sep</sub> = F<sub>i</sub>/(1−C).</li><li>Compara ACME y tornillo de bolas para una mesa elevadora: justifica tu selección considerando eficiencia y seguridad.</li></ol></div>
+        <div class="advertencia-11"><strong>Criterio profesional:</strong> estos modelos son didácticos. Un diseño final también debe comprobar clase y material del tornillo, fatiga, concentración de esfuerzos, longitud de engrane, tolerancias, lubricación, método de apriete, temperatura, vibración y norma aplicable.</div>
+        <p class="fuente-11"><strong>Base documental:</strong> archivos proporcionados “tornillos mytzka.pdf” (mecanismos de tornillo) y “tornilos shygley.pdf” (tornillos, sujetadores y diseño de uniones no permanentes). El contenido fue organizado y expresado como síntesis didáctica, con ejemplos nuevos para esta materia.</p>
+      </article>
+    </div></details>
     <details ><summary>Unidad 3 · Resortes</summary><div class="unidad"><ul><li>3.1 Clasificación y materiales</li><li>3.2 Resortes helicoidales a tensión, compresión y torsión</li><li>3.3 Fatiga en resortes</li><li>3.4 Resortes de hojas</li><li>3.5 Selección y catálogos</li></ul></div></details>
     <details ><summary>Unidad 4 · Engranajes</summary><div class="unidad"><ul><li>4.1 Clasificación y geometría</li><li>4.2 Fuerzas en engranes rectos, helicoidales, cónicos y tornillo sinfín</li><li>4.3 Trenes de engranes</li><li>4.4 Resistencia del diente: Lewis y AGMA</li></ul></div></details>
     <details ><summary>Unidad 5 · Embragues y frenos</summary><div class="unidad"><ul><li>5.1 Frenos de tambor y cinta</li><li>5.2 Frenos y embragues de disco</li><li>5.3 Embragues cónicos, centrífugos y de un solo sentido</li><li>5.4 Convertidor de par</li><li>5.5 Energía, materiales de fricción y temperatura</li></ul></div></details>
@@ -313,6 +421,38 @@
   document.querySelectorAll(".tarjeta, details").forEach((elemento) => {
     observador.observe(elemento);
   });
+
+  function numero(id){ return Number(document.getElementById(id)?.value || 0); }
+  function escribir(id,valor){ const e=document.getElementById(id); if(e)e.textContent=valor; }
+  function calcularMovimiento(){
+    const p=numero("movPaso"),N=Math.max(1,numero("movEntradas")),rpm=numero("movRpm"),vueltas=numero("movVueltas"),L=N*p;
+    escribir("rAvance",L.toFixed(2)+" mm/rev");
+    escribir("rDesplazamiento",(L*vueltas).toFixed(2)+" mm");
+    escribir("rVelocidad",(L*rpm).toFixed(2)+" mm/min");
+    escribir("rTiempo",rpm>0?(vueltas/rpm*60).toFixed(2)+" s":"—");
+  }
+  function calcularPotencia(){
+    const F=numero("potCarga"),dm=numero("potDm")/1000,L=numero("potAvance")/1000,mu=numero("potFriccion");
+    if(F<=0||dm<=0||L<=0)return;
+    const tanLambda=L/(Math.PI*dm),lambda=Math.atan(tanLambda)*180/Math.PI;
+    const denominador=Math.PI*dm-mu*L;
+    const torque=denominador>0?(F*dm/2)*((L+Math.PI*mu*dm)/denominador):NaN;
+    const eficiencia=Number.isFinite(torque)&&torque>0?F*L/(2*Math.PI*torque)*100:NaN;
+    escribir("rLambda",lambda.toFixed(2)+"°");
+    escribir("rTorqueElevar",Number.isFinite(torque)?torque.toFixed(2)+" N·m":"Revisar datos");
+    escribir("rEficiencia",Number.isFinite(eficiencia)?eficiencia.toFixed(1)+" %":"—");
+    escribir("rAutobloqueo",mu>=tanLambda?"Autobloqueante":"Reversible");
+  }
+  function calcularUnion(){
+    const Fi=numero("uniPrecarga"),P=numero("uniCarga"),C=numero("uniC"),At=numero("uniArea");
+    const Fb=Fi+C*P,Fm=Fi-(1-C)*P,esfuerzo=At>0?Fb*1000/At:0;
+    escribir("rCargaPerno",Fb.toFixed(2)+" kN");
+    escribir("rCompresion",Math.max(0,Fm).toFixed(2)+" kN");
+    escribir("rEsfuerzoPerno",esfuerzo.toFixed(1)+" MPa");
+    escribir("rSeparacion",Fm>0?"Sin separación":Fm===0?"Límite":"Separada");
+  }
+  document.querySelectorAll(".simulador-tornillo input").forEach(campo=>campo.addEventListener("input",()=>{calcularMovimiento();calcularPotencia();calcularUnion();}));
+  calcularMovimiento();calcularPotencia();calcularUnion();
 </script>
 <script>
 const URL_CALIFICACIONES = "https://script.google.com/macros/s/AKfycbx1VyNm--NRgIML-EuDog4woaoQmkJVGJPj0Xt7inWGSkSbV0kRUiLb5VEoGaUTV2Jj9Q/exec";
