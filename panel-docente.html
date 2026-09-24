@@ -591,6 +591,7 @@ button:hover {
 .solicitud-acceso .rechazar { background:#40222a; color:#ffb0bd; }
 .acceso-vigente { border-left:4px solid #2ecc71; }
 .ubicacion-acceso{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:2px}.distancia-acceso{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid #315079;border-radius:999px;background:#0a1730;color:#b9d8ff;font-size:.86rem;font-weight:750}.mapa-acceso{display:inline-block;padding:6px 10px;border:1px solid #2478f3;border-radius:9px;color:#8fc5ff;text-decoration:none;font-size:.86rem;font-weight:750}.ubicacion-sin-dato{color:#e8b96d;font-size:.86rem}
+.modo-ubicacion{border-color:#315079!important;background:#101b31!important;color:#9fb0c8!important}.modo-ubicacion.activo{border-color:#39d98a!important;background:#0b3a2a!important;color:#c8ffe4!important;box-shadow:0 0 0 2px rgba(57,217,138,.16)}.modal-modo{display:none;position:fixed;inset:0;z-index:3000;padding:20px;background:rgba(2,7,18,.88);place-items:center}.modal-modo.activo{display:grid}.modal-modo-contenido{width:min(560px,100%);padding:28px;border:1px solid #315f91;border-radius:22px;background:#0a1426;box-shadow:0 25px 80px #000}.modal-modo-contenido h2{margin:0 0 12px}.modal-modo-contenido p{color:#b8c7d9;line-height:1.6}.opciones-modo{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}.opcion-gps{padding:18px!important;text-align:left}.opcion-gps strong,.opcion-gps small{display:block}.opcion-gps small{margin-top:7px;color:#c7d4e4;font-weight:500;line-height:1.45}@media(max-width:620px){.opciones-modo{grid-template-columns:1fr}}
 .mapa-panel{display:none;margin-top:20px;overflow:hidden;border:1px solid #315079;border-radius:16px;background:#0a1426}.mapa-panel.activo{display:block}.mapa-panel__cabecera{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 16px}.mapa-panel__cabecera h3{margin:0}.mapa-panel__cabecera p{margin:4px 0 0;color:#9fb0c9}.mapa-panel__cabecera button{border:1px solid #465a78;border-radius:9px;padding:8px 11px;background:#17243a;color:#fff;cursor:pointer}.mapa-panel iframe{display:block;width:100%;height:360px;border:0;background:#dbe5ef}@media(max-width:600px){.mapa-panel iframe{height:300px}}
 .vacio-accesos { color:#95a5bd; padding:12px 0; }
 .contador-solicitudes{display:inline-grid;place-items:center;min-width:31px;height:31px;margin-left:8px;padding:0 9px;border-radius:999px;background:#e24c67;color:#fff;font-size:.88rem;box-shadow:0 0 0 5px rgba(226,76,103,.12)}
@@ -859,10 +860,14 @@ Vibraciones Mecánicas
 
 <button
   type="button"
-  onclick="iniciarPaseLista()">
+  onclick="solicitarModoPaseLista()">
 
 ▶ Iniciar pase de lista
 
+</button>
+
+<button id="btnUbicacionPase" type="button" class="modo-ubicacion" disabled title="Se habilita cuando el pase de lista solicita GPS a los alumnos">
+  📍 Ubicación desactivada
 </button>
 
 
@@ -885,6 +890,18 @@ Vibraciones Mecánicas
   <button type="button" class="secundario" onclick="abrirControlEntregasInstrumentacion()">📷 Habilitar entrega de Instrumentación</button>
   <button type="button" class="secundario" onclick="abrirCentroEntregas()">📥 Centro de todas las entregas</button>
   <button type="button" class="secundario" onclick="abrirControlProblemaTuberias()">🧮 Publicar problema de tuberías</button>
+</div>
+
+<div id="modalModoPase" class="modal-modo" role="dialog" aria-modal="true" aria-labelledby="tituloModoPase">
+  <div class="modal-modo-contenido">
+    <h2 id="tituloModoPase">¿Cómo quieres realizar el pase de lista?</h2>
+    <p>La opción con ubicación pedirá permiso de GPS en el celular de cada alumno y permitirá mostrar sus puntos en el mapa del panel docente.</p>
+    <div class="opciones-modo">
+      <button type="button" class="opcion-gps" onclick="elegirModoPaseLista(true)"><strong>📍 Con ubicación</strong><small>Solicita GPS y registra coordenadas, precisión y distancia cuando exista un punto de origen.</small></button>
+      <button type="button" class="opcion-gps secundario" onclick="elegirModoPaseLista(false)"><strong>📝 Sin ubicación</strong><small>Registra nombre, matrícula, grupo y hora sin solicitar GPS.</small></button>
+    </div>
+    <div class="acciones" style="margin-top:14px"><button type="button" class="secundario" onclick="cerrarSelectorModoPase()">Cancelar</button></div>
+  </div>
 </div>
 
 <div id="estado">
@@ -1063,6 +1080,28 @@ let finLista = null;
 
 let temporizador = null;
 let actualizadorSolicitudes = null;
+let paseListaConUbicacion = false;
+
+function solicitarModoPaseLista() {
+  document.getElementById("modalModoPase").classList.add("activo");
+}
+
+function cerrarSelectorModoPase() {
+  document.getElementById("modalModoPase").classList.remove("activo");
+}
+
+function elegirModoPaseLista(conUbicacion) {
+  paseListaConUbicacion = Boolean(conUbicacion);
+  cerrarSelectorModoPase();
+  iniciarPaseLista(paseListaConUbicacion);
+}
+
+function actualizarBotonUbicacion(activo) {
+  const boton = document.getElementById("btnUbicacionPase");
+  boton.disabled = !activo;
+  boton.classList.toggle("activo", activo);
+  boton.textContent = activo ? "📍 Ubicación GPS habilitada" : "📍 Ubicación desactivada";
+}
 
 
 /* =================================
@@ -1476,7 +1515,7 @@ function iniciarSesionGET(
    INICIAR PASE DE LISTA
 ================================= */
 
-async function iniciarPaseLista() {
+async function iniciarPaseLista(conUbicacion = false) {
 
   const codigo =
     document
@@ -1553,9 +1592,10 @@ async function iniciarPaseLista() {
 
   try {
 
-    document.getElementById("estado").textContent =
-      "📍 Obteniendo el punto de origen del pase de lista…";
-    const ubicacionDocente = await obtenerUbicacionDocente();
+    document.getElementById("estado").textContent = conUbicacion
+      ? "📍 Obteniendo el punto de origen del pase de lista…"
+      : "⏳ Creando pase de lista sin ubicación…";
+    const ubicacionDocente = conUbicacion ? await obtenerUbicacionDocente() : null;
 
 
     /* =============================
@@ -1628,6 +1668,7 @@ async function iniciarPaseLista() {
       "registro-asistencia.html" +
 
       "?asistencia=1" +
+      "&ubicacion=" + (conUbicacion ? "1" : "0") +
 
       "&curso=" +
       encodeURIComponent(
@@ -1709,9 +1750,13 @@ async function iniciarPaseLista() {
     document
       .getElementById("estado")
       .textContent =
-        ubicacionDocente
-          ? "✅ Sesión creada correctamente. QR activo con origen GPS."
-          : "✅ Sesión creada. QR activo sin origen GPS; no podrá calcularse la distancia.";
+        conUbicacion
+          ? (ubicacionDocente
+              ? "✅ Sesión creada. El QR solicitará GPS y calculará la distancia."
+              : "✅ Sesión creada. El QR solicitará GPS a los alumnos; el docente no compartió un punto de origen, por lo que no se calculará distancia.")
+          : "✅ Sesión creada sin ubicación. El QR no solicitará GPS.";
+
+    actualizarBotonUbicacion(conUbicacion);
 
 
     boton.textContent =
@@ -1746,6 +1791,8 @@ async function iniciarPaseLista() {
 
     boton.textContent =
       "▶ Iniciar pase de lista";
+
+    actualizarBotonUbicacion(false);
 
   }
 
@@ -2018,6 +2065,9 @@ async function cerrarLista() {
 
     boton.textContent =
       "▶ Iniciar pase de lista";
+
+    paseListaConUbicacion = false;
+    actualizarBotonUbicacion(false);
 
 
   }

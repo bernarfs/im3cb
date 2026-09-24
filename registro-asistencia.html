@@ -399,7 +399,7 @@ button:disabled {
   id="formulario"
   onsubmit="registrar(event)">
 
-<p style="margin:0 0 18px;padding:12px;border:1px solid rgba(70,145,255,.25);border-radius:12px;background:rgba(38,121,255,.08);color:#b9c9df;line-height:1.5;font-size:.9rem">
+<p id="avisoUbicacion" style="margin:0 0 18px;padding:12px;border:1px solid rgba(70,145,255,.25);border-radius:12px;background:rgba(38,121,255,.08);color:#b9c9df;line-height:1.5;font-size:.9rem">
   📍 Al registrar la asistencia se solicitará tu ubicación para calcular la distancia respecto al punto donde el docente inició la sesión.
 </p>
 
@@ -513,6 +513,12 @@ const inicio =
 
 const id =
   parametros.get("id") || "";
+
+const solicitarUbicacion = parametros.get("ubicacion") === "1";
+
+document.getElementById("avisoUbicacion").textContent = solicitarUbicacion
+  ? "📍 Este pase de lista requiere ubicación. Al registrar tu asistencia se solicitará el GPS para mostrar el punto al docente y calcular la distancia cuando exista un origen."
+  : "📝 Este pase de lista no requiere ubicación. Se registrarán tus datos y la hora sin solicitar permiso de GPS.";
 
 function numeroParametro(nombre) {
   const valor = parametros.get(nombre);
@@ -651,17 +657,21 @@ async function registrar(event) {
 
   }
 
-  mostrarMensaje("📍 Obteniendo tu ubicación…", "exito");
-  let ubicacionAlumno;
-  try {
-    ubicacionAlumno = await obtenerUbicacionAlumno();
-  } catch (error) {
-    mostrarMensaje("⚠️ " + error.message, "error");
-    return;
+  let ubicacionAlumno = null;
+  if (solicitarUbicacion) {
+    mostrarMensaje("📍 Obteniendo tu ubicación…", "exito");
+    try {
+      ubicacionAlumno = await obtenerUbicacionAlumno();
+    } catch (error) {
+      mostrarMensaje("⚠️ " + error.message, "error");
+      return;
+    }
   }
 
   const distanciaMetros = distanciaEntrePuntos(
-    origenLat, origenLon, ubicacionAlumno.latitud, ubicacionAlumno.longitud
+    origenLat, origenLon,
+    ubicacionAlumno ? ubicacionAlumno.latitud : NaN,
+    ubicacionAlumno ? ubicacionAlumno.longitud : NaN
   );
 
 
@@ -700,10 +710,10 @@ const datos = {
     grupo:
       grupo,
 
-    latitud: ubicacionAlumno.latitud,
-    longitud: ubicacionAlumno.longitud,
-    precision: Math.round(ubicacionAlumno.precision),
-    fechaUbicacion: ubicacionAlumno.fechaUbicacion,
+    latitud: ubicacionAlumno ? ubicacionAlumno.latitud : "",
+    longitud: ubicacionAlumno ? ubicacionAlumno.longitud : "",
+    precision: ubicacionAlumno ? Math.round(ubicacionAlumno.precision) : "",
+    fechaUbicacion: ubicacionAlumno ? ubicacionAlumno.fechaUbicacion : "",
     origenLatitud: Number.isFinite(origenLat) ? origenLat : "",
     origenLongitud: Number.isFinite(origenLon) ? origenLon : "",
     origenPrecision: Number.isFinite(origenPrecision) ? origenPrecision : "",
