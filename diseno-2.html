@@ -524,8 +524,48 @@
     escribir("rEsfuerzoPerno",esfuerzo.toFixed(1)+" MPa");
     escribir("rSeparacion",Fm>0?"Sin separación":Fm===0?"Límite":"Separada");
   }
+  function calcularActividad1(){
+    const indice=document.getElementById("a1Caso").selectedIndex,p=numero("a1Paso"),N=numero("a1Entradas"),d=numero("a1Diametro"),mu=numero("a1Mu"),unidad=(indice===3||indice===4)?"mm":"in";
+    if(p<=0||N<=0||d<=0)return;
+    const L=N*p,tanLambda=L/(Math.PI*d),lambda=Math.atan(tanLambda)*180/Math.PI,bloquea=mu>=tanLambda;
+    escribir("a1FormulaL","L = "+N+"("+p+") = "+L.toFixed(4)+" "+unidad+"/rev");
+    escribir("a1FormulaAngulo","λ = tan⁻¹["+L.toFixed(4)+"/(π·"+d+")] = "+lambda.toFixed(2)+"°");
+    escribir("a1FormulaBloqueo",mu.toFixed(3)+(bloquea?" ≥ ":" < ")+tanLambda.toFixed(3));
+    escribir("a1Resultado",bloquea?"✓ La cuerda es autobloqueante con los datos capturados.":"⚠ La cuerda puede ser reversible; requiere comprobar fricción, carga y seguridad.");
+  }
+  function cargarActividad1(){
+    const casos=[[.05,1,.2175,.20],[.0625,1,.3348,.20],[.0769,1,.4598,.20],[1.5,1,8.835,.20],[1.75,1,10.835,.20],[.1,1,.6424,.20]],c=casos[document.getElementById("a1Caso").selectedIndex];
+    ["a1Paso","a1Entradas","a1Diametro","a1Mu"].forEach((id,i)=>document.getElementById(id).value=c[i]);calcularActividad1();
+  }
+  function calcularActividad2(){
+    const n=numero("a2Hilos"),N=numero("a2Entradas"),vueltas=numero("a2Vueltas");if(n<=0||N<=0)return;
+    const p=1/n,L=N*p,R=L*vueltas;
+    escribir("a2FormulaP","p = 1/"+n+" = "+p.toFixed(4)+" in");
+    escribir("a2FormulaL","L = "+N+"("+p.toFixed(4)+") = "+L.toFixed(4)+" in/rev");
+    escribir("a2FormulaR","ΔR = "+L.toFixed(4)+"("+vueltas+") = "+R.toFixed(3)+" in");
+    escribir("a2Resultado","Resultado: el elemento se desplaza "+R.toFixed(3)+" in después de "+vueltas+" vueltas.");
+  }
+  function cargarActividad2(){
+    const maquina=document.getElementById("a2Caso").value==="maquina";document.getElementById("a2Hilos").value=maquina?4:20;document.getElementById("a2Entradas").value=1;document.getElementById("a2Vueltas").value=maquina?10:3;calcularActividad2();
+  }
+  function calcularActividad3(){
+    const p=numero("a3Paso"),N=numero("a3Entradas"),vueltas=numero("a3Vueltas"),r1=numero("a3Longitud"),base=numero("a3Base"),y1=numero("a3Altura"),rpm=numero("a3Rpm"),frenado=numero("a3Frenado"),radio=numero("a3Radio");
+    if(p<=0||N<=0||r1<=0||base<=0||radio<=0||frenado<=0)return;
+    const L=N*p,dR=L*vueltas,r2=r1+dR,theta1=Math.atan2(y1,base),theta2=Math.atan2(y1,r2),y2=r2*Math.sin(theta2),dy=y2-y1;
+    const revs=rpm/60,omegaM=rpm*2*Math.PI/60,v=L*revs,omegaP=v/radio,thetaStop=frenado*2*Math.PI,alphaM=-(omegaM*omegaM)/(2*thetaStop),a=(L/(2*Math.PI))*alphaM,alphaP=a/radio;
+    escribir("a3FormulaR","L = "+N+"("+p+") = "+L.toFixed(3)+" in/rev; ΔR = "+L.toFixed(3)+"("+vueltas+") = "+dR.toFixed(3)+" in");
+    escribir("a3FormulaPos","θ₁ = "+(theta1*180/Math.PI).toFixed(2)+"°; θ₂ = "+(theta2*180/Math.PI).toFixed(2)+"°; Δy = "+dy.toFixed(3)+" in");
+    escribir("a3FormulaVel","v = L(rpm/60) = "+v.toFixed(3)+" in/s; ωₚ = v/r = "+omegaP.toFixed(4)+" rad/s");
+    escribir("a3FormulaAce","αₘ = "+alphaM.toFixed(2)+" rad/s²; a = "+a.toFixed(3)+" in/s²; αₚ = "+alphaP.toFixed(4)+" rad/s²");
+    escribir("a3Resultado","Nueva longitud: "+r2.toFixed(3)+" in. La altura calculada "+(dy<0?"desciende ":"sube ")+Math.abs(dy).toFixed(3)+" in. Las conversiones de velocidad respetan rev/s y rad/s.");
+  }
   document.querySelectorAll(".simulador-tornillo input").forEach(campo=>campo.addEventListener("input",()=>{calcularMovimiento();calcularPotencia();calcularUnion();}));
-  calcularMovimiento();calcularPotencia();calcularUnion();
+  document.querySelectorAll("#actividad-tornillo-1 input").forEach(campo=>campo.addEventListener("input",calcularActividad1));
+  document.querySelectorAll("#actividad-tornillo-2 input").forEach(campo=>campo.addEventListener("input",calcularActividad2));
+  document.querySelectorAll("#actividad-tornillo-3 input").forEach(campo=>campo.addEventListener("input",calcularActividad3));
+  document.getElementById("a1Caso").addEventListener("change",cargarActividad1);document.getElementById("a2Caso").addEventListener("change",cargarActividad2);
+  calcularMovimiento();calcularPotencia();calcularUnion();calcularActividad1();calcularActividad2();calcularActividad3();
+  const destinoActividad=location.hash?document.querySelector(location.hash):null;if(destinoActividad){let contenedor=destinoActividad.closest("details");while(contenedor){contenedor.open=true;contenedor=contenedor.parentElement.closest("details");}}
 </script>
 <script>
 const URL_CALIFICACIONES = "https://script.google.com/macros/s/AKfycbx1VyNm--NRgIML-EuDog4woaoQmkJVGJPj0Xt7inWGSkSbV0kRUiLb5VEoGaUTV2Jj9Q/exec";
