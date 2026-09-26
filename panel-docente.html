@@ -1010,7 +1010,7 @@ Escanea este código para registrar tu asistencia.
 
 <section class="panel panel-accesos" id="panelEntregasManufactura">
   <div class="encabezado-accesos"><div><h2>📷 Entregas · Manufactura Automatizada</h2><p>Habilita una actividad y revisa las coincidencias visuales antes de confirmar la calificación.</p></div><div class="controles-acceso"><button type="button" onclick="cargarPanelEntregasManufactura()">↻ Actualizar</button></div></div>
-  <div class="control-entregas"><input id="idActividadManufactura" value="ACTIVIDAD_1" placeholder="Identificador: ACTIVIDAD_1"><input id="tituloActividadManufactura" value="Actividad 1" placeholder="Título visible para el alumno"><button type="button" class="aprobar" onclick="configurarEntregaManufactura(true)">▶ Habilitar entrega</button><button type="button" class="rechazar" onclick="configurarEntregaManufactura(false)">■ Cerrar entrega</button></div>
+  <div class="control-entregas"><input id="idActividadManufactura" value="ACTIVIDAD_1" placeholder="Identificador único: ACTIVIDAD_1"><input id="tituloActividadManufactura" value="Actividad 1" placeholder="Nombre visible para el alumno"><button type="button" class="secundario" onclick="nuevaActividadManufactura()">＋ Nueva actividad</button><button type="button" class="aprobar" onclick="configurarEntregaManufactura(true)">▶ Habilitar entrega</button><button type="button" class="rechazar" onclick="configurarEntregaManufactura(false)">■ Cerrar entrega</button></div>
   <p id="estadoEntregaDocente" class="meta" style="margin:12px 0">Selecciona Manufactura y escribe el código docente.</p>
   <div id="listaEntregasManufactura" class="lista-accesos"><div class="vacio-accesos">Sin datos.</div></div>
 </section>
@@ -1313,11 +1313,20 @@ async function resolverSolicitudEvaluacion(id, decision) {
 async function configurarEntregaManufactura(abierta) {
   const estado=document.getElementById("estadoEntregaDocente");
   if(cursoSeleccionado!=="MANUFACTURA"){estado.textContent="⚠️ Selecciona Manufactura Automatizada en la lista de cursos.";return;}
+  const actividad=document.getElementById("idActividadManufactura").value.trim(),titulo=document.getElementById("tituloActividadManufactura").value.trim();
+  if(!actividad||!titulo){estado.textContent="⚠️ Escribe un identificador único y el nombre visible de la actividad.";return;}
   try{
-    const respuesta=await fetch(URL_CALIFICACIONES,{method:"POST",body:JSON.stringify({accion:"configurar_entrega_manufactura",codigoDocente:document.getElementById("codigoDocente").value.trim(),abierta:abierta,actividad:document.getElementById("idActividadManufactura").value.trim(),titulo:document.getElementById("tituloActividadManufactura").value.trim()})});
+    const respuesta=await fetch(URL_CALIFICACIONES,{method:"POST",body:JSON.stringify({accion:"configurar_actividad_manufactura",codigoDocente:document.getElementById("codigoDocente").value.trim(),abierta:abierta,actividad:actividad,titulo:titulo,formatos:["imagen"]})});
     const resultado=await respuesta.json();if(!resultado.ok)throw new Error(resultado.mensaje||"No fue posible configurar la entrega.");estado.textContent=resultado.mensaje;cargarPanelEntregasManufactura();
   }catch(error){estado.textContent="❌ "+error.message;}
 }
+
+function nuevaActividadManufactura(){
+  const id=document.getElementById("idActividadManufactura"),titulo=document.getElementById("tituloActividadManufactura");
+  id.value="";titulo.value="";titulo.dataset.autoId="1";document.getElementById("estadoEntregaDocente").textContent="Escribe el nuevo nombre; el identificador se generará automáticamente y puedes ajustarlo. Cada identificador conserva sus propias entregas.";titulo.focus();
+}
+document.getElementById("tituloActividadManufactura").addEventListener("input",function(){if(this.dataset.autoId!=="1")return;document.getElementById("idActividadManufactura").value=this.value.trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Z0-9]+/g,"_").replace(/^_|_$/g,"").slice(0,60);});
+document.getElementById("idActividadManufactura").addEventListener("input",function(){document.getElementById("tituloActividadManufactura").dataset.autoId="0";});
 
 function abrirControlEntregasManufactura(){
   const boton=document.querySelector('.curso[data-curso="MANUFACTURA"]');
@@ -1332,11 +1341,11 @@ async function cargarPanelEntregasManufactura(){
   if(cursoSeleccionado!=="MANUFACTURA"){estado.textContent="Selecciona Manufactura Automatizada para administrar sus entregas.";contenedor.innerHTML='<div class="vacio-accesos">Panel disponible al seleccionar Manufactura.</div>';return;}
   try{
     const [configRespuesta,listaRespuesta]=await Promise.all([
-      fetch(URL_CALIFICACIONES,{method:"POST",body:JSON.stringify({accion:"consultar_entrega_manufactura"})}),
+      fetch(URL_CALIFICACIONES,{method:"POST",body:JSON.stringify({accion:"consultar_actividades_manufactura"})}),
       fetch(URL_CALIFICACIONES,{method:"POST",body:JSON.stringify({accion:"listar_entregas_manufactura",codigoDocente:codigo})})
     ]);
     const config=await configRespuesta.json(),lista=await listaRespuesta.json();if(!config.ok||!lista.ok)throw new Error(config.mensaje||lista.mensaje||"No fue posible consultar.");
-    document.getElementById("idActividadManufactura").value=config.actividad||"ACTIVIDAD_1";document.getElementById("tituloActividadManufactura").value=config.titulo||"Actividad 1";estado.textContent=config.abierta?"🟢 Entrega abierta para alumnos.":"🔒 Entrega cerrada.";renderizarEntregasManufactura(lista.entregas||[]);
+    const actividades=config.actividades||[],abiertas=actividades.filter(a=>a.abierta);estado.textContent=abiertas.length+" actividad(es) abierta(s). Para crear otra, pulsa Nueva actividad y usa un identificador diferente.";renderizarEntregasManufactura(lista.entregas||[]);
   }catch(error){estado.textContent="❌ "+error.message;contenedor.innerHTML='<div class="vacio-accesos">No fue posible consultar las entregas.</div>';}
 }
 
