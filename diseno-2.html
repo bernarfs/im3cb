@@ -400,15 +400,57 @@
           <div><b>Movimiento preciso y eficiente</b>Tornillo de bolas; prever freno, soporte axial, precarga y contaminación.</div>
         </div>
 
-        <h4>Actividades didácticas con solución</h4>
-        <details class="laminas-tornillos"><summary>📝 Abrir actividades 1, 2 y 3</summary><div class="laminas-contenido">
-          <p class="lamina-ayuda">Cada lámina presenta primero el planteamiento y después la solución razonada. Puede proyectarse o abrirse individualmente.</p>
-          <div class="galeria-tornillos">
-            <figure class="lamina-tornillo ancha"><a href="assets/diseno-2/tornillos/12-actividad-geometria.png" target="_blank" rel="noopener"><img src="assets/diseno-2/tornillos/12-actividad-geometria.png" alt="Actividad y solución sobre geometría de cuerdas" loading="lazy"></a><figcaption>Actividad 1: paso, avance, ángulo y comprobación de autobloqueo.</figcaption></figure>
-            <figure class="lamina-tornillo ancha"><a href="assets/diseno-2/tornillos/13-actividad-desplazamiento.png" target="_blank" rel="noopener"><img src="assets/diseno-2/tornillos/13-actividad-desplazamiento.png" alt="Actividad y solución sobre desplazamiento mediante tornillos" loading="lazy"></a><figcaption>Actividad 2: desplazamiento de un envase y una máquina de pruebas a tensión.</figcaption></figure>
-            <figure class="lamina-tornillo ancha"><a href="assets/diseno-2/tornillos/14-actividad-plataforma.png" target="_blank" rel="noopener"><img src="assets/diseno-2/tornillos/14-actividad-plataforma.png" alt="Actividad y solución de un mecanismo de plataforma de volteo" loading="lazy"></a><figcaption>Actividad 3: posición, velocidad y aceleración de una plataforma accionada por tornillo.</figcaption></figure>
+        <h4>Actividades didácticas interactivas</h4>
+        <p>Observa la lámina de cada actividad, captura sus datos y comprueba cómo se sustituyen dentro de las fórmulas. Los resultados se actualizan mientras escribes.</p>
+
+        <section class="actividad-dinamica" id="actividad-tornillo-1">
+          <h5>Actividad 1 · Geometría y autobloqueo</h5>
+          <p class="instruccion">Selecciona un caso de la lámina y captura el paso, el número de entradas, el diámetro de paso y la fricción.</p>
+          <div class="captura-datos">
+            <div><label for="a1Caso">Caso de estudio</label><select id="a1Caso"><option>1/4–20 UNC</option><option>3/8–16 UNC</option><option>1/2–13 UNC</option><option>M10×1.5</option><option>M12×1.75</option><option>3/4–10 ACME</option></select></div>
+            <div><label for="a1Paso">Paso p</label><input id="a1Paso" type="number" value="0.05" min="0.0001" step="0.0001"></div>
+            <div><label for="a1Entradas">Entradas Nₜ</label><input id="a1Entradas" type="number" value="1" min="1" step="1"></div>
+            <div><label for="a1Diametro">Diámetro de paso d</label><input id="a1Diametro" type="number" value="0.2175" min="0.0001" step="0.0001"></div>
+            <div><label for="a1Mu">Fricción μ</label><input id="a1Mu" type="number" value="0.20" min="0" step="0.01"></div>
           </div>
-        </div></details>
+          <div class="pasos-vivos"><div class="paso-vivo"><span>1 · Avance</span><strong id="a1FormulaL">L = Nₜ·p = —</strong></div><div class="paso-vivo"><span>2 · Ángulo de avance</span><strong id="a1FormulaAngulo">λ = tan⁻¹[L/(πd)] = —</strong></div><div class="paso-vivo"><span>3 · Criterio</span><strong id="a1FormulaBloqueo">μ frente a tan λ = —</strong></div></div>
+          <div class="comprobacion-act" id="a1Resultado">Captura los datos para obtener el resultado.</div>
+          <details class="laminas-tornillos"><summary>🖼️ Consultar lámina y solución de la actividad 1</summary><div class="laminas-contenido"><figure class="lamina-tornillo ancha"><a href="assets/diseno-2/tornillos/12-actividad-geometria.png" target="_blank" rel="noopener"><img src="assets/diseno-2/tornillos/12-actividad-geometria.png" alt="Actividad y solución sobre geometría de cuerdas" loading="lazy"></a><figcaption>Usa la mitad izquierda para capturar los datos. Abre la imagen completa sólo cuando quieras comprobar la solución.</figcaption></figure></div></details>
+        </section>
+
+        <section class="actividad-dinamica" id="actividad-tornillo-2">
+          <h5>Actividad 2 · Desplazamiento mediante tornillos</h5>
+          <p class="instruccion">Captura los datos del envase o de la máquina de pruebas y observa la cadena paso → avance → desplazamiento.</p>
+          <div class="captura-datos cuatro">
+            <div><label for="a2Caso">Problema</label><select id="a2Caso"><option value="envase">Envase de desodorante</option><option value="maquina">Máquina de tensión</option></select></div>
+            <div><label for="a2Hilos">Hilos por pulgada n</label><input id="a2Hilos" type="number" value="20" min="0.01" step="1"></div>
+            <div><label for="a2Entradas">Entradas Nₜ</label><input id="a2Entradas" type="number" value="1" min="1" step="1"></div>
+            <div><label for="a2Vueltas">Número de vueltas Δθ</label><input id="a2Vueltas" type="number" value="3" min="0" step="1"></div>
+          </div>
+          <div class="pasos-vivos"><div class="paso-vivo"><span>1 · Paso</span><strong id="a2FormulaP">p = 1/n = —</strong></div><div class="paso-vivo"><span>2 · Avance</span><strong id="a2FormulaL">L = Nₜ·p = —</strong></div><div class="paso-vivo"><span>3 · Desplazamiento</span><strong id="a2FormulaR">ΔR = L·Δθ = —</strong></div></div>
+          <div class="comprobacion-act" id="a2Resultado">Captura los datos para obtener el desplazamiento.</div>
+          <details class="laminas-tornillos"><summary>🖼️ Consultar lámina y solución de la actividad 2</summary><div class="laminas-contenido"><figure class="lamina-tornillo ancha"><a href="assets/diseno-2/tornillos/13-actividad-desplazamiento.png" target="_blank" rel="noopener"><img src="assets/diseno-2/tornillos/13-actividad-desplazamiento.png" alt="Actividad y solución sobre desplazamiento mediante tornillos" loading="lazy"></a><figcaption>Identifica primero los datos del problema; después compara cada sustitución con la solución.</figcaption></figure></div></details>
+        </section>
+
+        <section class="actividad-dinamica" id="actividad-tornillo-3">
+          <h5>Actividad 3 · Plataforma de volteo</h5>
+          <p class="instruccion">Captura la geometría y el movimiento del tornillo. La herramienta calcula la nueva posición y, además, el análisis de velocidad y frenado.</p>
+          <div class="captura-datos">
+            <div><label for="a3Paso">Paso p (in)</label><input id="a3Paso" type="number" value="0.1" min="0.001" step="0.01"></div>
+            <div><label for="a3Entradas">Entradas Nₜ</label><input id="a3Entradas" type="number" value="1" min="1" step="1"></div>
+            <div><label for="a3Vueltas">Vueltas de avance</label><input id="a3Vueltas" type="number" value="25" min="0" step="1"></div>
+            <div><label for="a3Longitud">Longitud inicial r₁ (in)</label><input id="a3Longitud" type="number" value="18" min="0.1" step="0.1"></div>
+            <div><label for="a3Base">Base b (in)</label><input id="a3Base" type="number" value="24" min="0.1" step="0.1"></div>
+            <div><label for="a3Altura">Altura inicial y₁ (in)</label><input id="a3Altura" type="number" value="12" min="0" step="0.1"></div>
+            <div><label for="a3Rpm">Motor (rpm)</label><input id="a3Rpm" type="number" value="900" min="0" step="10"></div>
+            <div><label for="a3Frenado">Vueltas para detenerse</label><input id="a3Frenado" type="number" value="4" min="0.1" step="0.1"></div>
+            <div><label for="a3Radio">Radio efectivo (in)</label><input id="a3Radio" type="number" value="18" min="0.1" step="0.1"></div>
+          </div>
+          <div class="pasos-vivos"><div class="paso-vivo"><span>1 · Traslación del tornillo</span><strong id="a3FormulaR">ΔR = Nₜp·vueltas = —</strong></div><div class="paso-vivo"><span>2 · Posición de la plataforma</span><strong id="a3FormulaPos">θ₁, θ₂ y Δy = —</strong></div><div class="paso-vivo"><span>3 · Velocidad</span><strong id="a3FormulaVel">ω y v = —</strong></div><div class="paso-vivo"><span>4 · Frenado</span><strong id="a3FormulaAce">α = —</strong></div></div>
+          <div class="comprobacion-act" id="a3Resultado">Captura los datos para analizar la plataforma.</div>
+          <p class="nota-modelo">Modelo didáctico basado en la geometría indicada en la lámina. En un diseño real se debe construir el diagrama cinemático exacto y comprobar todas las restricciones del mecanismo.</p>
+          <details class="laminas-tornillos"><summary>🖼️ Consultar lámina y solución de la actividad 3</summary><div class="laminas-contenido"><figure class="lamina-tornillo ancha"><a href="assets/diseno-2/tornillos/14-actividad-plataforma.png" target="_blank" rel="noopener"><img src="assets/diseno-2/tornillos/14-actividad-plataforma.png" alt="Actividad y solución de un mecanismo de plataforma de volteo" loading="lazy"></a><figcaption>Compara los resultados de posición, velocidad y aceleración con el procedimiento ilustrado.</figcaption></figure></div></details>
+        </section>
         <div class="actividad-11"><h4>Estación de ejercicios</h4><ol><li>Calcula avance, ángulo de avance y desplazamiento de una rosca M16×2 de dos entradas después de 18 vueltas.</li><li>Modifica el simulador B hasta encontrar dos combinaciones: una autobloqueante y otra reversible. Explica el cambio.</li><li>Para un M10 con A<sub>t</sub> = 58 mm² y carga de 18 kN, calcula el esfuerzo y propone qué dato de material falta para decidir si es seguro.</li><li>En el simulador C aumenta P hasta que ocurra separación. Registra el valor crítico y compruébalo con P<sub>sep</sub> = F<sub>i</sub>/(1−C).</li><li>Compara ACME y tornillo de bolas para una mesa elevadora: justifica tu selección considerando eficiencia y seguridad.</li></ol></div>
         <div class="advertencia-11"><strong>Criterio profesional:</strong> estos modelos son didácticos. Un diseño final también debe comprobar clase y material del tornillo, fatiga, concentración de esfuerzos, longitud de engrane, tolerancias, lubricación, método de apriete, temperatura, vibración y norma aplicable.</div>
         <p class="fuente-11"><strong>Base documental:</strong> archivos proporcionados “tornillos mytzka.pdf” (mecanismos de tornillo) y “tornilos shygley.pdf” (tornillos, sujetadores y diseño de uniones no permanentes). El contenido fue organizado y expresado como síntesis didáctica, con ejemplos nuevos para esta materia.</p>
