@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>iM3CB | Control Arduino</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f7fb;
+    text-align:center;
+    margin:0;
+}
+
+header{
+    background:#0F0F1A;
+    color:white;
+    padding:20px;
+}
+
+h1{
+    margin:0;
+}
+
+.contenedor{
+    max-width:700px;
+    margin:30px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,.15);
+}
+
+.estado{
+    padding:12px;
+    margin:15px;
+    font-weight:bold;
+}
+
+textarea{
+    width:90%;
+    height:80px;
+    font-size:18px;
+    padding:10px;
+}
+
+button{
+    padding:14px 20px;
+    margin:8px;
+    font-size:16px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.conectar{
+    background:#2979FF;
+    color:white;
+}
+
+.hablar{
+    background:#0F0F1A;
+    color:white;
+}
+
+.ejecutar{
+    background:#28a745;
+    color:white;
+}
+
+.detener{
+    background:#dc3545;
+    color:white;
+}
+
+.luces{
+    margin:25px;
+}
+
+.luz{
+    display:inline-block;
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    margin:15px;
+    opacity:.25;
+}
+
+.rojo{background:red;}
+.amarillo{background:#FFD600;}
+.verde{background:#00C853;}
+
+.activa{
+    opacity:1;
+    box-shadow:0 0 20px currentColor;
+}
+
+#interpretada{
+    font-size:18px;
+    font-weight:bold;
+    color:#2979FF;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>iM3CB</h1>
+<p>Control de Arduino mediante lenguaje natural</p>
+</header>
+
+<div class="contenedor">
+
+<h2>Arduino UNO</h2>
+
+<div id="estadoConexion" class="estado">
+🔴 Arduino desconectado
+</div>
+
+<button class="conectar" onclick="conectarArduino()">
+🔌 CONECTAR ARDUINO
+</button>
+
+<hr>
+
+<h3>🎤 Orden del alumno</h3>
+
+<textarea id="orden"
+placeholder="Ejemplo: rojo cinco segundos, después verde dos segundos y amarillo seis segundos"></textarea>
+
+<br>
+
+<button class="hablar" onclick="escuchar()">
+🎤 HABLAR
+</button>
+
+<h3>Secuencia interpretada</h3>
+
+<div id="interpretada">
+Esperando una instrucción...
+</div>
+
+<div class="luces">
+
+<div id="luzRoja" class="luz rojo"></div>
+
+<div id="luzAmarilla" class="luz amarillo"></div>
+
+<div id="luzVerde" class="luz verde"></div>
+
+</div>
+
+<button class="ejecutar" onclick="interpretarOrden()">
+▶ EJECUTAR
+</button>
+
+<button class="detener" onclick="detener()">
+■ DETENER
+</button>
+
+</div>
+
+
+<script>
+
+let puerto;
+let escritor;
+
+
+// ======================================
+// CONECTAR ARDUINO
+// ======================================
+
+async function conectarArduino(){
+
+    try{
+
+        puerto = await navigator.serial.requestPort();
+
+        await puerto.open({
+            baudRate:9600
+        });
+
+        escritor = puerto.writable.getWriter();
+
+        document.getElementById("estadoConexion").innerHTML =
+        "🟢 Arduino conectado";
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById("estadoConexion").innerHTML =
+        "🔴 No se pudo conectar";
+
+    }
+}
+
+
+// ======================================
+// ENVIAR COMANDO
+// ======================================
+
+async function enviar(comando){
+
+    if(!escritor){
+
+        alert("Primero conecta el Arduino");
+
+        return;
+    }
+
+    const encoder = new TextEncoder();
+
+    await escritor.write(
+        encoder.encode(comando + "\n")
+    );
+}
+
+
+// ======================================
+// RECONOCIMIENTO DE VOZ
+// ======================================
+
+function escuchar(){
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+    if(!SpeechRecognition){
+
+        alert("El navegador no permite reconocimiento de voz.");
+
+        return;
+    }
+
+    const reconocimiento =
+        new SpeechRecognition();
+
+    reconocimiento.lang = "es-MX";
+
+    reconocimiento.interimResults = false;
+
+    reconocimiento.start();
+
+
+    reconocimiento.onresult = function(event){
+
+        const texto =
+        event.results[0][0].transcript;
+
+        document.getElementById("orden").value =
+        texto;
+
+        interpretarOrden();
+    };
+}
+
+
+// ======================================
+// INTERPRETAR ORDEN
+// ======================================
+
+async function interpretarOrden(){
+
+    let texto =
+    document.getElementById("orden")
+    .value
+    .toLowerCase();
+
+
+    // Convertir palabras numericas basicas
+
+    const numeros = {
+
+        "uno":1,
+        "dos":2,
+        "tres":3,
+        "cuatro":4,
+        "cinco":5,
+        "seis":6,
+        "siete":7,
+        "ocho":8,
+        "nueve":9,
+        "diez":10
+
+    };
+
+
+    for(const palabra in numeros){
+
+        texto = texto.replace(
+            new RegExp("\\b"+palabra+"\\b","g"),
+            numeros[palabra]
+        );
+
+    }
+
+
+    // ==================================
+    // BUSCAR COLORES + TIEMPO
+    // ==================================
+
+    const regex =
+    /(rojo|amarillo|verde)[^\d]*(\d+)/g;
+
+
+    let coincidencia;
+
+    let secuencia = [];
+
+
+    while(
+        (coincidencia = regex.exec(texto))
+        !== null
+    ){
+
+        const color =
+        coincidencia[1].toUpperCase();
+
+        let tiempo =
+        parseInt(coincidencia[2]);
+
+
+        // Maximo 60 segundos
+
+        if(tiempo > 60)
+            tiempo = 60;
+
+        if(tiempo < 1)
+            tiempo = 1;
+
+
+        secuencia.push({
+            color:color,
+            tiempo:tiempo
+        });
+
+    }
+
+
+    if(secuencia.length === 0){
+
+        document.getElementById(
+            "interpretada"
+        ).innerHTML =
+        "No pude interpretar la orden.";
+
+        return;
+    }
+
+
+    // Mostrar interpretación
+
+    document.getElementById(
+        "interpretada"
+    ).innerHTML =
+    secuencia
+    .map(x =>
+        x.color + " → " +
+        x.tiempo + " s"
+    )
+    .join(" &nbsp; | &nbsp; ");
+
+
+    // Ejecutar
+
+    for(const paso of secuencia){
+
+        activarLuz(paso.color);
+
+        await enviar(
+            paso.color +
+            ":" +
+            paso.tiempo
+        );
+
+
+        await esperar(
+            paso.tiempo * 1000
+        );
+
+    }
+
+
+    apagarLuces();
+
+    await enviar("APAGAR");
+
+}
+
+
+// ======================================
+// INDICADORES VISUALES
+// ======================================
+
+function activarLuz(color){
+
+    apagarLuces();
+
+    if(color==="ROJO")
+        luzRoja.classList.add("activa");
+
+    if(color==="AMARILLO")
+        luzAmarilla.classList.add("activa");
+
+    if(color==="VERDE")
+        luzVerde.classList.add("activa");
+
+}
+
+
+function apagarLuces(){
+
+    luzRoja.classList.remove("activa");
+
+    luzAmarilla.classList.remove("activa");
+
+    luzVerde.classList.remove("activa");
+
+}
+
+
+// ======================================
+// DETENER
+// ======================================
+
+async function detener(){
+
+    apagarLuces();
+
+    await enviar("APAGAR");
+
+}
+
+
+// ======================================
+// TEMPORIZADOR
+// ======================================
+
+function esperar(ms){
+
+    return new Promise(
+        resolve =>
+        setTimeout(resolve,ms)
+    );
+
+}
+
+</script>
+
+</body>
+</html>
