@@ -436,56 +436,53 @@ async function interpretarOrden(){
 
 
     // ==================================================
-    // MODO SEMÁFORO
-    // ==================================================
+// MODO SEMÁFORO
+// ==================================================
 
-    if(
-        texto.includes("actúa como un semáforo") ||
-        texto.includes("actua como un semaforo") ||
-        texto.includes("modo semáforo") ||
-        texto.includes("modo semaforo")
-    ){
+// Quitar acentos para facilitar reconocimiento
+const textoSimple = texto
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 
-        const secuenciaSemaforo = [
+// Si la frase contiene "semaforo",
+// activamos automáticamente este modo.
 
-            {
-                color:"ROJO",
-                tiempo:5
-            },
+if(textoSimple.includes("semaforo")){
 
-            {
-                color:"VERDE",
-                tiempo:5
-            },
+    const secuenciaSemaforo = [
 
-            {
-                color:"AMARILLO",
-                tiempo:2
-            }
+        {
+            color:"ROJO",
+            tiempo:5
+        },
 
-        ];
+        {
+            color:"VERDE",
+            tiempo:5
+        },
 
+        {
+            color:"AMARILLO",
+            tiempo:2
+        }
 
-        document.getElementById("modo").innerHTML =
-            "MODO: SEMÁFORO";
+    ];
 
+    document.getElementById("modo").innerHTML =
+        "🚦 MODO SEMÁFORO";
 
-        document.getElementById("interpretada").innerHTML =
-            "ROJO → 5 s &nbsp; | &nbsp; " +
-            "VERDE → 5 s &nbsp; | &nbsp; " +
-            "AMARILLO → 2 s";
+    document.getElementById("interpretada").innerHTML =
+        "🔴 ROJO → 5 s &nbsp; | &nbsp; " +
+        "🟢 VERDE → 5 s &nbsp; | &nbsp; " +
+        "🟡 AMARILLO → 2 s";
 
+    await ejecutarSecuencia(
+        secuenciaSemaforo,
+        1
+    );
 
-        await ejecutarSecuencia(
-            secuenciaSemaforo,
-            1
-        );
-
-
-        return;
-
-    }
-
+    return;
+}
 
     // ==================================================
     // DETECTAR REPETICIONES
