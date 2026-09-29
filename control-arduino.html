@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>iM3CB | Control Arduino</title>
+<title>iM3CB | Control inteligente Arduino</title>
 
 <style>
 body{
-    font-family: Arial, sans-serif;
+    font-family:Arial,sans-serif;
     background:#f4f7fb;
     text-align:center;
     margin:0;
@@ -20,12 +20,10 @@ header{
     padding:20px;
 }
 
-h1{
-    margin:0;
-}
+header h1{margin:0;}
 
 .contenedor{
-    max-width:700px;
+    max-width:760px;
     margin:30px auto;
     background:white;
     padding:30px;
@@ -41,9 +39,11 @@ h1{
 
 textarea{
     width:90%;
-    height:80px;
+    height:85px;
     font-size:18px;
-    padding:10px;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #bbb;
 }
 
 button{
@@ -85,7 +85,8 @@ button{
     height:70px;
     border-radius:50%;
     margin:15px;
-    opacity:.25;
+    opacity:.20;
+    transition:.2s;
 }
 
 .rojo{background:red;}
@@ -94,13 +95,35 @@ button{
 
 .activa{
     opacity:1;
-    box-shadow:0 0 20px currentColor;
+    box-shadow:0 0 25px currentColor;
 }
 
 #interpretada{
     font-size:18px;
     font-weight:bold;
     color:#2979FF;
+    min-height:30px;
+}
+
+#modo{
+    margin-top:10px;
+    font-size:15px;
+    color:#555;
+}
+
+#contador{
+    font-size:30px;
+    font-weight:bold;
+    margin:15px;
+}
+
+.ejemplos{
+    background:#f2f6ff;
+    padding:15px;
+    margin-top:25px;
+    border-radius:10px;
+    text-align:left;
+    line-height:1.7;
 }
 </style>
 </head>
@@ -109,7 +132,7 @@ button{
 
 <header>
 <h1>iM3CB</h1>
-<p>Control de Arduino mediante lenguaje natural</p>
+<p>Control inteligente de Arduino mediante lenguaje natural</p>
 </header>
 
 <div class="contenedor">
@@ -137,22 +160,6 @@ placeholder="Ejemplo: rojo cinco segundos, después verde dos segundos y amarill
 🎤 HABLAR
 </button>
 
-<h3>Secuencia interpretada</h3>
-
-<div id="interpretada">
-Esperando una instrucción...
-</div>
-
-<div class="luces">
-
-<div id="luzRoja" class="luz rojo"></div>
-
-<div id="luzAmarilla" class="luz amarillo"></div>
-
-<div id="luzVerde" class="luz verde"></div>
-
-</div>
-
 <button class="ejecutar" onclick="interpretarOrden()">
 ▶ EJECUTAR
 </button>
@@ -160,6 +167,40 @@ Esperando una instrucción...
 <button class="detener" onclick="detener()">
 ■ DETENER
 </button>
+
+
+<h3>Orden interpretada</h3>
+
+<div id="interpretada">
+Esperando una instrucción...
+</div>
+
+<div id="modo"></div>
+
+<div class="luces">
+
+<div id="luzRoja" class="luz rojo"></div>
+<div id="luzAmarilla" class="luz amarillo"></div>
+<div id="luzVerde" class="luz verde"></div>
+
+</div>
+
+<div id="contador"></div>
+
+
+<div class="ejemplos">
+
+<strong>Prueba diciendo:</strong><br>
+
+🎤 “Rojo cinco segundos, verde dos segundos y amarillo seis segundos.”<br>
+
+🎤 “Verde durante un minuto.”<br>
+
+🎤 “Repite tres veces rojo dos segundos y verde cuatro segundos.”<br>
+
+🎤 “Actúa como un semáforo.”
+
+</div>
 
 </div>
 
@@ -169,12 +210,23 @@ Esperando una instrucción...
 let puerto;
 let escritor;
 
+let detenerEjecucion = false;
 
-// ======================================
+
+// ==================================================
 // CONECTAR ARDUINO
-// ======================================
+// ==================================================
 
 async function conectarArduino(){
+
+    if(!("serial" in navigator)){
+
+        alert(
+            "Este navegador no permite Web Serial. Usa Chrome o Edge."
+        );
+
+        return;
+    }
 
     try{
 
@@ -187,7 +239,7 @@ async function conectarArduino(){
         escritor = puerto.writable.getWriter();
 
         document.getElementById("estadoConexion").innerHTML =
-        "🟢 Arduino conectado";
+        "🟢 Arduino UNO conectado";
 
     }
 
@@ -202,17 +254,17 @@ async function conectarArduino(){
 }
 
 
-// ======================================
-// ENVIAR COMANDO
-// ======================================
+// ==================================================
+// ENVIAR AL ARDUINO
+// ==================================================
 
 async function enviar(comando){
 
     if(!escritor){
 
-        alert("Primero conecta el Arduino");
+        alert("Primero conecta el Arduino.");
 
-        return;
+        return false;
     }
 
     const encoder = new TextEncoder();
@@ -220,12 +272,14 @@ async function enviar(comando){
     await escritor.write(
         encoder.encode(comando + "\n")
     );
+
+    return true;
 }
 
 
-// ======================================
+// ==================================================
 // RECONOCIMIENTO DE VOZ
-// ======================================
+// ==================================================
 
 function escuchar(){
 
@@ -233,53 +287,72 @@ function escuchar(){
         window.SpeechRecognition ||
         window.webkitSpeechRecognition;
 
+
     if(!SpeechRecognition){
 
-        alert("El navegador no permite reconocimiento de voz.");
+        alert(
+            "El navegador no permite reconocimiento de voz."
+        );
 
         return;
     }
 
+
     const reconocimiento =
         new SpeechRecognition();
+
 
     reconocimiento.lang = "es-MX";
 
     reconocimiento.interimResults = false;
 
+    reconocimiento.continuous = false;
+
+
     reconocimiento.start();
+
+
+    document.getElementById("interpretada").innerHTML =
+        "🎤 Escuchando...";
 
 
     reconocimiento.onresult = function(event){
 
         const texto =
-        event.results[0][0].transcript;
+            event.results[0][0].transcript;
+
 
         document.getElementById("orden").value =
-        texto;
+            texto;
+
 
         interpretarOrden();
+
     };
+
+
+    reconocimiento.onerror = function(){
+
+        document.getElementById("interpretada").innerHTML =
+            "No pude reconocer la voz. Inténtalo nuevamente.";
+
+    };
+
 }
 
 
-// ======================================
-// INTERPRETAR ORDEN
-// ======================================
+// ==================================================
+// CONVERTIR PALABRAS NUMÉRICAS
+// ==================================================
 
-async function interpretarOrden(){
-
-    let texto =
-    document.getElementById("orden")
-    .value
-    .toLowerCase();
-
-
-    // Convertir palabras numericas basicas
+function convertirNumeros(texto){
 
     const numeros = {
 
+        "un":1,
+        "una":1,
         "uno":1,
+
         "dos":2,
         "tres":3,
         "cuatro":4,
@@ -288,7 +361,19 @@ async function interpretarOrden(){
         "siete":7,
         "ocho":8,
         "nueve":9,
-        "diez":10
+        "diez":10,
+
+        "once":11,
+        "doce":12,
+        "trece":13,
+        "catorce":14,
+        "quince":15,
+
+        "veinte":20,
+        "treinta":30,
+        "cuarenta":40,
+        "cincuenta":50,
+        "sesenta":60
 
     };
 
@@ -296,19 +381,149 @@ async function interpretarOrden(){
     for(const palabra in numeros){
 
         texto = texto.replace(
-            new RegExp("\\b"+palabra+"\\b","g"),
+
+            new RegExp(
+                "\\b" + palabra + "\\b",
+                "g"
+            ),
+
             numeros[palabra]
+
         );
 
     }
 
+    return texto;
 
-    // ==================================
-    // BUSCAR COLORES + TIEMPO
-    // ==================================
+}
+
+
+// ==================================================
+// INTERPRETAR ORDEN
+// ==================================================
+
+async function interpretarOrden(){
+
+    if(!escritor){
+
+        alert("Primero conecta el Arduino.");
+
+        return;
+    }
+
+
+    detenerEjecucion = false;
+
+
+    let texto =
+        document.getElementById("orden")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    if(texto === ""){
+
+        document.getElementById("interpretada").innerHTML =
+            "Escribe o di una instrucción.";
+
+        return;
+
+    }
+
+
+    texto = convertirNumeros(texto);
+
+
+    // ==================================================
+    // MODO SEMÁFORO
+    // ==================================================
+
+    if(
+        texto.includes("actúa como un semáforo") ||
+        texto.includes("actua como un semaforo") ||
+        texto.includes("modo semáforo") ||
+        texto.includes("modo semaforo")
+    ){
+
+        const secuenciaSemaforo = [
+
+            {
+                color:"ROJO",
+                tiempo:5
+            },
+
+            {
+                color:"VERDE",
+                tiempo:5
+            },
+
+            {
+                color:"AMARILLO",
+                tiempo:2
+            }
+
+        ];
+
+
+        document.getElementById("modo").innerHTML =
+            "MODO: SEMÁFORO";
+
+
+        document.getElementById("interpretada").innerHTML =
+            "ROJO → 5 s &nbsp; | &nbsp; " +
+            "VERDE → 5 s &nbsp; | &nbsp; " +
+            "AMARILLO → 2 s";
+
+
+        await ejecutarSecuencia(
+            secuenciaSemaforo,
+            1
+        );
+
+
+        return;
+
+    }
+
+
+    // ==================================================
+    // DETECTAR REPETICIONES
+    // ==================================================
+
+    let repeticiones = 1;
+
+
+    let coincidenciaRepetir =
+        texto.match(
+            /repite\s+(\d+)\s+veces/
+        );
+
+
+    if(coincidenciaRepetir){
+
+        repeticiones =
+            parseInt(
+                coincidenciaRepetir[1]
+            );
+
+
+        if(repeticiones > 10)
+            repeticiones = 10;
+
+
+        if(repeticiones < 1)
+            repeticiones = 1;
+
+    }
+
+
+    // ==================================================
+    // BUSCAR COLORES
+    // ==================================================
 
     const regex =
-    /(rojo|amarillo|verde)[^\d]*(\d+)/g;
+        /(rojo|amarillo|verde)[^\d]*(\d+)\s*(segundo|segundos|minuto|minutos)?/g;
 
 
     let coincidencia;
@@ -322,133 +537,312 @@ async function interpretarOrden(){
     ){
 
         const color =
-        coincidencia[1].toUpperCase();
+            coincidencia[1]
+            .toUpperCase();
+
 
         let tiempo =
-        parseInt(coincidencia[2]);
+            parseInt(
+                coincidencia[2]
+            );
 
 
-        // Maximo 60 segundos
+        const unidad =
+            coincidencia[3] || "segundos";
+
+
+        // Convertir minutos a segundos
+
+        if(
+            unidad === "minuto" ||
+            unidad === "minutos"
+        ){
+
+            tiempo =
+                tiempo * 60;
+
+        }
+
+
+        // Arduino actual admite hasta 60 segundos
 
         if(tiempo > 60)
             tiempo = 60;
+
 
         if(tiempo < 1)
             tiempo = 1;
 
 
         secuencia.push({
+
             color:color,
             tiempo:tiempo
+
         });
 
     }
 
 
+    // ==================================================
+    // NO ENTENDIÓ
+    // ==================================================
+
     if(secuencia.length === 0){
 
-        document.getElementById(
-            "interpretada"
-        ).innerHTML =
-        "No pude interpretar la orden.";
+        document.getElementById("interpretada").innerHTML =
+            "No pude interpretar la orden.";
+
+        document.getElementById("modo").innerHTML = "";
 
         return;
+
     }
 
 
-    // Mostrar interpretación
+    // ==================================================
+    // MOSTRAR INTERPRETACIÓN
+    // ==================================================
 
-    document.getElementById(
-        "interpretada"
-    ).innerHTML =
-    secuencia
-    .map(x =>
-        x.color + " → " +
-        x.tiempo + " s"
-    )
-    .join(" &nbsp; | &nbsp; ");
+    let mensaje =
+        secuencia.map(
 
+            x =>
+                x.color +
+                " → " +
+                x.tiempo +
+                " s"
 
-    // Ejecutar
-
-    for(const paso of secuencia){
-
-        activarLuz(paso.color);
-
-        await enviar(
-            paso.color +
-            ":" +
-            paso.tiempo
+        ).join(
+            " &nbsp; | &nbsp; "
         );
 
 
-        await esperar(
-            paso.tiempo * 1000
-        );
+    if(repeticiones > 1){
+
+        mensaje +=
+
+            "<br><br>🔁 Repetir " +
+            repeticiones +
+            " veces";
+
+    }
+
+
+    document.getElementById("interpretada").innerHTML =
+        mensaje;
+
+
+    document.getElementById("modo").innerHTML =
+        "MODO: SECUENCIA LIBRE";
+
+
+    // ==================================================
+    // EJECUTAR
+    // ==================================================
+
+    await ejecutarSecuencia(
+        secuencia,
+        repeticiones
+    );
+
+}
+
+
+// ==================================================
+// EJECUTAR SECUENCIA
+// ==================================================
+
+async function ejecutarSecuencia(
+    secuencia,
+    repeticiones
+){
+
+    for(
+        let repeticion = 1;
+        repeticion <= repeticiones;
+        repeticion++
+    ){
+
+        if(detenerEjecucion)
+            break;
+
+
+        for(const paso of secuencia){
+
+            if(detenerEjecucion)
+                break;
+
+
+            activarLuz(
+                paso.color
+            );
+
+
+            await enviar(
+
+                paso.color +
+                ":" +
+                paso.tiempo
+
+            );
+
+
+            // Cuenta regresiva
+
+            for(
+                let segundo = paso.tiempo;
+                segundo >= 1;
+                segundo--
+            ){
+
+                if(detenerEjecucion)
+                    break;
+
+
+                document.getElementById(
+                    "contador"
+                ).innerHTML =
+
+                    paso.color +
+                    "<br>" +
+                    segundo +
+                    " s";
+
+
+                await esperar(1000);
+
+            }
+
+        }
 
     }
 
 
     apagarLuces();
 
+
+    document.getElementById(
+        "contador"
+    ).innerHTML = "";
+
+
     await enviar("APAGAR");
+
+
+    if(detenerEjecucion){
+
+        document.getElementById(
+            "modo"
+        ).innerHTML =
+            "SECUENCIA DETENIDA";
+
+    }
+
+    else{
+
+        document.getElementById(
+            "modo"
+        ).innerHTML =
+            "SECUENCIA TERMINADA";
+
+    }
 
 }
 
 
-// ======================================
-// INDICADORES VISUALES
-// ======================================
+// ==================================================
+// INDICADORES
+// ==================================================
 
 function activarLuz(color){
 
     apagarLuces();
 
-    if(color==="ROJO")
-        luzRoja.classList.add("activa");
 
-    if(color==="AMARILLO")
-        luzAmarilla.classList.add("activa");
+    if(color === "ROJO"){
 
-    if(color==="VERDE")
-        luzVerde.classList.add("activa");
+        document.getElementById(
+            "luzRoja"
+        ).classList.add("activa");
+
+    }
+
+
+    if(color === "AMARILLO"){
+
+        document.getElementById(
+            "luzAmarilla"
+        ).classList.add("activa");
+
+    }
+
+
+    if(color === "VERDE"){
+
+        document.getElementById(
+            "luzVerde"
+        ).classList.add("activa");
+
+    }
 
 }
 
 
 function apagarLuces(){
 
-    luzRoja.classList.remove("activa");
+    document.getElementById(
+        "luzRoja"
+    ).classList.remove("activa");
 
-    luzAmarilla.classList.remove("activa");
 
-    luzVerde.classList.remove("activa");
+    document.getElementById(
+        "luzAmarilla"
+    ).classList.remove("activa");
+
+
+    document.getElementById(
+        "luzVerde"
+    ).classList.remove("activa");
 
 }
 
 
-// ======================================
+// ==================================================
 // DETENER
-// ======================================
+// ==================================================
 
 async function detener(){
 
+    detenerEjecucion = true;
+
     apagarLuces();
+
+
+    document.getElementById(
+        "contador"
+    ).innerHTML = "";
+
 
     await enviar("APAGAR");
 
 }
 
 
-// ======================================
-// TEMPORIZADOR
-// ======================================
+// ==================================================
+// ESPERAR
+// ==================================================
 
 function esperar(ms){
 
     return new Promise(
+
         resolve =>
-        setTimeout(resolve,ms)
+            setTimeout(
+                resolve,
+                ms
+            )
+
     );
 
 }
