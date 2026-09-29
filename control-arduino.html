@@ -476,10 +476,18 @@ if(textoSimple.includes("semaforo")){
         "🟢 VERDE → 5 s &nbsp; | &nbsp; " +
         "🟡 AMARILLO → 2 s";
 
+// Repetir el semáforo hasta pulsar DETENER
+document.getElementById("modo").innerHTML =
+    "🚦 MODO SEMÁFORO AUTOMÁTICO";
+
+while(!detenerEjecucion){
+
     await ejecutarSecuencia(
         secuenciaSemaforo,
         1
     );
+
+}
 
     return;
 }
@@ -716,16 +724,18 @@ async function ejecutarSecuencia(
     }
 
 
-    apagarLuces();
+ // Solo apagar al detener la ejecución
+if(detenerEjecucion){
 
+    apagarLuces();
 
     document.getElementById(
         "contador"
     ).innerHTML = "";
 
-
     await enviar("APAGAR");
 
+}
 
     if(detenerEjecucion){
 
