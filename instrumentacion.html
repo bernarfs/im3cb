@@ -70,6 +70,7 @@
     .ventana-eval{width:min(720px,96vw);max-height:90vh;overflow:auto;padding:28px;border:1px solid var(--accent);border-radius:24px;background:#08172f;box-shadow:0 25px 90px rgba(0,0,0,.55)}
     .opcion-eval{display:block;width:100%;margin:10px 0;padding:14px;text-align:left;border:1px solid #315889;border-radius:12px;background:#0d2346;color:#fff;cursor:pointer}.opcion-eval:hover{border-color:var(--accent);transform:translateX(4px)}.opcion-eval.correcta{background:#123d31;border-color:#48d597}.opcion-eval.incorrecta{background:#48232b;border-color:#ff6b78}.opcion-eval:disabled{cursor:default}
     .retro-eval{margin:15px 0;padding:15px;border-radius:12px;line-height:1.6}.resultado-eval{text-align:center;padding:20px}.resultado-eval .trofeo{font-size:56px}
+    .avance-unidad{height:9px;margin:12px 0 18px;border-radius:999px;background:#132b4d;overflow:hidden}.avance-unidad span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s}.acciones-evaluacion{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:18px}
   
     .tema-11{margin-top:20px;padding:22px;border:1px solid rgba(104,166,239,.3);border-radius:18px;background:rgba(6,18,40,.72);color:#c8d7eb;line-height:1.7}.tema-11 h3{margin-bottom:10px;color:#fff}.tema-11 h4{margin:18px 0 8px;color:#76b7ff}.tema-11 ul,.tema-11 ol{margin-left:20px}.tema-11 li{margin:7px 0}.tema-11 strong{color:#fff}.tema-11 .conclusion{margin-top:18px;padding:15px;border-left:3px solid var(--accent);background:rgba(24,77,137,.2);border-radius:8px}.tema-11 .fuente{margin-top:13px;color:#8fa8c8;font-size:.88rem}
     .tema-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:15px 0}.concepto{padding:16px;border:1px solid rgba(104,166,239,.25);border-radius:14px;background:rgba(16,42,78,.6)}.concepto b{display:block;margin-bottom:6px;color:#77c7ff}.flujo-instrumentacion{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin:18px 0}.flujo-instrumentacion div{position:relative;padding:17px 10px;border:1px solid #3978bc;border-radius:13px;background:#0b2a51;text-align:center;color:#fff;font-weight:800}.flujo-instrumentacion div:not(:last-child):after{content:"→";position:absolute;right:-21px;color:#69d7ff;font-size:22px}.ejemplo-resuelto,.estacion{margin-top:16px;padding:18px;border-radius:14px}.ejemplo-resuelto{border:1px solid rgba(82,222,167,.35);background:rgba(20,83,66,.24)}.estacion{border:1px dashed #d7a94e;background:rgba(116,79,16,.16)}.formula{margin:12px 0;padding:12px;border-radius:10px;background:#06152d;color:#d9ecff;text-align:center;font-size:1.05rem}.tabla-didactica{width:100%;margin:14px 0;border-collapse:collapse}.tabla-didactica th,.tabla-didactica td{padding:11px;border:1px solid #2c527e;text-align:left}.tabla-didactica th{background:#113561;color:#fff}.etiqueta-ejemplo{display:inline-block;margin-bottom:8px;padding:4px 9px;border-radius:999px;background:#174f77;color:#9fe5ff;font-size:.78rem;font-weight:900;letter-spacing:.5px}.respuesta{color:#75e1ad;font-weight:800}@media(max-width:760px){.tema-grid,.flujo-instrumentacion{grid-template-columns:1fr}.flujo-instrumentacion div:not(:last-child):after{content:"↓";right:50%;bottom:-26px;top:auto}.tabla-didactica{font-size:.86rem}}
@@ -112,6 +113,7 @@
     <article class="tarjeta criterios-evaluacion"><span class="mini">📊</span><h2>Criterios de evaluación</h2><p>Cada parcial integra evidencias de evaluación y trabajo desarrollado durante el curso.</p><div class="parciales-grid"><div class="parcial-card"><h3>Primer parcial</h3><div class="porcentaje"><span>Examen</span><strong>80%</strong></div><div class="porcentaje"><span>Actividades en clase</span><strong>20%</strong></div></div><div class="parcial-card"><h3>Segundo parcial</h3><div class="porcentaje"><span>Proyecto</span><strong>50%</strong></div><div class="porcentaje"><span>Trabajo en clase</span><strong>50%</strong></div></div><div class="parcial-card"><h3>Tercer parcial</h3><div class="porcentaje"><span>Proyecto</span><strong>80%</strong></div><div class="porcentaje"><span>Trabajo en clase</span><strong>20%</strong></div></div></div></article>
     <article class="tarjeta"><span class="mini">⏳</span><h2>Trabajo pendiente</h2><div class="barra"><span></span></div><p><strong>100%</strong> del curso por completar.</p></article>
     <article class="tarjeta"><span class="mini">📝</span><h2>Evaluación diagnóstica</h2><p>10 preguntas sobre conocimientos previos. Una sola oportunidad; si abandonas, se registrará 0.</p><button id="btnDiagnostico" class="btn-eval" onclick="abrirDiagnostico()">Iniciar diagnóstico</button><p id="estadoDiagnostico" class="estado-eval"></p></article>
+    <article class="tarjeta"><span class="mini">🎯</span><h2>Evaluación · Unidad 1</h2><p>20 preguntas de opción múltiple sobre objetivos, variables, elementos de instrumentación y errores de medición.</p><button class="btn-eval" type="button" onclick="abrirEvaluacionUnidad1()">Comenzar evaluación</button><p id="ultimoResultadoUnidad1" class="estado-eval"></p></article>
   </section>
 
   <section class="entrega-tarea" id="entregaInstrumentacion"><h2>📷 Entrega de actividades · Instrumentación</h2><span id="estadoEntregaInstrumentacion" class="entrega-estado">Consultando…</span><h3 id="tituloEntregaInstrumentacion">Actividad de Instrumentación</h3><p class="nota-integridad">Sube una fotografía o captura legible de tu práctica, cálculos, diagrama o reporte. El sistema verifica entregas repetidas y envía las coincidencias al panel docente para revisión.</p><div class="zona-captura"><div><label for="archivoInstrumentacion"><strong>Seleccionar imagen de la evidencia</strong></label><input id="archivoInstrumentacion" type="file" accept="image/png,image/jpeg,image/webp" capture="environment" disabled><button id="btnEnviarInstrumentacion" class="btn-eval" type="button" onclick="enviarEntregaInstrumentacion()" disabled>Enviar actividad</button><p id="resultadoEntregaInstrumentacion" class="resultado-entrega"></p></div><img id="vistaInstrumentacion" class="vista-captura" alt="Vista previa de la evidencia"></div></section>
@@ -206,6 +208,7 @@
   <div class="aviso">El contenido se desarrollará conforme al temario oficial de Instrumentación sin alterar el pase de lista ni el sistema independiente de interacciones.</div>
 </main>
 <div id="modalDiagnostico" class="modal-eval"><div class="ventana-eval"><div id="contenidoDiagnostico"></div></div></div>
+<div id="modalUnidad1" class="modal-eval"><div class="ventana-eval"><div id="contenidoUnidad1"></div></div></div>
 <footer>© 2026 IM3CB · Instrumentación</footer>
 <script>
   const nombre = localStorage.getItem("im3cb_nombre") || "";
@@ -265,6 +268,59 @@ function evaluarTipo22(boton,respuesta){
     ? "✓ Receptor indicador: recibe la señal del transmisor y muestra su valor, sin efectuar la comparación de control."
     : "Revisa el recorrido de la señal: el equipo no mide directamente el proceso ni calcula una corrección; recibe 4-20 mA y presenta el valor.";
 }
+const PREGUNTAS_UNIDAD_1 = [
+  {p:"¿Cuál es un objetivo principal de la instrumentación industrial?",o:["Decorar los equipos del proceso","Medir y controlar variables críticas","Sustituir todas las operaciones mecánicas","Eliminar la necesidad de mantenimiento"],c:1,e:"La instrumentación permite medir y controlar variables como presión, caudal, nivel y temperatura."},
+  {p:"¿Qué beneficio se obtiene al optimizar un proceso mediante instrumentación?",o:["Aumentar deliberadamente las pérdidas","Reducir eficiencia y repetibilidad","Mejorar eficiencia, consumo de energía y costos","Evitar cualquier medición"],c:2,e:"La optimización busca mejorar la eficiencia operativa y energética, reducir pérdidas y controlar costos."},
+  {p:"¿Qué variable supervisa normalmente un manómetro en una caldera o tubería?",o:["Nivel","Velocidad","Presión","Conductividad"],c:2,e:"El manómetro se utiliza para medir presión."},
+  {p:"¿Qué riesgo ayuda a prevenir un sensor de nivel instalado en un tanque?",o:["Derrames o sobrellenado","Paralaje del termómetro","Desgaste de una banda","Cambio del voltaje de red"],c:0,e:"La medición de nivel permite detectar y evitar el sobrellenado del tanque."},
+  {p:"¿Por qué la instrumentación facilita la automatización?",o:["Porque elimina sensores y controladores","Porque integra sensores, transmisores, controladores y elementos finales","Porque obliga a operar manualmente","Porque impide el diagnóstico"],c:1,e:"La automatización depende de una cadena capaz de medir, transmitir, decidir y actuar."},
+  {p:"En un intercambiador se mantiene el aceite a 65 °C ajustando una válvula de vapor. ¿Cuál es la variable controlada?",o:["Temperatura del aceite","Apertura de la válvula","Caudal de vapor","Temperatura ambiente"],c:0,e:"La variable controlada es la magnitud que se mide y se desea mantener: la temperatura del aceite."},
+  {p:"En el mismo intercambiador, ¿cuál es la variable de control o manipulada?",o:["Temperatura deseada de 65 °C","Caudal de vapor ajustado por la válvula","Temperatura del aceite medida","Composición del aceite"],c:1,e:"La variable manipulada es la que modifica el controlador; en este caso, el caudal de vapor."},
+  {p:"¿Cuál es una perturbación o variable incontrolada en el intercambiador?",o:["La señal de salida del controlador","El punto de consigna","La temperatura del aceite de entrada","La posición ordenada de la válvula"],c:2,e:"La temperatura de entrada puede cambiar desde el exterior y alterar el proceso sin ser manipulada por el controlador."},
+  {p:"Un compresor mantiene el depósito en 8 bar. ¿Qué variable está controlando?",o:["Velocidad del motor","Presión del depósito","Número de herramientas","Temperatura del salón"],c:1,e:"El valor que se desea mantener es la presión del depósito."},
+  {p:"Si el compresor regula la presión variando las revoluciones del motor, ¿cuál es la variable manipulada?",o:["Presión atmosférica","Demanda de aire","Velocidad del motor","Volumen del depósito"],c:2,e:"La velocidad del motor es la magnitud modificada para corregir la presión."},
+  {p:"¿Qué caracteriza a un elemento primario?",o:["Actúa primero o entra en contacto con la variable","Siempre muestra una gráfica","Modifica directamente el proceso","Calcula la calificación del operador"],c:0,e:"El elemento primario responde primero a la variable del proceso y produce un efecto medible."},
+  {p:"¿Cuál de los siguientes es un elemento primario de temperatura?",o:["Válvula de combustible","Controlador PID","Termopar","Variador de frecuencia"],c:2,e:"El termopar responde directamente a la temperatura, por lo que funciona como elemento primario."},
+  {p:"¿Qué función cumple normalmente un transmisor de 4-20 mA?",o:["Detectar y acondicionar una medición para enviarla","Abrir mecánicamente una tubería","Almacenar combustible","Producir la perturbación"],c:0,e:"El transmisor convierte o acondiciona la medición y entrega una señal utilizable a distancia."},
+  {p:"¿Cuál es un elemento final de control?",o:["Termopar","Flotador","Válvula de control","Patrón de calibración"],c:2,e:"La válvula modifica físicamente el caudal del proceso y actúa como elemento final."},
+  {p:"¿Cuál secuencia describe correctamente un control de nivel?",o:["Válvula → tanque → patrón → regla","Tanque → flotador → transmisor/controlador → válvula","Controlador → error → termopar → tanque","Transmisor → perturbación → flotador → escala"],c:1,e:"La variable se detecta en el tanque, se transmite y procesa, y finalmente la válvula actúa sobre el proceso."},
+  {p:"¿Cómo se calcula el error absoluto de una medición?",o:["Valor indicado + valor de referencia","Valor indicado - valor de referencia","Valor de referencia × 100","Valor indicado / alcance"],c:1,e:"Error absoluto = valor indicado - valor de referencia."},
+  {p:"Un patrón indica 8.00 bar y el manómetro muestra 8.24 bar. ¿Cuál es el error absoluto?",o:["-0.24 bar","+0.24 bar","3.00 bar","+8.24 bar"],c:1,e:"8.24 - 8.00 = +0.24 bar; el signo positivo indica sobreestimación."},
+  {p:"Para el caso anterior, ¿cuál es el error relativo porcentual?",o:["0.24 %","3.0 %","8.0 %","24 %"],c:1,e:"(0.24 / 8.00) × 100 = 3.0 %."},
+  {p:"¿Cómo se evita el error de paralaje al leer una escala analógica?",o:["Observando desde cualquier ángulo","Colocando el ojo frente a la indicación y leyendo perpendicularmente","Golpeando suavemente el instrumento","Aumentando el valor de referencia"],c:1,e:"La mirada debe situarse frente a la escala, en dirección perpendicular, para evitar desplazamientos aparentes."},
+  {p:"Un sensor conserva correctamente el cero, pero su error aumenta conforme crece la entrada. ¿Qué debe revisarse?",o:["Color de la carcasa","Alcance o sensibilidad (span)","Nombre del operador","Ubicación del botón de encendido"],c:1,e:"Si el cero es correcto y el error crece con la entrada, debe revisarse el alcance o la sensibilidad del instrumento."}
+];
+let indiceUnidad1=0,aciertosUnidad1=0;
+function abrirEvaluacionUnidad1(){
+  indiceUnidad1=0;aciertosUnidad1=0;
+  document.getElementById("modalUnidad1").classList.add("activo");
+  mostrarPreguntaUnidad1();
+}
+function mostrarPreguntaUnidad1(){
+  const q=PREGUNTAS_UNIDAD_1[indiceUnidad1],c=document.getElementById("contenidoUnidad1"),avance=Math.round(indiceUnidad1/PREGUNTAS_UNIDAD_1.length*100);
+  c.innerHTML="<p style='color:var(--accent);font-weight:bold'>Evaluación de la Unidad 1 · Pregunta "+(indiceUnidad1+1)+" de "+PREGUNTAS_UNIDAD_1.length+"</p><div class='avance-unidad'><span style='width:"+avance+"%'></span></div><h2 style='margin:14px 0'>"+q.p+"</h2><div id='opcionesUnidad1'></div><div id='retroUnidad1'></div>";
+  const opciones=document.getElementById("opcionesUnidad1");
+  q.o.forEach((texto,i)=>{const b=document.createElement("button");b.className="opcion-eval";b.textContent=String.fromCharCode(65+i)+") "+texto;b.onclick=()=>responderUnidad1(i);opciones.appendChild(b);});
+}
+function responderUnidad1(respuesta){
+  const q=PREGUNTAS_UNIDAD_1[indiceUnidad1],correcta=respuesta===q.c,botones=document.querySelectorAll("#opcionesUnidad1 .opcion-eval"),retro=document.getElementById("retroUnidad1");
+  botones.forEach((b,i)=>{b.disabled=true;if(i===q.c)b.classList.add("correcta");if(i===respuesta&&!correcta)b.classList.add("incorrecta");});
+  if(correcta)aciertosUnidad1++;
+  retro.innerHTML="<div class='retro-eval' style='background:"+(correcta?"#123d31":"#48232b")+"'><strong>"+(correcta?"✓ Correcto.":"✕ Respuesta incorrecta.")+"</strong><br>"+q.e+"</div><button class='btn-eval' type='button' onclick='siguienteUnidad1()'>"+(indiceUnidad1===PREGUNTAS_UNIDAD_1.length-1?"Ver resultado":"Siguiente pregunta")+"</button>";
+}
+function siguienteUnidad1(){
+  indiceUnidad1++;
+  if(indiceUnidad1<PREGUNTAS_UNIDAD_1.length){mostrarPreguntaUnidad1();return;}
+  finalizarEvaluacionUnidad1();
+}
+function finalizarEvaluacionUnidad1(){
+  const porcentaje=Math.round(aciertosUnidad1/PREGUNTAS_UNIDAD_1.length*100),aprobada=porcentaje>=70,c=document.getElementById("contenidoUnidad1");
+  localStorage.setItem("im3cb_instrumentacion_unidad1",JSON.stringify({aciertos:aciertosUnidad1,total:PREGUNTAS_UNIDAD_1.length,porcentaje:porcentaje,fecha:new Date().toISOString()}));
+  document.getElementById("ultimoResultadoUnidad1").textContent="Último resultado: "+aciertosUnidad1+" de "+PREGUNTAS_UNIDAD_1.length+" ("+porcentaje+"%).";
+  c.innerHTML="<div class='resultado-eval'><div class='trofeo'>"+(aprobada?"🎯":"📘")+"</div><h2>Evaluación terminada</h2><p style='margin:12px'>Aciertos: <strong>"+aciertosUnidad1+" de "+PREGUNTAS_UNIDAD_1.length+"</strong></p><h1>"+porcentaje+"%</h1><p>"+(aprobada?"Dominio satisfactorio de los contenidos de la Unidad 1.":"Conviene repasar los temas de la Unidad 1 y volver a intentarlo.")+"</p><div class='acciones-evaluacion'><button class='btn-eval' type='button' onclick='abrirEvaluacionUnidad1()'>Intentar nuevamente</button><button class='btn-eval' type='button' onclick='cerrarEvaluacionUnidad1()'>Cerrar</button></div></div>";
+}
+function cerrarEvaluacionUnidad1(){document.getElementById("modalUnidad1").classList.remove("activo");}
+function cargarResultadoUnidad1(){try{const r=JSON.parse(localStorage.getItem("im3cb_instrumentacion_unidad1"));if(r&&r.total===20)document.getElementById("ultimoResultadoUnidad1").textContent="Último resultado: "+r.aciertos+" de "+r.total+" ("+r.porcentaje+"%).";}catch(e){}}
 const PREGUNTAS_DIAGNOSTICO = [["¿Qué significa medir una variable?",["Compararla con un patrón o unidad","Cambiar su valor","Eliminar el error","Controlarla automáticamente"],0],["¿Cuál es una variable típica de proceso industrial?",["Color favorito","Presión","Número de página","Nombre del operador"],1],["¿Qué instrumento mide presión?",["Termómetro","Manómetro","Tacómetro","Luxómetro"],1],["La corriente eléctrica se mide en:",["Volts","Ohms","Amperes","Watts por metro"],2],["Un sensor convierte una magnitud física en:",["Una señal utilizable","Un dibujo técnico","Una pieza mecánica","Una norma"],0],["¿Qué error ocurre al observar una escala desde un ángulo incorrecto?",["Histéresis","Paralaje","Calibración perfecta","Resolución infinita"],1],["Calibrar un instrumento consiste principalmente en:",["Pintarlo","Compararlo y ajustarlo respecto a un patrón","Cambiar su unidad sin referencia","Usarlo sin verificar"],1],["En un lazo cerrado se utiliza:",["Retroalimentación","Solo una entrada manual","Ninguna medición","Una escala sin unidades"],0],["¿Cuál dispositivo puede ser un elemento final de control?",["Válvula","Regla","Calculadora","Plano"],0],["La ley de Ohm relaciona:",["Voltaje, corriente y resistencia","Presión, caudal y nivel","Masa, volumen y densidad","Temperatura, calor y trabajo"],0]];
 let indiceDiagnostico = 0;
 let aciertosDiagnostico = 0;
@@ -316,6 +372,7 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden)abandonarDi
 window.addEventListener("pagehide",abandonarDiagnostico);
 consultarDiagnostico();
 consultarEntregaInstrumentacion();
+cargarResultadoUnidad1();
 </script>
   <script src="assets/acceso-contador.js?v=20260903-1" defer></script>
   <script src="asistente-im3cb.js?v=2" data-materia="Instrumentación"></script>
