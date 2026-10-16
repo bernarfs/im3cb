@@ -9,6 +9,21 @@
   </style>
   <link rel="stylesheet" href="asistente-im3cb.css?v=2">
   <link rel="stylesheet" href="solicitud-evaluacion.css?v=1">
+  <style>
+    .laminas-aprendizaje{display:grid;grid-template-columns:1fr;gap:18px;margin:24px 0}
+    .lamina-card{overflow:hidden;border:1px solid #245b8d;border-radius:20px;background:#071421}
+    .lamina-card h3{margin:0;padding:16px 18px;color:#fff;background:linear-gradient(135deg,#0b3159,#0c5960)}
+    .lamina-card img{display:block;width:100%;height:auto}
+    .lamina-card figcaption{padding:13px 18px;color:#b8c7d8;line-height:1.55}
+    .solucion-docente{margin:18px 0;border:1px solid #9b6331;border-radius:17px;background:#17130f;overflow:hidden}
+    .solucion-docente summary{padding:17px 20px;color:#ffd38b;font-weight:900;cursor:pointer;list-style:none}
+    .solucion-docente summary::-webkit-details-marker{display:none}
+    .solucion-docente summary:after{content:' +';float:right;font-size:22px}
+    .solucion-docente[open] summary:after{content:' −'}
+    .solucion-docente img{display:block;width:100%;height:auto;border-top:1px solid #9b6331}
+    .ruta-unidad{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}
+    .ruta-unidad a{padding:10px 14px;border:1px solid #286499;border-radius:999px;color:#9cdeff;text-decoration:none;font-weight:800;background:#07192b}
+  </style>
 </head>
 <body><header class="top">IM<b>3</b>CB · PROBABILIDAD Y ESTADÍSTICA</header><main>
   <section class="hero"><img src="assets/cursos/probabilidad-estadistica-portada.png" alt="Visualización de distribuciones, gráficas y análisis estadístico"><div class="hero-body"><span class="tag">CURSO DE INGENIERÍA</span><h1>Probabilidad y Estadística</h1><p>Aplicarás la probabilidad y la estadística para analizar datos, resolver problemas de ingeniería e interpretar información útil para la toma de decisiones.</p></div></section>
@@ -20,7 +35,7 @@
   <article class="card diagnostico-card"><strong>📝 Evaluación diagnóstica</strong><p>10 preguntas sobre conocimientos matemáticos y estadísticos previos. Una sola oportunidad; si abandonas después de comenzar, se registrará 0.</p><button id="btnDiagnostico" class="btn-eval" onclick="abrirDiagnostico()">Iniciar evaluación diagnóstica</button><p id="estadoDiagnostico" class="estado-eval"></p></article>
   <h2 class="title">Contenido del curso</h2><section class="units">
     <article class="card unit"><span class="num">1</span><h3>Estadística descriptiva</h3><p>Población, muestra, datos, tendencia central, dispersión, frecuencias, cuantiles y gráficos.</p><a class="unit-link" href="#tema-11">Comenzar la Unidad 1 →</a></article>
-    <article class="card unit"><span class="num">2</span><h3>Probabilidad</h3><p>Eventos, espacio muestral, conteo, diagramas de árbol, probabilidad condicional y Bayes.</p></article>
+    <article class="card unit"><span class="num">2</span><h3>Probabilidad</h3><p>Eventos, espacio muestral, conteo, diagramas de árbol, probabilidad condicional y Bayes.</p><a class="unit-link" href="#tema-21">Comenzar la Unidad 2 →</a></article>
     <article class="card unit"><span class="num">3</span><h3>Distribuciones</h3><p>Variables aleatorias y distribuciones discretas y continuas.</p></article>
     <article class="card unit"><span class="num">4</span><h3>Estadística inferencial</h3><p>Muestreo, estimadores, intervalos, pruebas y errores tipo I y II.</p></article>
     <article class="card unit"><span class="num">5</span><h3>Regresión y correlación</h3><p>Dispersión, regresión lineal, correlación, determinación y errores de medición.</p></article>
@@ -121,7 +136,48 @@
     </section>
   </article>
 
-  <section class="referencias"><h2>Fuentes de consulta</h2><ol><li>Gutiérrez Pulido, H. y De la Vara Salazar, R. <em>Control estadístico de la calidad y Seis Sigma</em>. McGraw-Hill.</li><li>Montgomery, D. C. y Runger, G. C. <em>Applied Statistics and Probability for Engineers</em>, 7.ª ed., Wiley, 2018.</li><li>Devore, J. L. <em>Probability and Statistics for Engineering and the Sciences</em>. Cengage.</li><li>Walpole, R. E., Myers, R. H., Myers, S. L. y Ye, K. <em>Probabilidad y estadística para ingeniería y ciencias</em>. Pearson.</li><li><a href="https://www.itl.nist.gov/div898/handbook/pmd/section2/pmd215.htm" target="_blank" rel="noopener">NIST/SEMATECH: muestreo aleatorio y representatividad</a>.</li><li><a href="https://www.itl.nist.gov/div898/handbook/ppc/section3/ppc33.htm" target="_blank" rel="noopener">NIST/SEMATECH: diseño del plan de muestreo</a>.</li></ol></section>
+  <h2 class="title">Unidad 2 · Probabilidad</h2>
+  <nav class="ruta-unidad" aria-label="Temas de la Unidad 2"><a href="#tema-21">2.1 Probabilidad de eventos</a><a href="#tema-22">2.2 Espacio muestral</a><a href="#tema-23">2.3 Ocurrencia de eventos</a><a href="#tema-24">2.4 Permutaciones y combinaciones</a></nav>
+
+  <article id="tema-21" class="tema">
+    <header class="tema-cabecera"><span class="tema-num">2.1</span><div><span class="tag">FUNDAMENTOS</span><h2>Probabilidad de eventos</h2></div></header>
+    <p>Un evento es un conjunto de resultados de un experimento aleatorio. Cuando todos los resultados elementales tienen la misma posibilidad, la probabilidad de un evento se obtiene comparando sus casos favorables con el total de resultados del espacio muestral.</p>
+    <section class="tema-grid"><div class="concepto"><b>Evento simple</b>Contiene un solo resultado del experimento.</div><div class="concepto"><b>Evento compuesto</b>Reúne dos o más resultados posibles.</div><div class="concepto"><b>Unión A ∪ B</b>Ocurre A, ocurre B o suceden ambos.</div><div class="concepto"><b>Complemento Aᶜ</b>Incluye todos los resultados en los que A no ocurre.</div></section>
+    <div class="formula">P(A) = n(A) ÷ n(S) &nbsp; | &nbsp; P(A ∪ B) = P(A) + P(B) − P(A ∩ B) &nbsp; | &nbsp; P(Aᶜ) = 1 − P(A)</div>
+    <div class="laminas-aprendizaje"><figure class="lamina-card"><h3>Lámina de aprendizaje · Resuelve</h3><img src="assets/estadistica/unidad-2/2-1-probabilidad-eventos-actividad.png" alt="Actividad de probabilidad de eventos con un diagrama de Venn por completar" loading="lazy"><figcaption>Completa las regiones del diagrama, calcula la unión y expresa el resultado como fracción, decimal y porcentaje.</figcaption></figure></div>
+    <details class="solucion-docente"><summary>🔒 Mostrar solución docente del tema 2.1</summary><img src="assets/estadistica/unidad-2/2-1-probabilidad-eventos-solucion.png" alt="Solución docente de la actividad de probabilidad de eventos" loading="lazy"></details>
+  </article>
+
+  <article id="tema-22" class="tema">
+    <header class="tema-cabecera"><span class="tema-num">2.2</span><div><span class="tag">RESULTADOS POSIBLES</span><h2>Espacio muestral</h2></div></header>
+    <p>El espacio muestral, representado por S, contiene todos los resultados posibles de un experimento. Puede construirse mediante listas, tablas o diagramas de árbol. Describirlo correctamente evita omitir resultados o contarlos más de una vez.</p>
+    <section class="tema-grid"><div class="concepto"><b>Resultado elemental</b>Un resultado individual que no puede descomponerse dentro del experimento.</div><div class="concepto"><b>Espacio discreto</b>Sus resultados pueden enumerarse, como los de una moneda y un dado.</div></section>
+    <div class="formula">Si una etapa tiene m resultados y otra tiene n, entonces el experimento conjunto tiene m × n resultados.</div>
+    <div class="laminas-aprendizaje"><figure class="lamina-card"><h3>Lámina de aprendizaje · Construye el espacio muestral</h3><img src="assets/estadistica/unidad-2/2-2-espacio-muestral-actividad.png" alt="Actividad para construir el espacio muestral del lanzamiento de una moneda y un dado" loading="lazy"><figcaption>Representa cada resultado como un par ordenado y distingue el evento solicitado dentro del espacio muestral.</figcaption></figure></div>
+    <details class="solucion-docente"><summary>🔒 Mostrar solución docente del tema 2.2</summary><img src="assets/estadistica/unidad-2/2-2-espacio-muestral-solucion.png" alt="Solución docente de la actividad de espacio muestral" loading="lazy"></details>
+  </article>
+
+  <article id="tema-23" class="tema">
+    <header class="tema-cabecera"><span class="tema-num">2.3</span><div><span class="tag">RELACIÓN ENTRE EVENTOS</span><h2>Ocurrencia de eventos</h2></div></header>
+    <p>Dos eventos pueden ocurrir de manera conjunta, excluirse entre sí o ser independientes. Estas relaciones se determinan mediante sus intersecciones y probabilidades, no solamente observando si parecen estar relacionadas.</p>
+    <section class="tema-grid"><div class="concepto"><b>Intersección A ∩ B</b>Resultados en los que A y B ocurren simultáneamente.</div><div class="concepto"><b>Mutuamente excluyentes</b>No pueden ocurrir al mismo tiempo; por ello A ∩ B es vacío.</div><div class="concepto"><b>Independientes</b>La ocurrencia de uno no modifica la probabilidad del otro.</div><div class="concepto"><b>Unión A ∪ B</b>Reúne los resultados que pertenecen por lo menos a uno de los eventos.</div></section>
+    <div class="formula">Independencia: P(A ∩ B) = P(A)P(B) &nbsp; | &nbsp; Exclusión mutua: P(A ∩ B) = 0</div>
+    <div class="alerta"><b>No confundas los conceptos:</b> dos eventos mutuamente excluyentes con probabilidad positiva no son independientes, porque la ocurrencia de uno impide la del otro.</div>
+    <div class="laminas-aprendizaje"><figure class="lamina-card"><h3>Lámina de aprendizaje · Analiza la ocurrencia</h3><img src="assets/estadistica/unidad-2/2-3-ocurrencia-eventos-actividad.png" alt="Actividad industrial sobre ocurrencia, unión e intersección de eventos" loading="lazy"><figcaption>Completa el diagrama y utiliza las probabilidades para justificar la relación entre los eventos.</figcaption></figure></div>
+    <details class="solucion-docente"><summary>🔒 Mostrar solución docente del tema 2.3</summary><img src="assets/estadistica/unidad-2/2-3-ocurrencia-eventos-solucion.png" alt="Solución docente sobre ocurrencia de eventos" loading="lazy"></details>
+  </article>
+
+  <article id="tema-24" class="tema">
+    <header class="tema-cabecera"><span class="tema-num">2.4</span><div><span class="tag">TÉCNICAS DE CONTEO</span><h2>Permutaciones y combinaciones</h2></div></header>
+    <p>Las técnicas de conteo permiten determinar el número de resultados sin enumerarlos uno por uno. La decisión principal consiste en identificar si cambiar el orden produce o no una selección diferente.</p>
+    <section class="tema-grid"><div class="concepto"><b>Permutación</b>Se utiliza cuando el orden o los cargos producen resultados diferentes.</div><div class="concepto"><b>Combinación</b>Se utiliza cuando solo importa qué elementos fueron seleccionados.</div></section>
+    <div class="formula">P(n,r) = n! ÷ (n−r)! &nbsp;&nbsp; | &nbsp;&nbsp; C(n,r) = n! ÷ [r!(n−r)!]</div>
+    <div class="ejemplo"><b>Criterio de decisión:</b> si intercambiar dos elementos genera otro resultado, usa una permutación. Si el grupo sigue siendo el mismo, usa una combinación.</div>
+    <div class="laminas-aprendizaje"><figure class="lamina-card"><h3>Lámina de aprendizaje · Compara los métodos</h3><img src="assets/estadistica/unidad-2/2-4-permutaciones-combinaciones-actividad.png" alt="Actividad para distinguir permutaciones y combinaciones" loading="lazy"><figcaption>Resuelve ambos casos y explica por qué la asignación de cargos y la formación de un comité requieren métodos distintos.</figcaption></figure></div>
+    <details class="solucion-docente"><summary>🔒 Mostrar solución docente del tema 2.4</summary><img src="assets/estadistica/unidad-2/2-4-permutaciones-combinaciones-solucion.png" alt="Solución docente de permutaciones y combinaciones" loading="lazy"></details>
+  </article>
+
+  <section class="referencias"><h2>Fuentes de consulta</h2><ol><li>Gutiérrez Pulido, H. y De la Vara Salazar, R. <em>Control estadístico de la calidad y Seis Sigma</em>. McGraw-Hill.</li><li>Montgomery, D. C. y Runger, G. C. <em>Applied Statistics and Probability for Engineers</em>, 7.ª ed., Wiley, 2018.</li><li>Devore, J. L. <em>Probability and Statistics for Engineering and the Sciences</em>. Cengage.</li><li>Walpole, R. E., Myers, R. H., Myers, S. L. y Ye, K. <em>Probabilidad y estadística para ingeniería y ciencias</em>. Pearson.</li><li><a href="https://openstax.org/books/algebra-and-trigonometry/pages/13-7-probability" target="_blank" rel="noopener">OpenStax: probabilidad de eventos</a>.</li><li><a href="https://openstax.org/books/contemporary-mathematics/pages/7-6-probability-with-permutations-and-combinations" target="_blank" rel="noopener">OpenStax: permutaciones y combinaciones</a>.</li><li><a href="https://online.stat.psu.edu/stat414/lesson/2" target="_blank" rel="noopener">Penn State: propiedades de la probabilidad</a>.</li><li><a href="https://online.stat.psu.edu/stat414/lesson/5" target="_blank" rel="noopener">Penn State: eventos independientes</a>.</li><li><a href="https://www.itl.nist.gov/div898/handbook/pmd/section2/pmd215.htm" target="_blank" rel="noopener">NIST/SEMATECH: muestreo aleatorio y representatividad</a>.</li><li><a href="https://www.itl.nist.gov/div898/handbook/ppc/section3/ppc33.htm" target="_blank" rel="noopener">NIST/SEMATECH: diseño del plan de muestreo</a>.</li></ol></section>
   <div id="modalDiagnostico" class="modal-eval"><div class="ventana-eval"><div id="contenidoDiagnostico"></div></div></div>
   </main><script src="assets/acceso-contador.js?v=20260903-1"></script>
   <script>
