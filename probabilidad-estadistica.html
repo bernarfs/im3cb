@@ -23,6 +23,18 @@
     .solucion-docente img{display:block;width:100%;height:auto;border-top:1px solid #9b6331}
     .ruta-unidad{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}
     .ruta-unidad a{padding:10px 14px;border:1px solid #286499;border-radius:999px;color:#9cdeff;text-decoration:none;font-weight:800;background:#07192b}
+    .operaciones-eventos{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:22px 0}
+    .operacion-evento{padding:18px;border:1px solid #245b8d;border-radius:18px;background:#08172a}
+    .operacion-evento h4{margin:0 0 8px;color:#fff;font-size:19px}.operacion-evento p{margin:8px 0}
+    .operacion-evento .lectura{color:#77e1ff;font-weight:900}.operacion-evento .ejemplo-op{padding:11px;border-radius:11px;background:#0b2434;color:#d6e4f2}
+    .venn-mini{position:relative;height:128px;margin:13px 0;border:1px solid #264a70;border-radius:13px;background:#06111f;overflow:hidden}
+    .venn-mini:before,.venn-mini:after{content:'';position:absolute;top:24px;width:82px;height:82px;border:2px solid;border-radius:50%}
+    .venn-mini:before{left:calc(50% - 70px);border-color:#49a8ff;background:#2d8ed755}.venn-mini:after{right:calc(50% - 70px);border-color:#ff7b67;background:#ef6e5855}
+    .venn-mini.union:before,.venn-mini.union:after{background:#20b8c788}
+    .venn-mini.intersection .zona{position:absolute;z-index:2;left:calc(50% - 21px);top:33px;width:42px;height:64px;border-radius:50%;background:#b68dffcc}
+    .venn-mini.complemento:before{z-index:2;background:#2d8ed777}.venn-mini.complemento:after{display:none}.venn-mini.complemento{background:#56d39c55}
+    .venn-mini span{position:absolute;z-index:3;top:53px;color:#fff;font:900 20px Georgia,serif}.venn-mini .a{left:calc(50% - 46px)}.venn-mini .b{right:calc(50% - 46px)}.venn-mini .s{top:8px;left:10px;font-size:15px}.venn-mini .ac{top:88px;right:16px;font-size:15px}
+    @media(max-width:760px){.operaciones-eventos{grid-template-columns:1fr}}
   </style>
 </head>
 <body><header class="top">IM<b>3</b>CB · PROBABILIDAD Y ESTADÍSTICA</header><main>
@@ -144,6 +156,14 @@
     <p>Un evento es un conjunto de resultados de un experimento aleatorio. Cuando todos los resultados elementales tienen la misma posibilidad, la probabilidad de un evento se obtiene comparando sus casos favorables con el total de resultados del espacio muestral.</p>
     <section class="tema-grid"><div class="concepto"><b>Evento simple</b>Contiene un solo resultado del experimento.</div><div class="concepto"><b>Evento compuesto</b>Reúne dos o más resultados posibles.</div><div class="concepto"><b>Unión A ∪ B</b>Ocurre A, ocurre B o suceden ambos.</div><div class="concepto"><b>Complemento Aᶜ</b>Incluye todos los resultados en los que A no ocurre.</div></section>
     <div class="formula">P(A) = n(A) ÷ n(S) &nbsp; | &nbsp; P(A ∪ B) = P(A) + P(B) − P(A ∩ B) &nbsp; | &nbsp; P(Aᶜ) = 1 − P(A)</div>
+    <h3>Operaciones con eventos</h3>
+    <p>Los diagramas de Venn permiten reconocer qué resultados se incluyen en una operación. El rectángulo representa el espacio muestral <em>S</em>; cada círculo representa un evento. La región resaltada indica los resultados que cumplen la condición.</p>
+    <section class="operaciones-eventos" aria-label="Explicación de unión, intersección y complemento">
+      <article class="operacion-evento"><h4>a) Unión (OR)</h4><div class="venn-mini union" aria-hidden="true"><span class="a">A</span><span class="b">B</span></div><p class="lectura">A ∪ B: “A o B”</p><p>Incluye los resultados que están en <strong>A</strong>, en <strong>B</strong> o en ambos. En probabilidad, la palabra “o” es inclusiva.</p><p class="ejemplo-op"><b>Ejemplo:</b> una pieza tiene defecto dimensional o superficial; si presenta ambos, también pertenece a la unión.</p></article>
+      <article class="operacion-evento"><h4>b) Intersección (AND)</h4><div class="venn-mini intersection" aria-hidden="true"><i class="zona"></i><span class="a">A</span><span class="b">B</span></div><p class="lectura">A ∩ B: “A y B”</p><p>Contiene solamente los resultados que pertenecen simultáneamente a <strong>A</strong> y a <strong>B</strong>. Corresponde a la zona donde se traslapan los círculos.</p><p class="ejemplo-op"><b>Ejemplo:</b> una pieza presenta al mismo tiempo defecto dimensional y defecto superficial.</p></article>
+      <article class="operacion-evento"><h4>c) Complemento (NOT)</h4><div class="venn-mini complemento" aria-hidden="true"><span class="s">S</span><span class="a">A</span><span class="ac">Aᶜ</span></div><p class="lectura">Aᶜ: “no A”</p><p>Reúne todos los resultados del espacio muestral <em>S</em> que <strong>no pertenecen a A</strong>. El evento y su complemento cubren todo <em>S</em>.</p><p class="ejemplo-op"><b>Ejemplo:</b> si A significa “pieza con defecto dimensional”, Aᶜ significa “pieza sin ese defecto”.</p></article>
+    </section>
+    <div class="alerta"><b>Cómo elegir la operación:</b> usa la unión cuando se acepte cualquiera de dos condiciones; la intersección cuando deban cumplirse ambas; y el complemento cuando se solicite que un evento no ocurra.</div>
     <div class="laminas-aprendizaje"><figure class="lamina-card"><h3>Lámina de aprendizaje · Resuelve</h3><img src="assets/estadistica/unidad-2/2-1-probabilidad-eventos-actividad.png" alt="Actividad de probabilidad de eventos con un diagrama de Venn por completar" loading="lazy"><figcaption>Completa las regiones del diagrama, calcula la unión y expresa el resultado como fracción, decimal y porcentaje.</figcaption></figure></div>
     <details class="solucion-docente"><summary>🔒 Mostrar solución docente del tema 2.1</summary><img src="assets/estadistica/unidad-2/2-1-probabilidad-eventos-solucion.png" alt="Solución docente de la actividad de probabilidad de eventos" loading="lazy"></details>
   </article>
