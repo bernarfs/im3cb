@@ -23,6 +23,13 @@
     .solucion-docente img{display:block;width:100%;height:auto;border-top:1px solid #9b6331}
     .ruta-unidad{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}
     .ruta-unidad a{padding:10px 14px;border:1px solid #286499;border-radius:999px;color:#9cdeff;text-decoration:none;font-weight:800;background:#07192b}
+    .ruta-unidad a.activo{border-color:var(--cyan);background:linear-gradient(135deg,#087be8,#0a9caf);color:#fff;box-shadow:0 8px 24px #0784c455}
+    .selector-ventanas{padding:20px;border:1px solid #1b4d78;border-radius:22px;background:linear-gradient(145deg,#0b1d33,#07111f);box-shadow:0 16px 40px #0004}
+    .selector-ventanas strong{display:block;margin-bottom:12px;color:#fff;font-size:18px}.selector-ventanas p{margin:0;color:var(--muted)}
+    .tema.ventana-oculta{display:none}.tema.ventana-activa{animation:entradaVentana .28s ease-out}
+    @keyframes entradaVentana{from{opacity:.25;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .estacion-unidad2{margin-top:36px;border-color:#2d8a77;background:linear-gradient(145deg,#0d2a2b,#091329)}
+    .estacion-unidad2 .ejercicio{border-color:#28635d}.estacion-unidad2 .respuesta summary{color:#74ebc3}
     .operaciones-eventos{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:22px 0}
     .operacion-evento{padding:18px;border:1px solid #245b8d;border-radius:18px;background:#08172a}
     .operacion-evento h4{margin:0 0 8px;color:#fff;font-size:19px}.operacion-evento p{margin:8px 0}
@@ -54,6 +61,7 @@
   </section>
 
   <h2 class="title">Unidad 1 · Fundamentos para estudiar datos</h2>
+  <section class="selector-ventanas"><strong>Selecciona una ventana de aprendizaje</strong><p>Cada ventana reúne teoría, ejemplos y actividades de un solo tema.</p><nav class="ruta-unidad" aria-label="Temas de la Unidad 1"><a href="#tema-11" data-tema="tema-11">1.1 Población y muestra</a><a href="#tema-12" data-tema="tema-12">1.2 Obtención de datos</a><a href="#tema-13" data-tema="tema-13">1.3 Tendencia central</a></nav></section>
   <article id="tema-11" class="tema">
     <header class="tema-cabecera"><span class="tema-num">1.1</span><div><span class="tag">CONCEPTOS FUNDAMENTALES</span><h2>Población y muestra aleatoria</h2></div></header>
     <p>En ingeniería rara vez es posible medir todos los elementos de interés. La estadística permite estudiar una parte de ellos y utilizar la información obtenida para describir o inferir características del conjunto completo. Montgomery y Runger presentan este proceso como un puente entre los datos observados y la toma de decisiones de ingeniería; Gutiérrez Pulido destaca que la validez del análisis depende de que los datos representen realmente el proceso.</p>
@@ -149,7 +157,7 @@
   </article>
 
   <h2 class="title">Unidad 2 · Probabilidad</h2>
-  <nav class="ruta-unidad" aria-label="Temas de la Unidad 2"><a href="#tema-21">2.1 Probabilidad de eventos</a><a href="#tema-22">2.2 Espacio muestral</a><a href="#tema-23">2.3 Ocurrencia de eventos</a><a href="#tema-24">2.4 Permutaciones y combinaciones</a></nav>
+  <section class="selector-ventanas"><strong>Selecciona una ventana de aprendizaje</strong><p>Abre un tema a la vez para estudiar sin perderte en una página extensa.</p><nav class="ruta-unidad" aria-label="Temas de la Unidad 2"><a href="#tema-21" data-tema="tema-21">2.1 Probabilidad de eventos</a><a href="#tema-22" data-tema="tema-22">2.2 Espacio muestral</a><a href="#tema-23" data-tema="tema-23">2.3 Ocurrencia de eventos</a><a href="#tema-24" data-tema="tema-24">2.4 Permutaciones y combinaciones</a></nav></section>
 
   <article id="tema-21" class="tema">
     <header class="tema-cabecera"><span class="tema-num">2.1</span><div><span class="tag">FUNDAMENTOS</span><h2>Probabilidad de eventos</h2></div></header>
