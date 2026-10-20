@@ -75,6 +75,8 @@
     .actividad-dinamica{margin:22px 0;padding:20px;border:1px solid rgba(103,217,255,.34);border-radius:19px;background:linear-gradient(145deg,rgba(7,25,51,.96),rgba(9,15,37,.96))}.actividad-dinamica h5{font-size:20px;color:#fff;margin-bottom:7px}.actividad-dinamica .instruccion{color:#b6c8df;margin-bottom:15px}.captura-datos{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.captura-datos.cuatro{grid-template-columns:repeat(4,minmax(0,1fr))}.captura-datos label{display:block;color:#a8bdd8;font-size:12px;margin-bottom:5px}.captura-datos input,.captura-datos select{width:100%;padding:10px;border:1px solid #35628e;border-radius:9px;background:#06172f;color:#fff;font:inherit}.pasos-vivos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-top:15px}.paso-vivo{padding:14px;border-radius:12px;background:rgba(103,217,255,.07);border:1px solid rgba(103,217,255,.18)}.paso-vivo span{display:block;color:#8fa8c7;font-size:12px;margin-bottom:6px}.paso-vivo strong{color:#fff;font-family:Georgia,serif;font-size:16px;line-height:1.5}.comprobacion-act{margin-top:13px;padding:13px;border-radius:11px;background:rgba(154,108,255,.11);border-left:4px solid var(--accent);color:#e4ecf8}.actividad-dinamica .laminas-tornillos{margin-bottom:0}.nota-modelo{margin-top:12px;color:#90a5c1;font-size:12px;line-height:1.55}
     @media(max-width:850px){.mapa-tornillos,.rosca-demo,.controles-tornillo,.resultado-tornillo,.captura-datos,.captura-datos.cuatro{grid-template-columns:repeat(2,1fr)}.decision-tornillo{grid-template-columns:1fr}.pasos-vivos{grid-template-columns:1fr}}
     @media(max-width:600px){.mapa-tornillos,.rosca-demo,.controles-tornillo,.resultado-tornillo,.casos-tornillo,.galeria-tornillos,.captura-datos,.captura-datos.cuatro{grid-template-columns:1fr}.lamina-tornillo.ancha{grid-column:auto}.laminas-contenido{padding:0 10px 14px}.actividad-dinamica{padding:15px}}
+    .tema-resortes{margin-top:24px;padding:clamp(18px,4vw,30px);border:1px solid rgba(255,178,73,.38);border-radius:20px;background:linear-gradient(145deg,rgba(38,24,53,.96),rgba(8,23,47,.97));color:#d8e3f3}.tema-resortes h3{font-size:clamp(25px,4vw,36px);color:#fff;margin-bottom:9px}.tema-resortes h4{margin:28px 0 11px;color:#ffd28a;font-size:22px}.tema-resortes h5{margin:20px 0 8px;color:#fff;font-size:17px}.tema-resortes p{margin:9px 0;line-height:1.75}.tema-resortes ul,.tema-resortes ol{padding-left:23px;margin:12px 0}.tema-resortes li{margin:7px 0}.objetivo-resorte{padding:18px 20px;border-left:4px solid #ffad45;border-radius:13px;background:rgba(255,173,69,.09);margin:18px 0}.rejilla-resortes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:17px 0}.tarjeta-resorte{padding:17px;border:1px solid rgba(255,194,110,.24);border-radius:15px;background:rgba(4,14,34,.52)}.tarjeta-resorte b{display:block;color:#fff;margin-bottom:7px}.formula-resorte{margin:16px 0;padding:17px;text-align:center;border-radius:13px;background:#050d20;border:1px solid rgba(255,178,73,.35);font:700 20px Georgia,serif;color:#fff}.formula-resorte small{display:block;margin-top:8px;font:400 13px Arial,sans-serif;color:#aebfd7}.figura-resorte{margin:20px 0;padding:11px;border-radius:16px;background:#fff;overflow:hidden}.figura-resorte img{display:block;width:100%;height:auto;border-radius:8px}.figura-resorte figcaption{padding:11px 7px 3px;color:#40516a;text-align:center;font-size:13px;line-height:1.5}.tabla-resorte{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}.tabla-resorte th,.tabla-resorte td{padding:11px;border:1px solid rgba(160,193,238,.22);text-align:left;vertical-align:top}.tabla-resorte th{background:rgba(255,173,69,.15);color:#fff}.nota-resorte{padding:15px;border-radius:12px;background:rgba(94,213,255,.08);border-left:4px solid #5ed5ff}.fuentes-resorte{margin-top:24px;padding:18px;border-radius:14px;background:rgba(4,13,30,.72);font-size:13px}.fuentes-resorte a{color:#82d7ff}.estacion-resortes{margin-top:24px;padding:20px;border:1px solid rgba(255,173,69,.32);border-radius:17px;background:rgba(255,173,69,.06)}
+    @media(max-width:760px){.rejilla-resortes{grid-template-columns:1fr}.tabla-resorte{font-size:12px}.tema-resortes{padding:16px}}
     .bloqueada{opacity:.55}.aviso{margin-top:36px;padding:22px;border:1px solid rgba(95,157,234,.26);border-left:4px solid var(--accent);border-radius:14px;background:rgba(8,23,49,.78);color:#c1d1e7;line-height:1.65}
     footer{text-align:center;padding:30px;color:#7187a6;border-top:1px solid #142b4c}
     @keyframes entrada{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
@@ -463,7 +465,95 @@
         </div>
       </article>
     </div></details>
-    <details ><summary>Unidad 3 · Resortes</summary><div class="unidad"><ul><li>3.1 Clasificación y materiales</li><li>3.2 Resortes helicoidales a tensión, compresión y torsión</li><li>3.3 Fatiga en resortes</li><li>3.4 Resortes de hojas</li><li>3.5 Selección y catálogos</li></ul></div></details>
+    <details id="unidad-3"><summary>Unidad 3 · Resortes</summary><div class="unidad">
+      <article class="tema-resortes">
+        <h3>Unidad 3 · Diseño y selección de resortes</h3>
+        <div class="objetivo-resorte"><strong>Propósito de aprendizaje.</strong> Identificar, analizar y seleccionar resortes sometidos a cargas estáticas y variables, relacionando fuerza, desplazamiento, esfuerzo, rigidez, vida a fatiga, espacio disponible, material y ambiente de operación.</div>
+
+        <h4>3.1 Generalidades</h4>
+        <p>Un resorte es un elemento capaz de deformarse elásticamente, almacenar energía y recuperar aproximadamente su forma cuando se retira la carga. Puede mantener una fuerza, controlar desplazamientos, absorber impacto, aislar vibraciones o compensar tolerancias y desgaste.</p>
+        <div class="formula-resorte">F = kδ <small>F: fuerza; k: constante del resorte; δ: deformación dentro del intervalo elástico.</small></div>
+        <div class="formula-resorte">U = ½Fδ = ½kδ² <small>U es la energía elástica almacenada por un resorte lineal.</small></div>
+
+        <h5>3.1.1 Introducción</h5>
+        <p>El diseño no termina al obtener la rigidez. También deben comprobarse resistencia, vida, estabilidad, frecuencia natural, temperatura, corrosión, tolerancias, fabricación y montaje. Un resorte comercial sólo es adecuado cuando cumple simultáneamente fuerza, recorrido, envolvente y ambiente.</p>
+
+        <h5>3.1.2 Clasificación</h5>
+        <div class="rejilla-resortes">
+          <div class="tarjeta-resorte"><b>Por la carga</b>Compresión, tensión, torsión y flexión.</div>
+          <div class="tarjeta-resorte"><b>Por la forma</b>Helicoidal, de hojas, espiral, disco, ondulado y barra de torsión.</div>
+          <div class="tarjeta-resorte"><b>Por el servicio</b>Estático, fatiga, impacto, temperatura o corrosión.</div>
+        </div>
+
+        <h4>3.2 Materiales para resortes</h4>
+        <p>Se requieren alto límite elástico, buena resistencia a fatiga, tenacidad y capacidad para almacenar energía. La elección depende también del diámetro, temperatura, corrosión, conductividad, magnetismo, costo y proceso de fabricación.</p>
+        <div class="tabla-wrap-11"><table class="tabla-resorte"><thead><tr><th>Material</th><th>Aplicación orientativa</th><th>Precaución</th></tr></thead><tbody>
+          <tr><td>Alambre musical ASTM A228</td><td>Alta resistencia y fatiga en diámetros pequeños</td><td>Ambiente seco y temperatura moderada</td></tr>
+          <tr><td>Estirado duro ASTM A227</td><td>Uso económico con esfuerzos moderados</td><td>Menor desempeño que el alambre musical</td></tr>
+          <tr><td>Templado en aceite ASTM A229</td><td>Uso general y diámetros mayores</td><td>Revisar protección ambiental</td></tr>
+          <tr><td>Cromo-silicio / cromo-vanadio</td><td>Servicio severo, impacto y fatiga</td><td>Proceso y costo</td></tr>
+          <tr><td>Inoxidables 302/304/316 y 17-7 PH</td><td>Corrosión, limpieza o mayor temperatura</td><td>Seleccionar el grado según ambiente</td></tr>
+          <tr><td>Bronce fosforado, cobre-berilio y níquel</td><td>Conductividad, baja magnetización o ambiente severo</td><td>Costo y fabricación especializada</td></tr>
+        </tbody></table></div>
+        <div class="nota-resorte"><strong>Regla de trabajo:</strong> obtén módulo, resistencia y límite permisible de una misma edición, norma o ficha certificada. No mezcles valores de métodos incompatibles.</div>
+
+        <h4>3.3 Resortes helicoidales</h4>
+        <p>La nomenclatura básica es: diámetro del alambre <em>d</em>, diámetro medio <em>D</em>, espiras activas <em>N<sub>a</sub></em>, espiras totales <em>N<sub>t</sub></em>, módulo de rigidez <em>G</em> e índice <em>C = D/d</em>. Además, D<sub>o</sub> = D + d y D<sub>i</sub> = D − d.</p>
+        <figure class="figura-resorte"><a href="assets/diseno-2/resortes/resorte-helicoidal-carga-axial-shigley.png" target="_blank" rel="noopener"><img src="assets/diseno-2/resortes/resorte-helicoidal-carga-axial-shigley.png" alt="Resorte helicoidal con carga axial y diagrama de cuerpo libre" loading="lazy"></a><figcaption>Figura 3.1 · La carga axial genera cortante directo y un momento torsor T = FD/2 en el alambre. Imagen proporcionada por el docente, figura 10-1 de Shigley.</figcaption></figure>
+        <p>Al aislar el alambre, la fuerza actúa con un brazo aproximado D/2. Por ello, el alambre recibe torsión, cortante directo y un efecto adicional de curvatura. El factor de Wahl reúne estos efectos en el cálculo práctico.</p>
+        <div class="formula-resorte">C = D/d &nbsp;&nbsp; | &nbsp;&nbsp; K<sub>w</sub> = (4C−1)/(4C−4) + 0.615/C</div>
+        <div class="formula-resorte">τ<sub>max</sub> = K<sub>w</sub>·8FD/(πd³) <small>Esfuerzo cortante máximo aproximado para alambre redondo.</small></div>
+        <div class="formula-resorte">δ = 8FD³N<sub>a</sub>/(Gd⁴) &nbsp;&nbsp; | &nbsp;&nbsp; k = Gd⁴/(8D³N<sub>a</sub>)</div>
+
+        <h5>3.3.1 Resortes helicoidales a tensión o compresión</h5>
+        <p><strong>Compresión:</strong> trabajan al acortarse. Se verifican fuerza, deflexión, esfuerzo, longitud libre, longitud sólida, holgura, pandeo, extremos y frecuencia natural. El trabajo normal no debe llegar exactamente a longitud sólida.</p>
+        <figure class="figura-resorte"><a href="assets/diseno-2/resortes/extremos-resortes-compresion-shigley.png" target="_blank" rel="noopener"><img src="assets/diseno-2/resortes/extremos-resortes-compresion-shigley.png" alt="Configuraciones de extremos de resortes de compresión" loading="lazy"></a><figcaption>Figura 3.2 · Extremos abiertos, cerrados y esmerilados. La configuración cambia apoyo, alineación, espiras activas y longitud sólida. Imagen proporcionada por el docente, figura 10-2 de Shigley.</figcaption></figure>
+        <div class="tabla-wrap-11"><table class="tabla-resorte"><thead><tr><th>Extremo</th><th>Característica</th><th>Consideración</th></tr></thead><tbody><tr><td>Sencillo</td><td>La última espira conserva el paso</td><td>Económico; apoyo menos uniforme</td></tr><tr><td>A escuadra</td><td>La última espira se cierra</td><td>Mejor apoyo y alineación</td></tr><tr><td>Esmerilado</td><td>Superficie parcial de asiento</td><td>Mejora la distribución de carga</td></tr><tr><td>A escuadra y esmerilado</td><td>Asiento plano y más perpendicular</td><td>Preferible cuando se exige estabilidad</td></tr></tbody></table></div>
+        <p><strong>Extensión:</strong> suele incorporar una tensión inicial F<sub>i</sub>, de modo que F = F<sub>i</sub> + kδ. Deben analizarse por separado el cuerpo y los ganchos; estos últimos pueden gobernar por flexión y concentración de esfuerzo.</p>
+
+        <h5>3.3.2 Resortes helicoidales a torsión</h5>
+        <p>Reciben un par en sus patas, pero el alambre del cuerpo trabaja principalmente a flexión. Se especifican diámetro del alambre y cuerpo, espiras activas, patas, ángulo libre, sentido de arrollamiento y mandril.</p>
+        <div class="formula-resorte">M = k<sub>θ</sub>θ &nbsp;&nbsp; | &nbsp;&nbsp; k<sub>θ</sub> ≈ Ed⁴/(64DN<sub>a</sub>) <small>θ en radianes; verificar la convención exacta de la fuente utilizada.</small></div>
+        <div class="formula-resorte">σ ≈ K<sub>i</sub>·32M/(πd³) <small>K<sub>i</sub> corrige la curvatura en la fibra interior.</small></div>
+        <p>Conviene que la carga tienda a cerrar las espiras. También deben comprobarse crecimiento del diámetro interior, interferencia con el mandril, fricción y deformación de las patas.</p>
+
+        <h5>3.3.3 Fatiga en resortes</h5>
+        <div class="formula-resorte">F<sub>m</sub> = (F<sub>max</sub>+F<sub>min</sub>)/2 &nbsp;&nbsp; | &nbsp;&nbsp; F<sub>a</sub> = (F<sub>max</sub>−F<sub>min</sub>)/2</div>
+        <div class="formula-resorte">τ<sub>a</sub>/S<sub>se</sub> + τ<sub>m</sub>/S<sub>su</sub> ≤ 1/n <small>Forma didáctica de un criterio tipo Goodman en cortante.</small></div>
+        <p>La vida mejora al reducir la amplitud del esfuerzo, evitar corrosión y defectos, controlar la alineación y aplicar procesos apropiados como granallado o preset. También debe evitarse resonancia y golpe contra longitud sólida.</p>
+
+        <h4>3.4 Resortes de hojas</h4>
+        <p>Almacenan energía principalmente mediante flexión. Para una hoja rectangular ideal en voladizo, con carga puntual en el extremo:</p>
+        <div class="formula-resorte">I = bt³/12 &nbsp;&nbsp; | &nbsp;&nbsp; σ<sub>max</sub> = 6FL/(bt²)</div>
+        <div class="formula-resorte">δ = 4FL³/(Ebt³) &nbsp;&nbsp; | &nbsp;&nbsp; k = Ebt³/(4L³)</div>
+        <p>Estas ecuaciones sólo corresponden al voladizo rectangular ideal; si cambian apoyo, sección, curvatura o distribución de carga, debe utilizarse el modelo correspondiente.</p>
+
+        <h5>3.4.1 De una sola hoja</h5>
+        <p>Puede ser recta, curvada, de ancho constante o perfilada. Se revisan esfuerzo, deflexión, concentración en radios y orificios, sujeción, dirección de laminado, acabado, fatiga y espacio durante el movimiento.</p>
+
+        <h5>3.4.2 De hojas múltiples o muelles</h5>
+        <p>Un muelle reúne una hoja maestra, hojas graduadas, perno central, abrazaderas y, en algunos casos, ojos y bujes. La carga real depende de contacto, fricción, precarga y curvatura inicial; por ello los modelos simplificados deben comprobarse con la geometría específica o con datos experimentales.</p>
+
+        <h4>3.5 Selección</h4>
+        <ol><li>Definir función, fuerza o par y puntos de operación.</li><li>Establecer recorrido, velocidad y número de ciclos.</li><li>Fijar diámetro, longitud y espacio de montaje.</li><li>Seleccionar material compatible con temperatura y corrosión.</li><li>Calcular k = (F₂−F₁)/(δ₂−δ₁).</li><li>Buscar primero una pieza estándar.</li><li>Verificar esfuerzo, sólido, pandeo, fatiga y frecuencia.</li><li>Comprobar asientos, guías, ganchos, patas o mandril.</li><li>Revisar tolerancias y ensayar un prototipo.</li></ol>
+
+        <h5>3.5.1 Otros tipos de resortes</h5>
+        <div class="rejilla-resortes"><div class="tarjeta-resorte"><b>Belleville</b>Gran carga y poca deflexión; puede apilarse.</div><div class="tarjeta-resorte"><b>Ondulado</b>Baja altura axial para conjuntos compactos.</div><div class="tarjeta-resorte"><b>Fuerza constante</b>Entrega fuerza casi uniforme durante un recorrido amplio.</div><div class="tarjeta-resorte"><b>Espiral plano</b>Almacena y entrega energía angular.</div><div class="tarjeta-resorte"><b>Barra de torsión</b>Integra la elasticidad en una barra estructural.</div><div class="tarjeta-resorte"><b>Gas o elastómero</b>Fuerza elevada, amortiguamiento o aislamiento.</div></div>
+
+        <h4>3.6 Manejo de catálogos de fabricantes</h4>
+        <p>En compresión se revisan número de parte, material, d, D<sub>o</sub>, D<sub>i</sub>, longitud libre y sólida, constante, cargas, espiras, extremos y tolerancias. En extensión se agregan tensión inicial y ganchos; en torsión, par, ángulo, mandril, patas y sentido de enrollamiento.</p>
+        <div class="tabla-wrap-11"><table class="tabla-resorte"><thead><tr><th>Requisito</th><th>Necesario</th><th>Catálogo</th><th>¿Cumple?</th></tr></thead><tbody><tr><td>Fuerza/par en puntos de trabajo</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Recorrido útil</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Envolvente dimensional</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Material y ambiente</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Vida y tolerancias</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Número de parte</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>
+
+        <section class="estacion-resortes"><h4>Estación de ejercicios prácticos</h4><ol><li>Clasifica diez resortes reales por carga, forma y función.</li><li>Calcula C, K<sub>w</sub>, esfuerzo, rigidez y deflexión de un resorte de compresión.</li><li>Construye la gráfica F–δ de un resorte de extensión, incluyendo F<sub>i</sub>.</li><li>Selecciona un resorte torsional para una tapa y define el sentido de arrollamiento.</li><li>Compara dos ciclos mediante cargas media y alternante.</li><li>Mide la rigidez de una regla en voladizo y compara con teoría de vigas.</li><li>Selecciona dos piezas de catálogo y documenta cuál satisface mejor la aplicación.</li></ol></section>
+
+        <div class="fuentes-resorte"><strong>Fuentes verificables</strong><ul>
+          <li>Budynas y Nisbett, <em>Shigley’s Mechanical Engineering Design</em>, 11.ª ed., cap. 10. <a href="https://www.mheducation.com.sg/shigley-s-mechanical-engineering-design-11th-edition-si-units-9789813158986-asia-group" target="_blank" rel="noopener">Ficha oficial de McGraw-Hill</a>.</li>
+          <li>Norton, <em>Machine Design: An Integrated Approach</em>. <a href="https://www.pearson.com/en-us/subject-catalog/p/machine-design-an-integrated-approach/P200000003435/9780135214800" target="_blank" rel="noopener">Ficha oficial de Pearson</a>.</li>
+          <li>Mott, Vavrek y Wang, <em>Machine Elements in Mechanical Design</em>, 6.ª ed., cap. 18. <a href="https://www.pearson.com/en-us/subject-catalog/p/Mott-Machine-Elements-in-Mechanical-Design-6th-Edition/P200000001541" target="_blank" rel="noopener">Índice oficial de Pearson</a>.</li>
+          <li><a href="https://www.leespring.com/spring-materials" target="_blank" rel="noopener">Lee Spring · materiales</a>, <a href="https://www.leespring.com/sites/default/files/2023-03/lee-spring-catalog-us.pdf" target="_blank" rel="noopener">catálogo técnico</a> y <a href="https://www.smalley.com/blog/smalley-launches-new-catalog-engineers-go-guide-rings-and-springs" target="_blank" rel="noopener">guía Smalley</a>.</li>
+        </ul><p>Las ecuaciones son modelos didácticos. Para liberar un diseño se deben verificar edición, unidades, tolerancias, material certificado, tratamientos y límites del fabricante.</p></div>
+      </article>
+    </div></details>
     <details ><summary>Unidad 4 · Engranajes</summary><div class="unidad"><ul><li>4.1 Clasificación y geometría</li><li>4.2 Fuerzas en engranes rectos, helicoidales, cónicos y tornillo sinfín</li><li>4.3 Trenes de engranes</li><li>4.4 Resistencia del diente: Lewis y AGMA</li></ul></div></details>
     <details ><summary>Unidad 5 · Embragues y frenos</summary><div class="unidad"><ul><li>5.1 Frenos de tambor y cinta</li><li>5.2 Frenos y embragues de disco</li><li>5.3 Embragues cónicos, centrífugos y de un solo sentido</li><li>5.4 Convertidor de par</li><li>5.5 Energía, materiales de fricción y temperatura</li></ul></div></details>
     <details ><summary>Unidad 6 · Ejes y coples</summary><div class="unidad"><ul><li>6.1 Resistencia bajo cargas estáticas y dinámicas</li><li>6.2 Restricciones geométricas y ejes huecos</li><li>6.3 Rigidez y velocidad crítica</li><li>6.4 Materiales, flechas flexibles y cigüeñales</li></ul></div></details>
