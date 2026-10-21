@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>IM3CB | Demostración de humanoides</title>
+  <style>
+    :root{--navy:#04152d;--panel:#092340;--cyan:#24b8ff;--mint:#42dfb8;--text:#eef8ff;--muted:#acc6df}
+    *{box-sizing:border-box} body{margin:0;color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at 15% 0,#114d78 0,transparent 34%),#031126;min-height:100vh}
+    header{height:72px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #214463;background:rgba(3,17,38,.92);position:sticky;top:0;z-index:5}
+    .marca{font-size:25px;font-weight:900}.marca span{color:var(--cyan)} header a{color:#d9edff;text-decoration:none;font-weight:700}
+    main{width:min(1220px,92%);margin:34px auto 60px}.intro{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:24px}.intro h1{font-size:clamp(30px,5vw,55px);margin:0 0 8px}.intro p{max-width:720px;color:var(--muted);line-height:1.6;margin:0}
+    .seguro{padding:11px 14px;border:1px solid #27658a;border-radius:12px;background:#09243b;color:#bde7ff;font-size:13px;white-space:nowrap}
+    .laboratorio{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(270px,.6fr);gap:20px}
+    .escenario,.panel{border:1px solid #214a6d;border-radius:22px;background:rgba(7,29,53,.94);box-shadow:0 22px 60px rgba(0,0,0,.25)}
+    .escenario{padding:18px;min-height:570px;position:relative;overflow:hidden}.escenario canvas{width:100%;height:530px;display:block;border-radius:15px;background:linear-gradient(#dff3ff 0 68%,#b8c9d5 68% 70%,#7b8f9c 70%)}
+    .estado{position:absolute;top:34px;left:34px;padding:9px 12px;border-radius:999px;background:rgba(3,20,42,.88);font-size:13px;font-weight:800}
+    .panel{padding:25px}.panel h2{margin:0 0 6px}.panel>p{color:var(--muted);font-size:14px;line-height:1.5}.botones{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}
+    button{border:0;border-radius:11px;padding:13px 8px;font-weight:850;cursor:pointer;background:#173b5a;color:#fff}button:hover{filter:brightness(1.16)}button.principal{background:linear-gradient(90deg,var(--cyan),var(--mint));color:#021326}.detener{background:#9d2946}
+    label{display:block;margin:18px 0 7px;font-weight:750}.valor{float:right;color:#72d7ff}input[type=range]{width:100%;accent-color:var(--cyan)}
+    .nota{margin-top:24px;padding:14px;border-radius:12px;background:#061a30;color:#9dbbd4;font-size:13px;line-height:1.5}
+    @media(max-width:840px){.intro{display:block}.seguro{display:inline-block;margin-top:15px;white-space:normal}.laboratorio{grid-template-columns:1fr}.escenario{min-height:auto}.escenario canvas{height:430px}}
+  </style>
+</head>
+<body>
+  <header><div class="marca">IM<span>3</span>CB · HUMANOIDES</div><a href="index.html">← Panel principal</a></header>
+  <main>
+    <section class="intro">
+      <div><h1>Movimiento humanoide</h1><p>Manipula una demostración didáctica de marcha y saludo. Esta experiencia funciona dentro de tu navegador y no envía órdenes a un robot físico.</p></div>
+      <div class="seguro">● Sesión individual · sin conflicto entre visitantes</div>
+    </section>
+    <section class="laboratorio">
+      <div class="escenario"><canvas id="lienzo" width="850" height="530" aria-label="Simulación de un humanoide"></canvas><div class="estado" id="estado">DETENIDO</div></div>
+      <aside class="panel">
+        <h2>Control de Marty</h2><p>Inicia la trayectoria y ajusta el movimiento en tiempo real.</p>
+        <div class="botones">
+          <button class="principal" id="caminar">▶ Caminar</button><button class="detener" id="detener">■ Detener</button>
+          <button id="saludar">👋 Saludar</button><button id="direccion">↔ Dirección</button>
+          <button id="reiniciar">↺ Reiniciar</button>
+        </div>
+        <label>Velocidad <span class="valor" id="vVelocidad">45%</span></label><input id="velocidad" type="range" min="15" max="100" value="45">
+        <label>Amplitud del paso <span class="valor" id="vPaso">50%</span></label><input id="paso" type="range" min="20" max="90" value="50">
+        <label>Flexión de rodilla <span class="valor" id="vRodilla">45°</span></label><input id="rodilla" type="range" min="15" max="75" value="45">
+        <div class="nota"><strong>Seguridad:</strong> cada persona controla únicamente la animación abierta en su dispositivo. Una futura conexión con el robot real necesitará turno único, paro de emergencia y límite de tiempo.</div>
+      </aside>
+    </section>
+  </main>
+  <script>
+    const canvas=document.getElementById('lienzo'),ctx=canvas.getContext('2d');
+    const estado=document.getElementById('estado');
+    let andando=false,saludando=false,direccion=1,fase=0,x=canvas.width*.25,ultimo=performance.now();
+    const controles={velocidad:document.getElementById('velocidad'),paso:document.getElementById('paso'),rodilla:document.getElementById('rodilla')};
+    function linea(a,b,color='#0969b9',ancho=13){ctx.strokeStyle=color;ctx.lineWidth=ancho;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke()}
+    function punto(p,r=10){ctx.fillStyle='#25baff';ctx.beginPath();ctx.arc(...p,r,0,Math.PI*2);ctx.fill()}
+    function segmento(origen,largo,angulo){return[origen[0]+largo*Math.sin(angulo),origen[1]+largo*Math.cos(angulo)]}
+    function dibujar(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#dff3ff';ctx.fillRect(0,0,canvas.width,365);ctx.fillStyle='#7b8f9c';ctx.fillRect(0,365,canvas.width,165);
+      ctx.strokeStyle='rgba(20,65,95,.16)';ctx.lineWidth=1;for(let i=0;i<canvas.width;i+=70){ctx.beginPath();ctx.moveTo(i,365);ctx.lineTo(i+80,530);ctx.stroke()}
+      const amp=+controles.paso.value/100*.72,s=Math.sin(fase),cadera=[x,245+5*Math.abs(s)];
+      const hombro=[x,145],cuello=[x,118];linea(hombro,cadera,'#16334b',18);ctx.fillStyle='#f0c58f';ctx.beginPath();ctx.arc(cuello[0],cuello[1]-27,27,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#16334b';ctx.lineWidth=5;ctx.stroke();
+      const aIzq=amp*s,aDer=-amp*s,kMax=+controles.rodilla.value*Math.PI/180;
+      const rI=segmento(cadera,94,aIzq),rD=segmento(cadera,94,aDer),tI=segmento(rI,91,aIzq-Math.max(0,s)*kMax),tD=segmento(rD,91,aDer-Math.max(0,-s)*kMax);
+      linea(cadera,rI);linea(rI,tI);linea(cadera,rD,'#1d8bd1');linea(rD,tD,'#1d8bd1');linea(tI,[tI[0]+30,tI[1]],'#16334b',9);linea(tD,[tD[0]+30,tD[1]],'#16334b',9);
+      const saludo=Math.sin(fase*3)*.32,angI=saludando?-2.25+saludo:-aIzq*.65,angD=saludando?2.25-saludo:-aDer*.65;
+      const mI=segmento([x-4,158],78,angI),mD=segmento([x+4,158],78,angD);linea([x-4,158],mI,'#0b75be',11);linea([x+4,158],mD,'#0b75be',11);
+      [cadera,rI,rD,tI,tD,mI,mD].forEach(p=>punto(p,7));
+    }
+    function animar(ahora){const dt=Math.min(.05,(ahora-ultimo)/1000);ultimo=ahora;if(andando){const v=+controles.velocidad.value/45;fase+=dt*3.2*v;x+=direccion*dt*32*v;if(x>canvas.width-90)x=90;if(x<90)x=canvas.width-90}dibujar();requestAnimationFrame(animar)}
+    function estadoTexto(){estado.textContent=andando?(saludando?'CAMINANDO Y SALUDANDO':'CAMINANDO'):(saludando?'SALUDANDO':'DETENIDO')}
+    document.getElementById('caminar').onclick=()=>{andando=true;estadoTexto()};document.getElementById('detener').onclick=()=>{andando=false;estadoTexto()};document.getElementById('saludar').onclick=()=>{saludando=!saludando;estadoTexto()};document.getElementById('direccion').onclick=()=>{direccion*=-1};document.getElementById('reiniciar').onclick=()=>{andando=false;saludando=false;fase=0;x=canvas.width*.25;estadoTexto()};
+    [['velocidad','vVelocidad','%'],['paso','vPaso','%'],['rodilla','vRodilla','°']].forEach(([a,b,s])=>controles[a].oninput=e=>document.getElementById(b).textContent=e.target.value+s);
+    requestAnimationFrame(animar);
+  </script>
+</body>
+</html>
