@@ -18,7 +18,7 @@
     .panel{padding:25px}.panel h2{margin:0 0 6px}.panel>p{color:var(--muted);font-size:14px;line-height:1.5}.botones{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}
     button{border:0;border-radius:11px;padding:13px 8px;font-weight:850;cursor:pointer;background:#173b5a;color:#fff}button:hover{filter:brightness(1.16)}button.principal{background:linear-gradient(90deg,var(--cyan),var(--mint));color:#021326}.detener{background:#9d2946}
     label{display:block;margin:18px 0 7px;font-weight:750}.valor{float:right;color:#72d7ff}input[type=range]{width:100%;accent-color:var(--cyan)}
-    .conexion{margin:18px 0;padding:13px;border:1px solid #28658e;border-radius:13px;background:#061a30}.conexion button{width:100%;background:#0b70ad}.conexion small{display:block;margin-top:8px;color:#9fc9e6;text-align:center}.conexion.conectada{border-color:#42dfb8}.conexion.observador{border-color:#e7a72c}
+    .conexion{margin:18px 0;padding:13px;border:1px solid #28658e;border-radius:13px;background:#061a30}.conexion-acceso{display:flex;gap:8px}.conexion input{width:110px;min-width:0;padding:11px;border:1px solid #39779c;border-radius:10px;background:#03162a;color:#fff;text-align:center;font-size:20px;font-weight:900;letter-spacing:.18em}.conexion button{flex:1;background:#0b70ad}.conexion small{display:block;margin-top:8px;color:#9fc9e6;text-align:center}.conexion.conectada{border-color:#42dfb8}.conexion.observador{border-color:#e7a72c}
     .nota{margin-top:24px;padding:14px;border-radius:12px;background:#061a30;color:#9dbbd4;font-size:13px;line-height:1.5}
     @media(max-width:840px){.intro{display:block}.seguro{display:inline-block;margin-top:15px;white-space:normal}.laboratorio{grid-template-columns:1fr}.escenario{min-height:auto}.escenario canvas{height:430px}}
   </style>
@@ -34,7 +34,7 @@
       <div class="escenario"><canvas id="lienzo" width="850" height="530" aria-label="Simulación de un humanoide"></canvas><div class="estado" id="estado">DETENIDO</div></div>
       <aside class="panel">
         <h2>Control de Marty</h2><p>Inicia la trayectoria y ajusta el movimiento en tiempo real.</p>
-        <div class="conexion" id="conexion"><button id="conectar">🔌 Conectar con CoppeliaSim local</button><small id="estadoConexion">Modo demostración web</small></div>
+        <div class="conexion" id="conexion"><div class="conexion-acceso"><input id="nipMarty" inputmode="numeric" maxlength="4" placeholder="NIP" aria-label="NIP de cuatro dígitos"><button id="conectar">Solicitar control</button></div><small id="estadoConexion">Solicita el NIP al presentador</small></div>
         <div class="botones">
           <button class="principal" id="caminar">▶ Caminar</button><button class="detener" id="detener">■ Detener</button>
           <button id="saludar">👋 Saludar</button><button id="direccion">↔ Dirección</button>
@@ -52,7 +52,9 @@
     const estado=document.getElementById('estado');
     let andando=false,saludando=false,direccion=1,fase=0,x=canvas.width*.25,ultimo=performance.now();
     let tokenControl=null;
-    const PUENTE='http://127.0.0.1:8765';
+    const API_MARTY='https://script.google.com/macros/s/AKfycbx1VyNm--NRgIML-EuDog4woaoQmkJVGJPj0Xt7inWGSkSbV0kRUiLb5VEoGaUTV2Jj9Q/exec';
+    let dispositivoMarty=localStorage.getItem('im3cb_dispositivo_marty');
+    if(!dispositivoMarty){dispositivoMarty='marty_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2);localStorage.setItem('im3cb_dispositivo_marty',dispositivoMarty)}
     const controles={velocidad:document.getElementById('velocidad'),paso:document.getElementById('paso'),rodilla:document.getElementById('rodilla')};
     function linea(a,b,color='#0969b9',ancho=13){ctx.strokeStyle=color;ctx.lineWidth=ancho;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke()}
     function punto(p,r=10){ctx.fillStyle='#25baff';ctx.beginPath();ctx.arc(...p,r,0,Math.PI*2);ctx.fill()}
@@ -73,20 +75,19 @@
     function estadoTexto(){estado.textContent=andando?(saludando?'CAMINANDO Y SALUDANDO':'CAMINANDO'):(saludando?'SALUDANDO':'DETENIDO')}
     async function enviarCoppelia(command){
       if(!tokenControl)return;
-      try{const r=await fetch(PUENTE+'/command',{method:'POST',headers:{'Content-Type':'application/json','X-Control-Token':tokenControl},body:JSON.stringify({command,speed:+controles.velocidad.value})});if(!r.ok)throw new Error();}
-      catch(e){tokenControl=null;document.getElementById('estadoConexion').textContent='Conexión perdida: continúa la demostración web';document.getElementById('conexion').className='conexion'}
+      try{const r=await fetch(API_MARTY,{method:'POST',body:JSON.stringify({accion:'comando_marty',token:tokenControl,comando:command,velocidad:+controles.velocidad.value})}),d=await r.json();if(!d.ok)throw new Error(d.mensaje||'Sesión terminada');document.getElementById('estadoConexion').textContent='Orden enviada · control exclusivo activo';}
+      catch(e){tokenControl=null;document.getElementById('estadoConexion').textContent=e.message+'; continúa la demostración web';document.getElementById('conexion').className='conexion'}
     }
     async function conectarCoppelia(){
-      const caja=document.getElementById('conexion'),texto=document.getElementById('estadoConexion'),boton=document.getElementById('conectar');
-      if(tokenControl){try{await fetch(PUENTE+'/release',{method:'POST',headers:{'Content-Type':'application/json','X-Control-Token':tokenControl},body:'{}'})}catch(e){}tokenControl=null;caja.className='conexion';texto.textContent='Modo demostración web';boton.textContent='🔌 Conectar con CoppeliaSim local';return}
-      texto.textContent='Buscando el puente local…';
-      try{const r=await fetch(PUENTE+'/claim',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});const d=await r.json();if(!r.ok){caja.className='conexion observador';texto.textContent='CoppeliaSim está ocupado: modo observador';return}tokenControl=d.token;caja.className='conexion conectada';texto.textContent='Control exclusivo concedido por '+d.leaseSeconds+' s';boton.textContent='Desconectar CoppeliaSim'}catch(e){caja.className='conexion';texto.textContent='Puente local no disponible; la simulación web sigue activa'}
+      const caja=document.getElementById('conexion'),texto=document.getElementById('estadoConexion'),nip=document.getElementById('nipMarty').value.trim();
+      if(!/^\d{4}$/.test(nip)){texto.textContent='Escribe el NIP de cuatro dígitos';return}
+      texto.textContent='Validando NIP…';
+      try{const r=await fetch(API_MARTY,{method:'POST',body:JSON.stringify({accion:'reclamar_control_marty',nip:nip,dispositivo:dispositivoMarty})}),d=await r.json();if(!d.ok){caja.className='conexion observador';texto.textContent=d.mensaje||'No se concedió el control';return}tokenControl=d.token;caja.className='conexion conectada';texto.textContent='Control exclusivo concedido durante '+d.venceEnSegundos+' s';document.getElementById('nipMarty').disabled=true;document.getElementById('conectar').disabled=true}catch(e){caja.className='conexion';texto.textContent='No se pudo validar el NIP'}
     }
     document.getElementById('conectar').onclick=conectarCoppelia;
     document.getElementById('caminar').onclick=()=>{andando=true;estadoTexto();enviarCoppelia('walk')};document.getElementById('detener').onclick=()=>{andando=false;estadoTexto();enviarCoppelia('stop')};document.getElementById('saludar').onclick=()=>{saludando=!saludando;estadoTexto();enviarCoppelia('wave')};document.getElementById('direccion').onclick=()=>{direccion*=-1;enviarCoppelia('direction')};document.getElementById('reiniciar').onclick=()=>{andando=false;saludando=false;fase=0;x=canvas.width*.25;estadoTexto();enviarCoppelia('reset')};document.getElementById('emergencia').onclick=()=>{andando=false;saludando=false;estadoTexto();enviarCoppelia('emergency')};
     [['velocidad','vVelocidad','%'],['paso','vPaso','%'],['rodilla','vRodilla','°']].forEach(([a,b,s])=>controles[a].oninput=e=>document.getElementById(b).textContent=e.target.value+s);
     requestAnimationFrame(animar);
-    window.addEventListener('beforeunload',()=>{if(tokenControl)fetch(PUENTE+'/release',{method:'POST',headers:{'Content-Type':'application/json','X-Control-Token':tokenControl},body:'{}',keepalive:true})});
   </script>
 </body>
 </html>

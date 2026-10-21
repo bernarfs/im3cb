@@ -1037,6 +1037,21 @@ Escanea este código para registrar tu asistencia.
   <div id="listaEntregasInstrumentacion" class="lista-accesos"><div class="vacio-accesos">Sin datos.</div></div>
 </section>
 
+<section class="panel panel-accesos" id="panelControlMarty">
+  <div class="encabezado-accesos">
+    <div>
+      <h2>🤖 Acceso temporal · Marty</h2>
+      <p>Genera un NIP de cuatro dígitos para entregar un único turno de control remoto.</p>
+    </div>
+    <div class="controles-acceso">
+      <button type="button" onclick="generarNipMarty()">Generar NIP</button>
+      <button type="button" onclick="revocarControlMarty()">Revocar y detener</button>
+    </div>
+  </div>
+  <div id="nipMartyVista" style="margin:18px 0;font-size:clamp(38px,7vw,72px);font-weight:900;letter-spacing:.18em;color:#62c8ff">----</div>
+  <div id="estadoMartyDocente" class="vacio-accesos">Escribe el código docente para administrar el acceso.</div>
+</section>
+
 </main>
 
 <script>
@@ -2106,6 +2121,29 @@ function protegerVistaDocente(){const frame=document.getElementById("iframeVista
 function cambiarVistaDocente(modo){const marco=document.getElementById("marcoVistaDocente");const movil=modo==="movil";marco.classList.toggle("movil",movil);document.getElementById("btnVistaMovil").classList.toggle("activo",movil);document.getElementById("btnVistaEscritorio").classList.toggle("activo",!movil);}
 function cerrarVistaDocente(){document.getElementById("visorDocente").classList.remove("activo");document.getElementById("iframeVistaDocente").src="about:blank";document.body.style.overflow="";}
 document.addEventListener("keydown",event=>{if(event.key==="Escape"&&document.getElementById("visorDocente").classList.contains("activo"))cerrarVistaDocente();});
+
+/* ACCESO TEMPORAL AL HUMANOIDE MARTY */
+async function apiMartyDocente(accion){
+  const codigo=document.getElementById("codigoDocente").value.trim();
+  if(codigo!==CONFIG.codigoDocente)throw new Error("Escribe primero el código docente correcto.");
+  const respuesta=await fetch(URL_CALIFICACIONES,{method:"POST",body:JSON.stringify({accion:accion,codigoDocente:codigo})});
+  const resultado=await respuesta.json();
+  if(!resultado.ok)throw new Error(resultado.mensaje||"No fue posible administrar el acceso.");
+  return resultado;
+}
+async function generarNipMarty(){
+  const estado=document.getElementById("estadoMartyDocente");
+  try{estado.textContent="Generando NIP…";const r=await apiMartyDocente("generar_nip_marty");document.getElementById("nipMartyVista").textContent=r.nip;estado.textContent="NIP válido durante 2 minutos y para un solo asistente.";}catch(e){estado.textContent="❌ "+e.message;}
+}
+async function revocarControlMarty(){
+  const estado=document.getElementById("estadoMartyDocente");
+  try{const r=await apiMartyDocente("revocar_marty");document.getElementById("nipMartyVista").textContent="----";estado.textContent="🛑 "+r.mensaje;}catch(e){estado.textContent="❌ "+e.message;}
+}
+async function consultarEstadoMarty(){
+  if(document.getElementById("codigoDocente").value.trim()!==CONFIG.codigoDocente)return;
+  try{const r=await apiMartyDocente("estado_marty_docente"),vista=document.getElementById("nipMartyVista"),estado=document.getElementById("estadoMartyDocente");vista.textContent=r.nip||"----";estado.textContent=r.activo?"🟢 Un asistente tiene el control · "+r.segundos+" s":r.nipVigente?"NIP esperando asistente · "+r.segundos+" s":"No hay acceso activo.";}catch(e){}
+}
+setInterval(consultarEstadoMarty,5000);
 
 const CLAVE_ACCESO_PANEL="berna2882";
 function activarPanelDocente(){

@@ -41,6 +41,12 @@ function doPost(e) {
       case "registrar_actividad_manufactura": resultado = registrarActividadEntrega_("MANUFACTURA",data); break;
       case "consultar_problema_tuberias": resultado = consultarProblemaTuberias_(data); break;
       case "configurar_problema_tuberias": resultado = configurarProblemaTuberias_(data); break;
+      case "generar_nip_marty": resultado = generarNipMarty_(data); break;
+      case "estado_marty_docente": resultado = estadoMartyDocente_(data); break;
+      case "revocar_marty": resultado = revocarMarty_(data); break;
+      case "reclamar_control_marty": resultado = reclamarControlMarty_(data); break;
+      case "comando_marty": resultado = registrarComandoMarty_(data); break;
+      case "consultar_comando_marty": resultado = consultarComandoMarty_(data); break;
       default: throw new Error("Acción no reconocida.");
     }
     return respuestaJSON_(resultado);
@@ -194,6 +200,122 @@ function registrarSolicitud_(solicitud, estado) {
     hoja.appendRow(["FECHA", "NOMBRE", "MATRICULA", "CURSO", "EVALUACION", "ESTADO"]);
   }
   hoja.appendRow([new Date(), solicitud.nombre, solicitud.matricula, solicitud.curso, solicitud.evaluacion, estado]);
+}
+
+/* CONTROL TEMPORAL DE MARTY
+   NIP de 4 digitos, un solo controlador y ordenes consumidas por el puente. */
+const CLAVE_MARTY_SESION = "MARTY|SESION";
+const CLAVE_MARTY_COMANDO = "MARTY|COMANDO";
+const DURACION_NIP_MARTY_MS = 2 * 60 * 1000;
+const DURACION_CONTROL_MARTY_MS = 90 * 1000;
+
+function leerSesionMarty_() {
+  const texto = PropertiesService.getScriptProperties().getProperty(CLAVE_MARTY_SESION);
+  return texto ? JSON.parse(texto) : null;
+}
+
+function guardarSesionMarty_(sesion) {
+  PropertiesService.getScriptProperties().setProperty(CLAVE_MARTY_SESION, JSON.stringify(sesion));
+}
+
+function generarNipMarty_(data) {
+  validarDocente_(data);
+  return conBloqueo_(function () {
+    const ahora = Date.now();
+    const nip = String(Math.floor(1000 + Math.random() * 9000));
+    const sesion = {
+      nip: nip,
+      nipVence: ahora + DURACION_NIP_MARTY_MS,
+      token: "",
+      dispositivo: "",
+      controlVence: 0,
+      intentos: {},
+      creada: new Date(ahora).toISOString()
+    };
+    guardarSesionMarty_(sesion);
+    PropertiesService.getScriptProperties().deleteProperty(CLAVE_MARTY_COMANDO);
+    return { ok:true, nip:nip, venceEnSegundos:120, mensaje:"NIP generado. Válido por 2 minutos y para un solo acceso." };
+  });
+}
+
+function estadoMartyDocente_(data) {
+  validarDocente_(data);
+  const sesion = leerSesionMarty_();
+  if (!sesion) return { ok:true, activo:false, mensaje:"No hay acceso generado." };
+  const ahora = Date.now();
+  return {
+    ok:true,
+    activo:Boolean(sesion.token) && Number(sesion.controlVence) > ahora,
+    nipVigente:!sesion.token && Number(sesion.nipVence) > ahora,
+    nip:!sesion.token && Number(sesion.nipVence) > ahora ? sesion.nip : "",
+    segundos:Math.max(0, Math.ceil(((sesion.token ? sesion.controlVence : sesion.nipVence) - ahora) / 1000))
+  };
+}
+
+function revocarMarty_(data) {
+  validarDocente_(data);
+  return conBloqueo_(function () {
+    const propiedades = PropertiesService.getScriptProperties();
+    propiedades.deleteProperty(CLAVE_MARTY_SESION);
+    propiedades.setProperty(CLAVE_MARTY_COMANDO, JSON.stringify({ comando:"emergency", velocidad:10, secuencia:Date.now() }));
+    return { ok:true, mensaje:"Acceso revocado y paro de emergencia enviado." };
+  });
+}
+
+function reclamarControlMarty_(data) {
+  return conBloqueo_(function () {
+    const sesion = leerSesionMarty_();
+    const ahora = Date.now();
+    if (!sesion || Number(sesion.nipVence) <= ahora) return { ok:false, mensaje:"El NIP venció. Solicita uno nuevo al presentador." };
+    const dispositivo = String(data.dispositivo || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0,80);
+    if (!dispositivo) return { ok:false, mensaje:"No se pudo identificar el dispositivo." };
+    if (sesion.token && Number(sesion.controlVence) > ahora) return { ok:false, ocupado:true, mensaje:"Marty ya tiene un controlador activo." };
+    const intentos = sesion.intentos || {};
+    if (Number(intentos[dispositivo] || 0) >= 5) return { ok:false, mensaje:"Se agotaron los intentos para este dispositivo." };
+    if (String(data.nip || "") !== String(sesion.nip)) {
+      intentos[dispositivo] = Number(intentos[dispositivo] || 0) + 1;
+      sesion.intentos = intentos;
+      guardarSesionMarty_(sesion);
+      return { ok:false, mensaje:"NIP incorrecto. Intento " + intentos[dispositivo] + " de 5." };
+    }
+    sesion.token = Utilities.getUuid() + Utilities.getUuid();
+    sesion.dispositivo = dispositivo;
+    sesion.controlVence = ahora + DURACION_CONTROL_MARTY_MS;
+    sesion.nipVence = 0;
+    guardarSesionMarty_(sesion);
+    return { ok:true, token:sesion.token, venceEnSegundos:90, mensaje:"Control exclusivo concedido." };
+  });
+}
+
+function registrarComandoMarty_(data) {
+  return conBloqueo_(function () {
+    const sesion = leerSesionMarty_();
+    const ahora = Date.now();
+    if (!sesion || !sesion.token || String(data.token || "") !== sesion.token || Number(sesion.controlVence) <= ahora) {
+      return { ok:false, mensaje:"La sesión de control terminó." };
+    }
+    const permitidos = ["walk","stop","wave","direction","reset","emergency"];
+    const comando = String(data.comando || "").toLowerCase();
+    if (permitidos.indexOf(comando) < 0) return { ok:false, mensaje:"Comando no permitido." };
+    const velocidad = Math.max(10, Math.min(60, Math.round(Number(data.velocidad) || 35)));
+    sesion.controlVence = ahora + DURACION_CONTROL_MARTY_MS;
+    guardarSesionMarty_(sesion);
+    PropertiesService.getScriptProperties().setProperty(CLAVE_MARTY_COMANDO, JSON.stringify({
+      comando:comando, velocidad:velocidad, secuencia:ahora
+    }));
+    return { ok:true, comando:comando, velocidad:velocidad, venceEnSegundos:90 };
+  });
+}
+
+function consultarComandoMarty_(data) {
+  validarDocente_(data);
+  return conBloqueo_(function () {
+    const propiedades = PropertiesService.getScriptProperties();
+    const texto = propiedades.getProperty(CLAVE_MARTY_COMANDO);
+    if (!texto) return { ok:true, comando:null };
+    propiedades.deleteProperty(CLAVE_MARTY_COMANDO);
+    return { ok:true, orden:JSON.parse(texto) };
+  });
 }
 
 function guardarCalificacion_(intento, calificacion) {
