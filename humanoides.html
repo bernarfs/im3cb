@@ -20,6 +20,8 @@
     label{display:block;margin:18px 0 7px;font-weight:750}.valor{float:right;color:#72d7ff}input[type=range]{width:100%;accent-color:var(--cyan)}
     .conexion{margin:18px 0;padding:13px;border:1px solid #28658e;border-radius:13px;background:#061a30}.conexion-acceso{display:flex;gap:8px}.conexion input{width:110px;min-width:0;padding:11px;border:1px solid #39779c;border-radius:10px;background:#03162a;color:#fff;text-align:center;font-size:20px;font-weight:900;letter-spacing:.18em}.conexion button{flex:1;background:#0b70ad}.conexion small{display:block;margin-top:8px;color:#9fc9e6;text-align:center}.conexion.conectada{border-color:#42dfb8}.conexion.observador{border-color:#e7a72c}
     .nota{margin-top:24px;padding:14px;border-radius:12px;background:#061a30;color:#9dbbd4;font-size:13px;line-height:1.5}
+    .selector-robots{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 22px}.robot-btn{padding:18px;border:1px solid #28658e;background:#071c35;text-align:left;font-size:18px}.robot-btn span{display:block;margin-top:5px;color:var(--muted);font-size:12px;font-weight:500}.robot-btn.activo{border-color:var(--cyan);background:linear-gradient(135deg,#0d4b78,#087f86);box-shadow:0 0 0 2px rgba(36,184,255,.18)}.oculto{display:none!important}
+    .gamepad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:18px 0}.gamepad button{min-height:52px}.gamepad .arriba{grid-column:2}.gamepad .izquierda{grid-column:1}.gamepad .centro{grid-column:2}.gamepad .derecha{grid-column:3}.gamepad .abajo{grid-column:2}.acciones-asti{display:grid;grid-template-columns:1fr 1fr;gap:9px}.acciones-asti h3{grid-column:1/-1;margin:13px 0 0;color:#79dbff;font-size:14px}.acciones-asti .ancho{grid-column:1/-1}
     @media(max-width:840px){.intro{display:block}.seguro{display:inline-block;margin-top:15px;white-space:normal}.laboratorio{grid-template-columns:1fr}.escenario{min-height:auto}.escenario canvas{height:430px}}
   </style>
 </head>
@@ -30,9 +32,13 @@
       <div><h1>Movimiento humanoide</h1><p>Manipula una demostración didáctica de marcha y saludo. Esta experiencia funciona dentro de tu navegador y no envía órdenes a un robot físico.</p></div>
       <div class="seguro">● Sesión individual · sin conflicto entre visitantes</div>
     </section>
+    <section class="selector-robots" aria-label="Selecciona un humanoide">
+      <button class="robot-btn activo" id="elegirMarty">🤖 MARTY<span>Control de marcha y saludo</span></button>
+      <button class="robot-btn" id="elegirAsti">🦾 ASTI<span>Control independiente estilo videojuego</span></button>
+    </section>
     <section class="laboratorio">
       <div class="escenario"><canvas id="lienzo" width="850" height="530" aria-label="Simulación de un humanoide"></canvas><div class="estado" id="estado">DETENIDO</div></div>
-      <aside class="panel">
+      <aside class="panel" id="panelMarty">
         <h2>Control de Marty</h2><p>Inicia la trayectoria y ajusta el movimiento en tiempo real.</p>
         <div class="conexion" id="conexion"><div class="conexion-acceso"><input id="nipMarty" inputmode="numeric" maxlength="4" placeholder="NIP" aria-label="NIP de cuatro dígitos"><button id="conectar">Solicitar control</button></div><small id="estadoConexion">Solicita el NIP al presentador</small></div>
         <div class="botones">
@@ -45,6 +51,28 @@
         <label>Flexión de rodilla <span class="valor" id="vRodilla">45°</span></label><input id="rodilla" type="range" min="15" max="75" value="45">
         <div class="nota"><strong>Seguridad:</strong> cada persona controla únicamente la animación abierta en su dispositivo. Una futura conexión con el robot real necesitará turno único, paro de emergencia y límite de tiempo.</div>
       </aside>
+      <aside class="panel oculto" id="panelAsti">
+        <h2>Control de Asti</h2><p>Control tipo videojuego. El docente debe activar Asti y proporcionar su NIP exclusivo.</p>
+        <div class="conexion" id="conexionAsti"><div class="conexion-acceso"><input id="nipAsti" inputmode="numeric" maxlength="4" placeholder="NIP" aria-label="NIP de Asti"><button id="conectarAsti">Solicitar control</button></div><small id="estadoConexionAsti">Asti debe activarse desde el panel docente</small></div>
+        <div class="gamepad" aria-label="Dirección de Asti">
+          <button class="principal arriba" data-asti="walk">▲ Avanzar</button>
+          <button class="izquierda" data-asti="turn_left">◀ Girar</button>
+          <button class="detener centro" data-asti="stop">■ Alto</button>
+          <button class="derecha" data-asti="turn_right">Girar ▶</button>
+          <button class="abajo" data-asti="direction">▼ Invertir</button>
+        </div>
+        <div class="acciones-asti">
+          <h3>Brazo derecho</h3>
+          <button data-asti="right_arm_up">Levantar</button><button data-asti="right_arm_bend">Doblar</button><button data-asti="right_arm_extend">Extender</button><button data-asti="wave">👋 Saludar</button>
+          <h3>Brazo izquierdo</h3>
+          <button data-asti="left_arm_up">Levantar</button><button data-asti="left_arm_bend">Doblar</button><button data-asti="left_arm_extend">Extender</button><button data-asti="arms_neutral">Neutral</button>
+          <h3>Secuencia</h3>
+          <button data-asti="sequence_save">＋ Guardar posición</button><button data-asti="sequence_play">▶ Reproducir</button><button data-asti="sequence_clear">Borrar secuencia</button><button data-asti="reset">↺ Reiniciar</button>
+          <button class="detener ancho" data-asti="emergency">⚠ PARO DE EMERGENCIA</button>
+        </div>
+        <label>Velocidad <span class="valor" id="vVelocidadAsti">35%</span></label><input id="velocidadAsti" type="range" min="10" max="60" value="35">
+        <div class="nota"><strong>Acceso separado:</strong> el NIP de Asti no controla a Marty. Sólo un asistente puede manejar Asti durante cada turno.</div>
+      </aside>
     </section>
   </main>
   <script>
@@ -52,9 +80,12 @@
     const estado=document.getElementById('estado');
     let andando=false,saludando=false,direccion=1,fase=0,x=canvas.width*.25,ultimo=performance.now();
     let tokenControl=null;
+    let tokenAsti=null;
     const API_MARTY='https://script.google.com/macros/s/AKfycbx1VyNm--NRgIML-EuDog4woaoQmkJVGJPj0Xt7inWGSkSbV0kRUiLb5VEoGaUTV2Jj9Q/exec';
     let dispositivoMarty=localStorage.getItem('im3cb_dispositivo_marty');
     if(!dispositivoMarty){dispositivoMarty='marty_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2);localStorage.setItem('im3cb_dispositivo_marty',dispositivoMarty)}
+    let dispositivoAsti=localStorage.getItem('im3cb_dispositivo_asti');
+    if(!dispositivoAsti){dispositivoAsti='asti_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2);localStorage.setItem('im3cb_dispositivo_asti',dispositivoAsti)}
     const controles={velocidad:document.getElementById('velocidad'),paso:document.getElementById('paso'),rodilla:document.getElementById('rodilla')};
     function linea(a,b,color='#0969b9',ancho=13){ctx.strokeStyle=color;ctx.lineWidth=ancho;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke()}
     function punto(p,r=10){ctx.fillStyle='#25baff';ctx.beginPath();ctx.arc(...p,r,0,Math.PI*2);ctx.fill()}
@@ -87,6 +118,42 @@
     document.getElementById('conectar').onclick=conectarCoppelia;
     document.getElementById('caminar').onclick=()=>{andando=true;estadoTexto();enviarCoppelia('walk')};document.getElementById('detener').onclick=()=>{andando=false;estadoTexto();enviarCoppelia('stop')};document.getElementById('saludar').onclick=()=>{saludando=!saludando;estadoTexto();enviarCoppelia('wave')};document.getElementById('direccion').onclick=()=>{direccion*=-1;enviarCoppelia('direction')};document.getElementById('reiniciar').onclick=()=>{andando=false;saludando=false;fase=0;x=canvas.width*.25;estadoTexto();enviarCoppelia('reset')};document.getElementById('emergencia').onclick=()=>{andando=false;saludando=false;estadoTexto();enviarCoppelia('emergency')};
     [['velocidad','vVelocidad','%'],['paso','vPaso','%'],['rodilla','vRodilla','°']].forEach(([a,b,s])=>controles[a].oninput=e=>document.getElementById(b).textContent=e.target.value+s);
+
+    function mostrarRobot(robot){
+      const esAsti=robot==='asti';
+      document.getElementById('panelMarty').classList.toggle('oculto',esAsti);
+      document.getElementById('panelAsti').classList.toggle('oculto',!esAsti);
+      document.getElementById('elegirMarty').classList.toggle('activo',!esAsti);
+      document.getElementById('elegirAsti').classList.toggle('activo',esAsti);
+      estado.textContent=esAsti?'ASTI · ESPERANDO CONTROL':'MARTY · '+(andando?'CAMINANDO':'DETENIDO');
+    }
+    document.getElementById('elegirMarty').onclick=()=>mostrarRobot('marty');
+    document.getElementById('elegirAsti').onclick=()=>mostrarRobot('asti');
+
+    async function conectarAsti(){
+      const caja=document.getElementById('conexionAsti'),texto=document.getElementById('estadoConexionAsti'),nip=document.getElementById('nipAsti').value.trim();
+      if(!/^\d{4}$/.test(nip)){texto.textContent='Escribe el NIP de cuatro dígitos';return}
+      texto.textContent='Validando NIP de Asti…';
+      try{
+        const r=await fetch(API_MARTY,{method:'POST',body:JSON.stringify({accion:'reclamar_control_asti',nip:nip,dispositivo:dispositivoAsti})}),d=await r.json();
+        if(!d.ok){caja.className='conexion observador';texto.textContent=d.mensaje||'Asti no está disponible';return}
+        tokenAsti=d.token;caja.className='conexion conectada';texto.textContent='Control de Asti concedido durante '+d.venceEnSegundos+' s';
+        document.getElementById('nipAsti').disabled=true;document.getElementById('conectarAsti').disabled=true;
+      }catch(e){caja.className='conexion';texto.textContent='No se pudo validar el NIP de Asti'}
+    }
+    async function enviarAsti(comando){
+      const texto=document.getElementById('estadoConexionAsti');
+      if(!tokenAsti){texto.textContent='Primero solicita el control con el NIP de Asti';return}
+      try{
+        const r=await fetch(API_MARTY,{method:'POST',body:JSON.stringify({accion:'comando_asti',token:tokenAsti,comando:comando,velocidad:+document.getElementById('velocidadAsti').value})}),d=await r.json();
+        if(!d.ok)throw new Error(d.mensaje||'Sesión terminada');
+        texto.textContent='Orden enviada a Asti · '+comando.replaceAll('_',' ');
+        estado.textContent='ASTI · '+comando.replaceAll('_',' ').toUpperCase();
+      }catch(e){tokenAsti=null;const caja=document.getElementById('conexionAsti');caja.className='conexion';texto.textContent=e.message}
+    }
+    document.getElementById('conectarAsti').onclick=conectarAsti;
+    document.querySelectorAll('[data-asti]').forEach(b=>b.onclick=()=>enviarAsti(b.dataset.asti));
+    document.getElementById('velocidadAsti').oninput=e=>document.getElementById('vVelocidadAsti').textContent=e.target.value+'%';
     requestAnimationFrame(animar);
   </script>
 </body>

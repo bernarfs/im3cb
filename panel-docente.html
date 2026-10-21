@@ -1052,6 +1052,21 @@ Escanea este código para registrar tu asistencia.
   <div id="estadoMartyDocente" class="vacio-accesos">Escribe el código docente para administrar el acceso.</div>
 </section>
 
+<section class="panel panel-accesos" id="panelControlAsti">
+  <div class="encabezado-accesos">
+    <div>
+      <h2>🦾 Acceso temporal · Asti</h2>
+      <p>Activa por separado el control tipo videojuego de Asti. El NIP admite un solo asistente.</p>
+    </div>
+    <div class="controles-acceso">
+      <button type="button" onclick="generarNipAsti()">Activar y generar NIP</button>
+      <button type="button" onclick="revocarControlAsti()">Desactivar y detener</button>
+    </div>
+  </div>
+  <div id="nipAstiVista" style="margin:18px 0;font-size:clamp(38px,7vw,72px);font-weight:900;letter-spacing:.18em;color:#42dfb8">----</div>
+  <div id="estadoAstiDocente" class="vacio-accesos">Asti está desactivado.</div>
+</section>
+
 </main>
 
 <script>
@@ -2144,6 +2159,29 @@ async function consultarEstadoMarty(){
   try{const r=await apiMartyDocente("estado_marty_docente"),vista=document.getElementById("nipMartyVista"),estado=document.getElementById("estadoMartyDocente");vista.textContent=r.nip||"----";estado.textContent=r.activo?"🟢 Un asistente tiene el control · "+r.segundos+" s":r.nipVigente?"NIP esperando asistente · "+r.segundos+" s":"No hay acceso activo.";}catch(e){}
 }
 setInterval(consultarEstadoMarty,5000);
+
+/* ACCESO TEMPORAL AL HUMANOIDE ASTI */
+async function apiAstiDocente(accion){
+  const codigo=document.getElementById("codigoDocente").value.trim();
+  if(codigo!==CONFIG.codigoDocente)throw new Error("Escribe primero el código docente correcto.");
+  const respuesta=await fetch(URL_CALIFICACIONES,{method:"POST",body:JSON.stringify({accion:accion,codigoDocente:codigo})});
+  const resultado=await respuesta.json();
+  if(!resultado.ok)throw new Error(resultado.mensaje||"No fue posible administrar Asti.");
+  return resultado;
+}
+async function generarNipAsti(){
+  const estado=document.getElementById("estadoAstiDocente");
+  try{estado.textContent="Activando Asti…";const r=await apiAstiDocente("generar_nip_asti");document.getElementById("nipAstiVista").textContent=r.nip;estado.textContent="🟢 Asti activado · NIP válido por 2 minutos para un asistente.";}catch(e){estado.textContent="❌ "+e.message;}
+}
+async function revocarControlAsti(){
+  const estado=document.getElementById("estadoAstiDocente");
+  try{const r=await apiAstiDocente("revocar_asti");document.getElementById("nipAstiVista").textContent="----";estado.textContent="🛑 "+r.mensaje;}catch(e){estado.textContent="❌ "+e.message;}
+}
+async function consultarEstadoAsti(){
+  if(document.getElementById("codigoDocente").value.trim()!==CONFIG.codigoDocente)return;
+  try{const r=await apiAstiDocente("estado_asti_docente"),vista=document.getElementById("nipAstiVista"),estado=document.getElementById("estadoAstiDocente");vista.textContent=r.nip||"----";estado.textContent=r.activo?"🟢 Asti controlado por un asistente · "+r.segundos+" s":r.nipVigente?"🟡 Asti activo, esperando asistente · "+r.segundos+" s":"Asti está desactivado.";}catch(e){}
+}
+setInterval(consultarEstadoAsti,5000);
 
 const CLAVE_ACCESO_PANEL="berna2882";
 function activarPanelDocente(){

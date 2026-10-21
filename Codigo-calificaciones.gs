@@ -47,6 +47,12 @@ function doPost(e) {
       case "reclamar_control_marty": resultado = reclamarControlMarty_(data); break;
       case "comando_marty": resultado = registrarComandoMarty_(data); break;
       case "consultar_comando_marty": resultado = consultarComandoMarty_(data); break;
+      case "generar_nip_asti": resultado = generarNipAsti_(data); break;
+      case "estado_asti_docente": resultado = estadoAstiDocente_(data); break;
+      case "revocar_asti": resultado = revocarAsti_(data); break;
+      case "reclamar_control_asti": resultado = reclamarControlAsti_(data); break;
+      case "comando_asti": resultado = registrarComandoAsti_(data); break;
+      case "consultar_comando_asti": resultado = consultarComandoAsti_(data); break;
       default: throw new Error("Acción no reconocida.");
     }
     return respuestaJSON_(resultado);
@@ -314,6 +320,103 @@ function consultarComandoMarty_(data) {
     const texto = propiedades.getProperty(CLAVE_MARTY_COMANDO);
     if (!texto) return { ok:true, comando:null };
     propiedades.deleteProperty(CLAVE_MARTY_COMANDO);
+    return { ok:true, orden:JSON.parse(texto) };
+  });
+}
+
+/* CONTROL TEMPORAL DE ASTI
+   Sesion y cola independientes de Marty. */
+const CLAVE_ASTI_SESION = "ASTI|SESION";
+const CLAVE_ASTI_COMANDO = "ASTI|COMANDO";
+const DURACION_NIP_ASTI_MS = 2 * 60 * 1000;
+const DURACION_CONTROL_ASTI_MS = 90 * 1000;
+
+function leerSesionAsti_() {
+  const texto = PropertiesService.getScriptProperties().getProperty(CLAVE_ASTI_SESION);
+  return texto ? JSON.parse(texto) : null;
+}
+
+function guardarSesionAsti_(sesion) {
+  PropertiesService.getScriptProperties().setProperty(CLAVE_ASTI_SESION, JSON.stringify(sesion));
+}
+
+function generarNipAsti_(data) {
+  validarDocente_(data);
+  return conBloqueo_(function () {
+    const ahora = Date.now();
+    const nip = String(Math.floor(1000 + Math.random() * 9000));
+    const sesion = { nip:nip, nipVence:ahora + DURACION_NIP_ASTI_MS, token:"", dispositivo:"", controlVence:0, intentos:{}, creada:new Date(ahora).toISOString() };
+    guardarSesionAsti_(sesion);
+    PropertiesService.getScriptProperties().deleteProperty(CLAVE_ASTI_COMANDO);
+    return { ok:true, nip:nip, venceEnSegundos:120, mensaje:"NIP de Asti generado para un solo acceso." };
+  });
+}
+
+function estadoAstiDocente_(data) {
+  validarDocente_(data);
+  const sesion = leerSesionAsti_();
+  if (!sesion) return { ok:true, activo:false, mensaje:"No hay acceso generado." };
+  const ahora = Date.now();
+  return { ok:true, activo:Boolean(sesion.token) && Number(sesion.controlVence) > ahora, nipVigente:!sesion.token && Number(sesion.nipVence) > ahora, nip:!sesion.token && Number(sesion.nipVence) > ahora ? sesion.nip : "", segundos:Math.max(0, Math.ceil(((sesion.token ? sesion.controlVence : sesion.nipVence) - ahora) / 1000)) };
+}
+
+function revocarAsti_(data) {
+  validarDocente_(data);
+  return conBloqueo_(function () {
+    const propiedades = PropertiesService.getScriptProperties();
+    propiedades.deleteProperty(CLAVE_ASTI_SESION);
+    propiedades.setProperty(CLAVE_ASTI_COMANDO, JSON.stringify({ comando:"emergency", velocidad:10, secuencia:Date.now() }));
+    return { ok:true, mensaje:"Acceso de Asti revocado y paro enviado." };
+  });
+}
+
+function reclamarControlAsti_(data) {
+  return conBloqueo_(function () {
+    const sesion = leerSesionAsti_();
+    const ahora = Date.now();
+    if (!sesion || Number(sesion.nipVence) <= ahora) return { ok:false, mensaje:"El NIP de Asti venció. Solicita uno nuevo." };
+    const dispositivo = String(data.dispositivo || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0,80);
+    if (!dispositivo) return { ok:false, mensaje:"No se pudo identificar el dispositivo." };
+    if (sesion.token && Number(sesion.controlVence) > ahora) return { ok:false, ocupado:true, mensaje:"Asti ya tiene un controlador activo." };
+    const intentos = sesion.intentos || {};
+    if (Number(intentos[dispositivo] || 0) >= 5) return { ok:false, mensaje:"Se agotaron los intentos para este dispositivo." };
+    if (String(data.nip || "") !== String(sesion.nip)) {
+      intentos[dispositivo] = Number(intentos[dispositivo] || 0) + 1;
+      sesion.intentos = intentos; guardarSesionAsti_(sesion);
+      return { ok:false, mensaje:"NIP incorrecto. Intento " + intentos[dispositivo] + " de 5." };
+    }
+    sesion.token = Utilities.getUuid() + Utilities.getUuid();
+    sesion.dispositivo = dispositivo;
+    sesion.controlVence = ahora + DURACION_CONTROL_ASTI_MS;
+    sesion.nipVence = 0;
+    guardarSesionAsti_(sesion);
+    return { ok:true, token:sesion.token, venceEnSegundos:90, mensaje:"Control exclusivo de Asti concedido." };
+  });
+}
+
+function registrarComandoAsti_(data) {
+  return conBloqueo_(function () {
+    const sesion = leerSesionAsti_();
+    const ahora = Date.now();
+    if (!sesion || !sesion.token || String(data.token || "") !== sesion.token || Number(sesion.controlVence) <= ahora) return { ok:false, mensaje:"La sesión de Asti terminó." };
+    const permitidos = ["walk","stop","wave","direction","turn_left","turn_right","reset","emergency","right_arm_up","right_arm_bend","right_arm_extend","left_arm_up","left_arm_bend","left_arm_extend","arms_neutral","sequence_save","sequence_play","sequence_clear"];
+    const comando = String(data.comando || "").toLowerCase();
+    if (permitidos.indexOf(comando) < 0) return { ok:false, mensaje:"Comando no permitido." };
+    const velocidad = Math.max(10, Math.min(60, Math.round(Number(data.velocidad) || 35)));
+    sesion.controlVence = ahora + DURACION_CONTROL_ASTI_MS;
+    guardarSesionAsti_(sesion);
+    PropertiesService.getScriptProperties().setProperty(CLAVE_ASTI_COMANDO, JSON.stringify({ comando:comando, velocidad:velocidad, secuencia:ahora }));
+    return { ok:true, comando:comando, velocidad:velocidad, venceEnSegundos:90 };
+  });
+}
+
+function consultarComandoAsti_(data) {
+  validarDocente_(data);
+  return conBloqueo_(function () {
+    const propiedades = PropertiesService.getScriptProperties();
+    const texto = propiedades.getProperty(CLAVE_ASTI_COMANDO);
+    if (!texto) return { ok:true, comando:null };
+    propiedades.deleteProperty(CLAVE_ASTI_COMANDO);
     return { ok:true, orden:JSON.parse(texto) };
   });
 }
