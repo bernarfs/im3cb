@@ -26,6 +26,10 @@
     .ruta-unidad a.activo{border-color:var(--cyan);background:linear-gradient(135deg,#087be8,#0a9caf);color:#fff;box-shadow:0 8px 24px #0784c455}
     .selector-ventanas{padding:20px;border:1px solid #1b4d78;border-radius:22px;background:linear-gradient(145deg,#0b1d33,#07111f);box-shadow:0 16px 40px #0004}
     .selector-ventanas strong{display:block;margin-bottom:12px;color:#fff;font-size:18px}.selector-ventanas p{margin:0;color:var(--muted)}
+    .material-laminas{margin:24px 0;padding:22px;border:1px solid #2d8a77;border-radius:20px;background:linear-gradient(145deg,#0b2929,#081527)}
+    .material-laminas h3{margin:0 0 8px;color:#7ce8c0}.material-laminas p{margin:0 0 16px;color:#c4d0df;line-height:1.6}
+    .descargas-laminas{display:flex;flex-wrap:wrap;gap:12px}.descarga-lamina{display:inline-flex;align-items:center;gap:8px;padding:13px 17px;border:1px solid #3e92bd;border-radius:13px;background:#0b3159;color:#fff;text-decoration:none;font-weight:900}.descarga-lamina:hover{background:#0d4778}.descarga-lamina.docente{border-color:#9b6331;background:#3a2917;color:#ffd38b}
+    .sintesis-fundamentada{margin:18px 0;padding:18px;border-left:4px solid var(--cyan);border-radius:12px;background:#091d31}.sintesis-fundamentada b{color:#fff}.sintesis-fundamentada p{margin:7px 0}.sintesis-fundamentada small{display:block;color:#91aac2;line-height:1.5}.sintesis-fundamentada a{color:#83d8ff}
     .tema.ventana-oculta{display:none}.tema.ventana-activa{animation:entradaVentana .28s ease-out}
     @keyframes entradaVentana{from{opacity:.25;transform:translateY(8px)}to{opacity:1;transform:none}}
     .estacion-unidad2{margin-top:36px;border-color:#2d8a77;background:linear-gradient(145deg,#0d2a2b,#091329)}
@@ -187,6 +191,7 @@
 
   <article id="tema-23" class="tema">
     <header class="tema-cabecera"><span class="tema-num">2.3</span><div><span class="tag">RELACIÓN ENTRE EVENTOS</span><h2>Ocurrencia de eventos</h2></div></header>
+    <aside class="sintesis-fundamentada"><b>Síntesis fundamentada</b><p>Un evento ocurre cuando el resultado observado pertenece al conjunto que lo define. La unión representa que ocurre A, B o ambos; la intersección exige que ocurran simultáneamente; y el complemento reúne los resultados donde A no ocurre. La independencia se verifica cuando P(A ∩ B)=P(A)P(B).</p><small>Fundamento: Montgomery y Runger, <em>Applied Statistics and Probability for Engineers</em>, 7.ª ed.; <a href="https://openstax.org/books/introductory-statistics/pages/3-1-terminology" target="_blank" rel="noopener">OpenStax, sección 3.1</a>.</small></aside>
     <p>Dos eventos pueden ocurrir de manera conjunta, excluirse entre sí o ser independientes. Estas relaciones se determinan mediante sus intersecciones y probabilidades, no solamente observando si parecen estar relacionadas.</p>
     <section class="tema-grid"><div class="concepto"><b>Intersección A ∩ B</b>Resultados en los que A y B ocurren simultáneamente.</div><div class="concepto"><b>Mutuamente excluyentes</b>No pueden ocurrir al mismo tiempo; por ello A ∩ B es vacío.</div><div class="concepto"><b>Independientes</b>La ocurrencia de uno no modifica la probabilidad del otro.</div><div class="concepto"><b>Unión A ∪ B</b>Reúne los resultados que pertenecen por lo menos a uno de los eventos.</div></section>
     <div class="formula">Independencia: P(A ∩ B) = P(A)P(B) &nbsp; | &nbsp; Exclusión mutua: P(A ∩ B) = 0</div>
@@ -214,10 +219,12 @@
 
   <article id="tema-24" class="tema">
     <header class="tema-cabecera"><span class="tema-num">2.4</span><div><span class="tag">TÉCNICAS DE CONTEO</span><h2>Permutaciones y combinaciones</h2></div></header>
+    <aside class="sintesis-fundamentada"><b>Síntesis fundamentada</b><p>Las técnicas de conteo determinan cuántos resultados son posibles sin enumerarlos. Una permutación selecciona y ordena elementos, por lo que cambiar posiciones produce otro resultado. Una combinación solo forma grupos y el orden no modifica la selección.</p><small>Fundamento: Walpole et al., <em>Probabilidad y estadística para ingeniería y ciencias</em>, 9.ª ed.; <a href="https://openstax.org/books/college-algebra/pages/9-5-counting-principles" target="_blank" rel="noopener">OpenStax, sección 9.5</a>.</small></aside>
     <p>Las técnicas de conteo permiten determinar el número de resultados sin enumerarlos uno por uno. La decisión principal consiste en identificar si cambiar el orden produce o no una selección diferente.</p>
     <section class="tema-grid"><div class="concepto"><b>Permutación</b>Se utiliza cuando el orden o los cargos producen resultados diferentes.</div><div class="concepto"><b>Combinación</b>Se utiliza cuando solo importa qué elementos fueron seleccionados.</div></section>
     <div class="formula">P(n,r) = n! ÷ (n−r)! &nbsp;&nbsp; | &nbsp;&nbsp; C(n,r) = n! ÷ [r!(n−r)!]</div>
     <div class="ejemplo"><b>Criterio de decisión:</b> si intercambiar dos elementos genera otro resultado, usa una permutación. Si el grupo sigue siendo el mismo, usa una combinación.</div>
+    <section class="material-laminas" aria-label="Presentaciones de los temas 2.3 y 2.4"><h3>📊 Láminas para trabajar los temas 2.3 y 2.4</h3><p>Primero proyecta la versión del alumno para completar conceptos, fórmulas y ejercicios. Después utiliza la versión docente para revisar procedimientos y respuestas.</p><div class="descargas-laminas"><a class="descarga-lamina" href="assets/estadistica/unidad-2/laminas-2-3-2-4-alumno.pptx" download>⬇ Versión del alumno</a><a class="descarga-lamina docente" href="assets/estadistica/unidad-2/laminas-2-3-2-4-docente.pptx" download>🔒 Versión docente con respuestas</a></div></section>
     <div class="laminas-aprendizaje"><figure class="lamina-card"><h3>Lámina de aprendizaje · Compara los métodos</h3><img src="assets/estadistica/unidad-2/2-4-permutaciones-combinaciones-actividad.png" alt="Actividad para distinguir permutaciones y combinaciones" loading="lazy"><figcaption>Resuelve ambos casos y explica por qué la asignación de cargos y la formación de un comité requieren métodos distintos.</figcaption></figure></div>
     <details class="solucion-docente"><summary>🔒 Mostrar solución docente del tema 2.4</summary><img src="assets/estadistica/unidad-2/2-4-permutaciones-combinaciones-solucion.png" alt="Solución docente de permutaciones y combinaciones" loading="lazy"></details>
   </article>
