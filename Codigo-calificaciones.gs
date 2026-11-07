@@ -53,6 +53,10 @@ function doPost(e) {
       case "reclamar_control_asti": resultado = reclamarControlAsti_(data); break;
       case "comando_asti": resultado = registrarComandoAsti_(data); break;
       case "consultar_comando_asti": resultado = consultarComandoAsti_(data); break;
+      case "enviar_mensaje": resultado = enviarMensaje_(data); break;
+      case "listar_mensajes_alumno": resultado = listarMensajesAlumno_(data); break;
+      case "listar_conversaciones_docente": resultado = listarConversacionesDocente_(data); break;
+      case "listar_mensajes_docente": resultado = listarMensajesDocente_(data); break;
       default: throw new Error("Acción no reconocida.");
     }
     return respuestaJSON_(resultado);
@@ -588,6 +592,68 @@ function resolverEntregaCAD_(data){validarDocente_(data);return conBloqueo_(func
 /* VISIBILIDAD DOCENTE · PROBLEMA DE RED DE TUBERÍAS */
 function consultarProblemaTuberias_(){const texto=PropertiesService.getScriptProperties().getProperty("ACTIVIDAD_VISIBLE|PROBLEMA_TUBERIAS_1"),config=texto?JSON.parse(texto):{visible:false};return{ok:true,visible:Boolean(config.visible),actualizada:config.actualizada||""};}
 function configurarProblemaTuberias_(data){validarDocente_(data);const config={visible:Boolean(data.visible),actualizada:new Date().toISOString()};PropertiesService.getScriptProperties().setProperty("ACTIVIDAD_VISIBLE|PROBLEMA_TUBERIAS_1",JSON.stringify(config));return{ok:true,visible:config.visible,mensaje:config.visible?"✅ Problema de tuberías publicado para todos los alumnos.":"🔒 Problema de tuberías oculto para los alumnos."};}
+
+/* MENSAJERÍA PRIVADA IM3CB · ESTUDIANTE ↔ DOCENTE */
+function hojaMensajes_(){
+  const libro=SpreadsheetApp.openById(ID_HOJA_CALIFICACIONES);
+  let hoja=libro.getSheetByName("MENSAJES_IM3CB");
+  if(!hoja){
+    hoja=libro.insertSheet("MENSAJES_IM3CB");
+    hoja.appendRow(["ID","FECHA","MATRICULA","NOMBRE","GRUPO","CURSO","AUTOR","MENSAJE","LEIDO_DOCENTE","LEIDO_ALUMNO"]);
+    hoja.setFrozenRows(1);
+  }
+  return hoja;
+}
+function identidadMensaje_(data){
+  const matricula=String(data.matricula||"").trim().toUpperCase().replace(/[^A-Z0-9_-]/g,"").slice(0,40);
+  const nombre=String(data.nombre||"").trim().replace(/\s+/g," ").slice(0,100);
+  const grupo=String(data.grupo||"").trim().toUpperCase().slice(0,30);
+  const curso=String(data.curso||"GENERAL").trim().toUpperCase().slice(0,60);
+  if(!matricula||!nombre)throw new Error("Registra primero tu nombre y matrícula en el pase de lista.");
+  return{matricula:matricula,nombre:nombre,grupo:grupo,curso:curso};
+}
+function textoMensaje_(valor){
+  const texto=String(valor||"").trim().replace(/\r\n/g,"\n");
+  if(!texto)throw new Error("Escribe un mensaje.");
+  if(texto.length>800)throw new Error("El mensaje no puede superar 800 caracteres.");
+  return/^[=+\-@]/.test(texto)?"'"+texto:texto;
+}
+function mensajeParaCliente_(fila){
+  return{id:String(fila[0]),fecha:new Date(fila[1]).toISOString(),fechaTexto:Utilities.formatDate(new Date(fila[1]),ZONA_HORARIA,"dd/MM/yyyy HH:mm"),matricula:String(fila[2]),nombre:String(fila[3]),grupo:String(fila[4]),curso:String(fila[5]),autor:String(fila[6]),texto:String(fila[7]).replace(/^'(?=[=+\-@])/,'')};
+}
+function enviarMensaje_(data){
+  const autor=String(data.autor||"alumno").toLowerCase()==="docente"?"docente":"alumno";
+  if(autor==="docente")validarDocente_(data);
+  const identidad=identidadMensaje_(data),texto=textoMensaje_(data.texto),cache=CacheService.getScriptCache(),clave="MSG|"+autor+"|"+identidad.matricula;
+  if(cache.get(clave))throw new Error("Espera unos segundos antes de enviar otro mensaje.");
+  cache.put(clave,"1",2);
+  return conBloqueo_(function(){
+    hojaMensajes_().appendRow([Utilities.getUuid(),new Date(),identidad.matricula,identidad.nombre,identidad.grupo,identidad.curso,autor,texto,autor==="docente",autor==="alumno"]);
+    return{ok:true,mensaje:"Mensaje enviado.",fechaTexto:Utilities.formatDate(new Date(),ZONA_HORARIA,"dd/MM/yyyy HH:mm")};
+  });
+}
+function listarMensajesAlumno_(data){
+  const identidad=identidadMensaje_(data),hoja=hojaMensajes_();
+  if(hoja.getLastRow()<2)return{ok:true,mensajes:[],noLeidos:0};
+  const filas=hoja.getRange(2,1,hoja.getLastRow()-1,10).getValues(),mensajes=[];
+  filas.forEach(function(f,i){if(String(f[2]).toUpperCase()===identidad.matricula){mensajes.push(mensajeParaCliente_(f));if(String(f[6])==="docente"&&f[9]!==true)hoja.getRange(i+2,10).setValue(true);}});
+  return{ok:true,mensajes:mensajes.slice(-200)};
+}
+function listarConversacionesDocente_(data){
+  validarDocente_(data);const hoja=hojaMensajes_();
+  if(hoja.getLastRow()<2)return{ok:true,conversaciones:[],noLeidos:0};
+  const filas=hoja.getRange(2,1,hoja.getLastRow()-1,10).getValues(),mapa={},total=0;
+  filas.forEach(function(f){const matricula=String(f[2]),actual=mapa[matricula]||{matricula:matricula,nombre:String(f[3]),grupo:String(f[4]),curso:String(f[5]),ultimo:"",fecha:"",noLeidos:0};actual.nombre=String(f[3])||actual.nombre;actual.grupo=String(f[4])||actual.grupo;actual.curso=String(f[5])||actual.curso;actual.ultimo=String(f[7]).replace(/^'(?=[=+\-@])/,'');actual.fecha=new Date(f[1]).toISOString();actual.fechaTexto=Utilities.formatDate(new Date(f[1]),ZONA_HORARIA,"dd/MM HH:mm");if(String(f[6])==="alumno"&&f[8]!==true){actual.noLeidos++;total++;}mapa[matricula]=actual;});
+  const conversaciones=Object.keys(mapa).map(function(k){return mapa[k];}).sort(function(a,b){return b.fecha.localeCompare(a.fecha);});
+  return{ok:true,conversaciones:conversaciones,noLeidos:total};
+}
+function listarMensajesDocente_(data){
+  validarDocente_(data);const matricula=String(data.matricula||"").trim().toUpperCase().replace(/[^A-Z0-9_-]/g,"");if(!matricula)throw new Error("Selecciona una conversación.");const hoja=hojaMensajes_();
+  if(hoja.getLastRow()<2)return{ok:true,mensajes:[]};
+  const filas=hoja.getRange(2,1,hoja.getLastRow()-1,10).getValues(),mensajes=[];
+  filas.forEach(function(f,i){if(String(f[2]).toUpperCase()===matricula){mensajes.push(mensajeParaCliente_(f));if(String(f[6])==="alumno"&&f[8]!==true)hoja.getRange(i+2,9).setValue(true);}});
+  return{ok:true,mensajes:mensajes.slice(-200)};
+}
 
 function obtenerAlumno_(data) {
   const nombre = String(data.nombre || "").trim();

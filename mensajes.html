@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mensajes · IM3CB</title>
+  <style>
+    :root{--azul:#07172f;--panel:#0d2343;--linea:#244a72;--acento:#20c997;--celeste:#35a7ff;--texto:#eef7ff;--suave:#9fb6ce;--propio:#11675c;--otro:#193757}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#123b62 0,#07172f 42%,#040d1b 100%);color:var(--texto);font-family:Segoe UI,Arial,sans-serif;min-height:100vh}
+    button,input,textarea{font:inherit}.barra{height:64px;padding:0 clamp(16px,4vw,42px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--linea);background:#07172fe8;position:sticky;top:0;z-index:5}.marca{font-size:24px;font-weight:900}.marca span{color:var(--acento)}.volver{color:var(--texto);text-decoration:none;border:1px solid var(--linea);padding:9px 14px;border-radius:10px}.aplicacion{width:min(1180px,96vw);height:calc(100vh - 92px);margin:14px auto;display:grid;grid-template-columns:340px 1fr;background:#0b1e39;border:1px solid var(--linea);border-radius:18px;overflow:hidden;box-shadow:0 24px 70px #0008}.lateral{border-right:1px solid var(--linea);display:flex;flex-direction:column;min-height:0}.cabecera,.chat-cabecera{padding:18px;background:#102b4c;border-bottom:1px solid var(--linea)}.cabecera h1,.chat-cabecera h2{font-size:20px;margin:0 0 5px}.cabecera p,.chat-cabecera p{margin:0;color:var(--suave);font-size:13px}.identidad{padding:14px;border-bottom:1px solid var(--linea);display:grid;gap:8px}.identidad input{width:100%;background:#07172f;color:var(--texto);border:1px solid var(--linea);border-radius:9px;padding:10px}.estado{font-size:13px;color:var(--suave);min-height:19px}.conversaciones{overflow:auto;flex:1}.conversacion{width:100%;border:0;border-bottom:1px solid #17385b;background:transparent;color:var(--texto);padding:14px;text-align:left;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:5px}.conversacion:hover,.conversacion.activa{background:#14365b}.conversacion strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.conversacion small,.avance{color:var(--suave)}.insignia{background:var(--acento);color:#00271f;border-radius:99px;min-width:24px;text-align:center;padding:3px 7px;font-weight:800;font-size:12px}.chat{display:flex;flex-direction:column;min-width:0}.mensajes{flex:1;overflow:auto;padding:22px;background-color:#081a30;background-image:radial-gradient(#1c4265 1px,transparent 1px);background-size:22px 22px}.burbuja{max-width:min(76%,620px);margin:0 auto 10px 0;background:var(--otro);padding:10px 12px;border-radius:4px 14px 14px 14px;box-shadow:0 2px 8px #0004;white-space:pre-wrap;overflow-wrap:anywhere}.burbuja.propio{margin-left:auto;margin-right:0;background:var(--propio);border-radius:14px 4px 14px 14px}.burbuja .hora{display:block;text-align:right;color:#c7d6e3;font-size:11px;margin-top:5px}.vacio{margin:auto;text-align:center;color:var(--suave);max-width:360px;line-height:1.5}.envio{display:grid;grid-template-columns:1fr auto;gap:10px;padding:13px;background:#102b4c;border-top:1px solid var(--linea)}.envio textarea{resize:none;min-height:48px;max-height:120px;background:#07172f;color:var(--texto);border:1px solid var(--linea);border-radius:12px;padding:12px}.envio button,.accion{border:0;border-radius:12px;background:linear-gradient(135deg,var(--acento),var(--celeste));color:#021626;font-weight:900;padding:0 20px;cursor:pointer}.envio button:disabled{opacity:.45;cursor:not-allowed}.solo-docente{display:none}
+    @media(max-width:760px){.aplicacion{width:100%;height:calc(100vh - 64px);margin:0;border:0;border-radius:0;grid-template-columns:1fr}.aplicacion.docente .lateral{display:flex}.aplicacion.docente.chat-abierto .lateral{display:none}.aplicacion.docente .chat{display:none}.aplicacion.docente.chat-abierto .chat{display:flex}.lateral{border-right:0}.barra{height:64px}.burbuja{max-width:88%}.chat-cabecera h2:before{content:'‹ ';color:var(--acento);font-size:28px}.chat-cabecera{cursor:pointer}}
+  </style>
+</head>
+<body>
+  <header class="barra"><div class="marca">IM<span>3</span>CB · Mensajes</div><a class="volver" id="volver" href="index.html">← Regresar</a></header>
+  <main class="aplicacion" id="app">
+    <aside class="lateral">
+      <div class="cabecera"><h1 id="tituloLateral">Mensajes con el docente</h1><p>Comunicación académica privada dentro de IM3CB.</p></div>
+      <div class="identidad" id="identidad">
+        <input id="nombre" placeholder="Nombre completo" maxlength="100">
+        <input id="matricula" placeholder="Matrícula" maxlength="40">
+        <input id="grupo" placeholder="Grupo" maxlength="30">
+        <input id="curso" placeholder="Materia" maxlength="60">
+        <input class="solo-docente" id="codigoDocente" type="password" placeholder="Código docente">
+        <button class="accion" id="btnEntrar" type="button">Abrir mensajes</button>
+        <div class="estado" id="estado"></div>
+      </div>
+      <div class="conversaciones" id="conversaciones"></div>
+    </aside>
+    <section class="chat">
+      <div class="chat-cabecera" id="cabeceraChat"><h2 id="tituloChat">Docente IM3CB</h2><p id="detalleChat">Selecciona o inicia una conversación</p></div>
+      <div class="mensajes" id="mensajes"><div class="vacio">Aquí aparecerán los mensajes. No compartas contraseñas, información bancaria ni datos personales sensibles.</div></div>
+      <form class="envio" id="formEnvio"><textarea id="texto" maxlength="800" placeholder="Escribe un mensaje…" disabled></textarea><button id="btnEnviar" type="submit" disabled>Enviar</button></form>
+    </section>
+  </main>
+<script>
+const API="https://script.google.com/macros/s/AKfycbx1VyNm--NRgIML-EuDog4woaoQmkJVGJPj0Xt7inWGSkSbV0kRUiLb5VEoGaUTV2Jj9Q/exec";
+const docente=new URLSearchParams(location.search).get("modo")==="docente";
+const app=document.getElementById("app"),estado=document.getElementById("estado"),lista=document.getElementById("conversaciones"),caja=document.getElementById("mensajes"),texto=document.getElementById("texto"),btnEnviar=document.getElementById("btnEnviar");
+let matriculaActiva="",temporizador=null,primeraCarga=true;
+function valor(id){return document.getElementById(id).value.trim()}
+function identidad(){return{nombre:valor("nombre"),matricula:valor("matricula"),grupo:valor("grupo"),curso:valor("curso")||"GENERAL"}}
+async function api(accion,extra={}){const cuerpo={accion,...extra};const r=await fetch(API,{method:"POST",body:JSON.stringify(cuerpo)});const data=await r.json();if(!data.ok)throw new Error(data.mensaje||"No fue posible conectar con mensajes.");return data}
+function escapar(t){const d=document.createElement("div");d.textContent=String(t||"");return d.innerHTML}
+function guardarIdentidad(){if(docente)return;const i=identidad();Object.entries({im3cb_nombre:i.nombre,im3cb_matricula:i.matricula,im3cb_grupo:i.grupo,im3cb_curso:i.curso}).forEach(([k,v])=>localStorage.setItem(k,v))}
+function preparar(){
+  if(docente){app.classList.add("docente");document.querySelectorAll(".solo-docente").forEach(x=>x.style.display="block");["nombre","matricula","grupo","curso"].forEach(id=>document.getElementById(id).style.display="none");document.getElementById("codigoDocente").value=sessionStorage.getItem("im3cb_codigo_docente")||"";document.getElementById("tituloLateral").textContent="Bandeja docente";document.getElementById("volver").href="panel-docente.html";document.getElementById("btnEntrar").textContent="Abrir bandeja";}
+  else{["nombre","matricula","grupo","curso"].forEach(id=>document.getElementById(id).value=localStorage.getItem("im3cb_"+id)||"");matriculaActiva=valor("matricula");lista.innerHTML='<button class="conversacion activa" type="button"><span><strong>Docente IM3CB</strong><small>Orientación académica</small></span></button>';}
+}
+async function entrar(){
+  estado.textContent="Conectando…";
+  try{if(docente){await cargarConversaciones();}else{guardarIdentidad();matriculaActiva=valor("matricula");await cargarMensajes();}texto.disabled=false;btnEnviar.disabled=false;estado.textContent="Conectado · actualización automática";clearInterval(temporizador);temporizador=setInterval(docente?cargarConversaciones:cargarMensajes,7000)}catch(e){estado.textContent="⚠️ "+e.message}
+}
+async function cargarConversaciones(){
+  const r=await api("listar_conversaciones_docente",{codigoDocente:valor("codigoDocente")});
+  lista.innerHTML=r.conversaciones.length?r.conversaciones.map(c=>`<button class="conversacion ${c.matricula===matriculaActiva?'activa':''}" type="button" data-matricula="${escapar(c.matricula)}" data-nombre="${escapar(c.nombre)}" data-grupo="${escapar(c.grupo)}" data-curso="${escapar(c.curso)}"><span><strong>${escapar(c.nombre)}</strong><small>${escapar(c.ultimo.slice(0,45))}</small></span><span><small>${escapar(c.fechaTexto||'')}</small>${c.noLeidos?`<b class="insignia">${c.noLeidos}</b>`:''}</span></button>`).join(""):'<div class="vacio" style="padding:28px">Todavía no hay conversaciones.</div>';
+  lista.querySelectorAll("button").forEach(b=>b.onclick=()=>abrirConversacion(b));
+  if(matriculaActiva&&!primeraCarga)await cargarMensajes();primeraCarga=false;
+}
+async function abrirConversacion(b){matriculaActiva=b.dataset.matricula;document.getElementById("nombre").value=b.dataset.nombre;document.getElementById("matricula").value=b.dataset.matricula;document.getElementById("grupo").value=b.dataset.grupo;document.getElementById("curso").value=b.dataset.curso;document.getElementById("tituloChat").textContent=b.dataset.nombre;document.getElementById("detalleChat").textContent=[b.dataset.matricula,b.dataset.grupo,b.dataset.curso].filter(Boolean).join(" · ");app.classList.add("chat-abierto");texto.disabled=false;btnEnviar.disabled=false;await cargarMensajes()}
+async function cargarMensajes(){
+  if(!matriculaActiva)return;const i=identidad(),accion=docente?"listar_mensajes_docente":"listar_mensajes_alumno",extra=docente?{codigoDocente:valor("codigoDocente"),matricula:matriculaActiva}:i;
+  try{const r=await api(accion,extra),alFinal=caja.scrollHeight-caja.scrollTop-caja.clientHeight<90;caja.innerHTML=r.mensajes.length?r.mensajes.map(m=>`<div class="burbuja ${(docente?m.autor==='docente':m.autor==='alumno')?'propio':''}">${escapar(m.texto)}<span class="hora">${escapar(m.fechaTexto)}</span></div>`).join(""):'<div class="vacio">No hay mensajes todavía. Escribe el primero para iniciar la conversación.</div>';if(alFinal||primeraCarga)caja.scrollTop=caja.scrollHeight}catch(e){estado.textContent="⚠️ "+e.message}
+}
+document.getElementById("btnEntrar").onclick=entrar;
+document.getElementById("formEnvio").onsubmit=async e=>{e.preventDefault();if(!texto.value.trim()||!matriculaActiva)return;btnEnviar.disabled=true;try{await api("enviar_mensaje",{...identidad(),autor:docente?"docente":"alumno",codigoDocente:docente?valor("codigoDocente"):"",texto:texto.value});texto.value="";await cargarMensajes();if(docente)await cargarConversaciones()}catch(err){estado.textContent="⚠️ "+err.message}finally{btnEnviar.disabled=false;texto.focus()}};
+document.getElementById("cabeceraChat").onclick=()=>{if(innerWidth<=760&&docente)app.classList.remove("chat-abierto")};
+texto.onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();document.getElementById("formEnvio").requestSubmit()}};
+preparar();
+</script>
+</body>
+</html>

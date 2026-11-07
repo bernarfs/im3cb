@@ -1037,6 +1037,17 @@ Escanea este código para registrar tu asistencia.
   <div id="listaEntregasInstrumentacion" class="lista-accesos"><div class="vacio-accesos">Sin datos.</div></div>
 </section>
 
+<section class="panel panel-accesos" id="panelMensajes">
+  <div class="encabezado-accesos">
+    <div>
+      <h2>💬 Mensajes IM3CB</h2>
+      <p>Consulta conversaciones privadas con los estudiantes y responde desde una bandeja separada por matrícula.</p>
+    </div>
+    <div class="controles-acceso"><button type="button" onclick="abrirMensajesDocente()">Abrir bandeja de mensajes</button></div>
+  </div>
+  <div class="vacio-accesos">Los mensajes se conservan en la hoja MENSAJES_IM3CB y se identifican con nombre, matrícula, grupo y materia.</div>
+</section>
+
 <section class="panel panel-accesos" id="panelControlMarty">
   <div class="encabezado-accesos">
     <div>
@@ -1077,6 +1088,13 @@ Escanea este código para registrar tu asistencia.
 
 const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwBK5q5_be0am3KBBqP5ZCse2c6sjT0ovFVGS1jnQyMKcZPoPeKGRjym8AE8wK69WtgBg/exec";
+
+function abrirMensajesDocente(){
+  const codigo=document.getElementById("codigoDocente").value.trim();
+  if(codigo!==CONFIG.codigoDocente){alert("Escribe primero el código docente correcto.");return;}
+  sessionStorage.setItem("im3cb_codigo_docente",codigo);
+  location.href="mensajes.html?modo=docente";
+}
 
 const URL_CALIFICACIONES =
   "https://script.google.com/macros/s/AKfycbx1VyNm--NRgIML-EuDog4woaoQmkJVGJPj0Xt7inWGSkSbV0kRUiLb5VEoGaUTV2Jj9Q/exec";
