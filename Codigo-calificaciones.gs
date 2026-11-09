@@ -642,7 +642,8 @@ function listarMensajesAlumno_(data){
 function listarConversacionesDocente_(data){
   validarDocente_(data);const hoja=hojaMensajes_();
   if(hoja.getLastRow()<2)return{ok:true,conversaciones:[],noLeidos:0};
-  const filas=hoja.getRange(2,1,hoja.getLastRow()-1,10).getValues(),mapa={},total=0;
+  const filas=hoja.getRange(2,1,hoja.getLastRow()-1,10).getValues(),mapa={};
+  let total=0;
   filas.forEach(function(f){const matricula=String(f[2]),actual=mapa[matricula]||{matricula:matricula,nombre:String(f[3]),grupo:String(f[4]),curso:String(f[5]),ultimo:"",fecha:"",noLeidos:0};actual.nombre=String(f[3])||actual.nombre;actual.grupo=String(f[4])||actual.grupo;actual.curso=String(f[5])||actual.curso;actual.ultimo=String(f[7]).replace(/^'(?=[=+\-@])/,'');actual.fecha=new Date(f[1]).toISOString();actual.fechaTexto=Utilities.formatDate(new Date(f[1]),ZONA_HORARIA,"dd/MM HH:mm");if(String(f[6])==="alumno"&&f[8]!==true){actual.noLeidos++;total++;}mapa[matricula]=actual;});
   const conversaciones=Object.keys(mapa).map(function(k){return mapa[k];}).sort(function(a,b){return b.fecha.localeCompare(a.fecha);});
   return{ok:true,conversaciones:conversaciones,noLeidos:total};
