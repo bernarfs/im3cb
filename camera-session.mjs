@@ -17,13 +17,18 @@ export function rtcConfig(relayOnly=false){return {
   iceTransportPolicy:relayOnly?'relay':'all',
   iceServers:[{urls:'stun:stun.l.google.com:19302'}]
 };}
-export async function relayConfig(relayOnly=false){
-  const config=rtcConfig(relayOnly);
-  // The endpoint returns short-lived browser ICE credentials. Private provider
-  // API keys stay on that server and must never be placed in GitHub Pages.
+export async function networkSettings(){
   const response=await fetch(new URL('./camara-network.json',import.meta.url),{cache:'no-store',signal:AbortSignal.timeout(8000)});
   if(!response.ok)throw Error('No se pudo leer la configuración de video. Actualiza la página.');
   const settings=await response.json();
+  if(settings.meteredPublishableKey&&!/^pk_live_[A-Za-z0-9_-]+$/.test(settings.meteredPublishableKey))throw Error('Configura únicamente la clave publicable de video, no una clave privada.');
+  return settings;
+}
+export async function relayConfig(relayOnly=false,settings){
+  settings??=await networkSettings();
+  const config=rtcConfig(relayOnly);
+  // The endpoint returns short-lived browser ICE credentials. Private provider
+  // API keys stay on that server and must never be placed in GitHub Pages.
   if(settings.iceServersUrl){
     const url=new URL(settings.iceServersUrl);
     if(url.protocol!=='https:')throw Error('La conexión de video necesita un servidor HTTPS.');
@@ -46,7 +51,12 @@ export async function peerClass(){
   return peerLoad;
 }
 export async function openPeer(id,relayOnly=false){
-  const Peer=await peerClass();const peer=new Peer(id,{secure:true,debug:0,config:await relayConfig(relayOnly)});
+  const settings=await networkSettings();
+  if(settings.meteredPublishableKey){
+    const {createMeteredAdapter}=await import('./metered-camera.mjs');
+    return createMeteredAdapter(id,settings.meteredPublishableKey,relayOnly);
+  }
+  const Peer=await peerClass();const peer=new Peer(id,{secure:true,debug:0,config:await relayConfig(relayOnly,settings)});
   await new Promise((resolve,reject)=>{
     const timer=setTimeout(()=>{peer.destroy();reject(Error('No se pudo conectar por Internet. Intenta otra vez.'));},14000);
     const onError=e=>{clearTimeout(timer);peer.destroy();reject(Error(e.type==='unavailable-id'?'Este PIN ya está en uso. Genera uno nuevo.':'No se pudo abrir el enlace por Internet.'));};
