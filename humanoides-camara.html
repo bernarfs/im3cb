@@ -2,52 +2,39 @@
 <html lang="es">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>IM3CB · Cámara y Arduino Nano</title>
-  <link rel="stylesheet" href="humanoides-camara.css">
+  <meta name="theme-color" content="#071322">
+  <title>IM3CB · Cámara en vivo</title>
+  <link rel="stylesheet" href="humanoides-camara.css?v=3">
 </head>
 <body>
-<header><a href="humanoides.html">Volver a humanoides</a><strong>IM<span>3</span>CB · Laboratorio de movimiento</strong></header>
-<main>
-  <div class="intro"><p class="eyebrow">CUATRO EXTREMIDADES · CUATRO SERVOS</p><h1>Tu movimiento, en el robot.</h1>
-  <p>Levanta cada brazo o pierna para controlar un canal del Nano. Primero comprueba la vista previa; activa los servos cuando el montaje esté listo.</p></div>
-  <div class="tabs" role="group" aria-label="Selecciona este dispositivo">
-    <button id="pcRole" class="selected">Computadora + Nano USB</button><button id="phoneRole">Celular con cámara</button>
-  </div>
-  <p class="status" id="globalStatus" role="status">Vista previa · servos detenidos</p>
-  <div class="layout">
-    <section class="panel" id="pcPanel">
-      <h2>Conecta el Nano</h2><p>Usa Chrome o Edge en la computadora. Cierra el monitor serie de Arduino IDE antes de conectar.</p>
-      <button id="connectSerial" class="primary">Conectar Nano por USB</button><p id="serialStatus" role="status">Sin conexión USB</p>
-      <div class="actions"><button id="arm" class="primary" disabled>Activar seguimiento</button><button id="stop" class="danger">Detener servos</button></div>
-      <p class="hint">Detener conserva la última posición; no corta la alimentación. Si se pierde la señal, el control se detiene y exige otra activación.</p>
-      <details open><summary>Vincular la cámara del celular</summary>
-        <ol><li>En esta computadora pulsa «Crear código».</li><li>Abre esta misma página en el celular y elige «Celular con cámara».</li><li>Pasa el código al celular y devuelve su respuesta a esta computadora.</li></ol>
-        <button id="offer">Crear código</button>
-        <label for="offerOut">Código de la computadora</label><textarea id="offerOut" readonly spellcheck="false"></textarea><button data-copy="offerOut">Copiar código</button>
-        <label for="answerIn">Respuesta del celular</label><textarea id="answerIn" spellcheck="false" placeholder="Pega aquí la respuesta"></textarea><button id="acceptAnswer">Completar conexión</button>
-      </details>
-      <p id="peerPC" role="status">Celular sin vincular</p>
-      <details><summary>Alternativa: cámara disponible en la computadora</summary><p>También puedes usar una cámara que tu sistema ya reconozca, incluida una cámara de celular configurada como webcam.</p><button id="localCamera">Usar cámara en esta computadora</button></details>
-    </section>
-    <section class="panel" id="phonePanel" hidden>
-      <h2>Vincula este celular</h2><p>El Nano permanece conectado a la computadora. Ambos dispositivos deben poder comunicarse por la red; prueba primero el mismo Wi-Fi.</p>
-      <label for="offerIn">Código de la computadora</label><textarea id="offerIn" spellcheck="false" placeholder="Pega aquí el código"></textarea><button id="answer" class="primary">Generar respuesta</button>
-      <label for="answerOut">Respuesta para la computadora</label><textarea id="answerOut" readonly spellcheck="false"></textarea><button data-copy="answerOut">Copiar respuesta</button>
-      <p id="peerPhone" role="status">Sin vincular</p><p class="hint">Los códigos son largos. Puedes transferirlos con un medio de confianza. No hace falta una cuenta adicional. Si caduca o falla la conexión, crea un código nuevo.</p>
-    </section>
-    <section class="panel cameraPanel">
-      <div class="cameraTitle"><h2>Seguimiento del cuerpo</h2><span id="trackingStatus" role="status">Cámara apagada</span></div>
-      <div class="preview"><video id="video" playsinline muted></video><canvas id="overlay"></canvas><p id="cameraPlaceholder">Coloca el celular fijo y encuadra todo tu cuerpo.</p></div>
-      <div class="actions"><button id="cameraStart" class="primary">Encender cámara</button><button id="cameraStop">Apagar cámara</button></div>
-      <p>Levanta los brazos hacia los lados y las piernas lateralmente. La vista es un espejo, pero los nombres corresponden a tu lado corporal.</p>
-      <div id="channels" class="channels"></div>
-      <p class="hint">La detección es aproximada y en dos dimensiones. Si no se ven las articulaciones necesarias, se pausa el control. El video se procesa en este dispositivo; el enlace envía solo cuatro valores de movimiento.</p>
-    </section>
-  </div>
-  <section class="panel instructions"><h2>Preparación del montaje</h2><p>Carga primero <a href="Nano_Camara/Nano_Camara.ino" download>el programa Nano_Camara.ino</a>. Este reemplaza temporalmente la rutina de caminar.</p>
-  <p>Las posiciones iniciales son las del robot original: D9 = 180°, D5 = 100°, D3 = 10° y D11 = 90°. La asignación de extremidades es un control por canales; no convierte el robot original en uno con brazos.</p>
-  <p>Al activar, los servos irán a esas posiciones. Comprueba el montaje y usa alimentación externa adecuada para los cuatro servos, con GND común con el Nano.</p>
-  <p><strong>Prototipo:</strong> el control por cámara no es un sistema de equilibrio. Sujeta el robot durante las primeras pruebas. La simulación de Marty y Asti conserva sus controles originales.</p></section>
+<header><a class="brand" href="humanoides.html">IM<span>3</span>CB <small>HUMANOIDES</small></a>
+  <div class="header-actions"><button id="receiverMode" class="quiet" hidden>Volver a la pantalla</button><button id="senderMode" class="quiet">Transmitir desde celular</button><button id="robotOpen" class="quiet">Robot</button></div>
+</header>
+<main id="receiver">
+  <div class="headline"><h1>Cámara en vivo</h1><button id="fullscreen" class="quiet">Pantalla completa</button></div>
+  <section class="screen" id="screen" aria-label="Video y detección de movimiento">
+    <video id="video" playsinline muted></video><canvas id="overlay"></canvas>
+    <div class="empty" id="empty"><div class="camera-icon" aria-hidden="true">◉</div><h2>Todo empieza con un movimiento.</h2><p>Elige la cámara de tu laptop o conecta un celular.</p><div class="empty-buttons"><button class="primary" id="localStart">Cámara de la laptop</button><button id="phoneStart">Cámara del celular</button></div></div>
+    <div class="video-badge" id="sourceBadge" hidden>Cámara de la laptop</div>
+    <div class="tracking" id="tracking" role="status" hidden>Buscando el cuerpo…</div>
+    <div class="limbs" id="limbs" hidden aria-label="Movimiento detectado"><span>Brazo D <i id="limb0"></i></span><span>Brazo I <i id="limb1"></i></span><span>Pierna D <i id="limb2"></i></span><span>Pierna I <i id="limb3"></i></span></div>
+  </section>
+  <div class="toolbar"><p id="status" role="status">Sin cámara conectada</p><div class="tools"><button id="changeSource" hidden>Cambiar cámara</button><button id="stopVideo" class="danger" hidden>Detener</button></div></div>
+  <p class="caption">Encuadra todo tu cuerpo. El movimiento se analiza en esta computadora.</p>
 </main>
-<script type="module" src="humanoides-camara.mjs"></script>
+<main id="sender" hidden>
+  <div class="phone-intro"><p class="eyebrow">TU CELULAR ES LA CÁMARA</p><h1>Comparte lo que ves.</h1><p>Ingresa el PIN de la computadora y transmite tu video, incluso con datos móviles.</p></div>
+  <form id="sendForm" class="send-form"><label for="pinInput">PIN de acceso</label><input id="pinInput" inputmode="numeric" pattern="[0-9 ]{8,9}" maxlength="9" autocomplete="off" placeholder="0000 0000" required>
+    <label for="facing">Cámara</label><select id="facing"><option value="environment">Trasera</option><option value="user">Frontal</option></select><button id="sendVideo" class="primary" type="submit">Transmitir video</button></form>
+  <div class="phone-preview" id="phonePreview" hidden><video id="phoneVideo" playsinline muted></video><span>Solo video · sin micrófono</span></div>
+  <p id="phoneStatus" class="phone-status" role="status">El PIN aparece al elegir «Cámara del celular» en la computadora.</p>
+  <button id="phoneStop" class="danger" hidden>Detener transmisión</button>
+  <p class="caption">Mantén esta pantalla abierta. Usa datos móviles o Wi-Fi; no necesita ser la misma red de la computadora. La transmisión consume datos.</p>
+</main>
+<dialog id="pairDialog" aria-labelledby="pairTitle"><button class="close" data-close="pairDialog" aria-label="Cerrar">×</button><p class="eyebrow">CONECTA TU CELULAR</p><h2 id="pairTitle">Un PIN. Una cámara.</h2><p>Abre esta página en tu celular y elige <strong>Transmitir desde celular</strong>.</p><output id="pin" aria-label="PIN de acceso">···· ····</output><p id="pairStatus" role="status">Preparando la conexión…</p><button id="copyPhoneLink">Copiar enlace para el celular</button><p class="caption">Escribe este PIN y toca «Transmitir video». El PIN permite un celular y vence en 10 minutos.</p></dialog>
+<dialog id="robotDialog" aria-labelledby="robotTitle"><button class="close" data-close="robotDialog" aria-label="Cerrar">×</button><p class="eyebrow">OPCIONAL · ARDUINO NANO O UNO</p><h2 id="robotTitle">Del movimiento al robot.</h2><p>La cámara funciona sin conectar el robot. Para mover los servos, conecta la placa por USB a esta computadora.</p>
+  <button id="connectSerial" class="primary">Conectar Arduino</button><p id="serialStatus" role="status">Arduino desconectado</p><div class="robot-actions"><button id="arm" disabled>Activar movimiento</button><button id="stopRobot" class="danger">Detener movimiento</button></div><p id="robotStatus" role="status">Movimiento desactivado</p>
+  <details><summary>Programa y conexiones</summary><p>Carga <a href="Nano_Camara/Nano_Camara.ino" download>el programa de cámara</a> en Nano clásico ATmega328P o Uno R3. Cierra el monitor serie de Arduino IDE.</p><p>Brazo derecho: D9 · brazo izquierdo: D5 · pierna derecha: D3 · pierna izquierda: D11.</p><p>Son canales de control. Conservan el reposo del montaje original: 180°, 100°, 10° y 90°. Comprueba los topes y alimenta los servos con una fuente externa adecuada y GND común.</p><p>Detener mantiene la última posición; no corta la corriente. Al perder el cuerpo o el video, hay que activar el movimiento otra vez.</p></details>
+</dialog>
+<script type="module" src="humanoides-camara.mjs?v=3"></script>
 </body></html>
